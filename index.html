@@ -192,6 +192,117 @@ body {
   animation: cardPulse 0.35s ease-out;
 }
 
+@keyframes softPulse { 0%,100%{box-shadow:0 0 8px rgba(96,217,250,0.2),0 0 16px rgba(167,139,250,0.1)} 50%{box-shadow:0 0 16px rgba(96,217,250,0.5),0 0 30px rgba(167,139,250,0.2)} }
+
+/* ANTI COPY */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+
+/* TALENT MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-card {
+  background: #0D0D20;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 360px;
+  overflow: hidden;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  animation: modalIn 0.3s ease-out;
+}
+@keyframes modalIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-photo {
+  width: 100%;
+  height: 220px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 80px;
+  color: rgba(255,255,255,0.9);
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-body { padding: 18px 20px 22px; }
+.modal-gender-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  border-radius: 999px; padding: 3px 10px;
+  font-size: 11px; font-weight: 700; margin-bottom: 10px;
+}
+.modal-gender-badge.w { background: rgba(244,114,182,0.15); color: #F472B6; border: 0.5px solid rgba(244,114,182,0.3); }
+.modal-gender-badge.p { background: rgba(96,217,250,0.15); color: #60D9FA; border: 0.5px solid rgba(96,217,250,0.3); }
+.modal-name { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.modal-status { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; margin-bottom: 14px; }
+
+.modal-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-bottom: 14px;
+}
+.modal-stat {
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 10px 12px; text-align: center;
+}
+.modal-stat-val { font-size: 16px; font-weight: 800; color: #fff; }
+.modal-stat-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+
+.modal-services { margin-bottom: 16px; }
+.modal-services-title { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.modal-service-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.modal-service-chip {
+  font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  background: rgba(96,217,250,0.1); color: #60D9FA;
+  border: 0.5px solid rgba(96,217,250,0.25);
+}
+
+.modal-order-btn {
+  width: 100%; height: 48px; border: none; cursor: pointer;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #FF6B9D, #FF8C42);
+  color: #fff; box-shadow: 0 6px 20px rgba(255,107,157,0.3);
+}
+
 </style>
 </head>
 <body>
@@ -274,7 +385,6 @@ body {
     <!-- TALENT SECTION -->
     <div class="section-header">
       <span class="section-title">Talent Tersedia</span>
-      <div class="online-badge"><span class="online-dot"></span>8 online</div>
     </div>
     <div class="talent-list">
       
@@ -290,7 +400,7 @@ body {
                 <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
               </span>
             </div>
-            <div class="card-services">Sleep Call · Curhat · Teman Call</div>
+            <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual</div>
             <div class="card-bottom">
               <button class="btn-pesan ">Pesan</button>
             </div>
@@ -328,7 +438,7 @@ body {
                 <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
               </span>
             </div>
-            <div class="card-services">Curhat Call · Teman Call</div>
+            <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual · Mabar ML</div>
             <div class="card-bottom">
               <button class="btn-pesan ">Pesan</button>
             </div>
@@ -502,6 +612,127 @@ document.querySelectorAll('.talent-card').forEach(card => {
     this.classList.add('pulsing');
     setTimeout(() => this.classList.remove('pulsing'), 350);
   });
+});
+</script>
+<script>
+// ANTI COPY
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+</script>
+
+<!-- TALENT MODAL -->
+<div class="modal-overlay" id="talentModal" onclick="closeModal(event)">
+  <div class="modal-card" id="modalCard">
+    <div class="modal-photo" id="modalPhoto">
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="modalGender" class="modal-gender-badge w">♀ Wanita</div>
+      <div class="modal-name" id="modalName">Vania</div>
+      <div class="modal-status" id="modalStatus">
+        <span style="width:8px;height:8px;border-radius:50%;background:#34D399;display:inline-block;"></span>
+        <span style="color:#34D399;">Online</span>
+      </div>
+      <div class="modal-stats">
+        <div class="modal-stat">
+          <div class="modal-stat-val" id="modalAge">21</div>
+          <div class="modal-stat-label">Tahun</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val" id="modalStatus2">Online</div>
+          <div class="modal-stat-label">Status</div>
+        </div>
+      </div>
+      <div class="modal-services">
+        <div class="modal-services-title">Layanan Tersedia</div>
+        <div class="modal-service-chips" id="modalServices"></div>
+      </div>
+      <button class="modal-order-btn">📞 Order Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// TALENT MODAL - long press
+const TALENT_DATA = [
+  { name:'Vania', gender:'w', age:21, status:'online', services:['Teman Call','Sleep Call','Curhat Call','Pacar Virtual'], grad:'linear-gradient(135deg,#E8D5C4,#A78A7F)' },
+  { name:'Mirelle', gender:'w', age:23, status:'online', services:['Teman Call','Pacar Virtual'], grad:'linear-gradient(135deg,#BFB7D8,#544A7A)' },
+  { name:'Nadira', gender:'w', age:19, status:'online', services:['Teman Call','Sleep Call','Curhat Call','Pacar Virtual','Mabar ML'], grad:'linear-gradient(135deg,#C5D4C0,#5A7A52)' },
+  { name:'Sasha', gender:'w', age:22, status:'offline', services:['Sleep Call','Mabar ML'], grad:'linear-gradient(135deg,#D4C5C0,#7A5A52)' },
+  { name:'Kiraa', gender:'w', age:20, status:'online', services:['Teman Call','Sleep Call','Mabar'], grad:'linear-gradient(135deg,#C0C5D4,#524A7A)' },
+  { name:'Luna', gender:'w', age:24, status:'online', services:['Pacar Virtual','Sleep Call','Curhat'], grad:'linear-gradient(135deg,#D4C0C5,#7A5264)' },
+  { name:'Tasya', gender:'w', age:21, status:'offline', services:['Curhat Call','Teman Call'], grad:'linear-gradient(135deg,#D4D0C0,#7A7052)' },
+  { name:'Bella', gender:'w', age:22, status:'online', services:['Sleep Call','Teman Call','Curhat','Pacar Virtual','Mabar'], grad:'linear-gradient(135deg,#C8BFD8,#604A7A)' },
+  { name:'Rizky', gender:'p', age:23, status:'online', services:['Teman Call','Mabar ML','Sleep Call'], grad:'linear-gradient(135deg,#BFC5D4,#4A527A)' },
+  { name:'Daffa', gender:'p', age:22, status:'online', services:['Mabar ML','Teman Call','Curhat'], grad:'linear-gradient(135deg,#C0C5C0,#527A52)' },
+  { name:'Arkan', gender:'p', age:24, status:'offline', services:['Mabar ML','Teman Call'], grad:'linear-gradient(135deg,#C5C0C0,#7A5252)' },
+];
+
+let pressTimer = null;
+
+function openModal(idx) {
+  const t = TALENT_DATA[idx];
+  if (!t) return;
+  document.getElementById('modalName').textContent = t.name;
+  document.getElementById('modalAge').textContent = t.age;
+  document.getElementById('modalPhoto').style.background = t.grad;
+  document.getElementById('modalPhoto').childNodes[0].textContent = '✕';
+
+  // inisial
+  const initial = document.createElement('span');
+  initial.textContent = t.name[0];
+  initial.style.cssText = 'font-family:Instrument Serif,serif;font-style:italic;font-size:80px;color:rgba(255,255,255,0.9);pointer-events:none;';
+  const photo = document.getElementById('modalPhoto');
+  // hapus inisial lama jika ada
+  photo.querySelectorAll('span').forEach(s => s.remove());
+  photo.appendChild(initial);
+
+  const badge = document.getElementById('modalGender');
+  if (t.gender === 'w') {
+    badge.className = 'modal-gender-badge w';
+    badge.textContent = '♀ Wanita';
+  } else {
+    badge.className = 'modal-gender-badge p';
+    badge.textContent = '♂ Pria';
+  }
+
+  const isOnline = t.status === 'online';
+  const statusColor = isOnline ? '#34D399' : 'rgba(255,255,255,0.3)';
+  document.getElementById('modalStatus').innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:${statusColor};display:inline-block;"></span><span style="color:${statusColor};">${isOnline ? 'Online' : 'Offline'}</span>`;
+  document.getElementById('modalStatus2').textContent = isOnline ? 'Online' : 'Offline';
+  document.getElementById('modalStatus2').style.color = statusColor;
+
+  const chips = document.getElementById('modalServices');
+  chips.innerHTML = t.services.map(s => `<span class="modal-service-chip">${s}</span>`).join('');
+
+  document.getElementById('talentModal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('talentModal')) {
+    document.getElementById('talentModal').classList.remove('open');
+  }
+}
+
+function closeModalBtn() {
+  document.getElementById('talentModal').classList.remove('open');
+}
+
+// Pasang long press ke semua card
+document.querySelectorAll('.talent-card').forEach((card, idx) => {
+  card.addEventListener('touchstart', () => {
+    pressTimer = setTimeout(() => openModal(idx), 600);
+  });
+  card.addEventListener('touchend', () => clearTimeout(pressTimer));
+  card.addEventListener('touchmove', () => clearTimeout(pressTimer));
+  // Desktop: mousedown
+  card.addEventListener('mousedown', () => {
+    pressTimer = setTimeout(() => openModal(idx), 600);
+  });
+  card.addEventListener('mouseup', () => clearTimeout(pressTimer));
+  card.addEventListener('mouseleave', () => clearTimeout(pressTimer));
 });
 </script>
 </body>
