@@ -105,6 +105,48 @@ body {
 }
 .btn-pesan.off { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
 
+
+/* SHOOTING STARS AT NAVBAR BOTTOM */
+.navbar-stars {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  overflow: hidden;
+  pointer-events: none;
+}
+@keyframes starMove {
+  0% { transform: translateX(110%); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateX(-110%); opacity: 0; }
+}
+.moving-star {
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #fff, rgba(255,255,255,0.8), transparent);
+  border-radius: 999px;
+  animation: starMove linear infinite;
+}
+.moving-star::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+}
+.s1 { animation-duration: 4s; animation-delay: 0s; top: 0; }
+.s2 { animation-duration: 6s; animation-delay: 1.5s; top: 2px; width: 40px; }
+.s3 { animation-duration: 5s; animation-delay: 3s; top: 0; width: 80px; }
+.s4 { animation-duration: 7s; animation-delay: 0.8s; top: 2px; width: 50px; opacity: 0.7; }
+
 /* NAVBAR */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0;
@@ -112,10 +154,10 @@ body {
   z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 20px;
-  background: rgba(2,2,8,0.85);
+  background: #000000;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  border-bottom: none; overflow: visible;
 }
 .logo { display: flex; align-items: center; gap: 8px; }
 .logo-icon {
@@ -214,6 +256,7 @@ body {
     <div class="hamburger">
       <span></span><span></span><span></span>
     </div>
+    <div class="navbar-stars"><div class="moving-star s1"></div><div class="moving-star s2"></div><div class="moving-star s3"></div><div class="moving-star s4"></div></div>
   </nav>
 
   <!-- CONTENT -->
