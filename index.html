@@ -203,6 +203,35 @@ body {
   -webkit-touch-callout: none;
 }
 
+
+
+
+
+/* BIO DI CARD */
+.card-bio {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.4;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-style: italic;
+}
+
+
+.bio-input {
+  width: 100%; padding: 10px 14px; border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
+  font-family: inherit; font-size: 13px; color: #fff; outline: none;
+  resize: none; line-height: 1.5;
+  max-height: 80px;
+}
+.bio-input:focus { border-color: rgba(96,217,250,0.4); }
+.bio-input::placeholder { color: rgba(255,255,255,0.2); }
+.bio-count { font-size: 10px; color: rgba(255,255,255,0.25); text-align: right; margin-top: 3px; }
+
 </style>
 </head>
 <body>
@@ -301,6 +330,7 @@ body {
               </span>
             </div>
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual</div>
+            <div class="card-bio">Haii! Aku Vania, suka dengerin cerita kamu sambil menemanimu tidur. Suaraku lembut dan aku sangat sabar. Udah lebih dari 1000 sesi dan selalu dapat rating bintang 5! Jangan ragu buat chat aku dulu ya, aku fast respon kok dan selalu available malam hari.</div>
             <div class="card-bottom">
               <button class="btn-pesan ">Pesan</button>
             </div>
@@ -320,6 +350,7 @@ body {
               </span>
             </div>
             <div class="card-services">Teman Call · Pacar Virtual</div>
+            <div class="card-bio">Halo! Aku Mirelle, lulusan psikologi yang bisa jadi teman curhat kamu. Bisa bahasa Indonesia dan Inggris. Aku bakal dengerin semua cerita kamu tanpa menghakimi, bantu kamu ngerasa lebih tenang dan didengar. Udah banyak pelanggan setia yang selalu balik ke aku!</div>
             <div class="card-bottom">
               <button class="btn-pesan ">Pesan</button>
             </div>
@@ -339,6 +370,7 @@ body {
               </span>
             </div>
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual · Mabar ML</div>
+            <div class="card-bio">Hai kak! Aku Nadira, aku orangnya asik, seru, dan bisa jadi teman ngobrol yang nyenengin! Mau cerita apapun aman sama aku, aku ga akan judge. Aku available hampir tiap malam dan suka dengerin musik lo-fi bareng sambil ngobrol santai. Yuk temenin malammu bareng aku!</div>
             <div class="card-bottom">
               <button class="btn-pesan ">Pesan</button>
             </div>
@@ -521,5 +553,6 @@ document.addEventListener('cut', e => e.preventDefault());
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('selectstart', e => e.preventDefault());
 </script>
+
 </body>
 </html>
