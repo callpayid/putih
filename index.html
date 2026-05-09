@@ -175,6 +175,43 @@ body {
 
 /* CONTENT */
 .content { position: relative; z-index: 1; padding-bottom: 40px; }
+
+/* RIPPLE EFFECT - water drop */
+.ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  width: 30px;
+  height: 30px;
+}
+.ripple-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 0.6px solid rgba(255,255,255,0.18);
+  animation: rippleWater 1.4s cubic-bezier(0,0.5,0.5,1) forwards;
+}
+.ripple-ring:nth-child(2) {
+  animation-delay: 0.2s;
+  border-width: 0.5px;
+  border-color: rgba(255,255,255,0.12);
+}
+.ripple-ring:nth-child(3) {
+  animation-delay: 0.4s;
+  border-width: 0.4px;
+  border-color: rgba(255,255,255,0.07);
+}
+.ripple-ring:nth-child(4) {
+  animation-delay: 0.6s;
+  border-width: 0.3px;
+  border-color: rgba(255,255,255,0.04);
+}
+@keyframes rippleWater {
+  0% { transform: scale(0.2); opacity: 0.7; }
+  100% { transform: scale(5); opacity: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -475,5 +512,31 @@ body {
   </div>
 
 </div>
+<script>
+// RIPPLE EFFECT
+document.addEventListener('click', function(e) {
+  const ripple = document.createElement('div');
+  ripple.classList.add('ripple');
+  const size = 80;
+  ripple.style.width = size + 'px';
+  ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - size/2) + 'px';
+  ripple.style.top = (e.clientY - size/2) + 'px';
+  document.body.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 800);
+});
+</script>
+<script>
+document.addEventListener('click', function(e) {
+  const ripple = document.createElement('div');
+  ripple.classList.add('ripple');
+  const size = 30;
+  ripple.style.left = (e.clientX - size/2) + 'px';
+  ripple.style.top = (e.clientY - size/2) + 'px';
+  ripple.innerHTML = '<div class="ripple-ring"></div><div class="ripple-ring"></div><div class="ripple-ring"></div><div class="ripple-ring"></div>';
+  document.body.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 2000);
+});
+</script>
 </body>
 </html>
