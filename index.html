@@ -203,9 +203,6 @@ body {
   -webkit-touch-callout: none;
 }
 
-
-
-
 </style>
 </head>
 <body>
@@ -523,34 +520,6 @@ document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('selectstart', e => e.preventDefault());
-</script>
-
-
-        <div class="modal-stat">
-          <div class="modal-stat-val" id="modalStatus2">Online</div>
-          <div class="modal-stat-label">Status</div>
-        </div>
-      </div>
-      <div class="modal-services">
-        <div class="modal-services-title">Layanan Tersedia</div>
-        <div class="modal-service-chips" id="modalServices"></div>
-      </div>
-      <button class="modal-order-btn">📞 Order Sekarang</button>
-    </div>
-  </div>
-</div>
-
-<script>
-
-  card.addEventListener('touchend', () => clearTimeout(pressTimer));
-  card.addEventListener('touchmove', () => clearTimeout(pressTimer));
-  // Desktop: mousedown
-  card.addEventListener('mousedown', () => {
-    pressTimer = setTimeout(() => openModal(idx), 600);
-  });
-  card.addEventListener('mouseup', () => clearTimeout(pressTimer));
-  card.addEventListener('mouseleave', () => clearTimeout(pressTimer));
-});
 </script>
 </body>
 </html>
