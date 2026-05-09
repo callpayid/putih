@@ -109,43 +109,53 @@ body {
 /* SHOOTING STARS AT NAVBAR BOTTOM */
 .navbar-stars {
   position: absolute;
-  bottom: -2px;
+  bottom: -3px;
   left: 0;
   right: 0;
-  height: 4px;
-  overflow: hidden;
+  height: 6px;
+  overflow: visible;
   pointer-events: none;
+  z-index: 200;
 }
 @keyframes starMove {
-  0% { transform: translateX(110%); opacity: 0; }
-  5% { opacity: 1; }
-  95% { opacity: 1; }
-  100% { transform: translateX(-110%); opacity: 0; }
+  0% { left: 105%; opacity: 0; }
+  3% { opacity: 1; }
+  97% { opacity: 1; }
+  100% { left: -10%; opacity: 0; }
 }
 .moving-star {
   position: absolute;
-  top: 0;
-  width: 60px;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, #fff, rgba(255,255,255,0.8), transparent);
+  top: 1px;
+  height: 2px;
   border-radius: 999px;
   animation: starMove linear infinite;
+}
+.moving-star::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 3px rgba(255,255,255,0.9), 0 0 16px 6px rgba(200,220,255,0.4);
 }
 .moving-star::after {
   content: '';
   position: absolute;
-  right: 0;
-  top: -1px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+  left: 6px;
+  top: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(200,220,255,0.3), transparent);
+  border-radius: 999px;
 }
-.s1 { animation-duration: 4s; animation-delay: 0s; top: 0; }
-.s2 { animation-duration: 6s; animation-delay: 1.5s; top: 2px; width: 40px; }
-.s3 { animation-duration: 5s; animation-delay: 3s; top: 0; width: 80px; }
-.s4 { animation-duration: 7s; animation-delay: 0.8s; top: 2px; width: 50px; opacity: 0.7; }
+.s1 { animation-duration: 5s; animation-delay: 0s; width: 80px; }
+.s2 { animation-duration: 7s; animation-delay: 2s; width: 60px; top: 3px; opacity: 0.85; }
+.s3 { animation-duration: 4s; animation-delay: 1s; width: 100px; }
+.s4 { animation-duration: 8s; animation-delay: 3.5s; width: 50px; top: 2px; opacity: 0.7; }
+.s5 { animation-duration: 6s; animation-delay: 4.5s; width: 70px; }
 
 /* NAVBAR */
 .navbar {
@@ -256,7 +266,7 @@ body {
     <div class="hamburger">
       <span></span><span></span><span></span>
     </div>
-    <div class="navbar-stars"><div class="moving-star s1"></div><div class="moving-star s2"></div><div class="moving-star s3"></div><div class="moving-star s4"></div></div>
+    <div class="navbar-stars"><div class="moving-star s1"></div><div class="moving-star s2"></div><div class="moving-star s3"></div><div class="moving-star s4"></div><div class="moving-star s5"></div></div>
   </nav>
 
   <!-- CONTENT -->
