@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SleepcallPay</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100vh; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #E8E2D9;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+}
+#app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  background: #FFFFFF;
+  position: relative;
+}
+@media (min-width: 481px) {
+  body { padding: 20px 0; align-items: flex-start; }
+  #app { border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+}
+@media (max-width: 480px) {
+  body { background: #fff; }
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px;
+  background: #0F0D14;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+}
+.logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.logo-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: #0F0D14;
+  box-shadow: 0 4px 10px rgba(252,211,77,0.3);
+}
+.logo-text {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 15px; font-weight: 800;
+  color: #fff; letter-spacing: -0.02em;
+}
+.hamburger {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 5px; cursor: pointer;
+}
+.hamburger span { display: block; width: 18px; height: 2px; border-radius: 2px; background: #FCD34D; }
+
+/* DROPDOWN MENU */
+.dropdown {
+  display: none; position: fixed; top: 62px; right: 0; z-index: 200;
+  background: #FFFFFF; border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(31,26,46,0.18);
+  border: 0.5px solid rgba(45,35,60,0.08);
+  min-width: 200px; overflow: hidden;
+  margin-right: 16px;
+}
+.dropdown.open { display: block; }
+.dropdown-item {
+  padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+  font-size: 13.5px; font-weight: 600; color: #1B1424;
+  cursor: pointer; border-bottom: 0.5px solid rgba(45,35,60,0.06);
+}
+.dropdown-item:last-child { border-bottom: none; }
+.dropdown-item span { font-size: 14px; }
+
+/* GREETING */
+.greeting { padding: 20px 20px 0; }
+.greeting-sub { font-size: 11.5px; color: #8C857F; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 6px; }
+.greeting-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 28px; color: #1B1424;
+  letter-spacing: -0.02em; line-height: 1.05;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  margin: 14px 20px 0;
+  background: #F4F4F4; border-radius: 14px;
+  padding: 11px 14px; display: flex; align-items: center; gap: 8px;
+  border: 0.5px solid rgba(45,35,60,0.08);
+}
+.search-bar input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: inherit; font-size: 13px; color: #1B1424;
+}
+.search-bar input::placeholder { color: #9CA3AF; }
+.search-icon { color: #9CA3AF; font-size: 14px; }
+
+/* CATEGORY STRIP */
+.category-strip {
+  display: flex; gap: 8px; padding: 14px 20px 4px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.category-strip::-webkit-scrollbar { display: none; }
+.cat-btn {
+  flex-shrink: 0; border: none; cursor: pointer;
+  font-family: inherit; display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 14px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 600; transition: all 0.2s;
+}
+.cat-btn.active {
+  background: #60A5FA; color: #fff;
+  box-shadow: 0 4px 14px rgba(96,165,250,0.35);
+}
+.cat-btn.inactive {
+  background: #FFFFFF; color: #3D3548;
+  border: 0.5px solid rgba(45,35,60,0.08);
+}
+
+/* SECTION HEADER */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px 8px;
+}
+.section-title { font-size: 16px; font-weight: 700; color: #1B1424; }
+.online-count { font-size: 12px; font-weight: 600; color: #1F8A50; }
+
+/* GENDER FILTER */
+.gender-filter { display: flex; gap: 8px; padding: 0 20px 12px; }
+.gender-btn {
+  border: none; cursor: pointer; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 32px; padding: 0 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; transition: all 0.2s;
+}
+.gender-btn.active-semua { background: #60A5FA; color: #fff; box-shadow: 0 4px 14px rgba(96,165,250,0.3); }
+.gender-btn.active-wanita { background: linear-gradient(135deg,#EC4899,#F472B6); color: #fff; box-shadow: 0 4px 14px rgba(236,72,153,0.3); }
+.gender-btn.active-pria { background: #60A5FA; color: #fff; box-shadow: 0 4px 14px rgba(96,165,250,0.3); }
+.gender-btn.inactive { background: #FFFFFF; color: #3D3548; border: 0.5px solid rgba(45,35,60,0.08); }
+
+/* TALENT CARDS */
+.talent-list { display: flex; flex-direction: column; gap: 10px; padding: 0 16px 100px; }
+
+.talent-card-wrap { border-radius: 18px; }
+.talent-card {
+  background: #FFFFFF; border-radius: 18px; overflow: hidden;
+  display: flex; align-items: stretch;
+  border: none;
+  box-shadow: 0 2px 10px rgba(45,35,60,0.07);
+  cursor: pointer; min-height: 110px;
+}
+.talent-card.framed {
+  overflow: visible; border: none;
+  background: linear-gradient(135deg,#1E3A5F,#2563EB,#60A5FA,#2563EB,#1E3A5F);
+  background-size: 300% 300%;
+  animation: frameShimmer 3s ease infinite;
+  padding: 2.5px;
+  border-radius: 24px;
+}
+.talent-card.framed .card-inner {
+  background: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.card-photo { width: 100px; flex-shrink: 0; position: relative; overflow: hidden; }
+.card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-photo .avatar {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 40px; color: rgba(255,255,255,0.9);
+}
+.voice-badge {
+  position: absolute; left: 6px; bottom: 6px; height: 18px;
+  padding: 0 6px; border-radius: 999px;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+  color: #fff; font-size: 9.5px; font-weight: 600;
+  display: flex; align-items: center; gap: 3px;
+}
+
+.card-info { flex: 1; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
+.card-name { font-size: 16px; font-weight: 800; color: #1B1424; letter-spacing: -0.01em; }
+.card-status { font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.card-age { font-size: 11px; color: #8C857F; font-weight: 600; }
+.card-services { font-size: 11px; color: #6E6478; line-height: 1.5; margin-top: 4px; }
+.card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.btn-pesan {
+  border: none; cursor: pointer; font-family: inherit;
+  font-size: 12px; font-weight: 700; height: 28px; padding: 0 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #FF6B9D, #FF8C42);
+  color: #fff; box-shadow: 0 4px 10px rgba(255,107,157,0.3);
+}
+.btn-pesan.offline { background: #E8E4DD; color: #9A938B; box-shadow: none; cursor: not-allowed; }
+
+/* GENDER BADGE */
+.gender-badge {
+  display: inline-flex; align-items: center; gap: 2px;
+  border-radius: 999px; padding: 1px 5px;
+  font-size: 8.5px; font-weight: 700;
+}
+.gender-badge.wanita { background: rgba(236,72,153,0.12); color: #EC4899; }
+.gender-badge.pria { background: rgba(96,165,250,0.12); color: #60A5FA; }
+
+/* ORDER SHEET */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; }
+.overlay.open { display: block; }
+.order-sheet {
+  position: fixed; bottom: 0; left: 0; right: 0; margin: 0 auto;
+  width: 100%; max-width: 480px; z-index: 400;
+  background: #FAF7F2; border-radius: 28px 28px 0 0;
+  padding: 20px 20px 32px; display: none;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+}
+.order-sheet.open { display: block; }
+.sheet-handle { width: 40px; height: 4px; border-radius: 2px; background: rgba(45,35,60,0.18); margin: 0 auto 14px; }
+.sheet-title { font-size: 17px; font-weight: 700; color: #1B1424; margin-bottom: 16px; }
+.service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.service-btn {
+  border: none; cursor: pointer; font-family: inherit;
+  padding: 10px 12px; border-radius: 12px; text-align: left;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.service-btn.active { background: #1F1A2E; color: #F4F1EC; }
+.service-btn.inactive { background: #FFFFFF; color: #1B1424; border: 0.5px solid rgba(45,35,60,0.08); }
+.service-name { font-size: 12.5px; font-weight: 700; }
+.service-price { font-size: 11px; opacity: 0.65; }
+.duration-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.dur-btn {
+  flex: 1; border: none; cursor: pointer; font-family: inherit;
+  height: 38px; border-radius: 10px; font-size: 13px; font-weight: 600;
+}
+.dur-btn.active { background: #1F1A2E; color: #F4F1EC; }
+.dur-btn.inactive { background: #FFFFFF; color: #3D3548; border: 0.5px solid rgba(45,35,60,0.1); }
+.confirm-btn {
+  width: 100%; border: none; cursor: pointer; font-family: inherit;
+  font-size: 14.5px; font-weight: 700; height: 52px; border-radius: 16px;
+  background: #1F1A2E; color: #F4F1EC;
+  box-shadow: 0 6px 16px rgba(31,26,46,0.22);
+}
+.total-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.total-label { font-size: 12px; font-weight: 700; color: #1B1424; }
+.total-amount { font-size: 18px; font-weight: 700; color: #1B1424; }
+
+
+
+
+/* TALENT LOGIN & DASHBOARD */
+.page { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.3); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.page-inner { max-width: 480px; width: 100%; min-height: 100%; background: #fff; margin: 0 auto; position: relative; }
+.page.open { display: block; }
+.page-nav {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; background: #0F0D14;
+  position: sticky; top: 0; z-index: 10;
+}
+.back-btn {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+  color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center;
+}
+.page-title { font-size: 15px; font-weight: 700; color: #fff; }
+
+/* LOGIN FORM */
+.login-wrap { padding: 32px 24px; max-width: 480px; margin: 0 auto; }
+.login-logo { text-align: center; margin-bottom: 28px; }
+.login-logo .logo-icon { width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg,#FCD34D,#F59E0B); display: inline-flex; align-items: center; justify-content: center; font-size: 28px; color: #0F0D14; box-shadow: 0 8px 20px rgba(252,211,77,0.3); }
+.login-logo h2 { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px; color: #1B1424; margin-top: 10px; }
+.login-logo p { font-size: 12px; color: #8C857F; margin-top: 4px; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; font-weight: 700; color: #3D3548; margin-bottom: 6px; display: block; letter-spacing: 0.03em; }
+.form-input {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  border: 1.5px solid #E5E2EC; background: #F8F6FC;
+  font-family: inherit; font-size: 14px; color: #1B1424; outline: none;
+}
+.form-input:focus { border-color: #7C3AED; }
+.login-btn {
+  width: 100%; height: 50px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 700;
+  border-radius: 14px; background: linear-gradient(135deg,#1F1A2E,#4A2E7A);
+  color: #fff; margin-top: 8px; box-shadow: 0 6px 16px rgba(31,26,46,0.2);
+}
+.login-err { font-size: 12px; color: #DC2626; text-align: center; margin-top: 8px; display: none; }
+
+/* DASHBOARD */
+.dash-wrap { padding: 20px; max-width: 480px; margin: 0 auto; }
+.dash-avatar {
+  width: 90px; height: 90px; border-radius: 22px; overflow: hidden;
+  margin: 0 auto 12px; position: relative; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(45,35,60,0.15);
+}
+.dash-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dash-avatar .avatar-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s; font-size: 22px;
+}
+.dash-avatar:hover .avatar-overlay { opacity: 1; }
+.dash-name { text-align: center; font-size: 20px; font-weight: 800; color: #1B1424; }
+.dash-handle { text-align: center; font-size: 12px; color: #8C857F; margin-top: 2px; margin-bottom: 20px; }
+
+.dash-card {
+  background: #F8F6FC; border-radius: 18px; padding: 16px 18px;
+  margin-bottom: 14px; border: 0.5px solid rgba(45,35,60,0.08);
+}
+.dash-card-title { font-size: 11px; font-weight: 700; color: #8C857F; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+
+/* STATUS TOGGLE */
+.status-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.toggle-switch {
+  width: 50px; height: 28px; border-radius: 999px; border: none; cursor: pointer;
+  position: relative; transition: background 0.3s; background: #D1D5DB;
+}
+.toggle-switch.on { background: #1F8A50; }
+.toggle-thumb {
+  width: 22px; height: 22px; border-radius: 50%; background: #fff;
+  position: absolute; top: 3px; left: 3px; transition: left 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.toggle-switch.on .toggle-thumb { left: 25px; }
+.toggle-label { font-size: 14px; font-weight: 600; color: #1B1424; }
+.toggle-sub { font-size: 11px; color: #8C857F; margin-top: 2px; }
+
+/* LAYANAN CHECKBOXES */
+.svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.svc-check {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  border-radius: 12px; border: 1.5px solid #E5E2EC; cursor: pointer;
+  background: #fff; transition: all 0.15s;
+}
+.svc-check.checked { border-color: #4A2E7A; background: #F0EBF8; }
+.svc-check-box {
+  width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #D1D5DB;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #fff; background: #fff;
+}
+.svc-check.checked .svc-check-box { background: #4A2E7A; border-color: #4A2E7A; }
+.svc-check-label { font-size: 12px; font-weight: 600; color: #3D3548; }
+
+/* SAVE BTN */
+.save-btn {
+  width: 100%; height: 48px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  border-radius: 14px; background: linear-gradient(135deg,#1F1A2E,#4A2E7A);
+  color: #fff; margin-top: 8px; box-shadow: 0 4px 14px rgba(31,26,46,0.2);
+}
+.logout-btn {
+  width: 100%; height: 44px; border: 1.5px solid #E5E2EC; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 700;
+  border-radius: 14px; background: #fff; color: #8C857F; margin-top: 8px;
+}
+.age-input {
+  width: 80px; padding: 8px 12px; border-radius: 10px;
+  border: 1.5px solid #E5E2EC; background: #fff;
+  font-family: inherit; font-size: 14px; color: #1B1424; outline: none; text-align: center;
+}
+.age-input:focus { border-color: #7C3AED; }
+
+/* ANIMATIONS */
+@keyframes frameShimmer { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo" onclick="logoClick()">
+      <div class="logo-icon">◐</div>
+      <span class="logo-text">SleepcallPay</span>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- DROPDOWN -->
+  <div class="dropdown" id="dropdown">
+    <div class="dropdown-item"><span>🏠</span> Beranda</div>
+    <div class="dropdown-item"><span>👤</span> Profil</div>
+    <div class="dropdown-item"><span>📋</span> Riwayat Order</div>
+    <div class="dropdown-item"><span>⚙️</span> Pengaturan</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div style="padding-bottom: 20px;">
+
+    <!-- GREETING -->
+    <div class="greeting">
+      <div class="greeting-sub">Selamat malam ✦</div>
+      <div class="greeting-title">Cari teman<br/>buat malam ini</div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Cari talent atau layanan..." id="searchInput" oninput="filterTalents()"/>
+    </div>
+
+    <!-- CATEGORY STRIP -->
+    <div class="category-strip" id="categoryStrip">
+      <button class="cat-btn active" data-cat="all" onclick="selectCat(this,'all')">✦ Semua</button>
+      <button class="cat-btn inactive" data-cat="sleep" onclick="selectCat(this,'sleep')">🌙 Sleep Call</button>
+      <button class="cat-btn inactive" data-cat="teman" onclick="selectCat(this,'teman')">🎧 Teman Call</button>
+      <button class="cat-btn inactive" data-cat="curhat" onclick="selectCat(this,'curhat')">💬 Curhat Call</button>
+      <button class="cat-btn inactive" data-cat="pacar" onclick="selectCat(this,'pacar')">❤️ Pacar Virtual</button>
+      <button class="cat-btn inactive" data-cat="mabar" onclick="selectCat(this,'mabar')">🎮 Mabar ML</button>
+    </div>
+
+    <!-- SECTION HEADER -->
+    <div class="section-header">
+      <span class="section-title">Available sekarang</span>
+      <span class="online-count" id="onlineCount">● 0 online</span>
+    </div>
+
+    <!-- GENDER FILTER -->
+    <div class="gender-filter">
+      <button class="gender-btn active-semua" data-gender="semua" onclick="selectGender(this,'semua')">✦ Semua</button>
+      <button class="gender-btn inactive" data-gender="wanita" onclick="selectGender(this,'wanita')">♀ Wanita</button>
+      <button class="gender-btn inactive" data-gender="pria" onclick="selectGender(this,'pria')">♂ Pria</button>
+    </div>
+
+    <!-- TALENT LIST -->
+    <div class="talent-list" id="talentList"></div>
+
+  </div>
+
+
+
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeOrder()"></div>
+
+<!-- ORDER SHEET -->
+<div class="order-sheet" id="orderSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title" id="sheetTitle">Pesan Layanan</div>
+  <div class="service-grid" id="serviceGrid"></div>
+  <div class="duration-row" id="durationRow">
+    <button class="dur-btn active" data-dur="30" onclick="selectDur(this,30)">30 mnt</button>
+    <button class="dur-btn inactive" data-dur="60" onclick="selectDur(this,60)">60 mnt</button>
+    <button class="dur-btn inactive" data-dur="90" onclick="selectDur(this,90)">90 mnt</button>
+  </div>
+  <div class="total-row">
+    <span class="total-label">Total</span>
+    <span class="total-amount" id="totalAmount">Rp 0</span>
+  </div>
+  <button class="confirm-btn" onclick="confirmOrder()">Konfirmasi & Bayar</button>
+</div>
+
+<script>
+const SERVICES = {
+  sleep: { label: 'Sleep Call', icon: '🌙', price: 15000 },
+  teman: { label: 'Teman Call', icon: '🎧', price: 12000 },
+  curhat: { label: 'Curhat Call', icon: '💬', price: 12000 },
+  pacar: { label: 'Pacar Virtual', icon: '❤️', price: 20000 },
+  mabar: { label: 'Mabar ML', icon: '🎮', price: 10000 },
+};
+
+const TALENTS = [
+  { id:'t1', name:'Vania', photo:'https://randomuser.me/api/portraits/women/1.jpg', gender:'wanita', age:21, status:'online', services:['sleep','curhat','teman'], g:'linear-gradient(135deg,#E8D5C4,#A78A7F)' },
+  { id:'t2', name:'Mirelle', photo:'https://randomuser.me/api/portraits/women/2.jpg', gender:'wanita', age:23, status:'online', services:['teman','pacar'], g:'linear-gradient(135deg,#BFB7D8,#544A7A)' },
+  { id:'t3', name:'Nadira', photo:'https://randomuser.me/api/portraits/women/3.jpg', gender:'wanita', age:19, status:'online', services:['curhat','teman'], g:'linear-gradient(135deg,#C5D4C0,#5A7A52)' },
+  { id:'t4', name:'Sasha', photo:'https://randomuser.me/api/portraits/women/4.jpg', gender:'wanita', age:22, status:'offline', services:['sleep','mabar'], g:'linear-gradient(135deg,#D4C5C0,#7A5A52)' },
+  { id:'t5', name:'Kiraa', photo:'https://randomuser.me/api/portraits/women/5.jpg', gender:'wanita', age:20, status:'online', services:['teman','sleep','mabar'], g:'linear-gradient(135deg,#C0C5D4,#524A7A)' },
+  { id:'t6', name:'Luna', photo:'https://randomuser.me/api/portraits/women/6.jpg', gender:'wanita', age:24, status:'online', services:['pacar','sleep','curhat'], g:'linear-gradient(135deg,#D4C0C5,#7A5264)' },
+  { id:'t7', name:'Tasya', photo:'https://randomuser.me/api/portraits/women/7.jpg', gender:'wanita', age:21, status:'offline', services:['curhat','teman','pacar'], g:'linear-gradient(135deg,#D4D0C0,#7A7052)' },
+  { id:'t8', name:'Bella', photo:'https://randomuser.me/api/portraits/women/8.jpg', gender:'wanita', age:22, status:'online', services:['sleep','teman','curhat','pacar','mabar'], g:'linear-gradient(135deg,#C8BFD8,#604A7A)' },
+  { id:'t9', name:'Rizky', photo:'https://randomuser.me/api/portraits/men/1.jpg', gender:'pria', age:23, status:'online', services:['teman','mabar','sleep'], g:'linear-gradient(135deg,#BFC5D4,#4A527A)' },
+  { id:'t10', name:'Daffa', photo:'https://randomuser.me/api/portraits/men/2.jpg', gender:'pria', age:22, status:'online', services:['mabar','teman','curhat'], g:'linear-gradient(135deg,#C0C5C0,#527A52)' },
+  { id:'t11', name:'Arkan', photo:'https://randomuser.me/api/portraits/men/3.jpg', gender:'pria', age:24, status:'offline', services:['mabar','teman'], g:'linear-gradient(135deg,#C5C0C0,#7A5252)' },
+];
+
+let currentCat = 'all';
+let currentGender = 'semua';
+let currentSearch = '';
+let selectedService = null;
+let selectedDur = 30;
+let currentTalent = null;
+
+function getStatusColor(status) {
+  if (status === 'online') return '#1F8A50';
+  return '#8C857F';
+}
+function getStatusLabel(status) {
+  if (status === 'online') return 'Online';
+  return 'Offline';
+}
+
+function buildCard(t) {
+  const isOnline = t.status === 'online';
+  const svcLabels = t.services.map(s => SERVICES[s]?.label).filter(Boolean).join(', ');
+  const statusColor = getStatusColor(t.status);
+  const statusLabel = getStatusLabel(t.status);
+  const genderClass = t.gender === 'wanita' ? 'wanita' : 'pria';
+  const genderIcon = t.gender === 'wanita' ? '♀' : '♂';
+
+  const photoEl = `<div class="card-photo"><div class="avatar" style="background:${t.g};">${t.name.charAt(0)}</div></div>`;
+
+  const cardContent = `
+    ${photoEl}
+    <div class="card-info">
+      <div class="card-top">
+        <div>
+          <div class="card-name">${t.name}</div>
+          <span class="gender-badge ${genderClass}">${genderIcon} ${t.age} thn</span>
+        </div>
+        <span class="card-status" style="color:${statusColor};">
+          <span class="status-dot" style="background:${statusColor};"></span>${statusLabel}
+        </span>
+      </div>
+      <div class="card-services">${svcLabels}</div>
+      <div class="card-bottom">
+        <button class="btn-pesan ${isOnline ? '' : 'offline'}" onclick="event.stopPropagation();${isOnline ? `openOrder('${t.id}')` : ''}">Pesan</button>
+      </div>
+    </div>
+  `;
+
+  return `<div class="talent-card-wrap"><div class="talent-card" onclick="openOrder('${t.id}')">${cardContent}</div></div>`;
+}
+
+function filterTalents() {
+  currentSearch = document.getElementById('searchInput').value.toLowerCase();
+  renderTalents();
+}
+
+function selectCat(btn, cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => { b.className = 'cat-btn inactive'; });
+  btn.className = 'cat-btn active';
+  renderTalents();
+}
+
+function selectGender(btn, gender) {
+  currentGender = gender;
+  document.querySelectorAll('.gender-btn').forEach(b => { b.className = 'gender-btn inactive'; });
+  const cls = gender === 'wanita' ? 'active-wanita' : gender === 'pria' ? 'active-pria' : 'active-semua';
+  btn.className = `gender-btn ${cls}`;
+  renderTalents();
+}
+
+function renderTalents() {
+  const list = TALENTS.filter(t => {
+    if (currentCat !== 'all' && !t.services.includes(currentCat)) return false;
+    if (currentGender !== 'semua' && t.gender !== currentGender) return false;
+    if (currentSearch && !t.name.toLowerCase().includes(currentSearch)) return false;
+    return true;
+  });
+
+  const onlineCount = list.filter(t => t.status === 'online' || t.status === 'busy').length;
+  document.getElementById('onlineCount').textContent = `● ${onlineCount} online`;
+  document.getElementById('talentList').innerHTML = list.map(buildCard).join('');
+}
+
+function openOrder(id) {
+  currentTalent = TALENTS.find(t => t.id === id);
+  if (!currentTalent) return;
+  selectedService = currentTalent.services[0];
+  selectedDur = 30;
+
+  document.getElementById('sheetTitle').textContent = `Pesan — ${currentTalent.name}`;
+
+  const grid = document.getElementById('serviceGrid');
+  grid.innerHTML = currentTalent.services.map(s => `
+    <button class="service-btn ${s === selectedService ? 'active' : 'inactive'}" onclick="selectService('${s}')">
+      <span class="service-name">${SERVICES[s]?.icon} ${SERVICES[s]?.label}</span>
+      <span class="service-price">Rp ${(SERVICES[s]?.price||0).toLocaleString('id')}/30mnt</span>
+    </button>
+  `).join('');
+
+  updateTotal();
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('orderSheet').classList.add('open');
+}
+
+function selectService(svc) {
+  selectedService = svc;
+  const grid = document.getElementById('serviceGrid');
+  grid.querySelectorAll('.service-btn').forEach((btn, i) => {
+    const s = currentTalent.services[i];
+    btn.className = `service-btn ${s === svc ? 'active' : 'inactive'}`;
+  });
+  updateTotal();
+}
+
+function selectDur(btn, dur) {
+  selectedDur = dur;
+  document.querySelectorAll('.dur-btn').forEach(b => { b.className = 'dur-btn inactive'; });
+  btn.className = 'dur-btn active';
+  updateTotal();
+}
+
+function updateTotal() {
+  const price = SERVICES[selectedService]?.price || 0;
+  const total = price * (selectedDur / 30);
+  document.getElementById('totalAmount').textContent = `Rp ${total.toLocaleString('id')}`;
+}
+
+function closeOrder() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('orderSheet').classList.remove('open');
+}
+
+function confirmOrder() {
+  alert(`Order berhasil! ${currentTalent?.name} - ${SERVICES[selectedService]?.label} ${selectedDur} menit`);
+  closeOrder();
+}
+
+function toggleMenu() {
+  document.getElementById('dropdown').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  const dd = document.getElementById('dropdown');
+  if (!e.target.closest('.hamburger') && !e.target.closest('.logo') && !e.target.closest('.dropdown')) {
+    dd.classList.remove('open');
+  }
+});
+
+
+// TALENT LOGIN
+const TALENT_ACCOUNTS = {
+  'vania.id': { pass: 'vania123', talentId: 't1' }
+};
+
+let logoClickCount = 0;
+let logoClickTimer = null;
+
+function logoClick() {
+  logoClickCount++;
+  clearTimeout(logoClickTimer);
+  logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
+  if (logoClickCount >= 5) {
+    logoClickCount = 0;
+    document.getElementById('loginPage').classList.add('open');
+  }
+}
+
+function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value.trim();
+  const err = document.getElementById('loginErr');
+  const acc = TALENT_ACCOUNTS[user];
+  if (acc && acc.pass === pass) {
+    err.style.display = 'none';
+    document.getElementById('loginPage').classList.remove('open');
+    openDash(acc.talentId);
+  } else {
+    err.style.display = 'block';
+  }
+}
+
+function openDash(talentId) {
+  const t = TALENTS.find(x => x.id === talentId);
+  if (!t) return;
+  document.getElementById('dashName').textContent = t.name;
+  document.getElementById('ageInput').value = t.age;
+  document.getElementById('dashPhoto').src = t.photo;
+  const isOn = t.status === 'online';
+  const toggle = document.getElementById('statusToggle');
+  toggle.className = 'toggle-switch' + (isOn ? ' on' : '');
+  document.getElementById('statusLabel').textContent = isOn ? 'Online' : 'Offline';
+  document.getElementById('statusSub').textContent = isOn ? 'Kamu terlihat oleh pelanggan' : 'Kamu tidak terlihat';
+  // set layanan
+  document.querySelectorAll('.svc-check').forEach(el => {
+    const svc = el.dataset.svc;
+    const checked = t.services.includes(svc);
+    el.classList.toggle('checked', checked);
+    el.querySelector('.svc-check-box').textContent = checked ? '✓' : '';
+  });
+  document.getElementById('dashPage').classList.add('open');
+  window._editingTalentId = talentId;
+}
+
+function closeDash() {
+  document.getElementById('dashPage').classList.remove('open');
+}
+
+function toggleStatus() {
+  const toggle = document.getElementById('statusToggle');
+  const isOn = toggle.classList.contains('on');
+  const newStatus = !isOn;
+  toggle.classList.toggle('on', newStatus);
+  document.getElementById('statusLabel').textContent = newStatus ? 'Online' : 'Offline';
+  document.getElementById('statusSub').textContent = newStatus ? 'Kamu terlihat oleh pelanggan' : 'Kamu tidak terlihat';
+
+  // Update langsung ke data talent & re-render
+  const id = window._editingTalentId;
+  const t = TALENTS.find(x => x.id === id);
+  if (t) {
+    t.status = newStatus ? 'online' : 'offline';
+    renderTalents();
+  }
+}
+
+function toggleSvc(el) {
+  const checked = el.classList.contains('checked');
+  el.classList.toggle('checked', !checked);
+  el.querySelector('.svc-check-box').textContent = !checked ? '✓' : '';
+}
+
+function handlePhotoUpload(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('dashPhoto').src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function changePhoto() {
+  document.getElementById('photoFile').click();
+}
+
+function saveDash() {
+  const id = window._editingTalentId;
+  const t = TALENTS.find(x => x.id === id);
+  if (!t) return;
+  t.age = parseInt(document.getElementById('ageInput').value) || t.age;
+  t.photo = document.getElementById('dashPhoto').src;
+  t.status = document.getElementById('statusToggle').classList.contains('on') ? 'online' : 'offline';
+  t.services = Array.from(document.querySelectorAll('.svc-check.checked')).map(el => el.dataset.svc);
+  closeDash();
+  renderTalents();
+  setTimeout(() => alert('Perubahan berhasil disimpan! ✓'), 100);
+}
+
+function logout() {
+  closeDash();
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// Init
+renderTalents();
+</script>
+
+<!-- LOGIN PAGE -->
+<div class="page" id="loginPage">
+<div class="page-inner">
+  <div class="login-wrap">
+    <div class="login-logo">
+      <div class="logo-icon">◐</div>
+      <h2>SleepcallPay</h2>
+      <p>Login sebagai Talent</p>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input class="form-input" type="text" id="loginUser" placeholder="Masukkan username..."/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" type="password" id="loginPass" placeholder="Masukkan password..."/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Masuk</button>
+    <div class="login-err" id="loginErr">Username atau password salah!</div>
+    <p style="text-align:center;font-size:11px;color:#C4B8D0;margin-top:16px;">Hanya untuk talent terdaftar</p>
+  </div>
+</div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div class="page" id="dashPage">
+<div class="page-inner">
+  <div class="page-nav">
+    <button class="back-btn" onclick="closeDash()">←</button>
+    <span class="page-title">Dashboard Talent</span>
+  </div>
+  <div class="dash-wrap">
+
+    <!-- Avatar -->
+    <div class="dash-avatar" onclick="changePhoto()">
+      <img id="dashPhoto" src="https://randomuser.me/api/portraits/women/1.jpg"/>
+      <div class="avatar-overlay">📷</div>
+    </div>
+    <div class="dash-name" id="dashName">Vania</div>
+    <div class="dash-handle">@vania.id</div>
+
+    <!-- Status -->
+    <div class="dash-card">
+      <div class="dash-card-title">Status</div>
+      <div class="status-toggle">
+        <div>
+          <div class="toggle-label" id="statusLabel">Online</div>
+          <div class="toggle-sub" id="statusSub">Kamu terlihat oleh pelanggan</div>
+        </div>
+        <button class="toggle-switch on" id="statusToggle" onclick="toggleStatus()">
+          <div class="toggle-thumb"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Umur -->
+    <div class="dash-card">
+      <div class="dash-card-title">Umur</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input class="age-input" type="number" id="ageInput" value="21" min="18" max="40"/>
+        <span style="font-size:13px;color:#6E6478;">tahun</span>
+      </div>
+    </div>
+
+    <!-- Layanan -->
+    <div class="dash-card">
+      <div class="dash-card-title">Layanan Tersedia</div>
+      <div class="svc-grid">
+        <div class="svc-check checked" data-svc="sleep" onclick="toggleSvc(this)">
+          <div class="svc-check-box">✓</div>
+          <span class="svc-check-label">🌙 Sleep Call</span>
+        </div>
+        <div class="svc-check checked" data-svc="teman" onclick="toggleSvc(this)">
+          <div class="svc-check-box">✓</div>
+          <span class="svc-check-label">🎧 Teman Call</span>
+        </div>
+        <div class="svc-check checked" data-svc="curhat" onclick="toggleSvc(this)">
+          <div class="svc-check-box">✓</div>
+          <span class="svc-check-label">💬 Curhat Call</span>
+        </div>
+        <div class="svc-check" data-svc="pacar" onclick="toggleSvc(this)">
+          <div class="svc-check-box"></div>
+          <span class="svc-check-label">❤️ Pacar Virtual</span>
+        </div>
+        <div class="svc-check" data-svc="mabar" onclick="toggleSvc(this)">
+          <div class="svc-check-box"></div>
+          <span class="svc-check-label">🎮 Mabar ML</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Foto Upload -->
+    <div class="dash-card">
+      <div class="dash-card-title">Ganti Foto</div>
+      <p style="font-size:12px;color:#8C857F;margin-bottom:10px;">Ketuk avatar di atas atau pilih foto dari galeri</p>
+      <input type="file" id="photoFile" accept="image/*" style="display:none;" onchange="handlePhotoUpload(this)"/>
+      <button onclick="document.getElementById('photoFile').click()" style="border:1.5px solid #1F1A2E;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;height:36px;padding:0 16px;border-radius:10px;background:#fff;color:#1F1A2E;display:flex;align-items:center;gap:6px;">📷 Pilih dari Galeri</button>
+    </div>
+
+    <button class="save-btn" onclick="saveDash()">Simpan Perubahan</button>
+    <button class="logout-btn" onclick="logout()">Keluar</button>
+
+  </div>
+</div>
+</div>
+
+</body>
+</html>
