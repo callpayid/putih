@@ -47,6 +47,9 @@ body {
 }
 
 
+/* CONTENT PADDING */
+.content { padding-top: 62px; }
+
 /* TALENT SECTION */
 .section-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -104,10 +107,12 @@ body {
 
 /* NAVBAR */
 .navbar {
-  position: sticky; top: 0; z-index: 100;
+  position: fixed; top: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto;
+  z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 20px;
-  background: rgba(2,2,8,0.7);
+  background: rgba(2,2,8,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 0.5px solid rgba(255,255,255,0.06);
