@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 <title>Project 3</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
@@ -136,6 +136,18 @@ body {
 }
 .s1 { animation-duration: 5s; animation-delay: 0s; top: 1px; width: 70px; }
 
+.logo-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: #0F0D14;
+  box-shadow: 0 4px 12px rgba(252,211,77,0.3);
+}
+.logo-text {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 16px; font-weight: 800;
+  color: #fff; letter-spacing: -0.02em;
+}
 /* NAVBAR */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0;
@@ -149,18 +161,7 @@ body {
   border-bottom: none; overflow: visible;
 }
 .logo { display: flex; align-items: center; gap: 8px; }
-.logo-icon {
-  width: 34px; height: 34px; border-radius: 10px;
-  background: linear-gradient(135deg, #FCD34D, #F59E0B);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; color: #0F0D14;
-  box-shadow: 0 4px 12px rgba(252,211,77,0.3);
-}
-.logo-text {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 16px; font-weight: 800;
-  color: #fff; letter-spacing: -0.02em;
-}
+
 .hamburger {
   width: 38px; height: 38px; border-radius: 12px;
   background: rgba(255,255,255,0.07);
@@ -243,6 +244,15 @@ body {
 .gender-btn.active-p { background: rgba(96,217,250,0.2); color: #60D9FA; border: 0.5px solid rgba(96,217,250,0.4); }
 .gender-btn.inactive { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 0.5px solid rgba(255,255,255,0.1); }
 
+@keyframes hexGlow {
+  0%,100%{filter:drop-shadow(0 0 4px rgba(252,211,77,0.5)) drop-shadow(0 0 10px rgba(252,211,77,0.2));}
+  50%{filter:drop-shadow(0 0 8px rgba(252,211,77,0.9)) drop-shadow(0 0 20px rgba(252,211,77,0.4));}
+}
+
+html, body {
+  touch-action: pan-x pan-y;
+  -ms-touch-action: pan-x pan-y;
+}
 </style>
 </head>
 <body>
@@ -310,7 +320,20 @@ body {
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
-      <div class="logo-icon">◐</div>
+      <svg width="34" height="34" viewBox="0 0 60 60" fill="none" style="animation:hexGlow 3s ease-in-out infinite;">
+        <defs>
+          <linearGradient id="h4bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#150F00"/><stop offset="100%" stop-color="#0A0700"/></linearGradient>
+          <linearGradient id="h4s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff5a0"/><stop offset="50%" stop-color="#FCD34D"/><stop offset="100%" stop-color="#B45309"/></linearGradient>
+        </defs>
+        <polygon points="30,4 53,17 53,43 30,56 7,43 7,17" fill="url(#h4bg)" stroke="url(#h4s)" stroke-width="1.5"/>
+        <text x="30" y="38" font-family="Poppins,sans-serif" font-size="24" font-weight="900" fill="url(#h4s)" text-anchor="middle">S</text>
+        <circle cx="30" cy="4" r="2.5" fill="#FCD34D" opacity="0.9"/>
+        <circle cx="53" cy="17" r="2" fill="#FCD34D" opacity="0.7"/>
+        <circle cx="53" cy="43" r="2" fill="#FCD34D" opacity="0.7"/>
+        <circle cx="30" cy="56" r="2.5" fill="#FCD34D" opacity="0.9"/>
+        <circle cx="7" cy="43" r="2" fill="#FCD34D" opacity="0.7"/>
+        <circle cx="7" cy="17" r="2" fill="#FCD34D" opacity="0.7"/>
+      </svg>
       <span class="logo-text">SleepcallPay</span>
     </div>
     <div class="hamburger">
@@ -579,28 +602,67 @@ document.addEventListener('selectstart', e => e.preventDefault());
 </script>
 
 <script>
-// Sort online di atas
-window.addEventListener('load', function() {
-  const list = document.querySelector('.talent-list');
-  const cards = Array.from(list.querySelectorAll('.talent-card'));
-  const online = cards.filter(c => c.querySelector('.card-status span:last-child')?.textContent.trim() === 'Online');
-  const offline = cards.filter(c => c.querySelector('.card-status span:last-child')?.textContent.trim() !== 'Online');
-  [...online, ...offline].forEach(c => list.appendChild(c));
-});
+function isOnline(card) {
+  const s = card.querySelector('.card-status');
+  return s && s.textContent.trim().includes('Online');
+}
+function getGender(card) {
+  const b = card.querySelector('.gender-badge');
+  return b && b.classList.contains('w') ? 'w' : 'p';
+}
 
-// Filter gender
+function sortAndRender(filterGenderVal) {
+  const list = document.querySelector('.talent-list');
+  const allCards = Array.from(list.querySelectorAll('.talent-card'));
+
+  // Show/hide berdasarkan filter
+  allCards.forEach(c => {
+    if (filterGenderVal === 'all') c.style.display = '';
+    else c.style.display = getGender(c) === filterGenderVal ? '' : 'none';
+  });
+
+  const visible = allCards.filter(c => c.style.display !== 'none');
+
+  if (filterGenderVal === 'all') {
+    // Pisah online/offline dulu
+    const onlineW = visible.filter(c => isOnline(c) && getGender(c) === 'w');
+    const onlineP = visible.filter(c => isOnline(c) && getGender(c) === 'p');
+    const offlineW = visible.filter(c => !isOnline(c) && getGender(c) === 'w');
+    const offlineP = visible.filter(c => !isOnline(c) && getGender(c) === 'p');
+
+    // Online semua dulu dengan pola 3w-3p, lalu offline 3w-3p
+    const sorted = [];
+    let iW = 0, iP = 0;
+    // Masukkan semua online: 3w, 3p, 3w, 3p...
+    while (iW < onlineW.length || iP < onlineP.length) {
+      for (let k = 0; k < 3 && iW < onlineW.length; k++, iW++) sorted.push(onlineW[iW]);
+      for (let k = 0; k < 3 && iP < onlineP.length; k++, iP++) sorted.push(onlineP[iP]);
+    }
+    // Lalu semua offline: 3w, 3p, 3w, 3p...
+    let jW = 0, jP = 0;
+    while (jW < offlineW.length || jP < offlineP.length) {
+      for (let k = 0; k < 3 && jW < offlineW.length; k++, jW++) sorted.push(offlineW[jW]);
+      for (let k = 0; k < 3 && jP < offlineP.length; k++, jP++) sorted.push(offlineP[jP]);
+    }
+    sorted.forEach(c => list.appendChild(c));
+  } else {
+    // Filter gender tertentu: online dulu, offline kemudian
+    const online = visible.filter(c => isOnline(c));
+    const offline = visible.filter(c => !isOnline(c));
+    [...online, ...offline].forEach(c => list.appendChild(c));
+  }
+}
+
+// Filter gender button
 function filterGender(gender, btn) {
   document.querySelectorAll('.gender-btn').forEach(b => b.className = 'gender-btn inactive');
   if (gender === 'all') btn.className = 'gender-btn active-all';
   else if (gender === 'w') btn.className = 'gender-btn active-w';
   else btn.className = 'gender-btn active-p';
-
-  document.querySelectorAll('.talent-card').forEach(card => {
-    const badge = card.querySelector('.gender-badge');
-    if (!badge) return;
-    card.style.display = (gender === 'all' || badge.classList.contains(gender)) ? '' : 'none';
-  });
+  sortAndRender(gender);
 }
+
+window.addEventListener('load', () => sortAndRender('all'));
 </script>
 </body>
 </html>
