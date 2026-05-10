@@ -1,4 +1,4 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
@@ -42,7 +42,10 @@ body {
 @keyframes twinkle2 { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 @keyframes twinkle3 { 0%,100%{opacity:0.1} 50%{opacity:0.7} }
 @keyframes shootingStar {
-  0% { transform: translateX(0) translateY(0); opacity: 1; }
+  0% { transform: translateX(80px) translateY(-40px); opacity: 0; }
+  10% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
   100% { transform: translateX(-200px) translateY(100px); opacity: 0; }
 }
 
@@ -110,19 +113,17 @@ body {
 .navbar-stars {
   position: absolute;
   bottom: -2px;
-  left: -20%;
-  right: -20%;
+  left: 0;
+  right: 0;
   height: 4px;
-  overflow: visible;
+  overflow: hidden;
   pointer-events: none;
 }
 @keyframes starMove {
-  0% { left: 140%; opacity: 0; }
-  5% { opacity: 0; }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  95% { opacity: 0; }
-  100% { left: -40%; opacity: 0; }
+  0% { transform: translateX(110%); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateX(-110%); opacity: 0; }
 }
 .moving-star {
   position: absolute;
@@ -132,7 +133,6 @@ body {
   background: linear-gradient(90deg, transparent, #fff, rgba(255,255,255,0.8), transparent);
   border-radius: 999px;
   animation: starMove linear infinite;
-  transform: none;
 }
 .moving-star::after {
   content: none;
