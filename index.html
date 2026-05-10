@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 <title>Project 3</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Poppins:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; min-height: 100vh; }
@@ -251,35 +251,251 @@ body {
   0%,100%{filter:drop-shadow(0 0 4px rgba(252,211,77,0.5)) drop-shadow(0 0 10px rgba(252,211,77,0.2));}
   50%{filter:drop-shadow(0 0 8px rgba(252,211,77,0.9)) drop-shadow(0 0 20px rgba(252,211,77,0.4));}
 }
+@keyframes logoGlow {
+  0%,100% { filter: drop-shadow(0 0 6px rgba(252,211,77,0.45)) drop-shadow(0 0 14px rgba(245,158,11,0.2)); }
+  50%     { filter: drop-shadow(0 0 10px rgba(252,211,77,0.75)) drop-shadow(0 0 22px rgba(245,158,11,0.4)); }
+}
+@keyframes twinkleSpark { 0%,100%{opacity:0.4;transform:scale(0.85)} 50%{opacity:1;transform:scale(1.1)} }
+
+/* Wordmark — single string SleepcallPay, gold-tinted to match the mark */
+.logo { gap: 9px; }
+.logo-text {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #FFF1B8 0%, #FCD34D 55%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 0 18px rgba(252,211,77,0.18);
+}
+.type-display .logo-text { font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 900; font-size: 17px; letter-spacing: -0.035em; text-transform: none; }
+.type-mono .logo-text { font-family: 'JetBrains Mono', monospace; font-style: normal; font-weight: 800; font-size: 14px; letter-spacing: -0.06em; }
 
 html, body {
   touch-action: pan-x pan-y;
   -ms-touch-action: pan-x pan-y;
 }
 
+/* ============================================================
+   TWEAKABLE OVERRIDES
+   Three expressive macros: vibe / card-form / type-voice.
+   Defaults match the original cosmic look; classes toggle a full
+   coordinated change across multiple properties.
+   ============================================================ */
 
-
-
-
-
-  100% { --angle: 360deg; }
+/* ---------- VIBE: SUNSET MAUVE ---------- */
+.vibe-sunset #app {
+  background: linear-gradient(160deg, #150509 0%, #2A0F1A 55%, #3A1A22 100%);
 }
+.vibe-sunset .btn-pesan:not(.off) {
+  background: linear-gradient(135deg, #FFB17A, #FF5C8A);
+  box-shadow: 0 4px 14px rgba(255,92,138,0.35);
+}
+.vibe-sunset .logo-icon { background: linear-gradient(135deg, #FFB17A, #FF5C8A); box-shadow: 0 4px 12px rgba(255,92,138,0.35); }
+.vibe-sunset .online-badge, .vibe-sunset .card-status[style*="34D399"] { color: #FFD2A0 !important; }
+.vibe-sunset .online-dot, .vibe-sunset .card-status span[style*="34D399"] { background: #FFD2A0 !important; }
+.vibe-sunset .gender-btn.active-w { background: rgba(255,92,138,0.22); color: #FFB1C8; border-color: rgba(255,92,138,0.45); }
+.vibe-sunset .gender-btn.active-p { background: rgba(255,177,122,0.22); color: #FFD0A8; border-color: rgba(255,177,122,0.45); }
+.vibe-sunset .starfield circle[fill="#60D9FA"] { fill: #FFB17A; }
+.vibe-sunset .starfield circle[fill="#A78BFA"] { fill: #FF8FB1; }
+.vibe-sunset .starfield circle[fill="#34D399"] { fill: #FFD2A0; }
+.vibe-sunset .starfield circle[fill="#FCD34D"] { fill: #FFE0B0; }
 
+/* ---------- VIBE: AURORA MINT ---------- */
+.vibe-aurora #app {
+  background: linear-gradient(160deg, #02100E 0%, #042820 50%, #07142E 100%);
+}
+.vibe-aurora .btn-pesan:not(.off) {
+  background: linear-gradient(135deg, #5EEAD4, #818CF8);
+  box-shadow: 0 4px 14px rgba(94,234,212,0.3);
+  color: #062018;
+}
+.vibe-aurora .logo-icon { background: linear-gradient(135deg, #5EEAD4, #818CF8); box-shadow: 0 4px 12px rgba(94,234,212,0.35); }
+.vibe-aurora .gender-btn.active-w { background: rgba(244,114,182,0.18); color: #F0ABCC; border-color: rgba(244,114,182,0.4); }
+.vibe-aurora .gender-btn.active-p { background: rgba(94,234,212,0.18); color: #5EEAD4; border-color: rgba(94,234,212,0.45); }
+.vibe-aurora .starfield circle[fill="#FCD34D"] { fill: #5EEAD4; }
+.vibe-aurora .starfield circle[fill="#F472B6"] { fill: #818CF8; }
 
-/* FILTER SHOOTING STAR */
-.filter-star {
-  position: fixed;
+/* ---------- CARD FORM: SOLID TINTED ---------- */
+.card-solid .talent-card {
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  border: none;
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  position: relative;
+}
+.card-solid .talent-card::before {
+  content: ""; position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(96,217,250,0.04) 60%, transparent);
   pointer-events: none;
-  z-index: 200;
-  opacity: 0;
 }
-@keyframes filterShoot {
-  0% { transform: translate(0, 0); opacity: 0; }
-  10% { opacity: 1; }
-  80% { opacity: 0.8; }
-  100% { transform: translate(-280px, 140px); opacity: 0; }
+.card-solid .talent-card:nth-child(3n)::before { background: linear-gradient(135deg, rgba(167,139,250,0.10), rgba(94,234,212,0.04) 60%, transparent); }
+.card-solid .talent-card:nth-child(3n+1)::before { background: linear-gradient(135deg, rgba(252,211,77,0.08), rgba(244,114,182,0.04) 60%, transparent); }
+.card-solid .talent-card > * { position: relative; z-index: 1; }
+
+/* ---------- CARD FORM: HAIRLINE OUTLINE ---------- */
+.card-outline .talent-list { gap: 0; padding: 0 16px 40px; }
+.card-outline .talent-card {
+  background: transparent;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  border: none;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 0;
+  min-height: 92px;
+  padding: 4px 0;
+}
+.card-outline .talent-card:last-child { border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+.card-outline .card-avatar { width: 78px; font-size: 34px; background: transparent !important; border: 0.5px solid rgba(255,255,255,0.18); border-radius: 50%; height: 56px; width: 56px; margin: 18px 0 0 12px; flex-shrink: 0; }
+.card-outline .card-info { padding: 14px 14px 14px 12px; }
+.card-outline .btn-pesan:not(.off) {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  box-shadow: none;
 }
 
+/* ---------- TYPE VOICE: DISPLAY POP ---------- */
+.type-display .card-name,
+.type-display .section-title,
+.type-display .logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+}
+.type-display .logo-text { font-size: 17px; text-transform: lowercase; }
+.type-display .card-avatar {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: -0.04em;
+}
+.type-display .btn-pesan { font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; font-size: 10px; }
+
+/* ---------- TYPE VOICE: MONO TECH ---------- */
+.type-mono body, .type-mono .card-services, .type-mono .card-bio {
+  font-family: 'JetBrains Mono', monospace;
+}
+.type-mono .card-name,
+.type-mono .section-title,
+.type-mono .logo-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+.type-mono .logo-text { font-size: 14px; }
+.type-mono .card-avatar {
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 30px;
+}
+.type-mono .card-name { font-size: 14px; }
+.type-mono .card-services { font-size: 9.5px; letter-spacing: -0.02em; }
+.type-mono .card-bio { font-style: normal; font-size: 9.5px; letter-spacing: -0.02em; }
+.type-mono .btn-pesan { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; letter-spacing: -0.02em; }
+.type-mono .gender-btn { font-family: 'JetBrains Mono', monospace; }
+.type-mono .gender-badge { font-family: 'JetBrains Mono', monospace; }
+
+/* ============================================================
+   TWEAKS PANEL UI
+   ============================================================ */
+#tweaks-panel {
+  position: fixed;
+  bottom: 16px; right: 16px;
+  z-index: 9999;
+  width: 264px;
+  background: rgba(14,12,28,0.92);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(255,255,255,0.14);
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+  display: none;
+  user-select: none;
+}
+#tweaks-panel.open { display: block; }
+.tw-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.tw-title { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+.tw-close {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: none;
+  color: #fff; font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: inherit;
+}
+.tw-close:hover { background: rgba(255,255,255,0.16); }
+.tw-section { margin-bottom: 10px; }
+.tw-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 6px; letter-spacing: 0.06em; text-transform: uppercase; }
+.tw-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  padding: 3px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  border: 0.5px solid rgba(255,255,255,0.06);
+}
+.tw-opt {
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 7px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-align: center;
+}
+.tw-opt:hover { color: rgba(255,255,255,0.8); }
+.tw-opt.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.08), 0 4px 10px rgba(0,0,0,0.3);
+}
+.tw-swatch {
+  display: block;
+  width: 100%; height: 18px;
+  border-radius: 5px;
+  margin-bottom: 4px;
+}
+.tw-opt[data-vibe="cosmic"] .tw-swatch { background: linear-gradient(135deg,#0D0A25 0%,#FF6B9D 100%); }
+.tw-opt[data-vibe="sunset"] .tw-swatch { background: linear-gradient(135deg,#2A0F1A 0%,#FF5C8A 60%,#FFB17A 100%); }
+.tw-opt[data-vibe="aurora"] .tw-swatch { background: linear-gradient(135deg,#042820 0%,#5EEAD4 60%,#818CF8 100%); }
+
+#tweaks-fab {
+  position: fixed;
+  bottom: 16px; right: 16px;
+  z-index: 9998;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(14,12,28,0.92);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(255,255,255,0.18);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  display: none;
+  align-items: center; justify-content: center;
+}
+#tweaks-fab.open { display: flex; }
 </style>
 </head>
 <body>
@@ -347,14 +563,41 @@ html, body {
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
-      <svg width="34" height="34" viewBox="0 0 60 60" fill="none" style="animation:hexGlow 3s ease-in-out infinite;">
+      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" style="animation: logoGlow 4s ease-in-out infinite;">
         <defs>
-          <linearGradient id="h5bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3D2800"/><stop offset="100%" stop-color="#1A1000"/></linearGradient>
-          <linearGradient id="h5s" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FCD34D"/><stop offset="100%" stop-color="#F59E0B"/></linearGradient>
+          <linearGradient id="lgBg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2A1F05"/>
+            <stop offset="100%" stop-color="#3D2A00"/>
+          </linearGradient>
+          <linearGradient id="lgMoon" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FFF1B8"/>
+            <stop offset="55%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#F59E0B"/>
+          </linearGradient>
+          <radialGradient id="lgInnerGlow" cx="0.35" cy="0.35" r="0.7">
+            <stop offset="0%" stop-color="rgba(255,220,140,0.35)"/>
+            <stop offset="100%" stop-color="rgba(255,220,140,0)"/>
+          </radialGradient>
+          <mask id="lgMoonMask">
+            <rect width="40" height="40" fill="black"/>
+            <circle cx="19" cy="20" r="9" fill="white"/>
+            <circle cx="23.5" cy="17" r="8.2" fill="black"/>
+          </mask>
         </defs>
-        <polygon points="30,3 54,16 54,44 30,57 6,44 6,16" fill="url(#h5bg)" stroke="url(#h5s)" stroke-width="1.5"/>
-        <path d="M37 23 Q37 18 30 18 Q23 18 23 24 Q23 30 30 30 Q37 30 37 36 Q37 42 30 42 Q23 42 23 37" fill="none" stroke="url(#h5s)" stroke-width="3" stroke-linecap="round"/>
-        <line x1="6" y1="16" x2="54" y2="16" stroke="rgba(252,211,77,0.15)" stroke-width="0.5"/>
+        <!-- squircle plate -->
+        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgBg)" stroke="rgba(252,211,77,0.25)" stroke-width="0.6"/>
+        <!-- soft inner light -->
+        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgInnerGlow)"/>
+        <!-- crescent moon -->
+        <rect width="40" height="40" fill="url(#lgMoon)" mask="url(#lgMoonMask)"/>
+        <!-- four-point sparkle -->
+        <g transform="translate(28.5 11.5)" style="animation: twinkleSpark 2.6s ease-in-out infinite; transform-origin: 28.5px 11.5px;">
+          <path d="M0,-3.2 L0.8,-0.8 L3.2,0 L0.8,0.8 L0,3.2 L-0.8,0.8 L-3.2,0 L-0.8,-0.8 Z" fill="#FFF4C8"/>
+        </g>
+        <!-- tiny stardust -->
+        <circle cx="11.5" cy="12.5" r="0.8" fill="rgba(255,240,180,0.9)" style="animation: twinkleSpark 3.4s ease-in-out infinite 0.6s;"/>
+        <circle cx="13.5" cy="28" r="0.55" fill="rgba(255,240,180,0.6)" style="animation: twinkleSpark 4s ease-in-out infinite 1.2s;"/>
+        <circle cx="30" cy="27" r="0.5" fill="rgba(255,240,180,0.5)" style="animation: twinkleSpark 3s ease-in-out infinite 0.3s;"/>
       </svg>
       <span class="logo-text">SleepcallPay</span>
     </div>
@@ -369,7 +612,7 @@ html, body {
 
     <!-- TALENT SECTION -->
     <div class="section-header">
-      <span class="section-title">Talent Tersedia</span>
+      <span class="section-title" style="font-family: Inter; font-weight: 800; color: rgb(255, 255, 255)">Talent Tersedia</span>
       <div class="gender-filter">
         <button class="gender-btn active-all" onclick="filterGender('all', this)">Semua</button>
         <button class="gender-btn inactive" onclick="filterGender('w', this)">♀</button>
@@ -433,7 +676,7 @@ html, body {
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual · Mabar ML</div>
             <div class="card-bio">Hai kak! Aku Nadira, aku orangnya asik, seru, dan bisa jadi teman ngobrol yang nyenengin! Mau cerita apapun aman sama aku, aku ga akan judge. Aku available hampir tiap malam dan suka dengerin musik lo-fi bareng sambil ngobrol santai. Yuk temenin malammu bareng aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " style="font-family: sans-serif">Order Sekarang</button>
             </div>
           </div>
         </div>
@@ -605,6 +848,128 @@ html, body {
 </div>
 
 
+<!-- TWEAKS PANEL -->
+<button id="tweaks-fab" type="button" aria-label="Open tweaks">✦</button>
+<div id="tweaks-panel" role="dialog" aria-label="Tweaks">
+  <div class="tw-head">
+    <span class="tw-title">Tweaks</span>
+    <button class="tw-close" type="button" aria-label="Close">×</button>
+  </div>
+
+  <div class="tw-section" data-key="vibe">
+    <div class="tw-label">Vibe</div>
+    <div class="tw-seg">
+      <button class="tw-opt" data-vibe="cosmic" data-value="cosmic"><span class="tw-swatch"></span>Cosmic</button>
+      <button class="tw-opt" data-vibe="sunset" data-value="sunset"><span class="tw-swatch"></span>Sunset</button>
+      <button class="tw-opt" data-vibe="aurora" data-value="aurora"><span class="tw-swatch"></span>Aurora</button>
+    </div>
+  </div>
+
+  <div class="tw-section" data-key="card">
+    <div class="tw-label">Card form</div>
+    <div class="tw-seg">
+      <button class="tw-opt" data-value="glass">Glass</button>
+      <button class="tw-opt" data-value="solid">Tinted</button>
+      <button class="tw-opt" data-value="outline">Hairline</button>
+    </div>
+  </div>
+
+  <div class="tw-section" data-key="type">
+    <div class="tw-label">Type voice</div>
+    <div class="tw-seg">
+      <button class="tw-opt" data-value="serif" style="font-family:'Instrument Serif',serif;font-style:italic;font-size:13px;">Editorial</button>
+      <button class="tw-opt" data-value="display" style="font-family:'Poppins',sans-serif;font-weight:900;">POP</button>
+      <button class="tw-opt" data-value="mono" style="font-family:'JetBrains Mono',monospace;letter-spacing:-0.04em;">mono</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tweakable defaults — host rewrites this block on persist.
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "vibe": "cosmic",
+  "card": "glass",
+  "type": "display"
+}/*EDITMODE-END*/;
+
+(function(){
+  const panel = document.getElementById('tweaks-panel');
+  const fab = document.getElementById('tweaks-fab');
+  const closeBtn = panel.querySelector('.tw-close');
+  const app = document.getElementById('app');
+  const body = document.body;
+  let state = Object.assign({}, TWEAK_DEFAULTS);
+  let editModeActive = false;
+
+  function apply() {
+    // vibe applies on body so starfield + #app gradient both swap
+    body.classList.remove('vibe-cosmic','vibe-sunset','vibe-aurora');
+    body.classList.add('vibe-' + state.vibe);
+    body.classList.remove('card-glass','card-solid','card-outline');
+    body.classList.add('card-' + state.card);
+    body.classList.remove('type-serif','type-display','type-mono');
+    body.classList.add('type-' + state.type);
+
+    // reflect active state in panel
+    panel.querySelectorAll('.tw-section').forEach(sec => {
+      const key = sec.getAttribute('data-key');
+      sec.querySelectorAll('.tw-opt').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-value') === state[key]);
+      });
+    });
+  }
+
+  function persist(partial) {
+    try {
+      window.parent.postMessage({type: '__edit_mode_set_keys', edits: partial}, '*');
+    } catch(e) {}
+  }
+
+  panel.addEventListener('click', (e) => {
+    const opt = e.target.closest('.tw-opt');
+    if (!opt) return;
+    const sec = opt.closest('.tw-section');
+    const key = sec.getAttribute('data-key');
+    const val = opt.getAttribute('data-value');
+    if (state[key] === val) return;
+    state[key] = val;
+    apply();
+    persist({[key]: val});
+  });
+
+  function openPanel() {
+    panel.classList.add('open');
+    fab.classList.remove('open');
+  }
+  function closePanel() {
+    panel.classList.remove('open');
+    fab.classList.add('open');
+    try { window.parent.postMessage({type: '__edit_mode_dismissed'}, '*'); } catch(e){}
+  }
+
+  closeBtn.addEventListener('click', closePanel);
+  fab.addEventListener('click', openPanel);
+
+  // Edit-mode protocol
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') {
+      editModeActive = true;
+      openPanel();
+    } else if (d.type === '__deactivate_edit_mode') {
+      editModeActive = false;
+      panel.classList.remove('open');
+      fab.classList.remove('open');
+    }
+  });
+
+  apply();
+
+  // Announce availability AFTER listener is registered
+  try { window.parent.postMessage({type: '__edit_mode_available'}, '*'); } catch(e){}
+})();
+</script>
+
 <script>
 document.querySelectorAll('.talent-card').forEach(card => {
   card.addEventListener('click', function() {
@@ -676,20 +1041,8 @@ function sortAndRender(filterGenderVal) {
 }
 
 // Filter gender button
-
-function shootFilterStar(color) {
-  const star = color === 'w' ? document.getElementById('filterStarPink') : document.getElementById('filterStarBlue');
-  if (!star) return;
-  star.style.animation = 'none';
-  star.style.opacity = '0';
-  void star.offsetWidth;
-  star.style.animation = 'filterShoot 1.2s ease-out forwards';
-}
-
 function filterGender(gender, btn) {
   document.querySelectorAll('.gender-btn').forEach(b => b.className = 'gender-btn inactive');
-  if (gender === 'w') shootFilterStar('w');
-  else if (gender === 'p') shootFilterStar('p');
   if (gender === 'all') btn.className = 'gender-btn active-all';
   else if (gender === 'w') btn.className = 'gender-btn active-w';
   else btn.className = 'gender-btn active-p';
@@ -698,28 +1051,5 @@ function filterGender(gender, btn) {
 
 window.addEventListener('load', () => sortAndRender('all'));
 </script>
-
-<!-- FILTER SHOOTING STARS -->
-<svg id="filterStarPink" class="filter-star" width="200" height="100" viewBox="0 0 200 100" style="top:20%;right:0;">
-  <defs>
-    <linearGradient id="fspg" x1="1" y1="0" x2="0" y2="0">
-      <stop offset="0%" stop-color="transparent"/>
-      <stop offset="100%" stop-color="#F472B6"/>
-    </linearGradient>
-  </defs>
-  <line x1="180" y1="10" x2="20" y2="80" stroke="url(#fspg)" stroke-width="1.5"/>
-  <circle cx="20" cy="80" r="2.5" fill="#F472B6" opacity="0.9"/>
-</svg>
-<svg id="filterStarBlue" class="filter-star" width="200" height="100" viewBox="0 0 200 100" style="top:15%;right:0;">
-  <defs>
-    <linearGradient id="fsbg" x1="1" y1="0" x2="0" y2="0">
-      <stop offset="0%" stop-color="transparent"/>
-      <stop offset="100%" stop-color="#60D9FA"/>
-    </linearGradient>
-  </defs>
-  <line x1="180" y1="10" x2="20" y2="80" stroke="url(#fsbg)" stroke-width="1.5"/>
-  <circle cx="20" cy="80" r="2.5" fill="#60D9FA" opacity="0.9"/>
-</svg>
-
 </body>
 </html>
