@@ -147,7 +147,75 @@ body {
   font-family: 'Instrument Serif', serif;
   font-style: italic; font-size: 38px;
   color: rgba(255,255,255,0.9);
+  position: relative;
+  cursor: pointer;
 }
+.av-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.0);
+  transition: background 0.2s;
+}
+.card-avatar:hover .av-overlay { background: rgba(0,0,0,0.28); }
+.av-play {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity 0.18s, transform 0.18s;
+  pointer-events: none;
+}
+.card-avatar:hover .av-play { opacity: 1; transform: scale(1); }
+.av-play svg { width: 12px; height: 12px; fill: #fff; margin-left: 1.5px; }
+.av-duration {
+  position: absolute;
+  left: 8px; bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 9.5px; font-weight: 700;
+  color: #fff;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 2px 6px 2px 3px;
+  border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 3px;
+  letter-spacing: -0.01em;
+}
+.av-duration::before {
+  content: "";
+  width: 11px; height: 11px;
+  background: #FCD34D;
+  border-radius: 50%;
+  display: inline-block;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><polygon points='3,2 10,6 3,10' fill='black'/></svg>") center/8px no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><polygon points='3,2 10,6 3,10' fill='black'/></svg>") center/8px no-repeat;
+}
+.card-avatar.playing .av-overlay { background: rgba(0,0,0,0.45); }
+.card-avatar.playing .av-play { opacity: 1; transform: scale(1); background: rgba(252,211,77,0.95); border-color: #FCD34D; }
+.card-avatar.playing .av-play svg { fill: #1a1000; }
+.card-avatar.playing .av-duration::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/8px no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/8px no-repeat;
+}
+@keyframes avRing {
+  0%   { transform: scale(0.8); opacity: 0.7; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.av-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid rgba(252,211,77,0.6);
+  pointer-events: none;
+  opacity: 0;
+}
+.card-avatar.playing .av-ring { animation: avRing 1.6s ease-out infinite; opacity: 1; }
+.card-avatar.playing .av-ring.r2 { animation-delay: 0.55s; }
+.card-avatar.playing .av-ring.r3 { animation-delay: 1.1s; }
 .card-info { flex: 1; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
 .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
 .card-name { font-size: 15px; font-weight: 800; color: #fff; }
@@ -1140,6 +1208,148 @@ window.addEventListener('load', () => sortAndRender('all'));
   if (e) e.textContent = emoji;
   if (h) h.innerHTML = headline;
   if (s) s.textContent = sub;
+})();
+
+// AVATAR AUDIO SAMPLES
+// Click avatar → plays a synthesized voice-sample placeholder.
+// Each talent gets a unique calming melody seeded from their name.
+(function(){
+  let audioCtx = null;
+  let activeCard = null;
+  let activeStop = null;
+  let activeTimer = null;
+
+  function strHash(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+    return Math.abs(h);
+  }
+  function fmt(sec) { return '0:' + String(Math.max(0, Math.ceil(sec))).padStart(2, '0'); }
+
+  function ensureCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  // Synthesize a soft pad + melodic sequence (placeholder for a real voice sample)
+  function playSample(seed, durationSec) {
+    const ctx = ensureCtx();
+    const out = ctx.createGain();
+    out.gain.value = 0;
+    out.connect(ctx.destination);
+
+    // soft fade in/out envelope
+    const t0 = ctx.currentTime;
+    out.gain.linearRampToValueAtTime(0.18, t0 + 0.4);
+    out.gain.setValueAtTime(0.18, t0 + durationSec - 0.6);
+    out.gain.linearRampToValueAtTime(0, t0 + durationSec);
+
+    // Pentatonic-ish notes for calm feel
+    const scale = [220.00, 246.94, 277.18, 329.63, 369.99, 440.00, 493.88, 554.37];
+    const baseIdx = seed % scale.length;
+    const noteCount = 7;
+    const notes = [];
+    let idx = baseIdx;
+    for (let i = 0; i < noteCount; i++) {
+      idx = (idx + ((seed >> (i * 2)) & 3) - 1 + scale.length) % scale.length;
+      notes.push(scale[idx]);
+    }
+
+    // Drone pad
+    const pad = ctx.createOscillator();
+    pad.type = 'sine';
+    pad.frequency.value = scale[baseIdx] / 2;
+    const padGain = ctx.createGain();
+    padGain.gain.value = 0.25;
+    pad.connect(padGain).connect(out);
+    pad.start(t0);
+    pad.stop(t0 + durationSec);
+
+    // Melody
+    const stepDur = (durationSec - 0.5) / noteCount;
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = (seed % 2) ? 'triangle' : 'sine';
+      osc.frequency.value = freq;
+      const g = ctx.createGain();
+      const start = t0 + 0.2 + i * stepDur;
+      const peak = start + 0.05;
+      const end = start + stepDur * 0.9;
+      g.gain.setValueAtTime(0, start);
+      g.gain.linearRampToValueAtTime(0.5, peak);
+      g.gain.exponentialRampToValueAtTime(0.001, end);
+      osc.connect(g).connect(out);
+      osc.start(start);
+      osc.stop(end + 0.05);
+    });
+
+    return function stop() {
+      try { out.gain.cancelScheduledValues(ctx.currentTime); } catch(e){}
+      try { out.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.15); } catch(e){}
+    };
+  }
+
+  function stopActive() {
+    if (activeStop) { try { activeStop(); } catch(e){} activeStop = null; }
+    if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
+    if (activeCard) {
+      activeCard.classList.remove('playing');
+      const dur = activeCard.querySelector('.av-duration-text');
+      if (dur) dur.textContent = activeCard.dataset.duration || '0:14';
+      activeCard = null;
+    }
+  }
+
+  function setupAvatar(av) {
+    if (av.dataset.audioReady) return;
+    av.dataset.audioReady = '1';
+    // duration based on hash → 8–18 sec
+    const card = av.closest('.talent-card');
+    const name = (card && card.querySelector('.card-name')?.textContent.trim()) || av.textContent.trim() || 'x';
+    const seed = strHash(name);
+    const duration = 8 + (seed % 11); // 8..18 sec
+    av.dataset.seed = seed;
+    av.dataset.durSec = duration;
+    av.dataset.duration = fmt(duration);
+
+    // Build overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'av-overlay';
+    overlay.innerHTML =
+      '<span class="av-ring r1"></span>' +
+      '<span class="av-ring r2"></span>' +
+      '<span class="av-ring r3"></span>' +
+      '<span class="av-play"><svg viewBox="0 0 12 12"><polygon points="3,2 10,6 3,10"/></svg></span>';
+    av.appendChild(overlay);
+
+    const dur = document.createElement('span');
+    dur.className = 'av-duration';
+    dur.innerHTML = '<span class="av-duration-text">' + fmt(duration) + '</span>';
+    av.appendChild(dur);
+
+    av.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (activeCard === av) {
+        stopActive();
+        return;
+      }
+      stopActive();
+      activeCard = av;
+      av.classList.add('playing');
+      const durSec = +av.dataset.durSec;
+      activeStop = playSample(+av.dataset.seed, durSec);
+      const startedAt = Date.now();
+      const durText = av.querySelector('.av-duration-text');
+      activeTimer = setInterval(() => {
+        const remaining = durSec - (Date.now() - startedAt) / 1000;
+        if (remaining <= 0) { stopActive(); return; }
+        if (durText) durText.textContent = fmt(remaining);
+      }, 200);
+    });
+  }
+
+  document.querySelectorAll('.card-avatar').forEach(setupAvatar);
 })();
 </script>
 </body>
