@@ -911,6 +911,263 @@ body.modal-open { overflow: hidden; touch-action: none; }
 }
 .btn-next:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
 
+
+/* =============================================
+   MODAL ORDER — referensi Pesan Layanan
+   ============================================= */
+.order-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65); z-index: 700;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.order-overlay.open { display: block; }
+
+.order-modal {
+  display: none; position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px); max-width: 420px;
+  max-height: 90vh; overflow-y: auto;
+  z-index: 800;
+  background: #13132A;
+  border-radius: 24px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  padding: 24px 22px 28px;
+  overscroll-behavior: contain;
+}
+.order-modal.open {
+  display: block;
+  animation: omFadeIn 0.25s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes omFadeIn {
+  from { transform: translate(-50%, -46%); opacity: 0; }
+  to   { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+/* Top row: judul + X */
+.order-top-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.order-modal-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 22px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(252,211,77,0.2));
+}
+.order-close-btn {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+}
+.order-close-btn:active { background: rgba(255,255,255,0.12); }
+
+/* Card talent */
+.order-talent-card {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 12px 14px;
+  margin-bottom: 22px;
+}
+.order-talent-avatar {
+  width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; color: #fff;
+}
+.order-talent-name { font-size: 15px; font-weight: 800; color: #fff; }
+.order-talent-sub { font-size: 11.5px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+
+/* Steps */
+.order-step { display: none; }
+.order-step.show { display: block; }
+
+/* Section label */
+.om-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  margin-bottom: 8px;
+}
+.om-sublabel {
+  font-size: 12px; color: rgba(255,255,255,0.35);
+  margin-bottom: 14px; line-height: 1.4;
+}
+
+/* Input + Gunakan */
+.om-voucher-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.voucher-code-input {
+  flex: 1; height: 50px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600; color: #fff;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  outline: none; transition: border-color 0.2s;
+}
+.voucher-code-input:focus { border-color: rgba(252,211,77,0.4); }
+.voucher-code-input::placeholder {
+  text-transform: none; letter-spacing: 0; font-weight: 400;
+  color: rgba(255,255,255,0.2);
+}
+.om-btn-gunakan {
+  height: 50px; padding: 0 18px; border-radius: 14px; flex-shrink: 0;
+  background: transparent;
+  border: 1.5px solid rgba(252,211,77,0.5);
+  color: #FCD34D; font-family: inherit; font-size: 13px; font-weight: 800;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.om-btn-gunakan:active { background: rgba(252,211,77,0.1); }
+
+/* Tombol Pesan Sekarang */
+.om-btn-pesan {
+  width: 100%; height: 50px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
+  color: #1a1000; font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 17px; font-weight: 400;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 8px; transition: opacity 0.15s, transform 0.15s;
+  box-shadow: 0 4px 20px rgba(252,211,77,0.2);
+  letter-spacing: 0.01em;
+}
+.om-btn-pesan:disabled {
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.25);
+  box-shadow: none; cursor: not-allowed;
+}
+.om-btn-pesan:not(:disabled):active { transform: scale(0.97); opacity: 0.9; }
+
+.om-lock-note {
+  text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);
+  margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.om-beli-link {
+  text-align: center; font-size: 12.5px; color: rgba(255,255,255,0.3);
+  margin-top: 16px;
+}
+.om-beli-link a {
+  color: #FCD34D; font-weight: 700; text-decoration: underline; cursor: pointer;
+}
+
+/* Layanan list */
+.om-layanan-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.om-layanan-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-radius: 16px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03); transition: all 0.15s;
+}
+.om-layanan-item:active { transform: scale(0.98); }
+.om-layanan-item.selected {
+  border-color: rgba(252,211,77,0.4);
+  background: rgba(252,211,77,0.06);
+}
+.om-layanan-left { display: flex; align-items: center; gap: 12px; }
+.om-layanan-emoji { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+.om-layanan-name { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.85); }
+.om-layanan-item.selected .om-layanan-name { color: #fff; }
+.om-layanan-right { display: flex; align-items: center; gap: 10px; }
+.om-layanan-dur {
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08); border-radius: 20px;
+  padding: 4px 10px;
+}
+.om-layanan-item.selected .om-layanan-dur {
+  background: rgba(252,211,77,0.15); color: #FCD34D;
+}
+.om-layanan-check {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.om-layanan-item.selected .om-layanan-check {
+  background: #FCD34D; border-color: #FCD34D;
+  box-shadow: 0 0 8px rgba(252,211,77,0.4);
+}
+.om-layanan-check-icon {
+  display: none; font-size: 12px; color: #1a1000; font-weight: 900;
+}
+.om-layanan-item.selected .om-layanan-check-icon { display: block; }
+
+/* Voucher Berhasil card */
+.om-voucher-success-card {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 18px; overflow: hidden; margin-bottom: 4px;
+}
+.om-vs-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: rgba(52,211,153,0.08);
+  border-bottom: 0.5px solid rgba(52,211,153,0.12);
+}
+.om-vs-check {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: #34D399; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900;
+}
+.om-vs-title { font-size: 14px; font-weight: 800; color: #34D399; }
+.om-vs-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.om-vs-body { padding: 0 16px; }
+.om-vs-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 0;
+}
+.om-vs-icon {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.om-vs-label { flex: 1; font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; }
+.om-vs-val { font-size: 14px; font-weight: 800; color: #FCD34D; }
+.om-vs-val-white { font-size: 14px; font-weight: 800; color: #fff; }
+.om-vs-divider { height: 0.5px; background: rgba(255,255,255,0.06); }
+
+/* Nav layanan & konfirmasi */
+.om-nav { display: flex; gap: 8px; margin-top: 18px; }
+.om-btn-back {
+  height: 48px; padding: 0 18px; border-radius: 14px; border: none;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5);
+  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.om-btn-next {
+  flex: 1; height: 48px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
+  color: #1a1000; font-family: inherit; font-size: 14px; font-weight: 900;
+  cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+}
+.om-btn-next:disabled {
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2); cursor: not-allowed;
+}
+.om-btn-next:not(:disabled):active { transform: scale(0.97); }
+
+/* Konfirmasi */
+.om-confirm-list { display: flex; flex-direction: column; }
+.om-confirm-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); font-size: 13px;
+}
+.om-confirm-row:last-child { border-bottom: none; }
+.om-confirm-label { color: rgba(255,255,255,0.35); font-weight: 500; }
+.om-confirm-val { color: #fff; font-weight: 700; }
+.om-confirm-val.pink { color: #FCD34D; }
+
+/* Sukses */
+.om-success { text-align: center; padding: 12px 0 8px; }
+.om-success-icon { font-size: 48px; margin-bottom: 14px; }
+.om-success-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.om-success-sub { font-size: 12.5px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+.om-success-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px; padding: 8px 18px; border-radius: 20px;
+  background: rgba(52,211,153,0.08); border: 0.5px solid rgba(52,211,153,0.2);
+  font-size: 11px; font-weight: 700; color: #34D399;
+}
+
 </style>
 </head>
 <body>
@@ -1076,7 +1333,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual</div>
             <div class="card-bio">Haii! Aku Vania, suka dengerin cerita kamu sambil menemanimu tidur. Suaraku lembut dan aku sangat sabar. Udah lebih dari 1000 sesi dan selalu dapat rating bintang 5! Jangan ragu buat chat aku dulu ya, aku fast respon kok dan selalu available malam hari.</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1106,7 +1363,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Teman Call · Pacar Virtual</div>
             <div class="card-bio">Halo! Aku Mirelle, lulusan psikologi yang bisa jadi teman curhat kamu. Bisa bahasa Indonesia dan Inggris. Aku bakal dengerin semua cerita kamu tanpa menghakimi, bantu kamu ngerasa lebih tenang dan didengar. Udah banyak pelanggan setia yang selalu balik ke aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1136,7 +1393,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual · Mabar ML</div>
             <div class="card-bio">Hai kak! Aku Nadira, aku orangnya asik, seru, dan bisa jadi teman ngobrol yang nyenengin! Mau cerita apapun aman sama aku, aku ga akan judge. Aku available hampir tiap malam dan suka dengerin musik lo-fi bareng sambil ngobrol santai. Yuk temenin malammu bareng aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan " style="font-family: sans-serif">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1196,7 +1453,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Teman Call · Sleep Call · Mabar</div>
             <div class="card-bio">Hai kak! Aku Kiraa, pecinta lo-fi dan talkative banget. Dijamin ga bakal sepi ngobrol sama aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1226,7 +1483,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Pacar Virtual · Sleep Call · Curhat</div>
             <div class="card-bio">Halo! Aku Luna, bisa jadi pacar virtual yang perhatian. Selalu ada buat kamu setiap malam.</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1286,7 +1543,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Sleep · Teman · Curhat · Pacar Virtual · Mabar</div>
             <div class="card-bio">Haii semuaa! Aku Bella, bisa semua layanan! Sleep call, curhat, mabar, semua bisa bareng aku.</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1316,7 +1573,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Teman Call · Mabar ML · Sleep Call</div>
             <div class="card-bio">Halo! Aku Rizky, bro yang asik buat temenin mabar atau ngobrol santai. GG dan fast respon!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1346,7 +1603,7 @@ body.modal-open { overflow: hidden; touch-action: none; }
             <div class="card-services">Mabar ML · Teman Call · Curhat</div>
             <div class="card-bio">Hai! Aku Daffa, suka mabar ML dan ngobrol seru. Yuk temenin malam kamu bareng aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1769,7 +2026,7 @@ window.addEventListener('load', () => sortAndRender('all'));
 (function(){
   const tagMap = {
     Vania:   ['top'],
-    Mirelle: ['top','verified'],
+    Mirelle: ['top'],
     Nadira:  ['baru'],
     Sasha:   [],
     Kiraa:   ['baru'],
@@ -1783,8 +2040,7 @@ window.addEventListener('load', () => sortAndRender('all'));
   const labels = {
     top:      { text: 'Top Talent', icon: '<svg viewBox="0 0 10 10"><polygon points="5,1 6.2,3.8 9,4 6.7,5.9 7.4,8.7 5,7.2 2.6,8.7 3.3,5.9 1,4 3.8,3.8" fill="currentColor"/></svg>' },
     baru:     { text: 'Baru',       icon: '<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="2.4" fill="currentColor"/></svg>' },
-    repeat:   { text: 'Repeat',     icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5a3 3 0 0 1 5.5-1.7"/><polyline points="7.5,1.6 7.5,3.6 5.5,3.6"/><path d="M8 5a3 3 0 0 1-5.5 1.7"/><polyline points="2.5,8.4 2.5,6.4 4.5,6.4"/></svg>' },
-    verified: { text: 'Verified',   icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.2,5 4,7 7.8,3"/></svg>' }
+    repeat:   { text: 'Repeat',     icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5a3 3 0 0 1 5.5-1.7"/><polyline points="7.5,1.6 7.5,3.6 5.5,3.6"/><path d="M8 5a3 3 0 0 1-5.5 1.7"/><polyline points="2.5,8.4 2.5,6.4 4.5,6.4"/></svg>' }
   };
   document.querySelectorAll('.talent-card').forEach(card => {
     const name = card.querySelector('.card-name')?.textContent.trim();
@@ -1897,7 +2153,7 @@ const PRICELIST = {
   pv:     { label: '❤️ Pacar Virtual',durations: {10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt'} },
 };
 const ADMIN_FEE = 3000;
-const ADMIN_WA = '6281234567890';
+const ADMIN_WA = '6281234269016';
 
 let vNominal = 0, vWA = '', vLayanan = null;
 
@@ -1992,5 +2248,262 @@ function buyViaWeb() {
   alert('Fitur beli via website segera hadir!');
 }
 </script>
+
+<!-- MODAL ORDER VOUCHER -->
+<div class="order-overlay" id="orderOverlay"></div>
+<div class="order-modal" id="orderModal">
+
+  <!-- Top row -->
+  <div class="order-top-row">
+    <span class="order-modal-title">Pesan Layanan</span>
+    <button class="order-close-btn" onclick="closeOrderModal()">×</button>
+  </div>
+
+  <!-- Card talent -->
+  <div class="order-talent-card">
+    <div class="order-talent-avatar" id="orderAvatar">?</div>
+    <div>
+      <div class="order-talent-name" id="orderTalentName">—</div>
+      <div class="order-talent-sub" id="orderTalentSub">—</div>
+    </div>
+  </div>
+
+  <!-- Step 1: Input Voucher -->
+  <div class="order-step show" id="orderStep1">
+    <div class="om-label">Masukkan Kode Voucher</div>
+    <div class="om-sublabel">Masukkan kode voucher yang kamu beli dari admin.</div>
+    <div class="om-voucher-row">
+      <input class="voucher-code-input" id="voucherCodeInput" type="text" placeholder="KODE VOUCHER" oninput="onVoucherInput(this)" autocomplete="off"/>
+      <button class="om-btn-gunakan" onclick="gunakanVoucher()">Gunakan</button>
+    </div>
+    <button class="om-btn-pesan" id="orderBtnPesan" onclick="orderGoStep(2)" disabled>
+      ✦ Pesan Sekarang
+    </button>
+    <div class="om-lock-note" id="omLockNote">🔒 Masukkan kode voucher untuk melanjutkan</div>
+    <div class="om-beli-link">Belum punya voucher? <a onclick="closeOrderModal(); openVoucher();">Beli di sini</a></div>
+  </div>
+
+  <!-- Step 2: Pilih Layanan -->
+  <div class="order-step" id="orderStep2">
+    <!-- Card Voucher Berhasil -->
+    <div class="om-voucher-success-card">
+      <div class="om-vs-header">
+        <div class="om-vs-check">✓</div>
+        <div>
+          <div class="om-vs-title">Voucher Berhasil!</div>
+          <div class="om-vs-sub">Berikut detail voucher kamu.</div>
+        </div>
+      </div>
+      <div class="om-vs-body">
+        <div class="om-vs-row">
+          <div class="om-vs-icon">🎟️</div>
+          <span class="om-vs-label">Saldo Voucher</span>
+          <span class="om-vs-val" id="omVsNominal">—</span>
+        </div>
+        <div class="om-vs-divider"></div>
+        <div class="om-vs-row">
+          <div class="om-vs-icon">📱</div>
+          <span class="om-vs-label">Nomor WhatsApp</span>
+          <span class="om-vs-val-white" id="omVsWa">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="om-label" style="margin-top:18px;">Pilih Layanan</div>
+    <div class="om-layanan-list" id="orderLayananGrid"></div>
+    <div class="om-nav">
+      <button class="om-btn-back" onclick="orderGoStep(1)">←</button>
+      <button class="om-btn-next" id="orderBtn2" onclick="orderGoStep(3)" disabled>Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Konfirmasi -->
+  <div class="order-step" id="orderStep3">
+    <div class="om-label">Konfirmasi Order</div>
+    <div class="om-confirm-list" id="orderConfirmCard"></div>
+    <div class="om-nav">
+      <button class="om-btn-back" onclick="orderGoStep(2)">←</button>
+      <button class="om-btn-next" onclick="submitOrder()">Kirim Order</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Sukses -->
+  <div class="order-step" id="orderStep4">
+    <div class="om-success">
+      <div class="om-success-icon">✅</div>
+      <div class="om-success-title">Order Terkirim!</div>
+      <div class="om-success-sub">Notifikasi sudah dikirim ke <strong id="notifTalentName">talent</strong>.<br>Tunggu konfirmasi dari talent ya.</div>
+      <div class="om-success-badge">⏳ Menunggu konfirmasi talent</div>
+    </div>
+    <div class="om-nav">
+      <button class="om-btn-next" onclick="closeOrderModal()">Tutup</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// =============================================
+// MODAL ORDER VOUCHER
+// =============================================
+const ORDER_PRICELIST = {
+  'Teman Call':    { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Sleep Call':    { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Curhat Call':   { 10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam' },
+  'Pacar Virtual': { 10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt' },
+  'Mabar ML':      { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Mabar':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Curhat':        { 10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam' },
+  'Sleep':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Teman':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+};
+
+let orderTalent = { name: '', avatarText: '', avatarBg: '', services: [] };
+let orderVoucherCode = '';
+let orderVoucherNominal = 0;
+let orderSelectedLayanan = '';
+let orderTalentWA = '';
+
+function openOrderModal(btn) {
+  const card = btn.closest('.talent-card');
+  const name = card.querySelector('.card-name').textContent.trim();
+  const avatarEl = card.querySelector('.card-avatar');
+  const avatarBg = avatarEl.style.background || '#333';
+  const avatarText = avatarEl.textContent.trim();
+  const servicesText = card.querySelector('.card-services').textContent;
+  const ageBadge = card.querySelector('.gender-badge')?.textContent.trim() || '';
+  const services = servicesText.split('·').map(s => s.trim()).filter(Boolean);
+
+  orderTalent = { name, avatarText, avatarBg, services };
+
+  document.getElementById('orderTalentName').textContent = name;
+  document.getElementById('orderTalentSub').textContent = ageBadge + (ageBadge ? ' · ' : '') + servicesText;
+  document.getElementById('notifTalentName').textContent = name;
+  const av = document.getElementById('orderAvatar');
+  av.textContent = avatarText;
+  av.style.background = avatarBg;
+
+  document.getElementById('voucherCodeInput').value = '';
+  orderVoucherCode = '';
+  orderVoucherNominal = 0;
+  orderSelectedLayanan = '';
+  document.getElementById('orderBtnPesan').disabled = true;
+  document.getElementById('omLockNote').style.display = 'flex';
+
+  document.getElementById('orderOverlay').classList.add('open');
+  document.getElementById('orderModal').classList.add('open');
+  document.body.classList.add('modal-open');
+  orderGoStep(1);
+}
+
+function gunakanVoucher() {
+  const code = document.getElementById('voucherCodeInput').value.trim();
+  if (code.length >= 4) {
+    orderVoucherCode = code.toUpperCase();
+    orderVoucherNominal = 20000; // simulasi
+    document.getElementById('orderBtnPesan').disabled = false;
+    document.getElementById('omLockNote').style.display = 'none';
+  }
+}
+
+function closeOrderModal() {
+  document.getElementById('orderOverlay').classList.remove('open');
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+function orderGoStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('orderStep'+i).classList.toggle('show', i===n);
+  });
+  if (n===2) renderOrderLayanan();
+  if (n===3) renderOrderConfirm();
+}
+
+function onVoucherInput(input) {
+  orderVoucherCode = input.value.trim().toUpperCase();
+  const valid = orderVoucherCode.length >= 4;
+  document.getElementById('orderBtnPesan').disabled = !valid;
+  document.getElementById('omLockNote').style.display = valid ? 'none' : 'flex';
+  if (valid) {
+    orderVoucherNominal = 20000; // simulasi
+    // Ambil nomor WA dari input halaman beli voucher jika ada
+    orderTalentWA = document.getElementById('waInput')?.value?.trim() || '—';
+  }
+}
+
+function gunakanVoucher() {
+  const code = document.getElementById('voucherCodeInput').value.trim();
+  if (code.length >= 4) {
+    orderVoucherCode = code.toUpperCase();
+    orderVoucherNominal = 20000;
+    orderTalentWA = document.getElementById('waInput')?.value?.trim() || '—';
+    document.getElementById('orderBtnPesan').disabled = false;
+    document.getElementById('omLockNote').style.display = 'none';
+  }
+}
+
+const LAYANAN_EMOJI = {
+  'Teman Call': '📞', 'Sleep Call': '🌙', 'Curhat Call': '🫂',
+  'Pacar Virtual': '💕', 'Mabar ML': '🎮', 'Mabar': '🎮',
+  'Curhat': '🫂', 'Sleep': '🌙', 'Teman': '📞',
+};
+
+function renderOrderLayanan() {
+  const grid = document.getElementById('orderLayananGrid');
+  orderSelectedLayanan = '';
+  document.getElementById('orderBtn2').disabled = true;
+
+  // Isi card voucher berhasil
+  const wa = document.getElementById('waInputOrder')?.value || document.getElementById('voucherCodeInput')?.dataset.wa || '—';
+  document.getElementById('omVsNominal').textContent = 'Rp ' + orderVoucherNominal.toLocaleString('id');
+  document.getElementById('omVsWa').textContent = orderTalentWA || '—';
+
+  // Hanya tampilkan layanan milik talent ini
+  const talentServices = orderTalent.services.map(s => s.toLowerCase());
+  const matchLayanan = Object.keys(ORDER_PRICELIST).filter(layanan =>
+    talentServices.some(s => s.includes(layanan.toLowerCase()) || layanan.toLowerCase().includes(s))
+  );
+
+  grid.innerHTML = matchLayanan.map(layanan => {
+    const dur = ORDER_PRICELIST[layanan][orderVoucherNominal];
+    if (!dur) return '';
+    const emoji = LAYANAN_EMOJI[layanan] || '✦';
+    return `<div class="om-layanan-item" onclick="selectOrderLayanan(this,'${layanan}')">
+      <div class="om-layanan-left">
+        <span class="om-layanan-emoji">${emoji}</span>
+        <span class="om-layanan-name">${layanan}</span>
+      </div>
+      <div class="om-layanan-right">
+        <span class="om-layanan-dur">${dur}</span>
+        <div class="om-layanan-check"><span class="om-layanan-check-icon">✓</span></div>
+      </div>
+    </div>`;
+  }).filter(Boolean).join('');
+}
+
+function selectOrderLayanan(el, layanan) {
+  document.querySelectorAll('.om-layanan-item').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  orderSelectedLayanan = layanan;
+  document.getElementById('orderBtn2').disabled = false;
+}
+
+function renderOrderConfirm() {
+  const dur = ORDER_PRICELIST[orderSelectedLayanan]?.[orderVoucherNominal] || '—';
+  document.getElementById('orderConfirmCard').innerHTML = `
+    <div class="om-confirm-row"><span class="om-confirm-label">Talent</span><span class="om-confirm-val">${orderTalent.name}</span></div>
+    <div class="om-confirm-row"><span class="om-confirm-label">Layanan</span><span class="om-confirm-val pink">${orderSelectedLayanan}</span></div>
+    <div class="om-confirm-row"><span class="om-confirm-label">Durasi</span><span class="om-confirm-val pink">${dur}</span></div>
+    <div class="om-confirm-row"><span class="om-confirm-label">Kode Voucher</span><span class="om-confirm-val">${orderVoucherCode}</span></div>
+  `;
+}
+
+function submitOrder() {
+  document.getElementById('notifTalentName').textContent = orderTalent.name;
+  orderGoStep(4);
+}
+</script>
+
 </body>
 </html>
