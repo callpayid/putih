@@ -1182,105 +1182,131 @@ body.modal-open { overflow: hidden; touch-action: none; }
 
 
 /* =============================================
-   DRAWER MENU
+   DRAWER MENU — premium galaxy
    ============================================= */
 .drawer-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.6); z-index: 900;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.7); z-index: 900;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
 }
 .drawer-overlay.open { display: block; }
 
 .drawer {
   position: fixed; top: 0; right: -100%; bottom: 0;
-  width: 78%; max-width: 290px;
-  background: linear-gradient(180deg, #09091A 0%, #0D0D22 100%);
-  border-left: 0.5px solid rgba(255,255,255,0.06);
+  width: 82%; max-width: 300px;
+  background: linear-gradient(160deg, #06060F 0%, #0A0A1E 50%, #0C0A20 100%);
+  border-left: 0.5px solid rgba(252,211,77,0.08);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.6);
   z-index: 1000; display: flex; flex-direction: column;
-  transition: right 0.3s cubic-bezier(0.22,1,0.36,1);
-  overflow-y: auto;
+  transition: right 0.35s cubic-bezier(0.22,1,0.36,1);
+  overflow: hidden;
 }
 .drawer.open { right: 0; }
 
-/* Header dengan starfield mini */
+/* Bintang dekoratif di dalam drawer */
+.drawer-stars {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.drawer-star {
+  position: absolute; border-radius: 50%;
+  background: #fff; animation: twinkle1 3s ease-in-out infinite;
+}
+
+/* Header */
 .drawer-header {
-  padding: 56px 22px 22px;
-  position: relative; overflow: hidden;
+  position: relative; z-index: 1;
+  padding: 60px 22px 24px;
   border-bottom: 0.5px solid rgba(255,255,255,0.05);
 }
+/* Glow efek di belakang logo */
 .drawer-header::before {
-  content: '✦';
-  position: absolute; top: 18px; right: 20px;
-  font-size: 10px; color: rgba(252,211,77,0.3);
-  animation: twinkleSpark 3s ease-in-out infinite;
-}
-.drawer-header::after {
-  content: '·';
-  position: absolute; top: 30px; right: 50px;
-  font-size: 16px; color: rgba(255,255,255,0.15);
-  animation: twinkleSpark 2s ease-in-out infinite 0.5s;
+  content: '';
+  position: absolute; top: 30px; left: 10px;
+  width: 120px; height: 60px;
+  background: radial-gradient(ellipse, rgba(252,211,77,0.12) 0%, transparent 70%);
+  pointer-events: none;
 }
 .drawer-logo {
   font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 24px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  font-style: italic; font-size: 26px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(252,211,77,0.2));
-  margin-bottom: 6px;
+  filter: drop-shadow(0 0 12px rgba(252,211,77,0.3));
+  display: block; margin-bottom: 6px;
 }
 .drawer-tagline {
-  font-size: 11px; color: rgba(255,255,255,0.25);
-  font-style: italic; line-height: 1.4;
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  font-style: italic; line-height: 1.5; letter-spacing: 0.01em;
 }
 
-/* Menu items */
-.drawer-menu { flex: 1; padding: 8px 0 16px; }
+/* Menu */
+.drawer-menu { flex: 1; padding: 10px 0 16px; position: relative; z-index: 1; overflow-y: auto; }
 
 .drawer-item {
   display: flex; align-items: center; gap: 14px;
-  padding: 13px 22px; cursor: pointer;
-  transition: background 0.15s; position: relative;
+  padding: 12px 20px; cursor: pointer; position: relative;
+  transition: all 0.2s;
 }
-.drawer-item:active { background: rgba(255,255,255,0.03); }
+.drawer-item::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(252,211,77,0.04) 0%, transparent 100%);
+  opacity: 0; transition: opacity 0.2s;
+}
+.drawer-item:active::after { opacity: 1; }
 .drawer-item.active-item::before {
   content: '';
   position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-  width: 3px; height: 20px; border-radius: 0 3px 3px 0;
-  background: linear-gradient(135deg,#FCD34D,#F59E0B);
+  width: 3px; height: 22px; border-radius: 0 4px 4px 0;
+  background: linear-gradient(135deg,#FFF5A0,#F59E0B);
+  box-shadow: 0 0 8px rgba(252,211,77,0.4);
 }
 
+/* Icon dengan glow efek per item */
 .drawer-item-icon {
-  width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 17px;
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.07);
-  transition: all 0.15s;
+  width: 40px; height: 40px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  position: relative;
 }
-.drawer-item:active .drawer-item-icon { background: rgba(252,211,77,0.08); border-color: rgba(252,211,77,0.15); }
+.drawer-item:nth-child(1) .drawer-item-icon { background: rgba(252,211,77,0.1); box-shadow: 0 0 16px rgba(252,211,77,0.08); }
+.drawer-item:nth-child(2) .drawer-item-icon { background: rgba(139,92,246,0.12); box-shadow: 0 0 16px rgba(139,92,246,0.08); }
+.drawer-item:nth-child(4) .drawer-item-icon { background: rgba(52,211,153,0.1); box-shadow: 0 0 16px rgba(52,211,153,0.08); }
+.drawer-item:nth-child(5) .drawer-item-icon { background: rgba(99,179,237,0.1); box-shadow: 0 0 16px rgba(99,179,237,0.08); }
+.drawer-item:nth-child(6) .drawer-item-icon { background: rgba(167,139,250,0.1); box-shadow: 0 0 16px rgba(167,139,250,0.08); }
+.drawer-item:nth-child(7) .drawer-item-icon { background: rgba(248,180,112,0.1); box-shadow: 0 0 16px rgba(248,180,112,0.08); }
 
 .drawer-item-text { flex: 1; }
-.drawer-item-label { font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,0.75); }
-.drawer-item-desc { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 1px; }
-.drawer-item-arrow { font-size: 15px; color: rgba(255,255,255,0.15); }
-
-.drawer-divider { height: 0.5px; background: rgba(255,255,255,0.05); margin: 6px 22px; }
-
-/* Danger item */
-.drawer-item.danger .drawer-item-icon {
-  background: rgba(255,80,80,0.08); border-color: rgba(255,80,80,0.12);
+.drawer-item-label {
+  font-size: 13.5px; font-weight: 700; color: rgba(255,255,255,0.82);
+  letter-spacing: 0.01em;
 }
-.drawer-item.danger .drawer-item-label { color: rgba(255,100,100,0.8); }
+.drawer-item.active-item .drawer-item-label { color: #FCD34D; }
+.drawer-item-desc { font-size: 10.5px; color: rgba(255,255,255,0.22); margin-top: 1px; }
+.drawer-item-arrow { font-size: 14px; color: rgba(255,255,255,0.12); }
+
+.drawer-divider {
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  margin: 6px 20px;
+}
+
+/* Danger */
+.drawer-item.danger .drawer-item-icon { background: rgba(255,80,80,0.1); box-shadow: 0 0 16px rgba(255,80,80,0.06); }
+.drawer-item.danger .drawer-item-label { color: rgba(255,110,110,0.85); }
 .drawer-item.danger .drawer-item-arrow { color: rgba(255,80,80,0.2); }
 
 /* Footer */
 .drawer-footer {
-  padding: 14px 22px 44px;
-  border-top: 0.5px solid rgba(255,255,255,0.05);
-  text-align: center;
+  position: relative; z-index: 1;
+  padding: 16px 22px 48px; text-align: center;
+  border-top: 0.5px solid rgba(255,255,255,0.04);
 }
-.drawer-footer-moon { font-size: 20px; margin-bottom: 6px; opacity: 0.4; }
-.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.5; }
+.drawer-footer-moon {
+  font-size: 22px; opacity: 0.35; display: block; margin-bottom: 8px;
+  animation: logoGlow 4s ease-in-out infinite;
+}
+.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.12); line-height: 1.6; }
 
 </style>
 </head>
@@ -2766,9 +2792,18 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
 <!-- DRAWER -->
 <div class="drawer" id="drawer">
+  <!-- Bintang dekoratif -->
+  <div class="drawer-stars">
+    <div class="drawer-star" style="width:1.5px;height:1.5px;top:8%;left:75%;animation-delay:0s;opacity:0.6;"></div>
+    <div class="drawer-star" style="width:1px;height:1px;top:15%;left:55%;animation-delay:0.8s;opacity:0.4;"></div>
+    <div class="drawer-star" style="width:2px;height:2px;top:22%;left:88%;animation-delay:1.5s;opacity:0.5;"></div>
+    <div class="drawer-star" style="width:1px;height:1px;top:35%;left:70%;animation-delay:0.3s;opacity:0.3;"></div>
+    <div class="drawer-star" style="width:1.5px;height:1.5px;top:5%;left:40%;animation-delay:2s;opacity:0.5;"></div>
+  </div>
+
   <div class="drawer-header">
-    <div class="drawer-logo">SleepcallPay</div>
-    <div class="drawer-tagline">Temani malammu dengan suara yang nyaman 🌙</div>
+    <span class="drawer-logo">SleepcallPay</span>
+    <div class="drawer-tagline">Temani malammu dengan<br>suara yang nyaman 🌙</div>
   </div>
 
   <div class="drawer-menu">
