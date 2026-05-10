@@ -1168,6 +1168,18 @@ body.modal-open { overflow: hidden; touch-action: none; }
   font-size: 11px; font-weight: 700; color: #34D399;
 }
 
+/* Countdown */
+.om-countdown-card {
+  background: rgba(252,211,77,0.05);
+  border: 0.5px solid rgba(252,211,77,0.15);
+  border-radius: 16px; padding: 16px; margin-top: 16px; text-align: center;
+}
+.om-countdown-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(252,211,77,0.6); margin-bottom: 8px; }
+.om-countdown-timer { font-size: 36px; font-weight: 900; color: #FCD34D; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
+.om-countdown-bar-wrap { height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+.om-countdown-bar { height: 100%; width: 100%; background: #FCD34D; border-radius: 4px; transition: width 1s linear; }
+.om-countdown-note { font-size: 10.5px; color: rgba(255,255,255,0.25); line-height: 1.5; }
+
 </style>
 </head>
 <body>
@@ -2326,17 +2338,71 @@ function buyViaWeb() {
     </div>
   </div>
 
-  <!-- Step 4: Sukses -->
+  <!-- Step 4: Menunggu Konfirmasi -->
   <div class="order-step" id="orderStep4">
-    <div class="om-success">
-      <div class="om-success-icon">✅</div>
-      <div class="om-success-title">Order Terkirim!</div>
-      <div class="om-success-sub">Notifikasi sudah dikirim ke <strong id="notifTalentName">talent</strong>.<br>Tunggu konfirmasi dari talent ya.</div>
-      <div class="om-success-badge">⏳ Menunggu konfirmasi talent</div>
+
+    <!-- State: Menunggu -->
+    <div id="omStateWaiting">
+      <div class="om-success">
+        <div class="om-success-icon">📨</div>
+        <div class="om-success-title">Order Terkirim!</div>
+        <div class="om-success-sub">Notifikasi sudah dikirim ke <strong id="notifTalentName">talent</strong>.<br>Menunggu konfirmasi...</div>
+      </div>
+      <div class="om-countdown-card">
+        <div class="om-countdown-label">Batas waktu konfirmasi</div>
+        <div class="om-countdown-timer" id="omCountdown">2:00</div>
+        <div class="om-countdown-bar-wrap"><div class="om-countdown-bar" id="omCountdownBar"></div></div>
+        <div class="om-countdown-note">Jika tidak ada konfirmasi dalam 2 menit, talent akan otomatis offline dan voucher kamu tetap bisa digunakan.</div>
+      </div>
+      <div class="om-nav" style="gap:8px;">
+        <button class="om-btn-back" onclick="simulateReject()" style="flex:1;color:#ff6b6b;border:0.5px solid rgba(255,100,100,0.2);">✕ Tolak</button>
+        <button class="om-btn-next" onclick="simulateAccept()">✓ Terima</button>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.2);text-align:center;margin-top:8px;">Tombol simulasi — hanya untuk preview</div>
     </div>
-    <div class="om-nav">
-      <button class="om-btn-next" onclick="closeOrderModal()">Tutup</button>
+
+    <!-- State: Timeout -->
+    <div id="omStateTimeout" style="display:none;">
+      <div class="om-success">
+        <div class="om-success-icon">⏰</div>
+        <div class="om-success-title">Waktu Habis</div>
+        <div class="om-success-sub"><strong id="timeoutTalentName">Talent</strong> tidak merespons dalam 2 menit dan sekarang otomatis offline.<br><br>Voucher kamu masih bisa digunakan untuk order talent lain.</div>
+      </div>
+      <div class="om-nav">
+        <button class="om-btn-next" onclick="closeOrderModal()">Cari Talent Lain</button>
+      </div>
     </div>
+
+    <!-- State: Ditolak -->
+    <div id="omStateRejected" style="display:none;">
+      <div class="om-success">
+        <div class="om-success-icon">❌</div>
+        <div class="om-success-title">Order Ditolak</div>
+        <div class="om-success-sub"><strong id="rejectedTalentName">Talent</strong> tidak bisa menerima ordermu saat ini.<br><br>Voucher kamu masih bisa digunakan untuk order talent lain.</div>
+      </div>
+      <div class="om-nav">
+        <button class="om-btn-next" onclick="closeOrderModal()">Cari Talent Lain</button>
+      </div>
+    </div>
+
+    <!-- State: Diterima -->
+    <div id="omStateAccepted" style="display:none;">
+      <div class="om-success">
+        <div class="om-success-icon">✅</div>
+        <div class="om-success-title">Order Diterima!</div>
+        <div class="om-success-sub"><strong id="acceptedTalentName">Talent</strong> akan segera menghubungi kamu via WhatsApp.<br><br>Jika dalam <strong>5 menit</strong> belum dihubungi, segera hubungi admin.</div>
+      </div>
+      <div class="om-countdown-card" style="background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.15);">
+        <div class="om-countdown-label" style="color:#34D399;">Batas waktu talent menghubungi</div>
+        <div class="om-countdown-timer" id="omCountdown2" style="color:#34D399;">5:00</div>
+        <div class="om-countdown-bar-wrap"><div class="om-countdown-bar" id="omCountdownBar2" style="background:#34D399;"></div></div>
+      </div>
+      <div class="om-nav" style="gap:8px;">
+        <button class="om-btn-next" style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.6);flex:1;" onclick="window.open('https://wa.me/6281234269016','_blank')">Hubungi Admin</button>
+        <button class="om-btn-next" onclick="closeOrderModal()">Tutup</button>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -2498,9 +2564,70 @@ function renderOrderConfirm() {
   `;
 }
 
+let omCountdownInterval = null;
+
 function submitOrder() {
   document.getElementById('notifTalentName').textContent = orderTalent.name;
+  document.getElementById('timeoutTalentName').textContent = orderTalent.name;
+  document.getElementById('rejectedTalentName').textContent = orderTalent.name;
+  document.getElementById('acceptedTalentName').textContent = orderTalent.name;
   orderGoStep(4);
+  startCountdown();
+}
+
+function startCountdown() {
+  // Reset semua state
+  document.getElementById('omStateWaiting').style.display = 'block';
+  document.getElementById('omStateTimeout').style.display = 'none';
+  document.getElementById('omStateRejected').style.display = 'none';
+  document.getElementById('omStateAccepted').style.display = 'none';
+
+  let total = 120; // 2 menit
+  if (omCountdownInterval) clearInterval(omCountdownInterval);
+
+  omCountdownInterval = setInterval(() => {
+    total--;
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    document.getElementById('omCountdown').textContent = m + ':' + String(s).padStart(2,'0');
+    document.getElementById('omCountdownBar').style.width = (total / 120 * 100) + '%';
+
+    if (total <= 0) {
+      clearInterval(omCountdownInterval);
+      // Timeout → talent otomatis offline
+      document.getElementById('omStateWaiting').style.display = 'none';
+      document.getElementById('omStateTimeout').style.display = 'block';
+    }
+  }, 1000);
+
+  // SIMULASI: talent terima setelah 8 detik (untuk demo/preview)
+  // Di production ini diganti dengan real-time backend
+  // setTimeout(() => simulateAccept(), 8000);
+}
+
+function simulateAccept() {
+  if (omCountdownInterval) clearInterval(omCountdownInterval);
+  document.getElementById('omStateWaiting').style.display = 'none';
+  document.getElementById('omStateAccepted').style.display = 'block';
+  startCountdown5();
+}
+
+function simulateReject() {
+  if (omCountdownInterval) clearInterval(omCountdownInterval);
+  document.getElementById('omStateWaiting').style.display = 'none';
+  document.getElementById('omStateRejected').style.display = 'block';
+}
+
+function startCountdown5() {
+  let total = 300; // 5 menit
+  const interval = setInterval(() => {
+    total--;
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    document.getElementById('omCountdown2').textContent = m + ':' + String(s).padStart(2,'0');
+    document.getElementById('omCountdownBar2').style.width = (total / 300 * 100) + '%';
+    if (total <= 0) clearInterval(interval);
+  }, 1000);
 }
 </script>
 
