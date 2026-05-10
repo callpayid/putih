@@ -1186,62 +1186,101 @@ body.modal-open { overflow: hidden; touch-action: none; }
    ============================================= */
 .drawer-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5); z-index: 900;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.6); z-index: 900;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .drawer-overlay.open { display: block; }
 
 .drawer {
   position: fixed; top: 0; right: -100%; bottom: 0;
-  width: 80%; max-width: 300px;
-  background: #0D0D20;
-  border-left: 0.5px solid rgba(255,255,255,0.07);
+  width: 78%; max-width: 290px;
+  background: linear-gradient(180deg, #09091A 0%, #0D0D22 100%);
+  border-left: 0.5px solid rgba(255,255,255,0.06);
   z-index: 1000; display: flex; flex-direction: column;
   transition: right 0.3s cubic-bezier(0.22,1,0.36,1);
   overflow-y: auto;
 }
 .drawer.open { right: 0; }
 
+/* Header dengan starfield mini */
 .drawer-header {
-  padding: 52px 24px 20px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  padding: 56px 22px 22px;
+  position: relative; overflow: hidden;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.drawer-header::before {
+  content: '✦';
+  position: absolute; top: 18px; right: 20px;
+  font-size: 10px; color: rgba(252,211,77,0.3);
+  animation: twinkleSpark 3s ease-in-out infinite;
+}
+.drawer-header::after {
+  content: '·';
+  position: absolute; top: 30px; right: 50px;
+  font-size: 16px; color: rgba(255,255,255,0.15);
+  animation: twinkleSpark 2s ease-in-out infinite 0.5s;
 }
 .drawer-logo {
   font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 22px;
+  font-style: italic; font-size: 24px; font-weight: 400;
   background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(252,211,77,0.2));
+  margin-bottom: 6px;
 }
-.drawer-sub { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.drawer-tagline {
+  font-size: 11px; color: rgba(255,255,255,0.25);
+  font-style: italic; line-height: 1.4;
+}
 
-.drawer-menu { flex: 1; padding: 12px 0; }
+/* Menu items */
+.drawer-menu { flex: 1; padding: 8px 0 16px; }
+
 .drawer-item {
   display: flex; align-items: center; gap: 14px;
-  padding: 14px 24px; cursor: pointer;
-  transition: background 0.15s;
-  text-decoration: none;
+  padding: 13px 22px; cursor: pointer;
+  transition: background 0.15s; position: relative;
 }
-.drawer-item:active { background: rgba(255,255,255,0.04); }
+.drawer-item:active { background: rgba(255,255,255,0.03); }
+.drawer-item.active-item::before {
+  content: '';
+  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 20px; border-radius: 0 3px 3px 0;
+  background: linear-gradient(135deg,#FCD34D,#F59E0B);
+}
+
 .drawer-item-icon {
-  width: 36px; height: 36px; border-radius: 11px; flex-shrink: 0;
-  background: rgba(255,255,255,0.06);
-  border: 0.5px solid rgba(255,255,255,0.08);
-  display: flex; align-items: center; justify-content: center; font-size: 16px;
+  width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  transition: all 0.15s;
 }
-.drawer-item-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); }
-.drawer-item-arrow { margin-left: auto; font-size: 16px; color: rgba(255,255,255,0.2); }
+.drawer-item:active .drawer-item-icon { background: rgba(252,211,77,0.08); border-color: rgba(252,211,77,0.15); }
 
-.drawer-divider { height: 0.5px; background: rgba(255,255,255,0.06); margin: 8px 24px; }
+.drawer-item-text { flex: 1; }
+.drawer-item-label { font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,0.75); }
+.drawer-item-desc { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 1px; }
+.drawer-item-arrow { font-size: 15px; color: rgba(255,255,255,0.15); }
 
-.drawer-item.danger .drawer-item-icon { background: rgba(255,80,80,0.1); border-color: rgba(255,80,80,0.15); }
-.drawer-item.danger .drawer-item-label { color: #FF6B6B; }
+.drawer-divider { height: 0.5px; background: rgba(255,255,255,0.05); margin: 6px 22px; }
 
+/* Danger item */
+.drawer-item.danger .drawer-item-icon {
+  background: rgba(255,80,80,0.08); border-color: rgba(255,80,80,0.12);
+}
+.drawer-item.danger .drawer-item-label { color: rgba(255,100,100,0.8); }
+.drawer-item.danger .drawer-item-arrow { color: rgba(255,80,80,0.2); }
+
+/* Footer */
 .drawer-footer {
-  padding: 16px 24px 40px;
-  border-top: 0.5px solid rgba(255,255,255,0.06);
+  padding: 14px 22px 44px;
+  border-top: 0.5px solid rgba(255,255,255,0.05);
+  text-align: center;
 }
-.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.2); text-align: center; }
+.drawer-footer-moon { font-size: 20px; margin-bottom: 6px; opacity: 0.4; }
+.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.5; }
 
 </style>
 </head>
@@ -2729,19 +2768,26 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 <div class="drawer" id="drawer">
   <div class="drawer-header">
     <div class="drawer-logo">SleepcallPay</div>
-    <div class="drawer-sub">Platform layanan companion terpercaya</div>
+    <div class="drawer-tagline">Temani malammu dengan suara yang nyaman 🌙</div>
   </div>
 
   <div class="drawer-menu">
-    <div class="drawer-item" onclick="closeDrawer()">
+
+    <div class="drawer-item active-item" onclick="closeDrawer()">
       <div class="drawer-item-icon">🏠</div>
-      <span class="drawer-item-label">Beranda</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Beranda</div>
+        <div class="drawer-item-desc">Lihat talent yang tersedia</div>
+      </div>
       <span class="drawer-item-arrow">›</span>
     </div>
 
     <div class="drawer-item" onclick="closeDrawer(); openVoucher();">
       <div class="drawer-item-icon">🎟️</div>
-      <span class="drawer-item-label">Beli Voucher</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Beli Voucher</div>
+        <div class="drawer-item-desc">Top up untuk mulai order</div>
+      </div>
       <span class="drawer-item-arrow">›</span>
     </div>
 
@@ -2749,25 +2795,37 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
     <div class="drawer-item" onclick="openDrawerPage('bantuan')">
       <div class="drawer-item-icon">💬</div>
-      <span class="drawer-item-label">Bantuan</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Bantuan</div>
+        <div class="drawer-item-desc">Hubungi admin kami</div>
+      </div>
       <span class="drawer-item-arrow">›</span>
     </div>
 
     <div class="drawer-item" onclick="openDrawerPage('terms')">
       <div class="drawer-item-icon">📋</div>
-      <span class="drawer-item-label">Terms & Conditions</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Terms & Conditions</div>
+        <div class="drawer-item-desc">Syarat & ketentuan layanan</div>
+      </div>
       <span class="drawer-item-arrow">›</span>
     </div>
 
     <div class="drawer-item" onclick="openDrawerPage('privacy')">
       <div class="drawer-item-icon">🔒</div>
-      <span class="drawer-item-label">Privacy Policy</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Privacy Policy</div>
+        <div class="drawer-item-desc">Kebijakan privasi data</div>
+      </div>
       <span class="drawer-item-arrow">›</span>
     </div>
 
     <div class="drawer-item" onclick="openDrawerPage('refund')">
       <div class="drawer-item-icon">↩️</div>
-      <span class="drawer-item-label">Refund Policy</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Refund Policy</div>
+        <div class="drawer-item-desc">Kebijakan pengembalian dana</div>
+      </div>
       <span class="drawer-item-arrow">›</span>
     </div>
 
@@ -2775,15 +2833,21 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
     <div class="drawer-item danger" onclick="openDrawerPage('lapor')">
       <div class="drawer-item-icon">🚨</div>
-      <span class="drawer-item-label">Laporkan Talent</span>
-      <span class="drawer-item-arrow" style="color:rgba(255,80,80,0.3);">›</span>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Laporkan Talent</div>
+        <div class="drawer-item-desc">Ada masalah dengan talent?</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
     </div>
+
   </div>
 
   <div class="drawer-footer">
-    <div class="drawer-footer-text">© 2025 SleepcallPay · All rights reserved</div>
+    <div class="drawer-footer-moon">🌙</div>
+    <div class="drawer-footer-text">© 2025 SleepcallPay<br>All rights reserved</div>
   </div>
 </div>
+
 
 </body>
 </html>
