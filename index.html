@@ -2243,14 +2243,12 @@ function formatWA(num) {
 }
 
 function buyViaWA() {
-  const total = vNominal + ADMIN_FEE;
   const msg = encodeURIComponent(
     '🎟️ *BELI VOUCHER SLEEPCALLPAY*\n\n' +
-    '• Nominal: ' + fmt(vNominal) + '\n' +
-    '• Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
-    '• Total: ' + fmt(total) + '\n' +
-    '• No. WA: +' + formatWA(vWA) + '\n\n' +
-    'Mohon dibuatkan voucher. Terima kasih!'
+    'Nominal voucher: ' + fmt(vNominal) + '\n' +
+    'Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
+    'WhatsApp: ' + vWA + '\n\n' +
+    'Mohon kirimkan QRIS untuk pembayaran. Terima kasih.'
   );
   window.open('https://wa.me/' + ADMIN_WA + '?text=' + msg, '_blank');
   closeVoucherModal();
