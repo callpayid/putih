@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<title>SleepcallPay 6</title>
+<title>SleepcallPay 7</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Poppins:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -777,228 +777,129 @@ html, body {
 .tooltip-row span { color: #fff; font-weight: 800; }
 
 
-/* =============================================
-   HALAMAN BELI VOUCHER — redesign total
-   ============================================= */
-#page-voucher {
-  display: none;
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  min-height: 100%;
-  z-index: 500;
-  background: linear-gradient(160deg, #020208 0%, #0A0A20 60%, #0D0A25 100%);
-  overflow-y: auto;
+/* VOUCHER MODAL */
+.voucher-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); z-index: 500;
+  backdrop-filter: blur(8px);
 }
-#page-voucher.open { display: block; }
-#app.voucher-open { overflow: visible; }
-#app.voucher-open > *:not(#page-voucher) { visibility: hidden; }
+.voucher-overlay.open { display: block; }
 
-@keyframes slideUp {
-  from { transform: translateY(24px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+.voucher-modal {
+  display: none; position: fixed;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: calc(100% - 32px); max-width: 440px;
+  max-height: 88vh; overflow-y: auto;
+  z-index: 600;
+  background: #0F0F1E;
+  border-radius: 24px;
+  border: 0.5px solid rgba(252,211,77,0.2);
+  padding: 20px;
 }
-#page-voucher.open { animation: slideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
+.voucher-modal.open { display: block; }
+.modal-handle { width: 36px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.12); margin: 0 auto 16px; }
+.modal-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.modal-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
 
-/* NAVBAR */
-.vp-navbar {
-  position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 20px;
-  background: rgba(2,2,8,0.92);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  border-bottom: 0.5px solid rgba(255,255,255,0.06);
-}
-.vp-back {
-  width: 36px; height: 36px; border-radius: 12px;
-  background: rgba(255,255,255,0.06);
-  border: 0.5px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0;
-  transition: background 0.15s;
-}
-.vp-back:active { background: rgba(255,255,255,0.12); }
-.vp-back svg { width: 17px; height: 17px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.vp-nav-title {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 20px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(252,211,77,0.25));
-}
+/* STEP INDICATOR */
+.step-indicator { display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+.step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.3s; }
+.step-dot.active { background: #FCD34D; width: 24px; border-radius: 4px; }
+.step-dot.done { background: #34D399; }
 
-/* INNER */
-.vp-inner { padding: 22px 16px 52px; }
+/* STEP CONTENT */
+.step { display: none; }
+.step.show { display: block; }
 
-/* HERO BADGE */
-.vp-hero {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 16px; margin-bottom: 20px;
-  background: rgba(252,211,77,0.06);
-  border: 0.5px solid rgba(252,211,77,0.18);
-  border-radius: 16px;
+/* NOMINAL */
+.nominal-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+.nominal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.nominal-item {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 10px 8px; text-align: center; cursor: pointer; transition: all 0.15s;
 }
-.vp-hero-icon {
-  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  box-shadow: 0 4px 14px rgba(252,211,77,0.3);
-}
-.vp-hero-text { flex: 1; }
-.vp-hero-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 2px; }
-.vp-hero-sub { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+.nominal-item:active { transform: scale(0.97); }
+.nominal-item.selected { background: rgba(252,211,77,0.1); border-color: rgba(252,211,77,0.5); }
+.nominal-amount { font-size: 13px; font-weight: 800; color: #fff; }
+.nominal-item.selected .nominal-amount { color: #FCD34D; }
 
-/* SECTION */
-.vp-section { margin-bottom: 20px; }
-.vp-section-label {
-  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3);
-  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px;
-  padding-left: 2px;
+/* LAYANAN INFO */
+.layanan-info {
+  background: rgba(255,255,255,0.04); border-radius: 12px;
+  padding: 12px; margin-bottom: 16px; display: none;
 }
-
-/* NOMINAL PILLS */
-.vp-nominal-grid {
-  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-}
-.vp-nominal-pill {
-  border: 0.5px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.04);
-  border-radius: 14px; padding: 12px 8px;
-  cursor: pointer; text-align: center;
-  transition: all 0.18s; position: relative;
-}
-.vp-nominal-pill:active { transform: scale(0.96); }
-.vp-nominal-pill.selected {
-  border-color: rgba(252,211,77,0.6);
-  background: rgba(252,211,77,0.1);
-  box-shadow: 0 0 18px rgba(252,211,77,0.1);
-}
-.vp-nominal-pill.popular::after {
-  content: 'POPULER';
-  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(135deg,#FCD34D,#F59E0B);
-  color: #0A0700; font-size: 7px; font-weight: 900;
-  padding: 2px 7px; border-radius: 999px; letter-spacing: 0.08em;
-  white-space: nowrap;
-}
-.vp-pill-price {
-  font-size: 14px; font-weight: 900;
-  color: #fff; line-height: 1;
-}
-.vp-nominal-pill.selected .vp-pill-price {
-  background: linear-gradient(135deg,#FFF1B8,#FCD34D);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.vp-pill-label { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 3px; font-weight: 600; }
-.vp-admin-note {
-  font-size: 10.5px; color: rgba(255,255,255,0.25);
-  padding-left: 2px; margin-top: 8px;
-}
-
-/* BENEFIT BOX */
-.vp-benefit-box {
-  background: rgba(255,255,255,0.03);
-  border: 0.5px solid rgba(255,255,255,0.08);
-  border-radius: 16px; overflow: hidden;
-  display: none; margin-top: 14px;
-}
-.vp-benefit-box.show { display: block; }
-.vp-benefit-header {
-  padding: 10px 14px;
-  background: rgba(252,211,77,0.06);
-  border-bottom: 0.5px solid rgba(252,211,77,0.1);
-  font-size: 10px; font-weight: 700; color: rgba(252,211,77,0.7);
-  letter-spacing: 0.1em; text-transform: uppercase;
-}
-.vp-benefit-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 9px 14px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.04);
-}
-.vp-benefit-row:last-of-type { border-bottom: none; }
-.vp-benefit-name { font-size: 12.5px; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 7px; }
-.vp-benefit-dur { font-size: 12px; font-weight: 800; color: #FCD34D; }
-.vp-benefit-footer {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 14px;
-  background: rgba(52,211,153,0.05);
-  border-top: 0.5px solid rgba(52,211,153,0.12);
-}
-.vp-benefit-footer-label { font-size: 10.5px; color: rgba(255,255,255,0.3); }
-.vp-benefit-footer-val { font-size: 13px; font-weight: 900; color: #34D399; }
+.layanan-info.show { display: block; }
+.layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+.layanan-item { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; }
+.layanan-name { font-size: 10px; color: rgba(255,255,255,0.45); margin-bottom: 2px; }
+.layanan-dur { font-size: 12px; font-weight: 700; color: #fff; }
 
 /* WA INPUT */
-.vp-wa-wrap {
-  background: rgba(255,255,255,0.04);
-  border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 16px; overflow: hidden;
-  display: flex; align-items: center;
-  transition: border-color 0.2s;
+.wa-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.wa-input-wrap { display: flex; align-items: center; gap: 0; margin-bottom: 8px; }
+.wa-prefix {
+  height: 46px; padding: 0 12px; background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1); border-right: none;
+  border-radius: 12px 0 0 12px; display: flex; align-items: center;
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6); white-space: nowrap;
 }
-.vp-wa-wrap:focus-within { border-color: rgba(252,211,77,0.4); }
-.vp-wa-prefix {
-  padding: 0 12px 0 16px;
-  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.3);
-  border-right: 0.5px solid rgba(255,255,255,0.08);
-  height: 48px; display: flex; align-items: center; white-space: nowrap;
+.wa-input {
+  flex: 1; height: 46px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 0 12px 12px 0;
+  padding: 0 14px; font-family: inherit; font-size: 14px; color: #fff; outline: none;
 }
-.vp-wa-input {
-  flex: 1; height: 48px; background: transparent;
-  border: none; padding: 0 16px;
-  font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none;
-}
-.vp-wa-input::placeholder { color: rgba(255,255,255,0.18); }
-.vp-wa-note {
-  font-size: 10.5px; color: rgba(255,255,255,0.25);
-  margin-top: 8px; padding-left: 2px; line-height: 1.4;
-  display: flex; align-items: flex-start; gap: 5px;
-}
+.wa-input:focus { border-color: rgba(252,211,77,0.4); }
+.wa-input::placeholder { color: rgba(255,255,255,0.2); }
+.wa-hint { font-size: 10px; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
 
-/* METHOD BUTTONS */
-.vp-methods { display: flex; flex-direction: column; gap: 10px; }
-.vp-method-btn {
-  width: 100%; border-radius: 18px; border: 0.5px solid rgba(255,255,255,0.08);
-  cursor: pointer; font-family: 'Inter', sans-serif;
-  display: flex; align-items: center;
-  padding: 14px 16px; gap: 14px; text-align: left;
-  transition: transform 0.15s, box-shadow 0.15s;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+/* SUMMARY */
+.summary-card {
+  background: rgba(252,211,77,0.06); border: 0.5px solid rgba(252,211,77,0.2);
+  border-radius: 14px; padding: 14px; margin-bottom: 16px;
 }
-.vp-method-btn:active { transform: scale(0.97); }
-.vp-method-btn.admin {
-  background: rgba(255,107,157,0.12);
-  border-color: rgba(255,107,157,0.22);
-  box-shadow: 0 4px 20px rgba(255,107,157,0.08);
+.summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.summary-row:last-child { margin-bottom: 0; padding-top: 8px; border-top: 0.5px solid rgba(252,211,77,0.15); }
+.summary-label { font-size: 12px; color: rgba(255,255,255,0.45); }
+.summary-val { font-size: 12px; font-weight: 700; color: #fff; }
+.summary-total { font-size: 16px; font-weight: 900; color: #FCD34D; }
+
+/* BUY OPTIONS */
+.buy-opt {
+  display: flex; align-items: center; gap: 12px;
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 10px;
+  cursor: pointer; border: none; width: 100%; text-align: left;
+  font-family: inherit; transition: opacity 0.15s;
 }
-.vp-method-btn.admin:active { box-shadow: 0 2px 10px rgba(255,107,157,0.15); }
-.vp-method-btn.web {
-  background: rgba(139,92,246,0.12);
-  border-color: rgba(139,92,246,0.22);
-  box-shadow: 0 4px 20px rgba(139,92,246,0.08);
+.buy-opt:last-child { margin-bottom: 0; }
+.buy-opt:active { opacity: 0.85; }
+.buy-opt-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
 }
-.vp-method-btn.web:active { box-shadow: 0 2px 10px rgba(139,92,246,0.15); }
-.vp-method-icon {
-  width: 42px; height: 42px; border-radius: 13px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 20px;
+.buy-opt-text { flex: 1; }
+.buy-opt-title { font-size: 14px; font-weight: 800; color: #fff; }
+.buy-opt-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.buy-opt-arrow { font-size: 16px; color: rgba(255,255,255,0.4); }
+.buy-opt-wa { background: linear-gradient(135deg, #128C7E, #25D366); }
+.buy-opt-web { background: linear-gradient(135deg, #1E3A5F, #2563EB); }
+
+/* NAV BTN */
+.modal-nav { display: flex; gap: 8px; margin-top: 4px; }
+.btn-back {
+  height: 46px; padding: 0 18px; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);
+  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
 }
-.vp-method-btn.admin .vp-method-icon {
-  background: linear-gradient(135deg, rgba(255,107,157,0.3), rgba(255,107,157,0.15));
-  border: 0.5px solid rgba(255,107,157,0.3);
+.btn-next {
+  flex: 1; height: 46px; border-radius: 12px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 14px; font-weight: 800;
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  color: #0A0700; box-shadow: 0 4px 16px rgba(252,211,77,0.3);
 }
-.vp-method-btn.web .vp-method-icon {
-  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(139,92,246,0.15));
-  border: 0.5px solid rgba(139,92,246,0.3);
-}
-.vp-method-text { flex: 1; }
-.vp-method-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 2px; }
-.vp-method-btn.admin .vp-method-title { color: #FFB0CC; }
-.vp-method-btn.web .vp-method-title { color: #C4B5FD; }
-.vp-method-sub { font-size: 10.5px; color: rgba(255,255,255,0.4); }
-.vp-method-arrow {
-  font-size: 18px; color: rgba(255,255,255,0.2); margin-left: 4px; flex-shrink: 0;
-}
+.btn-next:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -1126,7 +1027,7 @@ html, body {
 
     <!-- VOUCHER SECTION -->
     <div class="voucher-section">
-      <button class="voucher-btn" onclick="openVoucher()">
+      <button class="voucher-btn" onclick="openVoucher()" >
         <div class="voucher-left">
           <div class="voucher-icon">🎟️</div>
           <div class="voucher-text">
@@ -1482,107 +1383,6 @@ html, body {
     </div>
 
   </div>
-  <!-- ===== PAGE BELI VOUCHER ===== -->
-  <div id="page-voucher">
-    <div class="vp-navbar">
-      <div class="vp-back" onclick="closeVoucher()">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </div>
-      <span class="vp-nav-title">Beli Voucher</span>
-    </div>
-    <div class="vp-inner">
-
-      <!-- Hero -->
-      <div class="vp-hero">
-        <div class="vp-hero-icon">🎟️</div>
-        <div class="vp-hero-text">
-          <div class="vp-hero-title">Top Up Voucher</div>
-          <div class="vp-hero-sub">Pilih nominal & masukkan WA kamu. Voucher dikirim otomatis setelah bayar.</div>
-        </div>
-      </div>
-
-      <!-- Pilih Nominal -->
-      <div class="vp-section">
-        <div class="vp-section-label">Pilih Nominal</div>
-        <div class="vp-nominal-grid">
-          <div class="vp-nominal-pill" onclick="selectNominal(this, 10000)">
-            <div class="vp-pill-price">10rb</div>
-            <div class="vp-pill-label">Rp 10.000</div>
-          </div>
-          <div class="vp-nominal-pill" onclick="selectNominal(this, 20000)">
-            <div class="vp-pill-price">20rb</div>
-            <div class="vp-pill-label">Rp 20.000</div>
-          </div>
-          <div class="vp-nominal-pill popular" onclick="selectNominal(this, 30000)">
-            <div class="vp-pill-price">30rb</div>
-            <div class="vp-pill-label">Rp 30.000</div>
-          </div>
-          <div class="vp-nominal-pill" onclick="selectNominal(this, 40000)">
-            <div class="vp-pill-price">40rb</div>
-            <div class="vp-pill-label">Rp 40.000</div>
-          </div>
-          <div class="vp-nominal-pill" onclick="selectNominal(this, 50000)">
-            <div class="vp-pill-price">50rb</div>
-            <div class="vp-pill-label">Rp 50.000</div>
-          </div>
-          <div class="vp-nominal-pill" onclick="selectNominal(this, 60000)">
-            <div class="vp-pill-price">60rb</div>
-            <div class="vp-pill-label">Rp 60.000</div>
-          </div>
-        </div>
-        <div class="vp-admin-note">+ biaya admin Rp 3.000 per transaksi</div>
-
-        <!-- Yang Kamu Dapat -->
-        <div class="vp-benefit-box" id="vp-benefit">
-          <div class="vp-benefit-header">Yang Kamu Dapat</div>
-          <div class="vp-benefit-row"><span class="vp-benefit-name">📞 Teman Call</span><span class="vp-benefit-dur" id="bd-teman">—</span></div>
-          <div class="vp-benefit-row"><span class="vp-benefit-name">🌙 Sleepcall</span><span class="vp-benefit-dur" id="bd-sleep">—</span></div>
-          <div class="vp-benefit-row"><span class="vp-benefit-name">🫂 Temen Curhat</span><span class="vp-benefit-dur" id="bd-curhat">—</span></div>
-          <div class="vp-benefit-row"><span class="vp-benefit-name">💕 Pacar Virtual</span><span class="vp-benefit-dur" id="bd-pv">—</span></div>
-          <div class="vp-benefit-row"><span class="vp-benefit-name">🎯 Jasa marah marah</span><span class="vp-benefit-dur" id="bd-marah">—</span></div>
-          <div class="vp-benefit-footer">
-            <span class="vp-benefit-footer-label" id="bd-nilai"></span>
-            <span class="vp-benefit-footer-val" id="bd-total"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Nomor WA -->
-      <div class="vp-section">
-        <div class="vp-section-label">Nomor WhatsApp Kamu</div>
-        <div class="vp-wa-wrap">
-          <span class="vp-wa-prefix">📱 +62</span>
-          <input class="vp-wa-input" id="vp-wa" type="tel" placeholder="8123456789" inputmode="numeric"/>
-        </div>
-        <div class="vp-wa-note">Talent akan menghubungi nomor ini saat voucher digunakan</div>
-      </div>
-
-      <!-- Metode Beli -->
-      <div class="vp-section">
-        <div class="vp-section-label">Metode Pembelian</div>
-        <div class="vp-methods">
-          <button class="vp-method-btn admin" onclick="beliViaAdmin()">
-            <div class="vp-method-icon">💬</div>
-            <div class="vp-method-text">
-              <div class="vp-method-title">Beli via Admin</div>
-              <div class="vp-method-sub">Pembelian melalui admin WhatsApp</div>
-            </div>
-            <span class="vp-method-arrow">›</span>
-          </button>
-          <button class="vp-method-btn web" onclick="beliViaWeb()">
-            <div class="vp-method-icon">💳</div>
-            <div class="vp-method-text">
-              <div class="vp-method-title">Beli via Website</div>
-              <div class="vp-method-sub">Bayar otomatis, voucher langsung dikirim</div>
-            </div>
-            <span class="vp-method-arrow">›</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
 
 </div>
 
@@ -1778,59 +1578,6 @@ function sortAndRender(filterGenderVal) {
     [...online, ...offline].forEach(c => list.appendChild(c));
   }
 }
-
-
-// ===== VOUCHER PAGE =====
-const BENEFIT_DATA = {
-  10000:  { teman:30,  sleep:30,  curhat:20, pv:15, marah:20 },
-  20000:  { teman:60,  sleep:60,  curhat:40, pv:30, marah:40 },
-  30000:  { teman:90,  sleep:90,  curhat:60, pv:45, marah:60 },
-  40000:  { teman:120, sleep:120, curhat:80, pv:60, marah:80 },
-  50000:  { teman:150, sleep:150, curhat:100,pv:75, marah:100 },
-  60000:  { teman:180, sleep:180, curhat:120,pv:90, marah:120 },
-};
-function fmtMenit(m){return m>=60&&m%60===0?(m/60)+' jam':m>=60?Math.floor(m/60)+' jam '+(m%60)+' mnt':m+' menit';}
-function fmtRp(n){return 'Rp '+n.toLocaleString('id-ID');}
-let selectedNominal=0;
-
-function selectNominal(el,val){
-  document.querySelectorAll('.vp-nominal-pill').forEach(p=>p.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedNominal=val;
-  const d=BENEFIT_DATA[val]; if(!d) return;
-  document.getElementById('bd-teman').textContent=fmtMenit(d.teman);
-  document.getElementById('bd-sleep').textContent=fmtMenit(d.sleep);
-  document.getElementById('bd-curhat').textContent=fmtMenit(d.curhat);
-  document.getElementById('bd-pv').textContent=fmtMenit(d.pv);
-  document.getElementById('bd-marah').textContent=fmtMenit(d.marah);
-  document.getElementById('bd-nilai').textContent='Nilai voucher: '+fmtRp(val)+' + admin Rp 3.000';
-  document.getElementById('bd-total').textContent='Total: '+fmtRp(val+3000);
-  const box=document.getElementById('vp-benefit');
-  box.classList.add('show');
-  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
-}
-function openVoucher(){
-  document.getElementById('page-voucher').classList.add('open');
-  document.getElementById('app').classList.add('voucher-open');
-  document.getElementById('page-voucher').scrollTop=0;
-}
-function closeVoucher(){
-  document.getElementById('page-voucher').classList.remove('open');
-  document.getElementById('app').classList.remove('voucher-open');
-}
-function beliViaAdmin(){
-  const nominalLabel=selectedNominal?fmtRp(selectedNominal):'(belum dipilih)';
-  const wa=document.getElementById('vp-wa').value.trim();
-  const waFull=wa?'+62'+wa:'(belum diisi)';
-  const msg=encodeURIComponent('Halo Admin SleepcallPay!\n\nSaya ingin beli voucher:\n• Nominal: '+nominalLabel+'\n• No. WA: '+waFull+'\n\nMohon bantuannya 🙏');
-  window.open('https://wa.me/6281234567890?text='+msg,'_blank');
-}
-function beliViaWeb(){
-  if(!selectedNominal){alert('Pilih nominal voucher dulu ya!');return;}
-  if(!document.getElementById('vp-wa').value.trim()){alert('Masukkan nomor WhatsApp kamu!');return;}
-  alert('Fitur pembayaran otomatis segera hadir! 🚀');
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVoucher();});
 
 // Filter gender button
 function filterGender(gender, btn) {
@@ -2049,5 +1796,166 @@ window.addEventListener('load', () => sortAndRender('all'));
 </script>
 
 
+
+<!-- VOUCHER OVERLAY -->
+<div class="voucher-overlay" id="vOverlay" onclick="closeVoucherModal(event)"></div>
+
+<!-- VOUCHER MODAL -->
+<div class="voucher-modal" id="vModal">
+  <div class="modal-handle"></div>
+  <div class="modal-title">🎟️ Beli Voucher</div>
+  <div class="modal-sub">Voucher berlaku untuk semua layanan</div>
+
+  <!-- STEP DOTS -->
+  <div class="step-indicator">
+    <div class="step-dot active" id="sd1"></div>
+    <div class="step-dot" id="sd2"></div>
+    <div class="step-dot" id="sd3"></div>
+  </div>
+
+  <!-- STEP 1: PILIH NOMINAL -->
+  <div class="step show" id="step1">
+    <div class="nominal-title">Pilih Nominal Voucher</div>
+    <div class="nominal-grid">
+      <div class="nominal-item" onclick="selectNominal(this, 10000)"><div class="nominal-amount">Rp 10rb</div></div>
+      <div class="nominal-item" onclick="selectNominal(this, 20000)"><div class="nominal-amount">Rp 20rb</div></div>
+      <div class="nominal-item" onclick="selectNominal(this, 30000)"><div class="nominal-amount">Rp 30rb</div></div>
+      <div class="nominal-item" onclick="selectNominal(this, 40000)"><div class="nominal-amount">Rp 40rb</div></div>
+      <div class="nominal-item" onclick="selectNominal(this, 50000)"><div class="nominal-amount">Rp 50rb</div></div>
+      <div class="nominal-item" onclick="selectNominal(this, 60000)"><div class="nominal-amount">Rp 60rb</div></div>
+    </div>
+
+    <div class="layanan-info" id="layananInfo">
+      <div class="nominal-title">Durasi yang kamu dapat</div>
+      <div class="layanan-grid" id="layananGrid"></div>
+    </div>
+
+    <div class="modal-nav">
+      <button class="btn-next" id="btnStep1" onclick="goStep(2)" disabled>Lanjut →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: NOMOR WA -->
+  <div class="step" id="step2">
+    <div class="wa-label">Nomor WhatsApp Kamu</div>
+    <div class="wa-input-wrap">
+      <div class="wa-prefix">🇮🇩 +62</div>
+      <input class="wa-input" id="waInput" type="tel" placeholder="8xxxxxxxxxx" oninput="checkWa()"/>
+    </div>
+    <div class="wa-hint">Nomor ini akan dihubungi talent saat order dimulai</div>
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goStep(1)">← Kembali</button>
+      <button class="btn-next" id="btnStep2" onclick="goStep(3)" disabled>Lanjut →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: KONFIRMASI & BELI -->
+  <div class="step" id="step3">
+    <div class="summary-card" id="summaryCard"></div>
+    <button class="buy-opt buy-opt-wa" onclick="buyViaWA()">
+      <div class="buy-opt-icon">💬</div>
+      <div class="buy-opt-text">
+        <div class="buy-opt-title">Beli via Admin WA</div>
+        <div class="buy-opt-sub">Detail dikirim ke admin, voucher dibuatkan manual</div>
+      </div>
+      <span class="buy-opt-arrow">›</span>
+    </button>
+    <button class="buy-opt buy-opt-web" onclick="buyViaWeb()">
+      <div class="buy-opt-icon">💳</div>
+      <div class="buy-opt-text">
+        <div class="buy-opt-title">Beli via Website</div>
+        <div class="buy-opt-sub">Bayar otomatis, voucher langsung dikirim</div>
+      </div>
+      <span class="buy-opt-arrow">›</span>
+    </button>
+    <div class="modal-nav" style="margin-top:12px;">
+      <button class="btn-back" onclick="goStep(2)">← Kembali</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// VOUCHER MODAL
+const PRICELIST = {
+  teman:  { label: '🎧 Teman Call',   durations: {10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam'} },
+  sleep:  { label: '🌙 Sleep Call',   durations: {10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam'} },
+  curhat: { label: '💬 Curhat Call',  durations: {10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam'} },
+  pv:     { label: '❤️ Pacar Virtual',durations: {10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt'} },
+};
+const ADMIN_FEE = 3000;
+const ADMIN_WA = '6281234567890';
+
+let vNominal = 0, vWA = '';
+
+function openVoucher() {
+  document.getElementById('vOverlay').classList.add('open');
+  document.getElementById('vModal').classList.add('open');
+  goStep(1);
+}
+function closeVoucherModal(e) {
+  if (!e || e.target === document.getElementById('vOverlay')) {
+    document.getElementById('vOverlay').classList.remove('open');
+    document.getElementById('vModal').classList.remove('open');
+  }
+}
+
+function goStep(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('step'+i).classList.toggle('show', i===n);
+    const sd = document.getElementById('sd'+i);
+    sd.classList.toggle('active', i===n);
+    sd.classList.toggle('done', i<n);
+  });
+  if (n===3) renderSummary();
+}
+
+function selectNominal(el, amount) {
+  document.querySelectorAll('.nominal-item').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  vNominal = amount;
+  // Tampilkan durasi per layanan
+  const grid = document.getElementById('layananGrid');
+  grid.innerHTML = Object.values(PRICELIST).map(s =>
+    `<div class="layanan-item"><div class="layanan-name">${s.label}</div><div class="layanan-dur">${s.durations[amount]}</div></div>`
+  ).join('');
+  document.getElementById('layananInfo').classList.add('show');
+  document.getElementById('btnStep1').disabled = false;
+}
+
+function checkWa() {
+  vWA = document.getElementById('waInput').value.trim();
+  document.getElementById('btnStep2').disabled = vWA.length < 9;
+}
+
+function fmt(n) { return 'Rp ' + n.toLocaleString('id'); }
+
+function renderSummary() {
+  const total = vNominal + ADMIN_FEE;
+  document.getElementById('summaryCard').innerHTML = `
+    <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
+    <div class="summary-row"><span class="summary-label">Biaya admin</span><span class="summary-val">${fmt(ADMIN_FEE)}</span></div>
+    <div class="summary-row"><span class="summary-label">Nomor WA</span><span class="summary-val">+62${vWA}</span></div>
+    <div class="summary-row"><span class="summary-label" style="font-weight:800;color:#fff;">Total</span><span class="summary-total">${fmt(total)}</span></div>
+  `;
+}
+
+function buyViaWA() {
+  const total = vNominal + ADMIN_FEE;
+  const msg = encodeURIComponent(
+    '🎟️ *BELI VOUCHER SLEEPCALLPAY*\n\n' +
+    '• Nominal: ' + fmt(vNominal) + '\n' +
+    '• Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
+    '• Total: ' + fmt(total) + '\n' +
+    '• No. WA: +62' + vWA + '\n\n' +
+    'Mohon dibuatkan voucher. Terima kasih!'
+  );
+  window.open('https://wa.me/' + ADMIN_WA + '?text=' + msg, '_blank');
+  closeVoucherModal();
+}
+
+function buyViaWeb() {
+  alert('Fitur beli via website segera hadir!');
+}
+</script>
 </body>
 </html>
