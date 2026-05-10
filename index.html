@@ -680,6 +680,87 @@ html, body {
   align-items: center; justify-content: center;
 }
 #tweaks-fab.open { display: flex; }
+
+/* VOUCHER SECTION */
+.voucher-section { padding: 0 16px 12px; }
+.voucher-btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-radius: 12px; cursor: pointer; border: none;
+  background: rgba(252,211,77,0.07);
+  border: 0.5px solid rgba(252,211,77,0.2);
+  transition: all 0.2s;
+}
+.voucher-btn:active { transform: scale(0.98); }
+.voucher-left { display: flex; align-items: center; gap: 10px; }
+.voucher-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(252,211,77,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.voucher-text { text-align: left; }
+.voucher-title { font-size: 12px; font-weight: 700; color: #FCD34D; }
+.voucher-sub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top:1px; }
+.voucher-arrow { font-size: 13px; color: rgba(252,211,77,0.4); }
+
+/* VOUCHER MODAL */
+.voucher-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 500;
+  backdrop-filter: blur(6px);
+}
+.voucher-overlay.open { display: block; }
+.voucher-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; z-index: 600;
+  background: #0F0F1E; border-radius: 28px 28px 0 0;
+  padding: 20px 20px 36px;
+  border-top: 0.5px solid rgba(252,211,77,0.2);
+  display: none;
+}
+.voucher-sheet.open { display: block; }
+.sheet-handle { width: 40px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.15); margin: 0 auto 18px; }
+.sheet-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.sheet-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom:20px; }
+
+/* VOUCHER PACKAGES */
+.voucher-packages { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.voucher-pkg {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;
+  position: relative;
+}
+.voucher-pkg.selected { border-color: #FCD34D; background: rgba(252,211,77,0.08); }
+.voucher-pkg.popular::after {
+  content: 'POPULER';
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  background: #FCD34D; color: #0A0700; font-size: 8px; font-weight: 900;
+  padding: 2px 8px; border-radius: 999px; letter-spacing: 0.08em;
+}
+.pkg-amount { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+.pkg-price { font-size: 18px; font-weight: 900; color: #FCD34D; }
+.pkg-bonus { font-size: 10px; color: #34D399; margin-top: 4px; font-weight: 600; }
+
+/* PAYMENT METHOD */
+.payment-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; margin-bottom: 10px; }
+.payment-methods { display: flex; gap: 8px; margin-bottom: 20px; }
+.payment-method {
+  flex: 1; height: 44px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5);
+  transition: all 0.2s;
+}
+.payment-method.selected { border-color: #FCD34D; color: #FCD34D; background: rgba(252,211,77,0.08); }
+
+.btn-beli {
+  width: 100%; height: 52px; border: none; border-radius: 16px; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 800;
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  color: #0A0700; box-shadow: 0 6px 20px rgba(252,211,77,0.3);
+}
+.btn-beli:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -783,7 +864,7 @@ html, body {
         <circle cx="13.5" cy="28" r="0.55" fill="rgba(255,240,180,0.6)" style="animation: twinkleSpark 4s ease-in-out infinite 1.2s;"/>
         <circle cx="30" cy="27" r="0.5" fill="rgba(255,240,180,0.5)" style="animation: twinkleSpark 3s ease-in-out infinite 0.3s;"/>
       </svg>
-      <span class="logo-text">SleepcallPay</span>
+      <span class="logo-text" style="background:linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 6px rgba(252,211,77,0.4));">SleepcallPay</span>
     </div>
     <div class="hamburger">
       <span></span><span></span><span></span>
@@ -802,6 +883,21 @@ html, body {
       </div>
       <h1 class="greet-headline">Mau ditemani siapa <em>malam ini</em>?</h1>
       <p class="greet-sub" id="greetSub">Pilih talent favoritmu, dengarkan suara yang nyaman, lalu tidur nyenyak.</p>
+    </div>
+
+
+    <!-- VOUCHER SECTION -->
+    <div class="voucher-section">
+      <button class="voucher-btn" onclick="openVoucher()">
+        <div class="voucher-left">
+          <div class="voucher-icon">🎟️</div>
+          <div class="voucher-text">
+            <div class="voucher-title">Beli Voucher</div>
+            <div class="voucher-sub">Top up saldo untuk bayar order talent</div>
+          </div>
+        </div>
+        <span class="voucher-arrow">›</span>
+      </button>
     </div>
 
     <!-- TALENT SECTION -->
@@ -1448,6 +1544,87 @@ window.addEventListener('load', () => sortAndRender('all'));
     genderBadge.insertAdjacentElement('afterend', row);
   });
 })();
+</script>
+
+<!-- VOUCHER OVERLAY -->
+<div class="voucher-overlay" id="voucherOverlay" onclick="closeVoucher(event)"></div>
+
+<!-- VOUCHER SHEET -->
+<div class="voucher-sheet" id="voucherSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">🎟️ Beli Voucher</div>
+  <div class="sheet-sub">Pilih nominal voucher yang kamu mau</div>
+
+  <div class="voucher-packages">
+    <div class="voucher-pkg" onclick="selectPkg(this, 25000)" data-price="25000">
+      <div class="pkg-amount">Rp 25.000</div>
+      <div class="pkg-price">Rp 25rb</div>
+    </div>
+    <div class="voucher-pkg popular" onclick="selectPkg(this, 50000)" data-price="50000">
+      <div class="pkg-amount">Rp 50.000</div>
+      <div class="pkg-price">Rp 50rb</div>
+      <div class="pkg-bonus">+Rp 5.000 bonus</div>
+    </div>
+    <div class="voucher-pkg" onclick="selectPkg(this, 100000)" data-price="100000">
+      <div class="pkg-amount">Rp 100.000</div>
+      <div class="pkg-price">Rp 100rb</div>
+      <div class="pkg-bonus">+Rp 15.000 bonus</div>
+    </div>
+    <div class="voucher-pkg" onclick="selectPkg(this, 200000)" data-price="200000">
+      <div class="pkg-amount">Rp 200.000</div>
+      <div class="pkg-price">Rp 200rb</div>
+      <div class="pkg-bonus">+Rp 40.000 bonus</div>
+    </div>
+  </div>
+
+  <div class="payment-title">METODE PEMBAYARAN</div>
+  <div class="payment-methods">
+    <div class="payment-method selected" onclick="selectPayment(this)">QRIS</div>
+    <div class="payment-method" onclick="selectPayment(this)">Transfer</div>
+    <div class="payment-method" onclick="selectPayment(this)">GoPay</div>
+  </div>
+
+  <button class="btn-beli" id="beliBtnSubmit" onclick="beliVoucher()" disabled>Pilih Nominal Dulu</button>
+</div>
+
+<script>
+let selectedPkg = null;
+
+function openVoucher() {
+  document.getElementById('voucherOverlay').classList.add('open');
+  document.getElementById('voucherSheet').classList.add('open');
+}
+
+function closeVoucher(e) {
+  if (e.target === document.getElementById('voucherOverlay')) {
+    document.getElementById('voucherOverlay').classList.remove('open');
+    document.getElementById('voucherSheet').classList.remove('open');
+  }
+}
+
+function selectPkg(el, price) {
+  document.querySelectorAll('.voucher-pkg').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPkg = price;
+  const btn = document.getElementById('beliBtnSubmit');
+  btn.disabled = false;
+  btn.textContent = 'Beli Voucher Rp ' + price.toLocaleString('id');
+}
+
+function selectPayment(el) {
+  document.querySelectorAll('.payment-method').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function beliVoucher() {
+  document.getElementById('voucherOverlay').classList.remove('open');
+  document.getElementById('voucherSheet').classList.remove('open');
+  alert('✓ Voucher Rp ' + selectedPkg.toLocaleString('id') + ' berhasil dibeli!');
+  selectedPkg = null;
+  document.querySelectorAll('.voucher-pkg').forEach(p => p.classList.remove('selected'));
+  document.getElementById('beliBtnSubmit').disabled = true;
+  document.getElementById('beliBtnSubmit').textContent = 'Pilih Nominal Dulu';
+}
 </script>
 </body>
 </html>
