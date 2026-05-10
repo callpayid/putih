@@ -2274,7 +2274,6 @@ function buyViaWeb() {
     <div class="om-sublabel">Masukkan kode voucher yang kamu beli dari admin.</div>
     <div class="om-voucher-row">
       <input class="voucher-code-input" id="voucherCodeInput" type="text" placeholder="KODE VOUCHER" oninput="onVoucherInput(this)" autocomplete="off"/>
-      <button class="om-btn-gunakan" onclick="gunakanVoucher()">Gunakan</button>
     </div>
     <button class="om-btn-pesan" id="orderBtnPesan" onclick="orderGoStep(2)" disabled>
       ✦ Pesan Sekarang
@@ -2459,10 +2458,10 @@ function renderOrderLayanan() {
   document.getElementById('omVsNominal').textContent = 'Rp ' + orderVoucherNominal.toLocaleString('id');
   document.getElementById('omVsWa').textContent = orderTalentWA || '—';
 
-  // Hanya tampilkan layanan milik talent ini
-  const talentServices = orderTalent.services.map(s => s.toLowerCase());
+  // Hanya tampilkan layanan milik talent ini — exact match
+  const talentServices = orderTalent.services.map(s => s.toLowerCase().trim());
   const matchLayanan = Object.keys(ORDER_PRICELIST).filter(layanan =>
-    talentServices.some(s => s.includes(layanan.toLowerCase()) || layanan.toLowerCase().includes(s))
+    talentServices.some(s => s === layanan.toLowerCase())
   );
 
   grid.innerHTML = matchLayanan.map(layanan => {
