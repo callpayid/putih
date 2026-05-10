@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<title>SleepcallPay 7</title>
+<title>SleepcallPay 8</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Poppins:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -830,7 +830,16 @@ html, body {
 }
 .layanan-info.show { display: block; }
 .layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
-.layanan-item { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; }
+.layanan-item {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 8px; cursor: pointer; transition: all 0.15s;
+}
+.layanan-item:active { transform: scale(0.97); }
+.layanan-item.selected {
+  background: rgba(252,211,77,0.1); border-color: rgba(252,211,77,0.4);
+}
+.layanan-item.selected .layanan-name { color: rgba(252,211,77,0.6); }
+.layanan-item.selected .layanan-dur { color: #FCD34D; }
 .layanan-name { font-size: 10px; color: rgba(255,255,255,0.45); margin-bottom: 2px; }
 .layanan-dur { font-size: 12px; font-weight: 700; color: #fff; }
 
@@ -845,7 +854,7 @@ html, body {
 }
 .wa-input {
   flex: 1; height: 46px; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 0 12px 12px 0;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
   padding: 0 14px; font-family: inherit; font-size: 14px; color: #fff; outline: none;
 }
 .wa-input:focus { border-color: rgba(252,211,77,0.4); }
@@ -1839,8 +1848,8 @@ window.addEventListener('load', () => sortAndRender('all'));
   <div class="step" id="step2">
     <div class="wa-label">Nomor WhatsApp Kamu</div>
     <div class="wa-input-wrap">
-      <div class="wa-prefix">🇮🇩 +62</div>
-      <input class="wa-input" id="waInput" type="tel" placeholder="8xxxxxxxxxx" oninput="checkWa()"/>
+      
+      <input class="wa-input" id="waInput" type="tel" placeholder="Contoh: 08123456789" oninput="checkWa()"/>
     </div>
     <div class="wa-hint">Nomor ini akan dihubungi talent saat order dimulai</div>
     <div class="modal-nav">
@@ -1885,12 +1894,15 @@ const PRICELIST = {
 const ADMIN_FEE = 3000;
 const ADMIN_WA = '6281234567890';
 
-let vNominal = 0, vWA = '';
+let vNominal = 0, vWA = '', vLayanan = null;
 
 function openVoucher() {
   document.getElementById('vOverlay').classList.add('open');
   document.getElementById('vModal').classList.add('open');
   goStep(1);
+  // Auto-select nominal pertama (Rp 10rb)
+  const firstItem = document.querySelector('.nominal-item');
+  if (firstItem) selectNominal(firstItem, 10000);
 }
 function closeVoucherModal(e) {
   if (!e || e.target === document.getElementById('vOverlay')) {
@@ -1915,11 +1927,21 @@ function selectNominal(el, amount) {
   vNominal = amount;
   // Tampilkan durasi per layanan
   const grid = document.getElementById('layananGrid');
-  grid.innerHTML = Object.values(PRICELIST).map(s =>
-    `<div class="layanan-item"><div class="layanan-name">${s.label}</div><div class="layanan-dur">${s.durations[amount]}</div></div>`
+  grid.innerHTML = Object.entries(PRICELIST).map(([key, s]) =>
+    `<div class="layanan-item" onclick="selectLayanan(this, '${key}')" data-key="${key}">
+      <div class="layanan-name">${s.label}</div>
+      <div class="layanan-dur">${s.durations[amount]}</div>
+    </div>`
   ).join('');
+  vLayanan = null;
   document.getElementById('layananInfo').classList.add('show');
   document.getElementById('btnStep1').disabled = false;
+}
+
+function selectLayanan(el, key) {
+  document.querySelectorAll('.layanan-item').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  vLayanan = key;
 }
 
 function checkWa() {
@@ -1931,12 +1953,21 @@ function fmt(n) { return 'Rp ' + n.toLocaleString('id'); }
 
 function renderSummary() {
   const total = vNominal + ADMIN_FEE;
+  const layananLabel = vLayanan ? PRICELIST[vLayanan].label + ' · ' + PRICELIST[vLayanan].durations[vNominal] : 'Semua layanan';
   document.getElementById('summaryCard').innerHTML = `
     <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
+    <div class="summary-row"><span class="summary-label">Layanan</span><span class="summary-val">${layananLabel}</span></div>
     <div class="summary-row"><span class="summary-label">Biaya admin</span><span class="summary-val">${fmt(ADMIN_FEE)}</span></div>
-    <div class="summary-row"><span class="summary-label">Nomor WA</span><span class="summary-val">+62${vWA}</span></div>
+    <div class="summary-row"><span class="summary-label">Nomor WA</span><span class="summary-val">${'+' + formatWA(vWA)}</span></div>
     <div class="summary-row"><span class="summary-label" style="font-weight:800;color:#fff;">Total</span><span class="summary-total">${fmt(total)}</span></div>
   `;
+}
+
+function formatWA(num) {
+  num = num.trim().replace(/\D/g, ''); // hapus non-digit
+  if (num.startsWith('62')) return num;
+  if (num.startsWith('0')) return '62' + num.slice(1);
+  return '62' + num;
 }
 
 function buyViaWA() {
@@ -1946,7 +1977,7 @@ function buyViaWA() {
     '• Nominal: ' + fmt(vNominal) + '\n' +
     '• Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
     '• Total: ' + fmt(total) + '\n' +
-    '• No. WA: +62' + vWA + '\n\n' +
+    '• No. WA: +' + formatWA(vWA) + '\n\n' +
     'Mohon dibuatkan voucher. Terima kasih!'
   );
   window.open('https://wa.me/' + ADMIN_WA + '?text=' + msg, '_blank');
