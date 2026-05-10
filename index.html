@@ -256,6 +256,35 @@ html, body {
   touch-action: pan-x pan-y;
   -ms-touch-action: pan-x pan-y;
 }
+
+/* BORDER LIGHT ANIMATION - card pertama */
+.talent-card:first-child {
+  position: relative;
+}
+.talent-card:first-child::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1.5px;
+  background: linear-gradient(var(--angle), transparent 40%, rgba(255,255,255,0.8) 50%, transparent 60%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderRotate 3s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes borderRotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
 </style>
 </head>
 <body>
@@ -313,7 +342,7 @@ html, body {
     <circle cx="440" cy="650" r="1.1" fill="#A78BFA" style="animation:twinkle2 1.7s infinite;"/>
 
     <!-- Shooting star -->
-    <line x1="380" y1="100" x2="420" y2="80" stroke="rgba(255,255,255,0.55)" stroke-width="0.7" style="opacity:0;animation:shootingStar 5s ease-out 2s infinite;animation-fill-mode:both;"/>
+    <line x1="380" y1="100" x2="420" y2="80" stroke="rgba(255,255,255,0.85)" stroke-width="1" style="opacity:0;animation:shootingStar 5s ease-out 0.5s infinite;animation-fill-mode:both;"/>
 
     <!-- Milky way glow -->
     <ellipse cx="240" cy="450" rx="200" ry="30" fill="rgba(255,255,255,0.02)" transform="rotate(-20 240 450)"/>
