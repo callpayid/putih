@@ -795,8 +795,10 @@ html, body {
   border-radius: 24px;
   border: 0.5px solid rgba(252,211,77,0.2);
   padding: 20px;
+  overscroll-behavior: contain;
 }
 .voucher-modal.open { display: block; }
+body.modal-open { overflow: hidden; touch-action: none; }
 .modal-handle { width: 36px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.12); margin: 0 auto 16px; }
 .modal-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
 .modal-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
@@ -1902,16 +1904,15 @@ let vNominal = 0, vWA = '', vLayanan = null;
 function openVoucher() {
   document.getElementById('vOverlay').classList.add('open');
   document.getElementById('vModal').classList.add('open');
+  document.body.classList.add('modal-open');
   goStep(1);
-  // Auto-select nominal pertama (Rp 10rb)
   const firstItem = document.querySelector('.nominal-item');
   if (firstItem) selectNominal(firstItem, 10000);
 }
 function closeVoucherModal(e) {
-  if (!e || e.target === document.getElementById('vOverlay')) {
-    document.getElementById('vOverlay').classList.remove('open');
-    document.getElementById('vModal').classList.remove('open');
-  }
+  document.getElementById('vOverlay').classList.remove('open');
+  document.getElementById('vModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
 }
 
 function goStep(n) {
