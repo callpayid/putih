@@ -42,11 +42,11 @@ body {
 @keyframes twinkle2 { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 @keyframes twinkle3 { 0%,100%{opacity:0.1} 50%{opacity:0.7} }
 @keyframes shootingStar {
-  0% { transform: translateX(80px) translateY(-40px); opacity: 0; }
-  10% { opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateX(-200px) translateY(100px); opacity: 0; }
+  0% { transform: translateX(0) translateY(0); opacity: 0; }
+  5% { opacity: 0; }
+  15% { opacity: 0.5; }
+  70% { opacity: 0.4; }
+  100% { transform: translateX(-220px) translateY(110px); opacity: 0; }
 }
 
 
@@ -313,7 +313,7 @@ html, body {
     <circle cx="440" cy="650" r="1.1" fill="#A78BFA" style="animation:twinkle2 1.7s infinite;"/>
 
     <!-- Shooting star -->
-    <line x1="380" y1="100" x2="420" y2="80" stroke="white" stroke-width="0.8" opacity="0.6" style="animation:shootingStar 4s ease-out 3s infinite;"/>
+    <line x1="380" y1="100" x2="420" y2="80" stroke="rgba(255,255,255,0.55)" stroke-width="0.7" opacity="0.6" style="animation:shootingStar 5s ease-out 6s infinite;"/>
 
     <!-- Milky way glow -->
     <ellipse cx="240" cy="450" rx="200" ry="30" fill="rgba(255,255,255,0.02)" transform="rotate(-20 240 450)"/>
