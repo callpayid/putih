@@ -1812,7 +1812,10 @@ window.addEventListener('load', () => sortAndRender('all'));
 <!-- VOUCHER MODAL -->
 <div class="voucher-modal" id="vModal">
   <div class="modal-handle"></div>
-  <div class="modal-title">🎟️ Beli Voucher</div>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+    <div class="modal-title">🎟️ Beli Voucher</div>
+    <button onclick="closeVoucherModal()" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;">×</button>
+  </div>
   <div class="modal-sub">Voucher berlaku untuk semua layanan</div>
 
   <!-- STEP DOTS -->
@@ -1851,7 +1854,7 @@ window.addEventListener('load', () => sortAndRender('all'));
       
       <input class="wa-input" id="waInput" type="tel" placeholder="Contoh: 08123456789" oninput="checkWa()"/>
     </div>
-    <div class="wa-hint">Nomor ini akan dihubungi talent saat order dimulai</div>
+    <div class="wa-hint">Pastikan nomor ini benar — talent akan menghubungi kamu via WhatsApp saat voucher digunakan</div>
     <div class="modal-nav">
       <button class="btn-back" onclick="goStep(1)">← Kembali</button>
       <button class="btn-next" id="btnStep2" onclick="goStep(3)" disabled>Lanjut →</button>
@@ -1935,13 +1938,14 @@ function selectNominal(el, amount) {
   ).join('');
   vLayanan = null;
   document.getElementById('layananInfo').classList.add('show');
-  document.getElementById('btnStep1').disabled = false;
+  document.getElementById('btnStep1').disabled = true;
 }
 
 function selectLayanan(el, key) {
   document.querySelectorAll('.layanan-item').forEach(x => x.classList.remove('selected'));
   el.classList.add('selected');
   vLayanan = key;
+  document.getElementById('btnStep1').disabled = false;
 }
 
 function checkWa() {
@@ -1955,10 +1959,9 @@ function renderSummary() {
   const total = vNominal + ADMIN_FEE;
   const layananLabel = vLayanan ? PRICELIST[vLayanan].label + ' · ' + PRICELIST[vLayanan].durations[vNominal] : 'Semua layanan';
   document.getElementById('summaryCard').innerHTML = `
-    <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
     <div class="summary-row"><span class="summary-label">Layanan</span><span class="summary-val">${layananLabel}</span></div>
+    <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
     <div class="summary-row"><span class="summary-label">Biaya admin</span><span class="summary-val">${fmt(ADMIN_FEE)}</span></div>
-    <div class="summary-row"><span class="summary-label">Nomor WA</span><span class="summary-val">${'+' + formatWA(vWA)}</span></div>
     <div class="summary-row"><span class="summary-label" style="font-weight:800;color:#fff;">Total</span><span class="summary-total">${fmt(total)}</span></div>
   `;
 }
