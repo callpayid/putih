@@ -54,10 +54,72 @@ body {
 .content { padding-top: 62px; }
 
 /* TALENT SECTION */
+.greeting {
+  padding: 22px 20px 4px;
+  position: relative;
+}
+.greet-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 4px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+.greet-row::before {
+  content: "";
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  box-shadow: 0 0 10px rgba(252,211,77,0.5);
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+.greet-emoji { font-size: 11px; }
+.greet-headline {
+  font-family: 'Instrument Serif', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.18;
+  color: #fff;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+  text-wrap: pretty;
+}
+.greet-headline em {
+  font-style: italic;
+  background: linear-gradient(135deg, #FFF1B8 0%, #FCD34D 55%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.greet-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+  max-width: 320px;
+  text-wrap: pretty;
+}
+.type-display .greet-headline { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.035em; }
+.type-display .greet-headline em { font-style: normal; }
+.type-mono .greet-headline { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 18px; letter-spacing: -0.05em; }
+.type-mono .greet-headline em { font-style: normal; }
+.type-mono .greet-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: -0.02em; }
+
 .section-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 20px 12px;
-}
+  padding: 24px 20px 12px;}
 .section-title { font-size: 16px; font-weight: 800; color: #fff; }
 .online-badge {
   display: flex; align-items: center; gap: 5px;
@@ -610,6 +672,16 @@ html, body {
   <!-- CONTENT -->
   <div class="content">
 
+    <!-- GREETING -->
+    <div class="greeting">
+      <div class="greet-row">
+        <span class="greet-time" id="greetTime">Selamat malam</span>
+        <span class="greet-emoji" aria-hidden="true">✨</span>
+      </div>
+      <h1 class="greet-headline">Mau ditemani siapa <em>malam ini</em>?</h1>
+      <p class="greet-sub" id="greetSub">Pilih talent favoritmu, dengarkan suara yang nyaman, lalu tidur nyenyak.</p>
+    </div>
+
     <!-- TALENT SECTION -->
     <div class="section-header">
       <span class="section-title" style="font-family: Inter; font-weight: 800; color: rgb(255, 255, 255)">Talent Tersedia</span>
@@ -1050,6 +1122,25 @@ function filterGender(gender, btn) {
 }
 
 window.addEventListener('load', () => sortAndRender('all'));
+
+// Time-aware greeting
+(function(){
+  const t = document.getElementById('greetTime');
+  const s = document.getElementById('greetSub');
+  const e = document.querySelector('.greet-emoji');
+  const h = document.querySelector('.greet-headline');
+  if (!t) return;
+  const hr = new Date().getHours();
+  let label, emoji, sub, headline;
+  if (hr >= 5 && hr < 11)       { label = 'Selamat pagi';  emoji = '☀️'; headline = 'Mau ditemani siapa <em>pagi ini</em>?';  sub = 'Mulai harimu dengan obrolan hangat dan suara yang nyaman.'; }
+  else if (hr >= 11 && hr < 15) { label = 'Selamat siang'; emoji = '🌤️'; headline = 'Mau ditemani siapa <em>siang ini</em>?'; sub = 'Istirahat sejenak, ngobrol santai, lalu lanjut produktif.'; }
+  else if (hr >= 15 && hr < 18) { label = 'Selamat sore';  emoji = '🌅'; headline = 'Mau ditemani siapa <em>sore ini</em>?';  sub = 'Sore yang tenang lebih nyaman bareng teman ngobrol.'; }
+  else                          { label = 'Selamat malam'; emoji = '✨'; headline = 'Mau ditemani siapa <em>malam ini</em>?'; sub = 'Pilih talent favoritmu, dengarkan suara yang nyaman, lalu tidur nyenyak.'; }
+  t.textContent = label;
+  if (e) e.textContent = emoji;
+  if (h) h.innerHTML = headline;
+  if (s) s.textContent = sub;
+})();
 </script>
 </body>
 </html>
