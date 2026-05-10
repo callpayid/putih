@@ -579,25 +579,26 @@ document.addEventListener('selectstart', e => e.preventDefault());
 </script>
 
 <script>
+// Sort online di atas
+window.addEventListener('load', function() {
+  const list = document.querySelector('.talent-list');
+  const cards = Array.from(list.querySelectorAll('.talent-card'));
+  const online = cards.filter(c => c.querySelector('.card-status span:last-child')?.textContent.trim() === 'Online');
+  const offline = cards.filter(c => c.querySelector('.card-status span:last-child')?.textContent.trim() !== 'Online');
+  [...online, ...offline].forEach(c => list.appendChild(c));
+});
+
+// Filter gender
 function filterGender(gender, btn) {
-  // Update button styles
   document.querySelectorAll('.gender-btn').forEach(b => b.className = 'gender-btn inactive');
   if (gender === 'all') btn.className = 'gender-btn active-all';
   else if (gender === 'w') btn.className = 'gender-btn active-w';
   else btn.className = 'gender-btn active-p';
 
-  // Filter cards
-  document.querySelectorAll('.talent-card-wrap').forEach(wrap => {
-    const card = wrap.querySelector('.talent-card');
+  document.querySelectorAll('.talent-card').forEach(card => {
     const badge = card.querySelector('.gender-badge');
     if (!badge) return;
-    if (gender === 'all') {
-      wrap.style.display = '';
-    } else if (gender === 'w') {
-      wrap.style.display = badge.classList.contains('w') ? '' : 'none';
-    } else {
-      wrap.style.display = badge.classList.contains('p') ? '' : 'none';
-    }
+    card.style.display = (gender === 'all' || badge.classList.contains(gender)) ? '' : 'none';
   });
 }
 </script>
