@@ -171,6 +171,27 @@ body {
 }
 .card-avatar:hover .av-play { opacity: 1; transform: scale(1); }
 .av-play svg { width: 12px; height: 12px; fill: #fff; margin-left: 1.5px; }
+.av-eq {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+}
+.av-eq span {
+  width: 2.2px; height: 100%;
+  background: #1a1000;
+  border-radius: 1.5px;
+  transform-origin: bottom center;
+  animation: avEq 0.9s ease-in-out infinite;
+}
+.av-eq span:nth-child(1) { animation-delay: 0s; }
+.av-eq span:nth-child(2) { animation-delay: 0.15s; }
+.av-eq span:nth-child(3) { animation-delay: 0.3s; }
+.av-eq span:nth-child(4) { animation-delay: 0.45s; }
+@keyframes avEq {
+  0%, 100% { transform: scaleY(0.3); }
+  50%      { transform: scaleY(1); }
+}
 .av-duration {
   position: absolute;
   left: 8px; bottom: 8px;
@@ -196,7 +217,8 @@ body {
 }
 .card-avatar.playing .av-overlay { background: rgba(0,0,0,0.45); }
 .card-avatar.playing .av-play { opacity: 1; transform: scale(1); background: rgba(252,211,77,0.95); border-color: #FCD34D; }
-.card-avatar.playing .av-play svg { fill: #1a1000; }
+.card-avatar.playing .av-play svg { display: none; }
+.card-avatar.playing .av-eq { display: inline-flex; }
 .card-avatar.playing .av-duration::before {
   -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/8px no-repeat;
   mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/8px no-repeat;
@@ -227,6 +249,38 @@ body {
 }
 .gender-badge.w { background: rgba(236,72,153,0.2); color: #F472B6; }
 .gender-badge.p { background: rgba(96,165,250,0.2); color: #60A5FA; }
+
+/* TALENT TAGS — top, baru, repeat */
+.tag-row { display: inline-flex; flex-wrap: wrap; gap: 3px; margin-top: 3px; margin-left: 3px; vertical-align: middle; }
+.t-tag {
+  display: inline-flex; align-items: center; gap: 3px;
+  border-radius: 999px; padding: 1px 6px;
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  border: 0.5px solid transparent;
+}
+.t-tag.top {
+  background: linear-gradient(135deg, rgba(252,211,77,0.22), rgba(245,158,11,0.18));
+  color: #FCD34D;
+  border-color: rgba(252,211,77,0.35);
+}
+.t-tag.baru {
+  background: rgba(94,234,212,0.18);
+  color: #5EEAD4;
+  border-color: rgba(94,234,212,0.35);
+}
+.t-tag.repeat {
+  background: rgba(167,139,250,0.2);
+  color: #C4B5FD;
+  border-color: rgba(167,139,250,0.35);
+}
+.t-tag.verified {
+  background: rgba(96,165,250,0.18);
+  color: #60A5FA;
+  border-color: rgba(96,165,250,0.35);
+}
+.t-tag svg { width: 8px; height: 8px; }
 .card-services { font-size: 10.5px; color: rgba(255,255,255,0.45); margin-top: 4px; }
 .card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
 .btn-pesan {
@@ -1320,7 +1374,10 @@ window.addEventListener('load', () => sortAndRender('all'));
       '<span class="av-ring r1"></span>' +
       '<span class="av-ring r2"></span>' +
       '<span class="av-ring r3"></span>' +
-      '<span class="av-play"><svg viewBox="0 0 12 12"><polygon points="3,2 10,6 3,10"/></svg></span>';
+      '<span class="av-play">' +
+        '<svg viewBox="0 0 12 12"><polygon points="3,2 10,6 3,10"/></svg>' +
+        '<span class="av-eq"><span></span><span></span><span></span><span></span></span>' +
+      '</span>';
     av.appendChild(overlay);
 
     const dur = document.createElement('span');
@@ -1350,6 +1407,46 @@ window.addEventListener('load', () => sortAndRender('all'));
   }
 
   document.querySelectorAll('.card-avatar').forEach(setupAvatar);
+})();
+
+// TALENT TAGS — distribute Top / Baru / Repeat / Verified per talent
+(function(){
+  const tagMap = {
+    Vania:   ['top','repeat'],
+    Mirelle: ['top','verified'],
+    Nadira:  ['baru'],
+    Sasha:   [],
+    Kiraa:   ['baru'],
+    Luna:    ['repeat'],
+    Tasya:   [],
+    Bella:   ['top','repeat'],
+    Rizky:   ['repeat'],
+    Daffa:   ['baru'],
+    Arkan:   []
+  };
+  const labels = {
+    top:      { text: 'Top Talent', icon: '<svg viewBox="0 0 10 10"><polygon points="5,1 6.2,3.8 9,4 6.7,5.9 7.4,8.7 5,7.2 2.6,8.7 3.3,5.9 1,4 3.8,3.8" fill="currentColor"/></svg>' },
+    baru:     { text: 'Baru',       icon: '<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="2.4" fill="currentColor"/></svg>' },
+    repeat:   { text: 'Repeat',     icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5a3 3 0 0 1 5.5-1.7"/><polyline points="7.5,1.6 7.5,3.6 5.5,3.6"/><path d="M8 5a3 3 0 0 1-5.5 1.7"/><polyline points="2.5,8.4 2.5,6.4 4.5,6.4"/></svg>' },
+    verified: { text: 'Verified',   icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.2,5 4,7 7.8,3"/></svg>' }
+  };
+  document.querySelectorAll('.talent-card').forEach(card => {
+    const name = card.querySelector('.card-name')?.textContent.trim();
+    const tags = tagMap[name];
+    if (!tags || !tags.length) return;
+    const genderBadge = card.querySelector('.gender-badge');
+    if (!genderBadge) return;
+    const row = document.createElement('span');
+    row.className = 'tag-row';
+    tags.forEach(k => {
+      const t = labels[k]; if (!t) return;
+      const el = document.createElement('span');
+      el.className = 't-tag ' + k;
+      el.innerHTML = t.icon + '<span>' + t.text + '</span>';
+      row.appendChild(el);
+    });
+    genderBadge.insertAdjacentElement('afterend', row);
+  });
 })();
 </script>
 </body>
