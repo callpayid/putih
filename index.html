@@ -776,209 +776,230 @@ html, body {
 .tooltip-row:last-child { margin-bottom: 0; }
 .tooltip-row span { color: #fff; font-weight: 800; }
 
+
 /* =============================================
-   HALAMAN BELI VOUCHER
+   HALAMAN BELI VOUCHER — redesign total
    ============================================= */
 #page-voucher {
   display: none;
-  position: fixed;
-  inset: 0;
-  max-width: 480px;
-  margin: 0 auto;
-  z-index: 200;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  min-height: 100%;
+  z-index: 500;
   background: linear-gradient(160deg, #020208 0%, #0A0A20 60%, #0D0A25 100%);
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-@media (min-width: 481px) {
-  #page-voucher { border-radius: 40px; top: 20px; bottom: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
 }
 #page-voucher.open { display: block; }
+#app.voucher-open { overflow: visible; }
+#app.voucher-open > *:not(#page-voucher) { visibility: hidden; }
 
-/* slide-up animation */
 @keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
+  from { transform: translateY(24px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
-#page-voucher.open .vp-inner {
-  animation: slideUp 0.32s cubic-bezier(0.22,1,0.36,1);
-}
+#page-voucher.open { animation: slideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
 
+/* NAVBAR */
 .vp-navbar {
   position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; gap: 14px;
+  display: flex; align-items: center; gap: 12px;
   padding: 14px 20px;
-  background: rgba(2,2,8,0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(2,2,8,0.92);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-bottom: 0.5px solid rgba(255,255,255,0.06);
 }
 .vp-back {
   width: 36px; height: 36px; border-radius: 12px;
-  background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s;
 }
-.vp-back svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.vp-back:active { background: rgba(255,255,255,0.12); }
+.vp-back svg { width: 17px; height: 17px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .vp-nav-title {
   font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 19px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  font-style: italic; font-size: 20px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
   -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(252,211,77,0.25));
 }
 
-.vp-inner { padding: 20px 20px 40px; }
+/* INNER */
+.vp-inner { padding: 22px 16px 52px; }
 
-/* Card utama */
-.vp-card {
-  background: rgba(255,255,255,0.04);
+/* HERO BADGE */
+.vp-hero {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; margin-bottom: 20px;
+  background: rgba(252,211,77,0.06);
+  border: 0.5px solid rgba(252,211,77,0.18);
+  border-radius: 16px;
+}
+.vp-hero-icon {
+  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 4px 14px rgba(252,211,77,0.3);
+}
+.vp-hero-text { flex: 1; }
+.vp-hero-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+.vp-hero-sub { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+/* SECTION */
+.vp-section { margin-bottom: 20px; }
+.vp-section-label {
+  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+/* NOMINAL PILLS */
+.vp-nominal-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+}
+.vp-nominal-pill {
   border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 16px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 14px; padding: 12px 8px;
+  cursor: pointer; text-align: center;
+  transition: all 0.18s; position: relative;
 }
-
-.vp-card-title {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 16px; font-weight: 800; color: #fff;
-  margin-bottom: 6px;
+.vp-nominal-pill:active { transform: scale(0.96); }
+.vp-nominal-pill.selected {
+  border-color: rgba(252,211,77,0.6);
+  background: rgba(252,211,77,0.1);
+  box-shadow: 0 0 18px rgba(252,211,77,0.1);
 }
-.vp-card-title span { font-size: 18px; }
-.vp-card-desc {
-  font-size: 12px; color: rgba(255,255,255,0.4);
-  line-height: 1.5; margin-bottom: 18px;
+.vp-nominal-pill.popular::after {
+  content: 'POPULER';
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg,#FCD34D,#F59E0B);
+  color: #0A0700; font-size: 7px; font-weight: 900;
+  padding: 2px 7px; border-radius: 999px; letter-spacing: 0.08em;
+  white-space: nowrap;
 }
-
-/* Label input */
-.vp-label {
-  font-size: 10px; font-weight: 700;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
+.vp-pill-price {
+  font-size: 14px; font-weight: 900;
+  color: #fff; line-height: 1;
 }
-
-/* Dropdown */
-.vp-select-wrap {
-  position: relative; margin-bottom: 6px;
+.vp-nominal-pill.selected .vp-pill-price {
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.vp-select {
-  width: 100%; height: 48px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 14px;
-  padding: 0 42px 0 16px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 600; color: #fff;
-  appearance: none; -webkit-appearance: none;
-  cursor: pointer; outline: none;
-  transition: border-color 0.2s;
-}
-.vp-select:focus { border-color: rgba(252,211,77,0.5); }
-.vp-select option { background: #0D0A25; color: #fff; }
-.vp-select-icon {
-  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-  pointer-events: none;
-  color: rgba(255,255,255,0.4);
-  font-size: 14px;
-}
+.vp-pill-label { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 3px; font-weight: 600; }
 .vp-admin-note {
-  font-size: 11px; color: rgba(255,255,255,0.3);
-  margin-bottom: 18px;
+  font-size: 10.5px; color: rgba(255,255,255,0.25);
+  padding-left: 2px; margin-top: 8px;
 }
 
-/* Yang Kamu Dapat */
+/* BENEFIT BOX */
 .vp-benefit-box {
-  background: rgba(252,211,77,0.04);
-  border: 0.5px solid rgba(252,211,77,0.15);
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 18px;
-  display: none;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; overflow: hidden;
+  display: none; margin-top: 14px;
 }
 .vp-benefit-box.show { display: block; }
-.vp-benefit-label {
-  font-size: 10px; font-weight: 700;
-  color: rgba(255,255,255,0.3);
+.vp-benefit-header {
+  padding: 10px 14px;
+  background: rgba(252,211,77,0.06);
+  border-bottom: 0.5px solid rgba(252,211,77,0.1);
+  font-size: 10px; font-weight: 700; color: rgba(252,211,77,0.7);
   letter-spacing: 0.1em; text-transform: uppercase;
-  margin-bottom: 10px;
 }
 .vp-benefit-row {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
+  padding: 9px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.04);
 }
-.vp-benefit-row:last-child { margin-bottom: 0; }
-.vp-benefit-name {
-  font-size: 12.5px; color: rgba(255,255,255,0.75);
-  display: flex; align-items: center; gap: 6px;
-}
-.vp-benefit-dur {
-  font-size: 12.5px; font-weight: 700; color: #FCD34D;
-}
-.vp-benefit-divider {
-  height: 1px; background: rgba(255,255,255,0.06);
-  margin: 10px 0;
-}
-.vp-benefit-total {
+.vp-benefit-row:last-of-type { border-bottom: none; }
+.vp-benefit-name { font-size: 12.5px; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 7px; }
+.vp-benefit-dur { font-size: 12px; font-weight: 800; color: #FCD34D; }
+.vp-benefit-footer {
   display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(52,211,153,0.05);
+  border-top: 0.5px solid rgba(52,211,153,0.12);
 }
-.vp-benefit-total-label { font-size: 11px; color: rgba(255,255,255,0.35); }
-.vp-benefit-total-val {
-  font-size: 13px; font-weight: 800; color: #34D399;
-}
+.vp-benefit-footer-label { font-size: 10.5px; color: rgba(255,255,255,0.3); }
+.vp-benefit-footer-val { font-size: 13px; font-weight: 900; color: #34D399; }
 
-/* Input WA */
-.vp-wa-input {
-  width: 100%; height: 48px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 14px;
-  padding: 0 16px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; color: #fff; outline: none;
-  margin-bottom: 6px;
+/* WA INPUT */
+.vp-wa-wrap {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 16px; overflow: hidden;
+  display: flex; align-items: center;
   transition: border-color 0.2s;
 }
-.vp-wa-input:focus { border-color: rgba(252,211,77,0.5); }
-.vp-wa-input::placeholder { color: rgba(255,255,255,0.2); }
+.vp-wa-wrap:focus-within { border-color: rgba(252,211,77,0.4); }
+.vp-wa-prefix {
+  padding: 0 12px 0 16px;
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.3);
+  border-right: 0.5px solid rgba(255,255,255,0.08);
+  height: 48px; display: flex; align-items: center; white-space: nowrap;
+}
+.vp-wa-input {
+  flex: 1; height: 48px; background: transparent;
+  border: none; padding: 0 16px;
+  font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none;
+}
+.vp-wa-input::placeholder { color: rgba(255,255,255,0.18); }
 .vp-wa-note {
-  font-size: 11px; color: rgba(255,255,255,0.3);
+  font-size: 10.5px; color: rgba(255,255,255,0.25);
+  margin-top: 8px; padding-left: 2px; line-height: 1.4;
   display: flex; align-items: flex-start; gap: 5px;
-  line-height: 1.4; margin-bottom: 0;
 }
 
-/* Tombol beli */
-.vp-methods { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+/* METHOD BUTTONS */
+.vp-methods { display: flex; flex-direction: column; gap: 10px; }
 .vp-method-btn {
-  width: 100%; height: 60px; border-radius: 16px;
-  border: none; cursor: pointer; font-family: inherit;
+  width: 100%; border-radius: 18px; border: 0.5px solid rgba(255,255,255,0.08);
+  cursor: pointer; font-family: 'Inter', sans-serif;
   display: flex; align-items: center;
-  padding: 0 20px; gap: 14px;
-  transition: transform 0.15s, opacity 0.15s;
-  text-align: left;
+  padding: 14px 16px; gap: 14px; text-align: left;
+  transition: transform 0.15s, box-shadow 0.15s;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
-.vp-method-btn:active { transform: scale(0.97); opacity: 0.85; }
+.vp-method-btn:active { transform: scale(0.97); }
 .vp-method-btn.admin {
-  background: linear-gradient(135deg, #C94B7B, #8B3060);
+  background: rgba(255,107,157,0.12);
+  border-color: rgba(255,107,157,0.22);
+  box-shadow: 0 4px 20px rgba(255,107,157,0.08);
 }
+.vp-method-btn.admin:active { box-shadow: 0 2px 10px rgba(255,107,157,0.15); }
 .vp-method-btn.web {
-  background: linear-gradient(135deg, #5B3DAB, #3B1E8A);
+  background: rgba(139,92,246,0.12);
+  border-color: rgba(139,92,246,0.22);
+  box-shadow: 0 4px 20px rgba(139,92,246,0.08);
 }
+.vp-method-btn.web:active { box-shadow: 0 2px 10px rgba(139,92,246,0.15); }
 .vp-method-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; flex-shrink: 0;
+  width: 42px; height: 42px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.vp-method-btn.admin .vp-method-icon {
+  background: linear-gradient(135deg, rgba(255,107,157,0.3), rgba(255,107,157,0.15));
+  border: 0.5px solid rgba(255,107,157,0.3);
+}
+.vp-method-btn.web .vp-method-icon {
+  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(139,92,246,0.15));
+  border: 0.5px solid rgba(139,92,246,0.3);
 }
 .vp-method-text { flex: 1; }
-.vp-method-title { font-size: 13px; font-weight: 800; color: #fff; }
-.vp-method-sub { font-size: 10.5px; color: rgba(255,255,255,0.6); margin-top: 1px; }
-.vp-method-arrow { font-size: 16px; color: rgba(255,255,255,0.4); }
-
+.vp-method-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+.vp-method-btn.admin .vp-method-title { color: #FFB0CC; }
+.vp-method-btn.web .vp-method-title { color: #C4B5FD; }
+.vp-method-sub { font-size: 10.5px; color: rgba(255,255,255,0.4); }
+.vp-method-arrow {
+  font-size: 18px; color: rgba(255,255,255,0.2); margin-left: 4px; flex-shrink: 0;
+}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1461,6 +1482,107 @@ html, body {
     </div>
 
   </div>
+  <!-- ===== PAGE BELI VOUCHER ===== -->
+  <div id="page-voucher">
+    <div class="vp-navbar">
+      <div class="vp-back" onclick="closeVoucher()">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <span class="vp-nav-title">Beli Voucher</span>
+    </div>
+    <div class="vp-inner">
+
+      <!-- Hero -->
+      <div class="vp-hero">
+        <div class="vp-hero-icon">🎟️</div>
+        <div class="vp-hero-text">
+          <div class="vp-hero-title">Top Up Voucher</div>
+          <div class="vp-hero-sub">Pilih nominal & masukkan WA kamu. Voucher dikirim otomatis setelah bayar.</div>
+        </div>
+      </div>
+
+      <!-- Pilih Nominal -->
+      <div class="vp-section">
+        <div class="vp-section-label">Pilih Nominal</div>
+        <div class="vp-nominal-grid">
+          <div class="vp-nominal-pill" onclick="selectNominal(this, 10000)">
+            <div class="vp-pill-price">10rb</div>
+            <div class="vp-pill-label">Rp 10.000</div>
+          </div>
+          <div class="vp-nominal-pill" onclick="selectNominal(this, 20000)">
+            <div class="vp-pill-price">20rb</div>
+            <div class="vp-pill-label">Rp 20.000</div>
+          </div>
+          <div class="vp-nominal-pill popular" onclick="selectNominal(this, 30000)">
+            <div class="vp-pill-price">30rb</div>
+            <div class="vp-pill-label">Rp 30.000</div>
+          </div>
+          <div class="vp-nominal-pill" onclick="selectNominal(this, 40000)">
+            <div class="vp-pill-price">40rb</div>
+            <div class="vp-pill-label">Rp 40.000</div>
+          </div>
+          <div class="vp-nominal-pill" onclick="selectNominal(this, 50000)">
+            <div class="vp-pill-price">50rb</div>
+            <div class="vp-pill-label">Rp 50.000</div>
+          </div>
+          <div class="vp-nominal-pill" onclick="selectNominal(this, 60000)">
+            <div class="vp-pill-price">60rb</div>
+            <div class="vp-pill-label">Rp 60.000</div>
+          </div>
+        </div>
+        <div class="vp-admin-note">+ biaya admin Rp 3.000 per transaksi</div>
+
+        <!-- Yang Kamu Dapat -->
+        <div class="vp-benefit-box" id="vp-benefit">
+          <div class="vp-benefit-header">Yang Kamu Dapat</div>
+          <div class="vp-benefit-row"><span class="vp-benefit-name">📞 Teman Call</span><span class="vp-benefit-dur" id="bd-teman">—</span></div>
+          <div class="vp-benefit-row"><span class="vp-benefit-name">🌙 Sleepcall</span><span class="vp-benefit-dur" id="bd-sleep">—</span></div>
+          <div class="vp-benefit-row"><span class="vp-benefit-name">🫂 Temen Curhat</span><span class="vp-benefit-dur" id="bd-curhat">—</span></div>
+          <div class="vp-benefit-row"><span class="vp-benefit-name">💕 Pacar Virtual</span><span class="vp-benefit-dur" id="bd-pv">—</span></div>
+          <div class="vp-benefit-row"><span class="vp-benefit-name">🎯 Jasa marah marah</span><span class="vp-benefit-dur" id="bd-marah">—</span></div>
+          <div class="vp-benefit-footer">
+            <span class="vp-benefit-footer-label" id="bd-nilai"></span>
+            <span class="vp-benefit-footer-val" id="bd-total"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nomor WA -->
+      <div class="vp-section">
+        <div class="vp-section-label">Nomor WhatsApp Kamu</div>
+        <div class="vp-wa-wrap">
+          <span class="vp-wa-prefix">📱 +62</span>
+          <input class="vp-wa-input" id="vp-wa" type="tel" placeholder="8123456789" inputmode="numeric"/>
+        </div>
+        <div class="vp-wa-note">Talent akan menghubungi nomor ini saat voucher digunakan</div>
+      </div>
+
+      <!-- Metode Beli -->
+      <div class="vp-section">
+        <div class="vp-section-label">Metode Pembelian</div>
+        <div class="vp-methods">
+          <button class="vp-method-btn admin" onclick="beliViaAdmin()">
+            <div class="vp-method-icon">💬</div>
+            <div class="vp-method-text">
+              <div class="vp-method-title">Beli via Admin</div>
+              <div class="vp-method-sub">Pembelian melalui admin WhatsApp</div>
+            </div>
+            <span class="vp-method-arrow">›</span>
+          </button>
+          <button class="vp-method-btn web" onclick="beliViaWeb()">
+            <div class="vp-method-icon">💳</div>
+            <div class="vp-method-text">
+              <div class="vp-method-title">Beli via Website</div>
+              <div class="vp-method-sub">Bayar otomatis, voucher langsung dikirim</div>
+            </div>
+            <span class="vp-method-arrow">›</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
 </div>
 
@@ -1657,85 +1779,58 @@ function sortAndRender(filterGenderVal) {
   }
 }
 
-// =============================================
-// HALAMAN BELI VOUCHER
-// =============================================
+
+// ===== VOUCHER PAGE =====
 const BENEFIT_DATA = {
-  // nominal: { teman, sleep, curhat, pv, marah } (dalam menit)
-  10000:  { teman: 30,  sleep: 30,  curhat: 20, pv: 15, marah: 20 },
-  20000:  { teman: 60,  sleep: 60,  curhat: 40, pv: 30, marah: 40 },
-  30000:  { teman: 90,  sleep: 90,  curhat: 60, pv: 45, marah: 60 },
-  40000:  { teman: 120, sleep: 120, curhat: 80, pv: 60, marah: 80 },
-  50000:  { teman: 150, sleep: 150, curhat: 100,pv: 75, marah: 100 },
-  60000:  { teman: 180, sleep: 180, curhat: 120,pv: 90, marah: 120 },
+  10000:  { teman:30,  sleep:30,  curhat:20, pv:15, marah:20 },
+  20000:  { teman:60,  sleep:60,  curhat:40, pv:30, marah:40 },
+  30000:  { teman:90,  sleep:90,  curhat:60, pv:45, marah:60 },
+  40000:  { teman:120, sleep:120, curhat:80, pv:60, marah:80 },
+  50000:  { teman:150, sleep:150, curhat:100,pv:75, marah:100 },
+  60000:  { teman:180, sleep:180, curhat:120,pv:90, marah:120 },
 };
+function fmtMenit(m){return m>=60&&m%60===0?(m/60)+' jam':m>=60?Math.floor(m/60)+' jam '+(m%60)+' mnt':m+' menit';}
+function fmtRp(n){return 'Rp '+n.toLocaleString('id-ID');}
+let selectedNominal=0;
 
-function fmtMenit(m) {
-  if (m >= 60 && m % 60 === 0) return (m / 60) + ' jam';
-  if (m >= 60) return Math.floor(m/60) + ' jam ' + (m%60) + ' mnt';
-  return m + ' menit';
-}
-function fmtRp(n) {
-  return 'Rp ' + n.toLocaleString('id-ID');
-}
-
-function openVoucher() {
-  const pg = document.getElementById('page-voucher');
-  pg.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeVoucher() {
-  const pg = document.getElementById('page-voucher');
-  pg.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function onNominalChange(sel) {
-  const val = parseInt(sel.value);
-  const box = document.getElementById('vp-benefit');
-  if (!val) { box.classList.remove('show'); return; }
-  const d = BENEFIT_DATA[val];
-  if (!d) { box.classList.remove('show'); return; }
-  document.getElementById('bd-teman').textContent  = fmtMenit(d.teman);
-  document.getElementById('bd-sleep').textContent  = fmtMenit(d.sleep);
-  document.getElementById('bd-curhat').textContent = fmtMenit(d.curhat);
-  document.getElementById('bd-pv').textContent     = fmtMenit(d.pv);
-  document.getElementById('bd-marah').textContent  = fmtMenit(d.marah);
-  const total = val + 3000;
-  document.getElementById('bd-nilai').textContent  = 'Nilai voucher: ' + fmtRp(val) + ' + admin Rp 3.000';
-  document.getElementById('bd-total').textContent  = 'Total: ' + fmtRp(total);
+function selectNominal(el,val){
+  document.querySelectorAll('.vp-nominal-pill').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedNominal=val;
+  const d=BENEFIT_DATA[val]; if(!d) return;
+  document.getElementById('bd-teman').textContent=fmtMenit(d.teman);
+  document.getElementById('bd-sleep').textContent=fmtMenit(d.sleep);
+  document.getElementById('bd-curhat').textContent=fmtMenit(d.curhat);
+  document.getElementById('bd-pv').textContent=fmtMenit(d.pv);
+  document.getElementById('bd-marah').textContent=fmtMenit(d.marah);
+  document.getElementById('bd-nilai').textContent='Nilai voucher: '+fmtRp(val)+' + admin Rp 3.000';
+  document.getElementById('bd-total').textContent='Total: '+fmtRp(val+3000);
+  const box=document.getElementById('vp-benefit');
   box.classList.add('show');
+  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
 }
-
-function getFormData() {
-  const nominal = document.getElementById('vp-nominal').value;
-  const wa = document.getElementById('vp-wa').value.trim();
-  return { nominal, wa };
+function openVoucher(){
+  document.getElementById('page-voucher').classList.add('open');
+  document.getElementById('app').classList.add('voucher-open');
+  document.getElementById('page-voucher').scrollTop=0;
 }
-
-function beliViaAdmin() {
-  const { nominal, wa } = getFormData();
-  const nominalLabel = nominal ? fmtRp(parseInt(nominal)) : '(belum dipilih)';
-  const waNum = wa || '(belum diisi)';
-  const msg = encodeURIComponent(
-    'Halo Admin SleepcallPay!\n\nSaya ingin beli voucher:\n' +
-    '• Nominal: ' + nominalLabel + '\n' +
-    '• No. WA: ' + waNum + '\n\nMohon bantuannya, terima kasih! 🙏'
-  );
-  window.open('https://wa.me/6281234567890?text=' + msg, '_blank');
+function closeVoucher(){
+  document.getElementById('page-voucher').classList.remove('open');
+  document.getElementById('app').classList.remove('voucher-open');
 }
-
-function beliViaWeb() {
-  const { nominal, wa } = getFormData();
-  if (!nominal) { alert('Pilih nominal voucher terlebih dahulu.'); return; }
-  if (!wa) { alert('Masukkan nomor WhatsApp kamu terlebih dahulu.'); return; }
+function beliViaAdmin(){
+  const nominalLabel=selectedNominal?fmtRp(selectedNominal):'(belum dipilih)';
+  const wa=document.getElementById('vp-wa').value.trim();
+  const waFull=wa?'+62'+wa:'(belum diisi)';
+  const msg=encodeURIComponent('Halo Admin SleepcallPay!\n\nSaya ingin beli voucher:\n• Nominal: '+nominalLabel+'\n• No. WA: '+waFull+'\n\nMohon bantuannya 🙏');
+  window.open('https://wa.me/6281234567890?text='+msg,'_blank');
+}
+function beliViaWeb(){
+  if(!selectedNominal){alert('Pilih nominal voucher dulu ya!');return;}
+  if(!document.getElementById('vp-wa').value.trim()){alert('Masukkan nomor WhatsApp kamu!');return;}
   alert('Fitur pembayaran otomatis segera hadir! 🚀');
 }
-
-// Tutup voucher page saat tap di luar (back gesture)
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeVoucher();
-});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVoucher();});
 
 // Filter gender button
 function filterGender(gender, btn) {
@@ -1953,94 +2048,6 @@ window.addEventListener('load', () => sortAndRender('all'));
 })();
 </script>
 
-
-<!-- HALAMAN BELI VOUCHER — di luar #app agar tidak ter-clip overflow:hidden -->
-<div id="page-voucher">
-  <div class="vp-navbar">
-    <div class="vp-back" onclick="closeVoucher()">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </div>
-    <span class="vp-nav-title">Beli Voucher</span>
-  </div>
-  <div class="vp-inner">
-    <!-- Card form -->
-    <div class="vp-card">
-      <div class="vp-card-title"><span>🎟️</span> Beli Voucher</div>
-      <div class="vp-card-desc">Pilih nominal voucher dan masukkan nomor WhatsApp kamu. Setelah pembayaran berhasil, kode voucher akan otomatis dikirim.</div>
-
-      <!-- Pilih Nominal -->
-      <div class="vp-label">Pilih Nominal</div>
-      <div class="vp-select-wrap">
-        <select class="vp-select" id="vp-nominal" onchange="onNominalChange(this)">
-          <option value="">— Pilih Nominal —</option>
-          <option value="10000">Rp 10.000</option>
-          <option value="20000">Rp 20.000</option>
-          <option value="30000">Rp 30.000</option>
-          <option value="40000">Rp 40.000</option>
-          <option value="50000">Rp 50.000</option>
-          <option value="60000">Rp 60.000</option>
-        </select>
-        <span class="vp-select-icon">⌃⌄</span>
-      </div>
-      <div class="vp-admin-note">+ biaya admin Rp 3.000 per transaksi</div>
-
-      <!-- Yang Kamu Dapat -->
-      <div class="vp-benefit-box" id="vp-benefit">
-        <div class="vp-benefit-label">Yang Kamu Dapat</div>
-        <div class="vp-benefit-row">
-          <span class="vp-benefit-name">📞 Teman Call</span>
-          <span class="vp-benefit-dur" id="bd-teman">—</span>
-        </div>
-        <div class="vp-benefit-row">
-          <span class="vp-benefit-name">🌙 Sleepcall</span>
-          <span class="vp-benefit-dur" id="bd-sleep">—</span>
-        </div>
-        <div class="vp-benefit-row">
-          <span class="vp-benefit-name">🫂 Temen Curhat</span>
-          <span class="vp-benefit-dur" id="bd-curhat">—</span>
-        </div>
-        <div class="vp-benefit-row">
-          <span class="vp-benefit-name">💕 Pacar Virtual</span>
-          <span class="vp-benefit-dur" id="bd-pv">—</span>
-        </div>
-        <div class="vp-benefit-row">
-          <span class="vp-benefit-name">🎯 Jasa marah marah</span>
-          <span class="vp-benefit-dur" id="bd-marah">—</span>
-        </div>
-        <div class="vp-benefit-divider"></div>
-        <div class="vp-benefit-total">
-          <span class="vp-benefit-total-label" id="bd-nilai">Nilai voucher: Rp 10.000 + admin Rp 3.000</span>
-          <span class="vp-benefit-total-val" id="bd-total">Total: Rp 13.000</span>
-        </div>
-      </div>
-
-      <!-- Nomor WA -->
-      <div class="vp-label">Nomor WhatsApp Kamu</div>
-      <input class="vp-wa-input" id="vp-wa" type="tel" placeholder="Contoh: 08123456789" inputmode="numeric"/>
-      <div class="vp-wa-note">📱 Talent akan menghubungi nomor ini saat voucher digunakan</div>
-    </div>
-
-    <!-- Tombol beli -->
-    <div class="vp-methods">
-      <button class="vp-method-btn admin" onclick="beliViaAdmin()">
-        <div class="vp-method-icon">💬</div>
-        <div class="vp-method-text">
-          <div class="vp-method-title">Beli via Admin</div>
-          <div class="vp-method-sub">Pembelian melalui admin WhatsApp</div>
-        </div>
-        <span class="vp-method-arrow">›</span>
-      </button>
-      <button class="vp-method-btn web" onclick="beliViaWeb()">
-        <div class="vp-method-icon">💳</div>
-        <div class="vp-method-text">
-          <div class="vp-method-title">Beli via Website</div>
-          <div class="vp-method-sub">Bayar otomatis, voucher langsung dikirim</div>
-        </div>
-        <span class="vp-method-arrow">›</span>
-      </button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
