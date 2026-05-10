@@ -913,12 +913,12 @@ body.modal-open { overflow: hidden; touch-action: none; }
 
 
 /* =============================================
-   MODAL ORDER — referensi Pesan Layanan
+   MODAL ORDER — premium galaxy
    ============================================= */
 .order-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.65); z-index: 700;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.75); z-index: 700;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
 }
 .order-overlay.open { display: block; }
 
@@ -926,129 +926,138 @@ body.modal-open { overflow: hidden; touch-action: none; }
   display: none; position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100% - 32px); max-width: 420px;
+  width: calc(100% - 28px); max-width: 420px;
   max-height: 90vh; overflow-y: auto;
   z-index: 800;
-  background: #13132A;
-  border-radius: 24px;
-  border: 0.5px solid rgba(255,255,255,0.08);
+  background: linear-gradient(160deg, #08081A 0%, #0D0C22 60%, #100C24 100%);
+  border-radius: 26px;
+  border: 0.5px solid rgba(252,211,77,0.12);
+  box-shadow: 0 0 0 0.5px rgba(255,255,255,0.04), 0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(252,211,77,0.04);
   padding: 24px 22px 28px;
   overscroll-behavior: contain;
 }
 .order-modal.open {
   display: block;
-  animation: omFadeIn 0.25s cubic-bezier(0.22,1,0.36,1);
+  animation: omFadeIn 0.28s cubic-bezier(0.22,1,0.36,1);
 }
 @keyframes omFadeIn {
-  from { transform: translate(-50%, -46%); opacity: 0; }
+  from { transform: translate(-50%, -47%); opacity: 0; }
   to   { transform: translate(-50%, -50%); opacity: 1; }
 }
 
-/* Top row: judul + X */
+/* Top row */
 .order-top-row {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 18px;
 }
 .order-modal-title {
   font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 22px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  font-style: italic; font-size: 23px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(252,211,77,0.2));
+  filter: drop-shadow(0 0 14px rgba(252,211,77,0.35));
 }
 .order-close-btn {
   width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-  background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.5); font-size: 18px; cursor: pointer;
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4); font-size: 18px; cursor: pointer;
   display: flex; align-items: center; justify-content: center; line-height: 1;
+  transition: all 0.15s;
 }
-.order-close-btn:active { background: rgba(255,255,255,0.12); }
+.order-close-btn:active { background: rgba(255,255,255,0.1); color: #fff; }
 
-/* Card talent */
+/* Card talent — glass premium */
 .order-talent-card {
   display: flex; align-items: center; gap: 14px;
   background: rgba(255,255,255,0.04);
-  border: 0.5px solid rgba(255,255,255,0.08);
-  border-radius: 16px; padding: 12px 14px;
+  border: 0.5px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 13px 15px;
   margin-bottom: 22px;
+  position: relative; overflow: hidden;
+}
+.order-talent-card::before {
+  content: '';
+  position: absolute; top: -20px; right: -20px;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(252,211,77,0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 .order-talent-avatar {
-  width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+  width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 800; color: #fff;
+  font-size: 21px; font-weight: 800; color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
 }
 .order-talent-name { font-size: 15px; font-weight: 800; color: #fff; }
-.order-talent-sub { font-size: 11.5px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+.order-talent-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 3px; line-height: 1.4; }
 
 /* Steps */
 .order-step { display: none; }
 .order-step.show { display: block; }
 
-/* Section label */
+/* Label */
 .om-label {
-  font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
-  text-transform: uppercase; color: rgba(255,255,255,0.3);
-  margin-bottom: 8px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.25);
+  margin-bottom: 6px;
 }
 .om-sublabel {
-  font-size: 12px; color: rgba(255,255,255,0.35);
-  margin-bottom: 14px; line-height: 1.4;
+  font-size: 12px; color: rgba(255,255,255,0.3);
+  margin-bottom: 14px; line-height: 1.5;
 }
 
-/* Input + Gunakan */
+/* Input voucher */
 .om-voucher-row { display: flex; gap: 8px; margin-bottom: 16px; }
 .voucher-code-input {
-  flex: 1; height: 50px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px; padding: 0 16px;
+  flex: 1; height: 52px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 15px; padding: 0 18px;
   font-family: 'Inter', sans-serif;
   font-size: 14px; font-weight: 600; color: #fff;
-  letter-spacing: 0.05em; text-transform: uppercase;
-  outline: none; transition: border-color 0.2s;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  outline: none; transition: all 0.2s;
 }
-.voucher-code-input:focus { border-color: rgba(252,211,77,0.4); }
+.voucher-code-input:focus {
+  border-color: rgba(252,211,77,0.35);
+  background: rgba(252,211,77,0.03);
+  box-shadow: 0 0 0 3px rgba(252,211,77,0.06);
+}
 .voucher-code-input::placeholder {
   text-transform: none; letter-spacing: 0; font-weight: 400;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.18); font-size: 13px;
 }
-.om-btn-gunakan {
-  height: 50px; padding: 0 18px; border-radius: 14px; flex-shrink: 0;
-  background: transparent;
-  border: 1.5px solid rgba(252,211,77,0.5);
-  color: #FCD34D; font-family: inherit; font-size: 13px; font-weight: 800;
-  cursor: pointer; transition: all 0.15s; white-space: nowrap;
-}
-.om-btn-gunakan:active { background: rgba(252,211,77,0.1); }
 
 /* Tombol Pesan Sekarang */
 .om-btn-pesan {
-  width: 100%; height: 50px; border-radius: 14px; border: none;
-  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
-  color: #1a1000; font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 17px; font-weight: 400;
+  width: 100%; height: 52px; border-radius: 15px; border: none;
+  background: linear-gradient(135deg,#FFF8CC 0%,#FCD34D 45%,#F59E0B 100%);
+  color: #1a0f00; font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 18px; font-weight: 400;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  gap: 8px; transition: opacity 0.15s, transform 0.15s;
-  box-shadow: 0 4px 20px rgba(252,211,77,0.2);
+  gap: 8px; transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 24px rgba(252,211,77,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
   letter-spacing: 0.01em;
 }
 .om-btn-pesan:disabled {
-  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.25);
-  box-shadow: none; cursor: not-allowed;
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2);
+  box-shadow: none; cursor: not-allowed; font-style: normal; font-family: inherit; font-size: 14px;
 }
-.om-btn-pesan:not(:disabled):active { transform: scale(0.97); opacity: 0.9; }
+.om-btn-pesan:not(:disabled):active { transform: scale(0.97); box-shadow: 0 2px 12px rgba(252,211,77,0.2); }
 
 .om-lock-note {
-  text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);
+  text-align: center; font-size: 11px; color: rgba(255,255,255,0.2);
   margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px;
 }
 .om-beli-link {
-  text-align: center; font-size: 12.5px; color: rgba(255,255,255,0.3);
-  margin-top: 16px;
+  text-align: center; font-size: 12.5px; color: rgba(255,255,255,0.25);
+  margin-top: 14px;
 }
 .om-beli-link a {
-  color: #FCD34D; font-weight: 700; text-decoration: underline; cursor: pointer;
+  color: #FCD34D; font-weight: 700; text-decoration: none;
+  border-bottom: 1px solid rgba(252,211,77,0.4); cursor: pointer;
 }
 
 /* Layanan list */
