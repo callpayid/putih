@@ -229,6 +229,20 @@ body {
 .bio-input::placeholder { color: rgba(255,255,255,0.2); }
 .bio-count { font-size: 10px; color: rgba(255,255,255,0.25); text-align: right; margin-top: 3px; }
 
+
+/* GENDER FILTER */
+.gender-filter { display: flex; gap: 6px; }
+.gender-btn {
+  border: none; cursor: pointer; font-family: inherit;
+  font-size: 11px; font-weight: 700;
+  height: 28px; padding: 0 12px; border-radius: 999px;
+  transition: all 0.2s;
+}
+.gender-btn.active-all { background: rgba(255,255,255,0.15); color: #fff; }
+.gender-btn.active-w { background: rgba(244,114,182,0.2); color: #F472B6; border: 0.5px solid rgba(244,114,182,0.4); }
+.gender-btn.active-p { background: rgba(96,217,250,0.2); color: #60D9FA; border: 0.5px solid rgba(96,217,250,0.4); }
+.gender-btn.inactive { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 0.5px solid rgba(255,255,255,0.1); }
+
 </style>
 </head>
 <body>
@@ -311,6 +325,11 @@ body {
     <!-- TALENT SECTION -->
     <div class="section-header">
       <span class="section-title">Talent Tersedia</span>
+      <div class="gender-filter">
+        <button class="gender-btn active-all" onclick="filterGender('all', this)">Semua</button>
+        <button class="gender-btn inactive" onclick="filterGender('w', this)">♀</button>
+        <button class="gender-btn inactive" onclick="filterGender('p', this)">♂</button>
+      </div>
     </div>
     <div class="talent-list">
       
@@ -559,5 +578,28 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('selectstart', e => e.preventDefault());
 </script>
 
+<script>
+function filterGender(gender, btn) {
+  // Update button styles
+  document.querySelectorAll('.gender-btn').forEach(b => b.className = 'gender-btn inactive');
+  if (gender === 'all') btn.className = 'gender-btn active-all';
+  else if (gender === 'w') btn.className = 'gender-btn active-w';
+  else btn.className = 'gender-btn active-p';
+
+  // Filter cards
+  document.querySelectorAll('.talent-card-wrap').forEach(wrap => {
+    const card = wrap.querySelector('.talent-card');
+    const badge = card.querySelector('.gender-badge');
+    if (!badge) return;
+    if (gender === 'all') {
+      wrap.style.display = '';
+    } else if (gender === 'w') {
+      wrap.style.display = badge.classList.contains('w') ? '' : 'none';
+    } else {
+      wrap.style.display = badge.classList.contains('p') ? '' : 'none';
+    }
+  });
+}
+</script>
 </body>
 </html>
