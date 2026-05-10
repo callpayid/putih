@@ -1180,6 +1180,69 @@ body.modal-open { overflow: hidden; touch-action: none; }
 .om-countdown-bar { height: 100%; width: 100%; background: #FCD34D; border-radius: 4px; transition: width 1s linear; }
 .om-countdown-note { font-size: 10.5px; color: rgba(255,255,255,0.25); line-height: 1.5; }
 
+
+/* =============================================
+   DRAWER MENU
+   ============================================= */
+.drawer-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 900;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.drawer-overlay.open { display: block; }
+
+.drawer {
+  position: fixed; top: 0; right: -100%; bottom: 0;
+  width: 80%; max-width: 300px;
+  background: #0D0D20;
+  border-left: 0.5px solid rgba(255,255,255,0.07);
+  z-index: 1000; display: flex; flex-direction: column;
+  transition: right 0.3s cubic-bezier(0.22,1,0.36,1);
+  overflow-y: auto;
+}
+.drawer.open { right: 0; }
+
+.drawer-header {
+  padding: 52px 24px 20px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+}
+.drawer-logo {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 22px;
+  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.drawer-sub { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+.drawer-menu { flex: 1; padding: 12px 0; }
+.drawer-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 24px; cursor: pointer;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.drawer-item:active { background: rgba(255,255,255,0.04); }
+.drawer-item-icon {
+  width: 36px; height: 36px; border-radius: 11px; flex-shrink: 0;
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.drawer-item-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.drawer-item-arrow { margin-left: auto; font-size: 16px; color: rgba(255,255,255,0.2); }
+
+.drawer-divider { height: 0.5px; background: rgba(255,255,255,0.06); margin: 8px 24px; }
+
+.drawer-item.danger .drawer-item-icon { background: rgba(255,80,80,0.1); border-color: rgba(255,80,80,0.15); }
+.drawer-item.danger .drawer-item-label { color: #FF6B6B; }
+
+.drawer-footer {
+  padding: 16px 24px 40px;
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+}
+.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.2); text-align: center; }
+
 </style>
 </head>
 <body>
@@ -2627,7 +2690,100 @@ function startCountdown5() {
     if (total <= 0) clearInterval(interval);
   }, 1000);
 }
+
+// =============================================
+// DRAWER MENU
+// =============================================
+function openDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+function openDrawerPage(page) {
+  closeDrawer();
+  const pages = {
+    bantuan: 'Butuh bantuan? Hubungi admin kami via WhatsApp di 081234269016.',
+    terms: 'Terms & Conditions SleepcallPay akan tersedia segera.',
+    privacy: 'Privacy Policy SleepcallPay akan tersedia segera.',
+    refund: 'Refund Policy: Voucher yang sudah dibeli tidak dapat di-refund kecuali talent tidak tersedia.',
+    lapor: 'Untuk melaporkan talent, hubungi admin via WhatsApp di 081234269016 dengan menyertakan nama talent dan kronologi kejadian.'
+  };
+  alert(pages[page] || '');
+}
+
+// Sambungkan hamburger ke drawer
+document.querySelector('.hamburger').addEventListener('click', openDrawer);
+
 </script>
+
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-logo">SleepcallPay</div>
+    <div class="drawer-sub">Platform layanan companion terpercaya</div>
+  </div>
+
+  <div class="drawer-menu">
+    <div class="drawer-item" onclick="closeDrawer()">
+      <div class="drawer-item-icon">🏠</div>
+      <span class="drawer-item-label">Beranda</span>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="closeDrawer(); openVoucher();">
+      <div class="drawer-item-icon">🎟️</div>
+      <span class="drawer-item-label">Beli Voucher</span>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <div class="drawer-item" onclick="openDrawerPage('bantuan')">
+      <div class="drawer-item-icon">💬</div>
+      <span class="drawer-item-label">Bantuan</span>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="openDrawerPage('terms')">
+      <div class="drawer-item-icon">📋</div>
+      <span class="drawer-item-label">Terms & Conditions</span>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="openDrawerPage('privacy')">
+      <div class="drawer-item-icon">🔒</div>
+      <span class="drawer-item-label">Privacy Policy</span>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="openDrawerPage('refund')">
+      <div class="drawer-item-icon">↩️</div>
+      <span class="drawer-item-label">Refund Policy</span>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <div class="drawer-item danger" onclick="openDrawerPage('lapor')">
+      <div class="drawer-item-icon">🚨</div>
+      <span class="drawer-item-label">Laporkan Talent</span>
+      <span class="drawer-item-arrow" style="color:rgba(255,80,80,0.3);">›</span>
+    </div>
+  </div>
+
+  <div class="drawer-footer">
+    <div class="drawer-footer-text">© 2025 SleepcallPay · All rights reserved</div>
+  </div>
+</div>
 
 </body>
 </html>
