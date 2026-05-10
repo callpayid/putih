@@ -1852,7 +1852,7 @@ window.addEventListener('load', () => sortAndRender('all'));
     <div class="wa-label">Nomor WhatsApp Kamu</div>
     <div class="wa-input-wrap">
       
-      <input class="wa-input" id="waInput" type="tel" placeholder="Contoh: 08123456789" oninput="checkWa()"/>
+      <input class="wa-input" id="waInput" type="tel" placeholder="Contoh: 08123456789" oninput="checkWa()" onfocus="setTimeout(()=>this.scrollIntoView({behavior:'smooth',block:'center'}),300)"/>
     </div>
     <div class="wa-hint">Pastikan nomor ini benar — talent akan menghubungi kamu via WhatsApp saat voucher digunakan</div>
     <div class="modal-nav">
