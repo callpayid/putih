@@ -257,32 +257,27 @@ html, body {
   -ms-touch-action: pan-x pan-y;
 }
 
-/* BORDER LIGHT ANIMATION - card pertama */
-.talent-card:first-child {
-  position: relative;
-}
-.talent-card:first-child::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  padding: 1.5px;
-  background: linear-gradient(var(--angle), transparent 40%, rgba(255,255,255,0.8) 50%, transparent 60%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: borderRotate 3s linear infinite;
-  pointer-events: none;
-  z-index: 2;
-}
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-@keyframes borderRotate {
-  0% { --angle: 0deg; }
+
+
+
+
+
   100% { --angle: 360deg; }
+}
+
+
+/* FILTER SHOOTING STAR */
+.filter-star {
+  position: fixed;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0;
+}
+@keyframes filterShoot {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 0.8; }
+  100% { transform: translate(-280px, 140px); opacity: 0; }
 }
 
 </style>
@@ -681,8 +676,20 @@ function sortAndRender(filterGenderVal) {
 }
 
 // Filter gender button
+
+function shootFilterStar(color) {
+  const star = color === 'w' ? document.getElementById('filterStarPink') : document.getElementById('filterStarBlue');
+  if (!star) return;
+  star.style.animation = 'none';
+  star.style.opacity = '0';
+  void star.offsetWidth;
+  star.style.animation = 'filterShoot 1.2s ease-out forwards';
+}
+
 function filterGender(gender, btn) {
   document.querySelectorAll('.gender-btn').forEach(b => b.className = 'gender-btn inactive');
+  if (gender === 'w') shootFilterStar('w');
+  else if (gender === 'p') shootFilterStar('p');
   if (gender === 'all') btn.className = 'gender-btn active-all';
   else if (gender === 'w') btn.className = 'gender-btn active-w';
   else btn.className = 'gender-btn active-p';
@@ -691,5 +698,28 @@ function filterGender(gender, btn) {
 
 window.addEventListener('load', () => sortAndRender('all'));
 </script>
+
+<!-- FILTER SHOOTING STARS -->
+<svg id="filterStarPink" class="filter-star" width="200" height="100" viewBox="0 0 200 100" style="top:20%;right:0;">
+  <defs>
+    <linearGradient id="fspg" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#F472B6"/>
+    </linearGradient>
+  </defs>
+  <line x1="180" y1="10" x2="20" y2="80" stroke="url(#fspg)" stroke-width="1.5"/>
+  <circle cx="20" cy="80" r="2.5" fill="#F472B6" opacity="0.9"/>
+</svg>
+<svg id="filterStarBlue" class="filter-star" width="200" height="100" viewBox="0 0 200 100" style="top:15%;right:0;">
+  <defs>
+    <linearGradient id="fsbg" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#60D9FA"/>
+    </linearGradient>
+  </defs>
+  <line x1="180" y1="10" x2="20" y2="80" stroke="url(#fsbg)" stroke-width="1.5"/>
+  <circle cx="20" cy="80" r="2.5" fill="#60D9FA" opacity="0.9"/>
+</svg>
+
 </body>
 </html>
