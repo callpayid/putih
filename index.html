@@ -391,6 +391,79 @@ body {
   font-style: italic; font-size: 17px; cursor: pointer;
   box-shadow: 0 4px 20px rgba(252,211,77,0.3);
 }
+/* DRAWER */
+.ht-drawer-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:800;backdrop-filter:blur(8px); }
+.ht-drawer-overlay.open { display:block; }
+.ht-drawer {
+  position:fixed;top:0;right:-100%;width:80%;max-width:300px;height:100%;
+  background:linear-gradient(160deg,#030C18 0%,#071525 100%);
+  border-left:0.5px solid rgba(255,255,255,0.06);
+  z-index:801;transition:right 0.3s cubic-bezier(0.22,1,0.36,1);
+  overflow-y:auto;padding-bottom:40px;
+}
+.ht-drawer.open { right:0; }
+.ht-drawer-head {
+  padding:20px 20px 16px;
+  border-bottom:0.5px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ht-drawer-name { font-size:15px;font-weight:800;color:#fff; }
+.ht-drawer-sub { font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px; }
+.ht-drawer-close {
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:rgba(255,255,255,0.4);cursor:pointer;
+}
+.ht-drawer-section { padding:12px 20px 4px;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2); }
+.ht-drawer-item {
+  display:flex;align-items:center;gap:14px;
+  padding:13px 20px;cursor:pointer;transition:background 0.15s;
+}
+.ht-drawer-item:active { background:rgba(255,255,255,0.05); }
+.ht-drawer-icon { width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0; }
+.ht-drawer-label { font-size:13px;font-weight:600;color:#fff; }
+.ht-drawer-desc { font-size:10.5px;color:rgba(255,255,255,0.35);margin-top:1px; }
+.ht-drawer-arrow { margin-left:auto;font-size:14px;color:rgba(255,255,255,0.2); }
+.ht-drawer-divider { height:0.5px;background:rgba(255,255,255,0.06);margin:8px 20px; }
+
+/* GENERIC INNER PAGE */
+.ht-inner-page {
+  display:none;position:absolute;top:0;left:0;right:0;min-height:100%;
+  z-index:600;background:linear-gradient(160deg,#020810 0%,#071020 60%,#081525 100%);
+  overflow-y:auto;
+}
+.ht-inner-page.open { display:block;animation:epSlideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
+.ht-inner-nav {
+  position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:12px;
+  padding:14px 16px;background:rgba(2,8,16,0.95);backdrop-filter:blur(20px);
+  border-bottom:0.5px solid rgba(255,255,255,0.06);
+}
+.ht-inner-back {
+  width:34px;height:34px;border-radius:11px;
+  background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+}
+.ht-inner-back svg { width:16px;height:16px;stroke:rgba(255,255,255,0.6);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
+.ht-inner-title {
+  font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;
+  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.ht-inner-content { padding:20px 16px 60px; }
+.ht-info-card {
+  background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:16px;margin-bottom:12px;
+}
+.ht-info-title { font-size:13px;font-weight:800;color:#fff;margin-bottom:6px; }
+.ht-info-body { font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7; }
+.ht-input-label { font-size:9.5px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px;margin-top:16px; }
+.ht-save-btn {
+  width:100%;height:46px;border-radius:13px;border:none;
+  background:linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);
+  color:#1a0f00;font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:16px;cursor:pointer;box-shadow:0 4px 20px rgba(252,211,77,0.3);margin-top:16px;
+}
 
 </style>
 </head>
@@ -447,6 +520,213 @@ body {
     <ellipse cx="240" cy="450" rx="200" ry="30" fill="rgba(255,255,255,0.02)" transform="rotate(-20 240 450)"/>
     <ellipse cx="240" cy="450" rx="160" ry="18" fill="rgba(200,200,255,0.02)" transform="rotate(-20 240 450)"/>
   </svg>
+
+  <!-- DRAWER OVERLAY -->
+  <div class="ht-drawer-overlay" id="htDrawerOverlay" onclick="closeDrawer()"></div>
+
+  <!-- DRAWER -->
+  <div class="ht-drawer" id="htDrawer">
+    <div class="ht-drawer-head">
+      <div>
+        <div class="ht-drawer-name">Vania ✨</div>
+        <div class="ht-drawer-sub">Talent SleepcallPay</div>
+      </div>
+      <div class="ht-drawer-close" onclick="closeDrawer()">×</div>
+    </div>
+
+    <div class="ht-drawer-section">Akun</div>
+    <div class="ht-drawer-item" onclick="openPage('blacklistPage')">
+      <div class="ht-drawer-icon" style="background:rgba(248,113,113,0.12);">⛔</div>
+      <div><div class="ht-drawer-label">Daftar Blacklist</div><div class="ht-drawer-desc">Nomor yang kamu blokir</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+    <div class="ht-drawer-item" onclick="openPage('rekeningPage')">
+      <div class="ht-drawer-icon" style="background:rgba(52,211,153,0.12);">🏦</div>
+      <div><div class="ht-drawer-label">Rekening Pencairan</div><div class="ht-drawer-desc">Daftarkan rekening bank</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+    <div class="ht-drawer-item" onclick="openPage('historiGajiPage')">
+      <div class="ht-drawer-icon" style="background:rgba(252,211,77,0.12);">💰</div>
+      <div><div class="ht-drawer-label">Histori Gaji</div><div class="ht-drawer-desc">Riwayat periode sebelumnya</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+
+    <div class="ht-drawer-divider"></div>
+    <div class="ht-drawer-section">Panduan</div>
+    <div class="ht-drawer-item" onclick="openPage('fiturPage')">
+      <div class="ht-drawer-icon" style="background:rgba(99,102,241,0.12);">⭐</div>
+      <div><div class="ht-drawer-label">Penjelasan Fitur</div><div class="ht-drawer-desc">Poin, top talent, dll</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+    <div class="ht-drawer-item" onclick="openPage('aturanPage')">
+      <div class="ht-drawer-icon" style="background:rgba(139,92,246,0.12);">📋</div>
+      <div><div class="ht-drawer-label">Aturan Agency</div><div class="ht-drawer-desc">Kebijakan dan ketentuan kerja</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+
+    <div class="ht-drawer-divider"></div>
+    <div class="ht-drawer-section">Legal</div>
+    <div class="ht-drawer-item" onclick="openPage('tncPage')">
+      <div class="ht-drawer-icon" style="background:rgba(255,255,255,0.07);">📄</div>
+      <div><div class="ht-drawer-label">Syarat & Ketentuan</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+    <div class="ht-drawer-item" onclick="openPage('privacyPage')">
+      <div class="ht-drawer-icon" style="background:rgba(255,255,255,0.07);">🔒</div>
+      <div><div class="ht-drawer-label">Kebijakan Privasi</div></div>
+      <div class="ht-drawer-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- PAGE: BLACKLIST -->
+  <div class="ht-inner-page" id="blacklistPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('blacklistPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Daftar Blacklist</span>
+    </div>
+    <div class="ht-inner-content">
+      <div id="blacklistPageList"></div>
+      <div id="blacklistEmpty" style="font-size:12px;color:rgba(255,255,255,0.2);text-align:center;padding:30px 0;">Belum ada nomor yang diblacklist</div>
+    </div>
+  </div>
+
+  <!-- PAGE: REKENING -->
+  <div class="ht-inner-page" id="rekeningPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('rekeningPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Rekening Pencairan</span>
+    </div>
+    <div class="ht-inner-content">
+      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.15);">
+        <div class="ht-info-title">💡 Info Pencairan</div>
+        <div class="ht-info-body">Pencairan dilakukan setiap hari Jumat. Minimal pencairan Rp 50.000. Pastikan nama rekening sesuai dengan KTP.</div>
+      </div>
+      <div class="ht-input-label">Nama Bank</div>
+      <input class="ep-input" placeholder="Contoh: BCA, BRI, Mandiri, GoPay, OVO..." value="BCA"/>
+      <div class="ht-input-label">Nomor Rekening / Akun</div>
+      <input class="ep-input" type="number" placeholder="Nomor rekening atau akun e-wallet" value="1234567890"/>
+      <div class="ht-input-label">Nama Pemilik Rekening</div>
+      <input class="ep-input" placeholder="Sesuai KTP / akun terdaftar" value="Vania Putri"/>
+      <button class="ht-save-btn" onclick="showToast('✅ Rekening berhasil disimpan!')">✦ Simpan Rekening</button>
+    </div>
+  </div>
+
+  <!-- PAGE: HISTORI GAJI -->
+  <div class="ht-inner-page" id="historiGajiPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('historiGajiPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Histori Gaji</span>
+    </div>
+    <div class="ht-inner-content">
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div class="ht-info-title">April 2025</div><div class="ht-info-body">18 order diterima</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 285.000</div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 2 Mei 2025</div>
+      </div>
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div class="ht-info-title">Maret 2025</div><div class="ht-info-body">21 order diterima</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 312.000</div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 4 April 2025</div>
+      </div>
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div class="ht-info-title">Februari 2025</div><div class="ht-info-body">13 order diterima</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 198.000</div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 7 Maret 2025</div>
+      </div>
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div class="ht-info-title">Januari 2025</div><div class="ht-info-body">16 order diterima</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 245.000</div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 7 Februari 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: FITUR -->
+  <div class="ht-inner-page" id="fiturPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('fiturPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Penjelasan Fitur</span>
+    </div>
+    <div class="ht-inner-content">
+      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.2);">
+        <div class="ht-info-title">⭐ Sistem Poin Disiplin</div>
+        <div class="ht-info-body">Setiap talent baru mulai dengan <b style="color:#FCD34D;">50 poin</b>. Maksimal 100 poin.<br><br>
+        <b style="color:#34D399;">+2 poin</b> — Menerima order<br>
+        <b style="color:#F87171;">-10 poin</b> — Tidak merespons order hingga waktu habis<br>
+        <b style="color:rgba(255,255,255,0.4);">0 poin</b> — Menolak order</div>
+      </div>
+      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.2);">
+        <div class="ht-info-title">🏆 Cara Jadi Top Talent</div>
+        <div class="ht-info-body">
+        • Poin disiplin di atas <b style="color:#FCD34D;">80</b><br>
+        • Konsisten online di jam ramai (malam hari)<br>
+        • Tidak sering menolak order<br>
+        • Rating tinggi dari customer<br>
+        • Aktif minimal 5 hari per minggu</div>
+      </div>
+      <div class="ht-info-card">
+        <div class="ht-info-title">💰 Sistem Pembayaran</div>
+        <div class="ht-info-body">Kamu mendapat <b style="color:#34D399;">60%</b> dari harga voucher. Agency mengambil <b style="color:rgba(255,255,255,0.5);">40%</b>.<br><br>Pencairan setiap Jumat, minimal Rp 50.000.</div>
+      </div>
+      <div class="ht-info-card">
+        <div class="ht-info-title">⏱️ Countdown Order</div>
+        <div class="ht-info-body">Saat ada order masuk, kamu punya <b style="color:#FCD34D;">2 menit</b> untuk merespons. Jika tidak, kamu otomatis <b style="color:#F87171;">offline</b> dan poin berkurang 10.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: ATURAN AGENCY -->
+  <div class="ht-inner-page" id="aturanPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('aturanPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Aturan Agency</span>
+    </div>
+    <div class="ht-inner-content">
+      <div class="ht-info-card"><div class="ht-info-title">1. Profesionalisme</div><div class="ht-info-body">Selalu bersikap profesional kepada customer. Dilarang menggunakan bahasa kasar, tidak sopan, atau menyinggung.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">2. Kejujuran</div><div class="ht-info-body">Dilarang memberikan informasi palsu kepada customer atau agency. Foto profil harus sesuai dengan diri sendiri.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">3. Kehadiran</div><div class="ht-info-body">Jika sudah online, usahakan selalu siap menerima order. Sering offline tanpa alasan dapat menurunkan peringkat.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">4. Konten</div><div class="ht-info-body">Dilarang membuat atau mendistribusikan konten yang melanggar hukum, pornografi, atau merugikan pihak lain.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">5. Data Customer</div><div class="ht-info-body">Nomor dan data customer HANYA digunakan untuk keperluan layanan. Dilarang menyebarkan data customer kepada siapapun.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">6. Pembayaran</div><div class="ht-info-body">Semua transaksi HARUS melalui platform. Dilarang melakukan transaksi langsung di luar sistem dengan alasan apapun.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">7. Pelanggaran</div><div class="ht-info-body">Pelanggaran berat dapat mengakibatkan akun dinonaktifkan permanen tanpa pencairan saldo tersisa.</div></div>
+    </div>
+  </div>
+
+  <!-- PAGE: TNC -->
+  <div class="ht-inner-page" id="tncPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('tncPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Syarat & Ketentuan</span>
+    </div>
+    <div class="ht-inner-content">
+      <div class="ht-info-card"><div class="ht-info-title">Penggunaan Layanan</div><div class="ht-info-body">Dengan bergabung sebagai talent SleepcallPay, kamu menyetujui seluruh syarat dan ketentuan yang berlaku. Layanan ini hanya untuk pengguna berusia 18 tahun ke atas.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">Hak & Kewajiban</div><div class="ht-info-body">Talent berhak menerima pembayaran sesuai ketentuan. Talent wajib menjaga kualitas layanan dan mematuhi aturan agency yang berlaku.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">Pemutusan Kontrak</div><div class="ht-info-body">Agency berhak menonaktifkan akun talent yang melanggar ketentuan tanpa pemberitahuan sebelumnya.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">Perubahan Ketentuan</div><div class="ht-info-body">SleepcallPay berhak mengubah syarat dan ketentuan sewaktu-waktu. Talent akan diberitahu melalui notifikasi aplikasi.</div></div>
+    </div>
+  </div>
+
+  <!-- PAGE: PRIVACY -->
+  <div class="ht-inner-page" id="privacyPage">
+    <div class="ht-inner-nav">
+      <div class="ht-inner-back" onclick="closePage('privacyPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <span class="ht-inner-title">Kebijakan Privasi</span>
+    </div>
+    <div class="ht-inner-content">
+      <div class="ht-info-card"><div class="ht-info-title">Data yang Dikumpulkan</div><div class="ht-info-body">Kami mengumpulkan nama, nomor WhatsApp, foto profil, dan data aktivitas layanan untuk keperluan operasional platform.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">Penggunaan Data</div><div class="ht-info-body">Data kamu digunakan untuk menjalankan layanan, menghitung pembayaran, dan meningkatkan kualitas platform. Kami tidak menjual data ke pihak ketiga.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">Keamanan Data</div><div class="ht-info-body">Kami menggunakan enkripsi untuk melindungi data kamu. Akses data dibatasi hanya untuk tim yang berwenang.</div></div>
+      <div class="ht-info-card"><div class="ht-info-title">Hapus Akun</div><div class="ht-info-body">Kamu dapat meminta penghapusan data dengan menghubungi admin. Proses penghapusan membutuhkan waktu 7-14 hari kerja.</div></div>
+    </div>
+  </div>
 
   <!-- HALAMAN EDIT PROFIL -->
   <div id="editProfilePage" class="ep-page">
@@ -528,6 +808,16 @@ body {
             <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);">Preview Sample</span>
             <button onclick="removeAudio()" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;line-height:1;margin-top:4px;">×</button>
           </div>
+
+          <!-- Toggle backsound -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:9px 12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;">
+            <span style="font-size:12px;color:rgba(255,255,255,0.5);">Pakai backsound</span>
+            <div onclick="toggleBacskound()" style="position:relative;width:38px;height:22px;cursor:pointer;">
+              <div id="bsTrack" style="position:absolute;inset:0;border-radius:11px;background:#34D399;transition:background 0.3s;"></div>
+              <div id="bsThumb" style="position:absolute;top:3px;left:17px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>
+            </div>
+          </div>
+
           <button onclick="playMixPreview()" id="epPlayBtn" style="width:100%;height:40px;border-radius:12px;background:rgba(52,211,153,0.1);border:0.5px solid rgba(52,211,153,0.2);color:#34D399;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
             ▶ Putar Preview (dengan backsound)
           </button>
@@ -578,7 +868,7 @@ body {
       <span class="logo-text">SleepcallPay</span>
       <div class="navbar-badge">TALENT</div>
     </div>
-    <div class="hamburger">
+    <div class="hamburger" onclick="openDrawer()">
       <span></span><span></span><span></span>
     </div>
   </nav>
@@ -1006,12 +1296,65 @@ function unblacklist(nomorKey) {
   showToast('✓ Dihapus dari blacklist');
 }
 
-// ===== AUDIO MIX =====
+// ===== DRAWER =====
+function openDrawer() {
+  document.getElementById('htDrawer').classList.add('open');
+  document.getElementById('htDrawerOverlay').classList.add('open');
+}
+function closeDrawer() {
+  document.getElementById('htDrawer').classList.remove('open');
+  document.getElementById('htDrawerOverlay').classList.remove('open');
+}
+function openPage(id) {
+  closeDrawer();
+  if (id === 'blacklistPage') renderBlacklistPage();
+  document.getElementById(id).classList.add('open');
+  document.getElementById('app').style.overflow = 'visible';
+}
+function closePage(id) {
+  document.getElementById(id).classList.remove('open');
+  document.getElementById('app').style.overflow = 'hidden';
+}
+function renderBlacklistPage() {
+  const list = document.getElementById('blacklistPageList');
+  const empty = document.getElementById('blacklistEmpty');
+  if (blacklist.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  list.innerHTML = blacklist.map(nomor => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:rgba(248,113,113,0.06);border:0.5px solid rgba(248,113,113,0.15);border-radius:13px;margin-bottom:8px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff;">${nomor}</div>
+        <div style="font-size:10px;color:rgba(248,113,113,0.6);margin-top:2px;">⛔ Diblacklist</div>
+      </div>
+      <button onclick="unblacklistFromPage('${nomor.replace(/\*/g,'STAR')}')" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 12px;color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">Hapus</button>
+    </div>
+  `).join('');
+}
+function unblacklistFromPage(nomorKey) {
+  const nomor = nomorKey.replace(/STAR/g,'*');
+  blacklist = blacklist.filter(n => n !== nomor);
+  renderBlacklistPage();
+  renderRiwayat();
+  showToast('✓ Dihapus dari blacklist');
+}
 // Ganti URL ini dengan backsound kamu nanti
 const BACKSOUND_URL = 'https://YOUR_BACKSOUND_URL_HERE.mp3';
 const BACKSOUND_NAME = 'Backsound Malam'; // Nama yang tampil
 
-let talentAudioBlob = null;
+let useBacskound = true;
+
+function toggleBacskound() {
+  useBacskound = !useBacskound;
+  document.getElementById('bsTrack').style.background = useBacskound ? '#34D399' : 'rgba(255,255,255,0.15)';
+  document.getElementById('bsThumb').style.transform = useBacskound ? 'translateX(0)' : 'translateX(-17px)';
+  document.getElementById('epPlayBtn').innerHTML = useBacskound
+    ? '▶ Putar Preview (dengan backsound)'
+    : '▶ Putar Preview (tanpa backsound)';
+}
 let mixAudioCtx = null;
 let mixPlaying = false;
 
@@ -1057,7 +1400,7 @@ async function playMixPreview() {
 
     // Load backsound (jika URL sudah diisi)
     let backsoundBuffer = null;
-    if (BACKSOUND_URL !== 'https://YOUR_BACKSOUND_URL_HERE.mp3') {
+    if (useBacskound && BACKSOUND_URL !== 'https://YOUR_BACKSOUND_URL_HERE.mp3') {
       try {
         const resp = await fetch(BACKSOUND_URL);
         backsoundBuffer = await mixAudioCtx.decodeAudioData(await resp.arrayBuffer());
