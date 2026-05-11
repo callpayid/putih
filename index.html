@@ -501,16 +501,20 @@ body {
 <script>
 // ===== RIWAYAT ORDER =====
 let riwayat = [
-  { status:'terima',  nomor:'081234512345', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'10:24' },
-  { status:'tolak',   nomor:'****87601',    layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'09:51' },
-  { status:'terima',  nomor:'082198765432', layanan:'Curhat Call',   durasi:'40 menit', harga:'Rp 12.000', jam:'09:10' },
-  { status:'timeout', nomor:'****54085',    layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'08:44' },
-  { status:'terima',  nomor:'085261754085', layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'08:02' },
-  { status:'terima',  nomor:'089987601234', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'——',   period:'lalu' },
-  { status:'tolak',   nomor:'****12398',    layanan:'Curhat Call',   durasi:'20 menit', harga:'Rp 12.000', jam:'——',   period:'lalu' },
-  { status:'terima',  nomor:'081398765000', layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'——',   period:'lalu' },
-  { status:'timeout', nomor:'****77654',    layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'——',   period:'lalu' },
-  { status:'terima',  nomor:'087812345678', layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'——',   period:'lalu' },
+  { status:'terima',  nomor:'081234512345', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'10:24', hari:'Hari ini' },
+  { status:'tolak',   nomor:'****87601',    layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'09:51', hari:'Hari ini' },
+  { status:'terima',  nomor:'082198765432', layanan:'Curhat Call',   durasi:'40 menit', harga:'Rp 12.000', jam:'09:10', hari:'Hari ini' },
+  { status:'timeout', nomor:'****54085',    layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'08:44', hari:'Hari ini' },
+  { status:'terima',  nomor:'085261754085', layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'08:02', hari:'Hari ini' },
+  { status:'terima',  nomor:'089987601234', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'22:15', hari:'Kemarin', period:'lalu' },
+  { status:'timeout', nomor:'****65432',    layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'20:33', hari:'Kemarin', period:'lalu' },
+  { status:'tolak',   nomor:'****12398',    layanan:'Curhat Call',   durasi:'20 menit', harga:'Rp 12.000', jam:'18:11', hari:'Kemarin', period:'lalu' },
+  { status:'terima',  nomor:'081398765000', layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'14:05', hari:'Kemarin', period:'lalu' },
+  { status:'terima',  nomor:'087812345678', layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'23:47', hari:'11 Mei', period:'lalu' },
+  { status:'timeout', nomor:'****77654',    layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'21:30', hari:'11 Mei', period:'lalu' },
+  { status:'terima',  nomor:'082398761234', layanan:'Curhat Call',   durasi:'40 menit', harga:'Rp 12.000', jam:'19:20', hari:'11 Mei', period:'lalu' },
+  { status:'tolak',   nomor:'****33210',    layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'10:08', hari:'10 Mei', period:'lalu' },
+  { status:'terima',  nomor:'085761234509', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'09:15', hari:'10 Mei', period:'lalu' },
 ];
 
 function addRiwayat(status, wa, layanan, durasi, harga) {
@@ -536,9 +540,14 @@ function renderRiwayat() {
     const statusText = isTerma ? '✓ Diterima' : isTolak ? '✕ Ditolak' : '⏰ Timeout';
     const poinDelta = isTerma ? '+2 poin' : isTolak ? '—' : '-10 poin';
     const poinColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.2)' : '#F87171';
+    const nomorKey = r.nomor.replace(/\*/g,'STAR');
+    const isBlacklisted = blacklist.includes(r.nomor);
+    const nomorDisplay = isBlacklisted
+      ? `<span style="text-decoration:line-through;color:rgba(255,80,80,0.5);">${r.nomor}</span> <span style="font-size:9px;color:#F87171;">⛔</span>`
+      : `<span style="cursor:pointer;border-bottom:1px dashed rgba(255,255,255,0.2);" onclick="showBlacklistMenu(this)" data-nomor="${r.nomor}">${r.nomor}</span>`;
     return `<div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
       <div style="flex:1;min-width:0;">
-        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.nomor}</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${nomorDisplay}</div>
         <div style="font-size:10px;color:rgba(255,255,255,0.35);">${r.layanan} · ${r.durasi}</div>
       </div>
       <div style="text-align:right;flex-shrink:0;">
@@ -550,12 +559,23 @@ function renderRiwayat() {
     </div>`;
   }
 
-  function buatPembatas(label) {
-    return `<div style="display:flex;align-items:center;gap:8px;margin:10px 0 8px;">
-      <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.08);"></div>
-      <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.2);letter-spacing:0.08em;white-space:nowrap;">${label}</span>
-      <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.08);"></div>
-    </div>`;
+  function buatGrupHari(items) {
+    // Group by hari
+    const groups = {};
+    items.forEach(r => {
+      if (!groups[r.hari]) groups[r.hari] = [];
+      groups[r.hari].push(r);
+    });
+    let html = '';
+    Object.entries(groups).forEach(([hari, list]) => {
+      html += `<div style="display:flex;align-items:center;gap:8px;margin:10px 0 7px;">
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
+        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;white-space:nowrap;">${hari}</span>
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
+      </div>`;
+      html += list.map(buatItem).join('');
+    });
+    return html;
   }
 
   if (riwayat.length === 0) {
@@ -564,23 +584,12 @@ function renderRiwayat() {
     return;
   }
 
-  let html = '';
-
-  // Periode ini (selalu tampil)
-  if (periodeIni.length > 0) {
-    html += buatPembatas('PERIODE INI');
-    html += periodeIni.map(buatItem).join('');
-  }
-
-  // Periode lalu (hanya tampil jika showAll)
+  let html = buatGrupHari(periodeIni);
   if (showAll && periodeLalu.length > 0) {
-    html += buatPembatas('SEBELUMNYA');
-    html += periodeLalu.map(buatItem).join('');
+    html += buatGrupHari(periodeLalu);
   }
 
   list.innerHTML = html;
-
-  // Tampilkan tombol lihat semua hanya jika ada data lalu & belum showAll
   if (btnLihat) btnLihat.style.display = (!showAll && periodeLalu.length > 0) ? 'block' : 'none';
 }
 let totalGaji = 0;
@@ -615,8 +624,57 @@ function updatePoin(delta) {
     bar.style.boxShadow = '0 0 8px rgba(248,113,113,0.4)';
   }
 }
+let blacklist = [];
+
+function showBlacklistMenu(el) {
+  const nomor = el.dataset.nomor;
+  const e = window.event;
+  e.stopPropagation();
+  const old = document.getElementById('blacklistMenu');
+  if (old) { old.remove(); return; }
+
+  const isBlacklisted = blacklist.includes(nomor);
+  const menu = document.createElement('div');
+  menu.id = 'blacklistMenu';
+  menu.style.cssText = `position:fixed;z-index:999;background:#1A2030;border:0.5px solid rgba(255,255,255,0.12);border-radius:14px;padding:6px;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:190px;`;
+
+  const rect = el.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 6) + 'px';
+  menu.style.left = rect.left + 'px';
+
+  menu.innerHTML = `
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);padding:6px 10px 4px;letter-spacing:0.06em;">${nomor}</div>
+    <div style="height:0.5px;background:rgba(255,255,255,0.07);margin:4px 0;"></div>
+    ${isBlacklisted
+      ? `<div onclick="unblacklist('${nomor.replace(/\*/g,'STAR')}')" data-nomor="${nomor}" style="padding:9px 10px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#34D399;">✓ Hapus dari blacklist</div>`
+      : `<div onclick="addBlacklist(this)" data-nomor="${nomor}" style="padding:9px 10px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#F87171;">⛔ Blacklist nomor ini</div>`
+    }
+  `;
+
+  document.body.appendChild(menu);
+  setTimeout(() => { document.addEventListener('click', () => menu.remove(), { once:true }); }, 10);
+}
+
+function addBlacklist(el) {
+  const nomor = el.dataset.nomor;
+  if (!blacklist.includes(nomor)) blacklist.push(nomor);
+  document.getElementById('blacklistMenu')?.remove();
+  renderRiwayat();
+  showToast('⛔ ' + nomor + ' diblacklist');
+}
+
+function unblacklist(nomorKey) {
+  // decode STAR back
+  const nomor = nomorKey.replace(/STAR/g,'*');
+  blacklist = blacklist.filter(n => n !== nomor);
+  document.getElementById('blacklistMenu')?.remove();
+  renderRiwayat();
+  showToast('✓ Dihapus dari blacklist');
+}
+
 let isOnline = true;
 renderRiwayat();
+
 function toggleOnline() {
   isOnline = !isOnline;
   const dot = document.getElementById('statusDot');
