@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
@@ -1053,46 +1053,36 @@ body {
         </div>
       </div>
 
-      <!-- TAB STATISTIK -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;" id="statTabs">
-        <div onclick="switchTab('order')" id="tab-order" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.2);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:all 0.15s;">
-          <div style="font-size:18px;margin-bottom:4px;">📞</div>
-          <div style="font-size:16px;font-weight:900;color:#fff;" id="statTotalCall">42</div>
-          <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.5);margin-top:2px;letter-spacing:0.04em;">Total Call</div>
-        </div>
-        <div onclick="switchTab('customer')" id="tab-customer" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:all 0.15s;">
-          <div style="font-size:18px;margin-bottom:4px;">👥</div>
-          <div style="font-size:16px;font-weight:900;color:#fff;" id="statCustomer">28</div>
-          <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Customer</div>
-        </div>
-        <div onclick="switchTab('repeat')" id="tab-repeat" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:all 0.15s;">
-          <div style="font-size:18px;margin-bottom:4px;">🔁</div>
-          <div style="font-size:16px;font-weight:900;color:#FCD34D;" id="statRepeat">14</div>
-          <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Repeat</div>
-        </div>
-      </div>
-
       <!-- PERIODE AKTIF -->
       <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(252,211,77,0.12);border-radius:16px;padding:10px 14px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="font-size:13px;">📅</span>
-            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;">PERIODE INI</span>
+            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;" id="periodeLabel">PERIODE INI</span>
           </div>
-          <span style="font-size:10px;font-weight:700;color:#FCD34D;">5–19 Mei · Cair 20 Mei</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:10px;font-weight:700;color:#FCD34D;" id="periodeTanggal">5–19 Mei · Cair 20 Mei</span>
+            <button onclick="toggleTotalKeseluruhan()" id="btnTotal" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s;" onmousedown="this.style.background='rgba(252,211,77,0.12)';this.style.borderColor='rgba(252,211,77,0.3)'" onmouseup="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"/>
+                <polyline points="1 20 1 14 7 14"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:16px;font-weight:900;color:#fff;">7</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;" id="statTabs">
+          <div onclick="switchTab('order')" id="tab-order" style="background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.15);border-radius:10px;padding:7px 10px;text-align:center;cursor:pointer;transition:all 0.15s;">
+            <div style="font-size:16px;font-weight:900;color:#fff;" id="statTotalCall">7</div>
+            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);margin-top:2px;">Total Call</div>
           </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:16px;font-weight:900;color:#fff;">5</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          <div onclick="switchTab('customer')" id="tab-customer" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 10px;text-align:center;cursor:pointer;transition:all 0.15s;">
+            <div style="font-size:16px;font-weight:900;color:#fff;" id="statCustomer">5</div>
+            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
           </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:16px;font-weight:900;color:#FCD34D;">2</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          <div onclick="switchTab('repeat')" id="tab-repeat" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 10px;text-align:center;cursor:pointer;transition:all 0.15s;">
+            <div style="font-size:16px;font-weight:900;color:#FCD34D;" id="statRepeat">2</div>
+            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
           </div>
         </div>
       </div>
@@ -1241,12 +1231,29 @@ function renderRiwayat() {
   list.innerHTML = html;
   if (btnLihat) btnLihat.style.display = (!showAll && semuaRiwayat.length > 10) ? 'block' : 'none';
 }
-let totalGaji = 0;
-let poin = 50;
-let statTotalCall = 42;
-let statCustomer = 28;
-let statRepeat = 14;
-let customerList = [];
+let showingTotal = false;
+
+const STAT_PERIODE = { call: 7, customer: 5, repeat: 2 };
+const STAT_TOTAL   = { call: 42, customer: 28, repeat: 14 };
+
+function toggleTotalKeseluruhan() {
+  showingTotal = !showingTotal;
+  const label = document.getElementById('periodeLabel');
+  const tanggal = document.getElementById('periodeTanggal');
+  if (showingTotal) {
+    document.getElementById('statTotalCall').textContent = STAT_TOTAL.call;
+    document.getElementById('statCustomer').textContent = STAT_TOTAL.customer;
+    document.getElementById('statRepeat').textContent = STAT_TOTAL.repeat;
+    label.textContent = 'TOTAL KESELURUHAN';
+    tanggal.style.display = 'none';
+  } else {
+    document.getElementById('statTotalCall').textContent = STAT_PERIODE.call;
+    document.getElementById('statCustomer').textContent = STAT_PERIODE.customer;
+    document.getElementById('statRepeat').textContent = STAT_PERIODE.repeat;
+    label.textContent = 'PERIODE INI';
+    tanggal.style.display = 'inline';
+  }
+}
 
 let currentTab = 'order';
 
@@ -1256,11 +1263,11 @@ function switchTab(tab) {
   ['order','customer','repeat'].forEach(t => {
     const el = document.getElementById('tab-' + t);
     if (t === tab) {
-      el.style.background = 'rgba(255,255,255,0.08)';
-      el.style.border = '0.5px solid rgba(255,255,255,0.2)';
+      el.style.background = 'rgba(255,255,255,0.06)';
+      el.style.border = '0.5px solid rgba(255,255,255,0.15)';
     } else {
       el.style.background = 'rgba(255,255,255,0.04)';
-      el.style.border = '0.5px solid rgba(255,255,255,0.08)';
+      el.style.border = '0.5px solid rgba(255,255,255,0.07)';
     }
   });
   const labels = { order:'Riwayat Order', customer:'Semua Customer', repeat:'Customer Repeat' };
