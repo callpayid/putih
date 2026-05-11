@@ -407,6 +407,11 @@ body {
             <div class="ht-greet">Selamat pagi,</div>
             <div class="ht-name">Vania <span class="ht-name-spark">✨</span></div>
             <div class="ht-meta">Bergabung 2024</div>
+            <div style="margin-top:5px;display:flex;align-items:center;gap:5px;">
+              <span style="font-size:10px;">💰</span>
+              <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);">Total gaji:</span>
+              <span style="font-size:12px;font-weight:900;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="totalGaji">Rp 0</span>
+            </div>
           </div>
         </div>
 
@@ -532,7 +537,13 @@ function renderRiwayat() {
     </div>`;
   }).join('');
 }
+let totalGaji = 0;
 let poin = 50;
+
+function updateGaji(nominal) {
+  totalGaji += nominal;
+  document.getElementById('totalGaji').textContent = 'Rp ' + totalGaji.toLocaleString('id');
+}
 
 function updatePoin(delta) {
   poin = Math.max(0, Math.min(100, poin + delta));
@@ -596,7 +607,7 @@ function simulasiOrder() {
   const order = DEMO_ORDERS[Math.floor(Math.random() * DEMO_ORDERS.length)];
   const talentCut = Math.round(order.harga * 0.6);
   currentOrderWA = order.wa;
-  lastOrder = { wa: order.wa, layanan: order.layanan, durasi: order.durasi, harga: 'Rp ' + talentCut.toLocaleString('id') };
+  lastOrder = { wa: order.wa, layanan: order.layanan, durasi: order.durasi, harga: 'Rp ' + talentCut.toLocaleString('id'), nominal: talentCut };
 
   const maskedWA = '****' + order.wa.slice(-5);
   document.getElementById('orderClientAvatar').textContent = order.avatar;
@@ -649,6 +660,7 @@ function terimaOrder() {
     showToast('✅ Order diterima! Nomor: ' + currentOrderWA);
   });
   setTimeout(() => updatePoin(2), 1500);
+  updateGaji(lastOrder.nominal);
   addRiwayat('terima', currentOrderWA, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
 }
 
