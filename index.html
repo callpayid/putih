@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
@@ -585,6 +585,11 @@ body {
       <span class="ht-inner-title">Daftar Blacklist</span>
     </div>
     <div class="ht-inner-content">
+      <!-- Input tambah blacklist -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <input id="blacklistInput" class="ep-input" type="number" placeholder="Masukkan nomor WA" style="flex:1;margin-bottom:0;"/>
+        <button onclick="addBlacklistManual()" style="height:46px;padding:0 16px;border-radius:13px;border:none;background:linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);color:#1a0f00;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;">⛔ Blacklist</button>
+      </div>
       <div id="blacklistPageList"></div>
       <div id="blacklistEmpty" style="font-size:12px;color:rgba(255,255,255,0.2);text-align:center;padding:30px 0;">Belum ada nomor yang diblacklist</div>
     </div>
@@ -618,33 +623,157 @@ body {
       <span class="ht-inner-title">Histori Gaji</span>
     </div>
     <div class="ht-inner-content">
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div><div class="ht-info-title">April 2025</div><div class="ht-info-body">18 order diterima</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 285.000</div>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 2 Mei 2025</div>
+      <!-- INFO PENCAIRAN -->
+      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.15);margin-bottom:14px;">
+        <div class="ht-info-title">📅 Jadwal Pencairan</div>
+        <div class="ht-info-body">Gaji dicairkan <b style="color:#FCD34D;">2x sebulan</b> — tanggal <b style="color:#FCD34D;">5</b> (untuk periode 20–4) dan tanggal <b style="color:#FCD34D;">20</b> (untuk periode 5–19).</div>
+      </div>
+
+      <!-- APRIL 2025 -->
+      <div style="display:flex;align-items:center;gap:8px;margin:4px 0 8px;">
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
+        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;">APRIL 2025</span>
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
       </div>
       <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div><div class="ht-info-title">Maret 2025</div><div class="ht-info-body">21 order diterima</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 312.000</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div><div class="ht-info-title">Periode 5–19 Apr</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 158.000</div>
         </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 4 April 2025</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">10</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">8</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#FCD34D;">2</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 20 April 2025</div>
       </div>
       <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div><div class="ht-info-title">Februari 2025</div><div class="ht-info-body">13 order diterima</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 198.000</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div><div class="ht-info-title">Periode 20 Mar–4 Apr</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 127.000</div>
         </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 7 Maret 2025</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">8</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">7</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#FCD34D;">1</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 5 April 2025</div>
+      </div>
+
+      <!-- MARET 2025 -->
+      <div style="display:flex;align-items:center;gap:8px;margin:8px 0 8px;">
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
+        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;">MARET 2025</span>
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
       </div>
       <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div><div class="ht-info-title">Januari 2025</div><div class="ht-info-body">16 order diterima</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 245.000</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div><div class="ht-info-title">Periode 5–19 Mar</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 174.000</div>
         </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 7 Februari 2025</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">12</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">9</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#FCD34D;">3</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 20 Maret 2025</div>
+      </div>
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div><div class="ht-info-title">Periode 20 Feb–4 Mar</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 138.000</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">9</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">8</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#FCD34D;">1</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 5 Maret 2025</div>
+      </div>
+
+      <!-- FEBRUARI 2025 -->
+      <div style="display:flex;align-items:center;gap:8px;margin:8px 0 8px;">
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
+        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;">FEBRUARI 2025</span>
+        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
+      </div>
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div><div class="ht-info-title">Periode 5–19 Feb</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 108.000</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">7</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">6</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#FCD34D;">1</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 20 Februari 2025</div>
+      </div>
+      <div class="ht-info-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div><div class="ht-info-title">Periode 20 Jan–4 Feb</div></div>
+          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 90.000</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">6</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#fff;">6</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:14px;font-weight:900;color:#FCD34D;">0</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 5 Februari 2025</div>
       </div>
     </div>
   </div>
@@ -943,6 +1072,31 @@ body {
         </div>
       </div>
 
+      <!-- PERIODE AKTIF -->
+      <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(252,211,77,0.12);border-radius:16px;padding:10px 14px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:13px;">📅</span>
+            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;">PERIODE INI</span>
+          </div>
+          <span style="font-size:10px;font-weight:700;color:#FCD34D;">5–19 Mei · Cair 20 Mei</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:16px;font-weight:900;color:#fff;">7</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:16px;font-weight:900;color:#fff;">5</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
+            <div style="font-size:16px;font-weight:900;color:#FCD34D;">2</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
+          </div>
+        </div>
+      </div>
+
       <!-- ORDER MASUK CARD -->
       <div class="ht-order-card" id="orderCard">
         <div class="ht-order-header">
@@ -1038,7 +1192,6 @@ function renderRiwayat() {
     const statusText = isTerma ? '✓ Diterima' : isTolak ? '✕ Ditolak' : '⏰ Timeout';
     const poinDelta = isTerma ? '+2 poin' : isTolak ? '—' : '-10 poin';
     const poinColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.2)' : '#F87171';
-    const nomorKey = r.nomor.replace(/\*/g,'STAR');
     const isBlacklisted = blacklist.includes(r.nomor);
     const nomorDisplay = isBlacklisted
       ? `<span style="text-decoration:line-through;color:rgba(255,80,80,0.5);">${r.nomor}</span> <span style="font-size:9px;color:#F87171;">⛔</span>`
@@ -1058,7 +1211,6 @@ function renderRiwayat() {
   }
 
   function buatGrupHari(items) {
-    // Group by hari
     const groups = {};
     items.forEach(r => {
       if (!groups[r.hari]) groups[r.hari] = [];
@@ -1095,64 +1247,6 @@ let statTotalCall = 42;
 let statCustomer = 28;
 let statRepeat = 14;
 let customerList = [];
-
-function showStatDetail(type) {
-  const old = document.getElementById('statDetailModal');
-  if (old) old.remove();
-  const oldOv = document.getElementById('statDetailOverlay');
-  if (oldOv) oldOv.remove();
-
-  const overlay = document.createElement('div');
-  overlay.id = 'statDetailOverlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:900;backdrop-filter:blur(12px);';
-
-  const modal = document.createElement('div');
-  modal.id = 'statDetailModal';
-  modal.style.cssText = 'position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;max-height:70vh;overflow-y:auto;background:linear-gradient(150deg,#1C2130,#232B3E);border-radius:22px 22px 0 0;border-top:0.5px solid rgba(139,170,212,0.2);padding:16px 16px 40px;z-index:901;';
-
-  const isRepeat = type === 'repeat';
-  const title = isRepeat ? '🔁 Customer Repeat' : '👥 Semua Customer';
-
-  // Demo data customer
-  const demoCustomers = [
-    { nomor:'081234512345', total:5, terakhir:'Hari ini' },
-    { nomor:'082198765432', total:4, terakhir:'Hari ini' },
-    { nomor:'085261754085', total:3, terakhir:'Kemarin' },
-    { nomor:'089987601234', total:3, terakhir:'11 Mei' },
-    { nomor:'087812345678', total:2, terakhir:'11 Mei' },
-    { nomor:'****54085',    total:2, terakhir:'Kemarin' },
-    { nomor:'****87601',    total:1, terakhir:'Hari ini' },
-    { nomor:'****12398',    total:1, terakhir:'Kemarin' },
-  ];
-
-  const filtered = isRepeat ? demoCustomers.filter(c => c.total > 1) : demoCustomers;
-
-  const items = filtered.map(c => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;margin-bottom:6px;">
-      <div>
-        <div style="font-size:12px;font-weight:700;color:#fff;">${c.nomor}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;">Terakhir: ${c.terakhir}</div>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:14px;font-weight:900;color:${c.total > 1 ? '#FCD34D' : 'rgba(255,255,255,0.5)'};">${c.total}x</div>
-        <div style="font-size:9px;color:rgba(255,255,255,0.25);">order</div>
-      </div>
-    </div>
-  `).join('');
-
-  modal.innerHTML = `
-    <div style="width:32px;height:3px;border-radius:2px;background:rgba(255,255,255,0.1);margin:0 auto 16px;"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-      <span style="font-size:14px;font-weight:800;color:#fff;">${title}</span>
-      <button onclick="document.getElementById('statDetailModal').remove();document.getElementById('statDetailOverlay').remove();" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:26px;height:26px;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">×</button>
-    </div>
-    ${items}
-  `;
-
-  overlay.onclick = () => { overlay.remove(); modal.remove(); };
-  document.body.appendChild(overlay);
-  document.body.appendChild(modal);
-}
 
 let currentTab = 'order';
 
@@ -1285,7 +1379,6 @@ function addBlacklist(el) {
 }
 
 function unblacklist(nomorKey) {
-  // decode STAR back
   const nomor = nomorKey.replace(/STAR/g,'*');
   blacklist = blacklist.filter(n => n !== nomor);
   document.getElementById('blacklistMenu')?.remove();
@@ -1331,6 +1424,18 @@ function renderBlacklistPage() {
     </div>
   `).join('');
 }
+function addBlacklistManual() {
+  const input = document.getElementById('blacklistInput');
+  const nomor = input.value.trim();
+  if (!nomor) { showToast('⚠️ Masukkan nomor dulu'); return; }
+  if (blacklist.includes(nomor)) { showToast('⚠️ Nomor sudah ada di blacklist'); return; }
+  blacklist.push(nomor);
+  input.value = '';
+  renderBlacklistPage();
+  renderRiwayat();
+  showToast('⛔ ' + nomor + ' diblacklist');
+}
+
 function unblacklistFromPage(nomorKey) {
   const nomor = nomorKey.replace(/STAR/g,'*');
   blacklist = blacklist.filter(n => n !== nomor);
@@ -1338,11 +1443,12 @@ function unblacklistFromPage(nomorKey) {
   renderRiwayat();
   showToast('✓ Dihapus dari blacklist');
 }
-// Ganti URL ini dengan backsound kamu nanti
+
 const BACKSOUND_URL = 'https://YOUR_BACKSOUND_URL_HERE.mp3';
-const BACKSOUND_NAME = 'Backsound Malam'; // Nama yang tampil
+const BACKSOUND_NAME = 'Backsound Malam';
 
 let useBacskound = true;
+let talentAudioBlob = null;
 
 function toggleBacskound() {
   useBacskound = !useBacskound;
@@ -1392,10 +1498,8 @@ async function playMixPreview() {
     btn.innerHTML = '⏳ Memuat...';
     mixAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    // Load suara talent
     const talentBuffer = await mixAudioCtx.decodeAudioData(await talentAudioBlob.arrayBuffer());
 
-    // Load backsound (jika URL sudah diisi)
     let backsoundBuffer = null;
     if (useBacskound && BACKSOUND_URL !== 'https://YOUR_BACKSOUND_URL_HERE.mp3') {
       try {
@@ -1404,7 +1508,6 @@ async function playMixPreview() {
       } catch(e) { showToast('⚠️ Backsound tidak bisa dimuat'); }
     }
 
-    // Play talent audio
     const talentSource = mixAudioCtx.createBufferSource();
     talentSource.buffer = talentBuffer;
     const talentGain = mixAudioCtx.createGain();
@@ -1413,13 +1516,12 @@ async function playMixPreview() {
     talentGain.connect(mixAudioCtx.destination);
     talentSource.start(0);
 
-    // Play backsound (volume lebih rendah)
     if (backsoundBuffer) {
       const bsSource = mixAudioCtx.createBufferSource();
       bsSource.buffer = backsoundBuffer;
       bsSource.loop = true;
       const bsGain = mixAudioCtx.createGain();
-      bsGain.gain.value = 0.35; // backsound lebih pelan
+      bsGain.gain.value = 0.35;
       bsSource.connect(bsGain);
       bsGain.connect(mixAudioCtx.destination);
       bsSource.start(0);
@@ -1442,6 +1544,7 @@ async function playMixPreview() {
     mixPlaying = false;
   }
 }
+
 function openEditProfile() {
   document.getElementById('editProfilePage').classList.add('open');
   document.getElementById('app').style.overflow = 'visible';
@@ -1509,7 +1612,6 @@ const DEMO_ORDERS = [
 ];
 
 let currentOrderWA = '';
-
 let lastOrder = {};
 
 function simulasiOrder() {
@@ -1563,7 +1665,6 @@ function terimaOrder() {
   document.getElementById('orderProgressBar').style.width = '100%';
   document.getElementById('orderProgressBar').style.background = '#34D399';
 
-  // Auto salin nomor tanpa toast
   navigator.clipboard.writeText(currentOrderWA).catch(() => {});
   setTimeout(() => updatePoin(2), 1500);
   updateGaji(lastOrder.nominal);
