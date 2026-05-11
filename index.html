@@ -3,467 +3,580 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<title>SleepcallPay — Talent Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<title>SleepcallPay — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; min-height: 100vh; }
+html, body { min-height: 100vh; }
 body {
   font-family: 'Inter', sans-serif;
-  background: #020810;
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 #app {
-  width: 100%;
-  max-width: 480px;
+  width: 480px;
+  max-width: 100vw;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #020810 0%, #071020 60%, #081525 100%);
+  flex-shrink: 0;
+  background: linear-gradient(160deg, #060208 0%, #0D0718 60%, #100820 100%);
 }
 @media (min-width: 481px) {
-  body { padding: 20px 0; background: #000; }
-  #app { border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-height: 90vh; }
+  body { padding: 24px 0; background: #000; }
+  #app {
+    border-radius: 40px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.04);
+    min-height: calc(100vh - 48px);
+  }
 }
 
 /* STARFIELD */
-.starfield {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  max-width: 480px;
-  margin: 0 auto;
-}
-@keyframes twinkle1 { 0%,100%{opacity:0.2} 50%{opacity:1} }
-@keyframes twinkle2 { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
-@keyframes twinkle3 { 0%,100%{opacity:0.1} 50%{opacity:0.7} }
-@keyframes shootingStar {
-  0% { transform: translateX(0) translateY(0); opacity: 0; }
-  10% { opacity: 0; }
-  20% { opacity: 0.6; }
-  75% { opacity: 0.5; }
-  100% { transform: translateX(-220px) translateY(110px); opacity: 0; }
-}
-@keyframes twinkleSpark { 0%,100%{opacity:0.4;transform:scale(0.85)} 50%{opacity:1;transform:scale(1.1)} }
-@keyframes logoGlow { 0%,100%{filter:drop-shadow(0 0 4px rgba(252,211,77,0.3))} 50%{filter:drop-shadow(0 0 10px rgba(252,211,77,0.6))} }
-
-/* CONTENT */
-.content { position: relative; z-index: 1; padding-bottom: 40px; padding-top: 72px; }
-
-/* PLACEHOLDER CENTER */
-.ht-placeholder {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 80vh; padding: 40px 24px; text-align: center;
-}
-.ht-placeholder-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
-.ht-placeholder-title {
-  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
-}
-.ht-placeholder-sub { font-size: 13px; color: rgba(255,255,255,0.3); line-height: 1.6; }
+@keyframes twinkleSpark { 0%,100%{opacity:0.3;transform:scale(0.85)} 50%{opacity:0.9;transform:scale(1.1)} }
 
 /* NAVBAR */
 .navbar {
-  position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px;
+  position: sticky; top: 0; left: 0;
+  width: 100%;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 20px; z-index: 100;
-  background: rgba(2,2,8,0.85);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  padding: 14px 20px; z-index: 200;
+  background: rgba(6,2,8,0.92);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-bottom: 0.5px solid rgba(255,255,255,0.06);
 }
 .logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+}
 .logo-text {
   font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 6px rgba(252,211,77,0.4));
-}
-.navbar-badge {
-  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-  background: rgba(252,211,77,0.12); border: 0.5px solid rgba(252,211,77,0.3);
-  color: #FCD34D; letter-spacing: 0.06em;
-}
-.hamburger {
-  width: 38px; height: 38px; border-radius: 12px;
-  background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.12);
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; gap: 5px; cursor: pointer;
-}
-.hamburger span { display: block; width: 18px; height: 2px; border-radius: 2px; background: #fff; }
-
-/* SECTION */
-.ht-section { padding: 12px 16px; }
-
-/* PROFILE CARD */
-.ht-profile-card {
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.09);
-  border-radius: 18px; padding: 12px 14px;
-  margin-bottom: 10px; position: relative; overflow: hidden;
-}
-.ht-profile-card::before {
-  content: ''; position: absolute; top: -30px; right: -30px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(252,211,77,0.07) 0%, transparent 70%);
-  pointer-events: none;
-}
-.ht-profile-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; position: relative; }
-.ht-avatar {
-  width: 44px; height: 44px; border-radius: 13px; flex-shrink: 0;
-  background: rgba(255,255,255,0.1);
-  border: 0.5px solid rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 800; color: rgba(255,255,255,0.7);
-  position: relative;
-}
-.ht-poin-badge {
-  position: absolute; top: -6px; right: -6px;
   background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
-  border-radius: 20px; padding: 2px 7px;
-  font-size: 10px; font-weight: 900; color: #1a0f00;
-  box-shadow: 0 2px 8px rgba(252,211,77,0.4);
-  white-space: nowrap; border: 1.5px solid rgba(255,255,255,0.2);
-}
-.ht-greet { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 2px; }
-.ht-name {
-  font-size: 17px; font-weight: 800; color: #fff;
-  display: flex; align-items: center; gap: 6px;
-}
-.ht-name-spark { font-size: 18px; }
-.ht-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 1px; }
-.ht-meta span { color: #FCD34D; font-weight: 700; }
-
-/* POIN */
-.ht-poin-wrap { margin-top: 12px; }
-.ht-poin-row {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 6px;
-}
-.ht-poin-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; }
-.ht-poin-val {
-  font-size: 13px; font-weight: 900;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.ht-poin-val span { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.3); -webkit-text-fill-color: rgba(255,255,255,0.3); }
-.ht-poin-bar-wrap {
-  height: 5px; background: rgba(255,255,255,0.08);
-  border-radius: 5px; overflow: hidden;
-}
-.ht-poin-bar {
-  height: 100%; border-radius: 5px;
-  background: linear-gradient(90deg,#FCD34D,#F59E0B);
-  transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
-  box-shadow: 0 0 8px rgba(252,211,77,0.4);
-}
-.ht-toggle-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 9px 12px;
-  background: rgba(255,255,255,0.04);
-  border: 0.5px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-}
-.ht-toggle-left { display: flex; align-items: center; gap: 10px; }
-.ht-online-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: #34D399;
-  box-shadow: 0 0 8px rgba(52,211,153,0.6); flex-shrink: 0;
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-.ht-offline-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0;
-}
-@keyframes pulse-dot { 0%,100%{box-shadow:0 0 6px rgba(52,211,153,0.5)} 50%{box-shadow:0 0 14px rgba(52,211,153,0.9)} }
-.ht-toggle-text { }
-.ht-toggle-status { font-size: 12px; font-weight: 700; color: #fff; }
-.ht-toggle-sub { font-size: 9.5px; color: rgba(255,255,255,0.35); margin-top: 1px; }
-
-/* SWITCH */
-.ht-switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
-.ht-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
-.ht-switch-track {
-  position: absolute; inset: 0; border-radius: 13px; cursor: pointer;
-  background: rgba(255,255,255,0.15); transition: background 0.3s;
-}
-.ht-switch-track.on { background: #34D399; }
-.ht-switch-thumb {
-  position: absolute; top: 3px; left: 3px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: #fff; transition: transform 0.3s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-.ht-switch-thumb.on { transform: translateX(20px); }
-
-/* ORDER MASUK CARD */
-.ht-order-card {
-  background: linear-gradient(135deg, #1A0818 0%, #2A0F20 100%);
-  border: 1px solid rgba(236,72,153,0.3);
-  border-radius: 16px; padding: 10px 12px; margin-bottom: 10px;
-  position: relative; overflow: hidden;
-  box-shadow: 0 4px 24px rgba(236,72,153,0.08);
-  display: none;
-}
-.ht-order-card.show { display: block; animation: slideDown 0.3s cubic-bezier(0.22,1,0.36,1); }
-@keyframes slideDown { from{transform:translateY(-10px);opacity:0} to{transform:translateY(0);opacity:1} }
-
-.ht-order-card::before {
-  content: ''; position: absolute; top: -40px; right: -40px;
-  width: 150px; height: 150px;
-  background: radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-.ht-order-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
-}
-.ht-order-label {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 9px; font-weight: 800; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(236,72,153,0.8);
-}
-.ht-order-blink {
-  width: 7px; height: 7px; border-radius: 50%; background: #EC4899;
-  box-shadow: 0 0 8px rgba(236,72,153,0.7);
-  animation: blink 1s ease-in-out infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.ht-order-timer {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 18px; font-weight: 700; color: #fff;
-  letter-spacing: -0.02em;
-}
-.ht-order-timer.urgent { color: #EC4899; }
-
-.ht-order-info { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.ht-order-avatar {
-  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-  background: rgba(255,255,255,0.12);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 800; color: #fff;
-  border: 0.5px solid rgba(255,255,255,0.15);
-}
-.ht-order-client { font-size: 13px; font-weight: 800; color: #fff; }
-.ht-order-detail { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 1px; }
-.ht-order-price {
-  margin-left: auto; font-size: 13px; font-weight: 900;
-  color: #FCD34D; filter: drop-shadow(0 0 6px rgba(252,211,77,0.3));
-  white-space: nowrap;
-}
-
-.ht-order-progress {
-  height: 3px; background: rgba(255,255,255,0.08); border-radius: 3px;
-  margin-bottom: 8px; overflow: hidden;
-}
-.ht-order-progress-bar {
-  height: 100%; border-radius: 3px;
-  background: linear-gradient(90deg, #EC4899, #F97316);
-  transition: width 1s linear;
-}
-
-.ht-order-actions { display: flex; gap: 8px; }
-.ht-btn-tolak {
-  flex: 1; height: 36px; border-radius: 10px;
-  background: rgba(255,255,255,0.08);
-  border: 0.5px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.7); font-family: inherit;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  transition: all 0.15s;
-}
-.ht-btn-tolak:active { background: rgba(255,80,80,0.15); border-color: rgba(255,80,80,0.3); color: #FF6B6B; }
-.ht-btn-terima {
-  flex: 1; height: 36px; border-radius: 10px; border: none;
-  background: linear-gradient(135deg, #10B981, #34D399);
-  color: #fff; font-family: inherit;
-  font-size: 13px; font-weight: 800; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(52,211,153,0.3);
-  transition: all 0.15s;
-}
-.ht-btn-terima:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(52,211,153,0.2); }
-
-/* SIMULASI BTN */
-.ht-sim-btn {
-  width: 100%; height: 48px; border-radius: 16px;
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.5); font-family: inherit;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: all 0.15s;
-}
-.ht-sim-btn:active { background: rgba(255,255,255,0.08); color: #fff; }
-/* EDIT PROFILE PAGE */
-.ep-page {
-  display: none; position: absolute;
-  top: 0; left: 0; right: 0; min-height: 100%;
-  z-index: 500;
-  background: linear-gradient(160deg, #020810 0%, #071020 60%, #081525 100%);
-  overflow-y: auto;
-}
-.ep-page.open { display: block; animation: epSlideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
-@keyframes epSlideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-.ep-navbar {
-  position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 16px;
-  background: rgba(2,8,16,0.95); backdrop-filter: blur(20px);
-  border-bottom: 0.5px solid rgba(255,255,255,0.06);
-}
-.ep-back {
-  width: 34px; height: 34px; border-radius: 11px;
-  background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-}
-.ep-back svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ep-title {
-  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px;
-  background: linear-gradient(135deg,#FFF5A0,#FCD34D);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.ep-inner { padding: 20px 16px 60px; }
-.ep-section-label {
-  font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: rgba(255,255,255,0.3);
-  margin-bottom: 8px; margin-top: 18px;
+.admin-badge {
+  font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 20px;
+  background: rgba(167,139,250,0.15); border: 0.5px solid rgba(167,139,250,0.4);
+  color: #A78BFA; letter-spacing: 0.1em; text-transform: uppercase;
 }
-.ep-input {
-  width: 100%; height: 46px;
+.navbar-right { display: flex; align-items: center; gap: 8px; }
+.notif-btn {
+  width: 36px; height: 36px; border-radius: 11px;
   background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 13px; padding: 0 14px;
-  font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none;
-  transition: border-color 0.2s;
-}
-.ep-input:focus { border-color: rgba(252,211,77,0.4); }
-.ep-input::placeholder { color: rgba(255,255,255,0.2); }
-.ep-textarea {
-  width: 100%; min-height: 90px;
-  background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 13px; padding: 12px 14px;
-  font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none;
-  resize: none; line-height: 1.5; transition: border-color 0.2s;
-}
-.ep-textarea:focus { border-color: rgba(252,211,77,0.4); }
-.ep-textarea::placeholder { color: rgba(255,255,255,0.2); }
-.ep-layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ep-layanan-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 12px; border-radius: 13px; cursor: pointer;
-  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
-  transition: all 0.15s;
-}
-.ep-layanan-item.active { background: rgba(252,211,77,0.08); border-color: rgba(252,211,77,0.35); }
-.ep-layanan-check {
-  width: 16px; height: 16px; border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 9px;
-}
-.ep-layanan-item.active .ep-layanan-check { background: #FCD34D; border-color: #FCD34D; color: #1a0f00; }
-.ep-layanan-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); }
-.ep-layanan-item.active .ep-layanan-name { color: #fff; }
-.ep-avatar-wrap {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  padding: 16px; background: rgba(255,255,255,0.04);
-  border: 0.5px solid rgba(255,255,255,0.08); border-radius: 16px;
-}
-.ep-avatar-big {
-  width: 72px; height: 72px; border-radius: 20px;
-  background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.15);
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px; font-weight: 800; color: rgba(255,255,255,0.7); overflow: hidden;
+  cursor: pointer; font-size: 16px; position: relative;
 }
-.ep-avatar-big img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
-.ep-foto-btn {
-  font-size: 12px; font-weight: 700; color: #FCD34D; cursor: pointer;
-  background: rgba(252,211,77,0.08); border: 0.5px solid rgba(252,211,77,0.2);
-  border-radius: 20px; padding: 5px 14px;
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #F87171; border: 1.5px solid #060208;
 }
-.ep-save-btn {
-  width: 100%; height: 48px; border-radius: 14px; border: none; margin-top: 20px;
-  background: linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);
-  color: #1a0f00; font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 17px; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(252,211,77,0.3);
+.admin-avatar {
+  width: 36px; height: 36px; border-radius: 11px;
+  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 900; color: #fff; cursor: pointer;
+  border: 1.5px solid rgba(167,139,250,0.4);
 }
-/* DRAWER */
-.ht-drawer-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:800;backdrop-filter:blur(8px); }
-.ht-drawer-overlay.open { display:block; }
-.ht-drawer {
-  position:fixed;top:0;right:-100%;width:80%;max-width:300px;height:100%;
-  background:linear-gradient(160deg,#030C18 0%,#071525 100%);
-  border-left:0.5px solid rgba(255,255,255,0.06);
-  z-index:801;transition:right 0.3s cubic-bezier(0.22,1,0.36,1);
-  overflow-y:auto;padding-bottom:40px;
-}
-.ht-drawer.open { right:0; }
-.ht-drawer-head {
-  padding:20px 20px 16px;
-  border-bottom:0.5px solid rgba(255,255,255,0.06);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.ht-drawer-name { font-size:15px;font-weight:800;color:#fff; }
-.ht-drawer-sub { font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px; }
-.ht-drawer-close {
-  width:30px;height:30px;border-radius:50%;
-  background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;color:rgba(255,255,255,0.4);cursor:pointer;
-}
-.ht-drawer-section { padding:12px 20px 4px;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2); }
-.ht-drawer-item {
-  display:flex;align-items:center;gap:14px;
-  padding:13px 20px;cursor:pointer;transition:background 0.15s;
-}
-.ht-drawer-item:active { background:rgba(255,255,255,0.05); }
-.ht-drawer-icon { width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0; }
-.ht-drawer-label { font-size:13px;font-weight:600;color:#fff; }
-.ht-drawer-desc { font-size:10.5px;color:rgba(255,255,255,0.35);margin-top:1px; }
-.ht-drawer-arrow { margin-left:auto;font-size:14px;color:rgba(255,255,255,0.2); }
-.ht-drawer-divider { height:0.5px;background:rgba(255,255,255,0.06);margin:8px 20px; }
 
-/* GENERIC INNER PAGE */
-.ht-inner-page {
-  display:none;position:absolute;top:0;left:0;right:0;min-height:100%;
-  z-index:600;background:linear-gradient(160deg,#020810 0%,#071020 60%,#081525 100%);
-  overflow-y:auto;
+/* CONTENT */
+.content { position: relative; z-index: 1; padding-bottom: 100px; }
+
+/* SECTION TABS */
+.tabs-wrap {
+  display: flex; gap: 0; padding: 12px 16px 0;
+  overflow-x: auto; scrollbar-width: none;
 }
-.ht-inner-page.open { display:block;animation:epSlideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
-.ht-inner-nav {
-  position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:12px;
-  padding:14px 16px;background:rgba(2,8,16,0.95);backdrop-filter:blur(20px);
-  border-bottom:0.5px solid rgba(255,255,255,0.06);
+.tabs-wrap::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0; border: none; cursor: pointer; font-family: inherit;
+  font-size: 11px; font-weight: 700; padding: 7px 14px; border-radius: 999px;
+  background: transparent; color: rgba(255,255,255,0.35);
+  transition: all 0.2s; white-space: nowrap;
 }
-.ht-inner-back {
-  width:34px;height:34px;border-radius:11px;
-  background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.1);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+.tab-btn.active {
+  background: rgba(167,139,250,0.15); color: #C4B5FD;
+  border: 0.5px solid rgba(167,139,250,0.3);
 }
-.ht-inner-back svg { width:16px;height:16px;stroke:rgba(255,255,255,0.6);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
-.ht-inner-title {
-  font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;
-  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+
+/* SECTION PAGES */
+.section-page { display: none; }
+.section-page.active { display: block; }
+
+/* ===================== DASHBOARD ===================== */
+.dash-header {
+  padding: 20px 16px 12px;
 }
-.ht-inner-content { padding:20px 16px 60px; }
-.ht-info-card {
-  background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);
-  border-radius:16px;padding:16px;margin-bottom:12px;
+.dash-greeting { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.dash-title {
+  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px;
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.ht-info-title { font-size:13px;font-weight:800;color:#fff;margin-bottom:6px; }
-.ht-info-body { font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7; }
-.ht-input-label { font-size:9.5px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px;margin-top:16px; }
-.ht-save-btn {
-  width:100%;height:46px;border-radius:13px;border:none;
-  background:linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);
-  color:#1a0f00;font-family:'Instrument Serif',serif;font-style:italic;
-  font-size:16px;cursor:pointer;box-shadow:0 4px 20px rgba(252,211,77,0.3);margin-top:16px;
+
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  padding: 0 16px 12px;
 }
+.stat-card {
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 14px;
+  position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: ''; position: absolute; top: -20px; right: -20px;
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--glow, radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%));
+  pointer-events: none;
+}
+.stat-icon { font-size: 18px; margin-bottom: 8px; }
+.stat-val { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+.stat-label { font-size: 10px; color: rgba(255,255,255,0.35); font-weight: 600; }
+.stat-change { font-size: 9.5px; font-weight: 700; margin-top: 4px; }
+.stat-change.up { color: #34D399; }
+.stat-change.down { color: #F87171; }
+
+.stat-card.violet { border-color: rgba(167,139,250,0.2); --glow: radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%); }
+.stat-card.gold { border-color: rgba(252,211,77,0.2); --glow: radial-gradient(circle, rgba(252,211,77,0.1) 0%, transparent 70%); }
+.stat-card.green { border-color: rgba(52,211,153,0.2); --glow: radial-gradient(circle, rgba(52,211,153,0.1) 0%, transparent 70%); }
+.stat-card.pink { border-color: rgba(248,113,113,0.2); --glow: radial-gradient(circle, rgba(248,113,113,0.1) 0%, transparent 70%); }
+
+.stat-card.violet .stat-val { background: linear-gradient(135deg,#C4B5FD,#A78BFA); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.stat-card.gold .stat-val { background: linear-gradient(135deg,#FFF1B8,#FCD34D); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.stat-card.green .stat-val { color: #34D399; }
+.stat-card.pink .stat-val { color: #F87171; }
+
+/* QUICK ACTIONS */
+.section-label {
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.25); padding: 12px 16px 8px;
+}
+.quick-actions {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  padding: 0 16px 16px;
+}
+.qa-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 12px 8px; cursor: pointer;
+  transition: all 0.2s;
+}
+.qa-btn:active { transform: scale(0.95); }
+.qa-icon {
+  width: 36px; height: 36px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
+}
+.qa-label { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.5); text-align: center; line-height: 1.3; }
+
+/* RECENT ORDERS */
+.admin-card {
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; margin: 0 16px 12px; overflow: hidden;
+}
+.admin-card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 0.5px solid rgba(255,255,255,0.06);
+}
+.admin-card-title { font-size: 12px; font-weight: 800; color: #fff; }
+.admin-card-link { font-size: 10px; font-weight: 700; color: #A78BFA; cursor: pointer; }
+
+.order-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  cursor: pointer; transition: background 0.15s;
+}
+.order-item:last-child { border-bottom: none; }
+.order-item:active { background: rgba(255,255,255,0.03); }
+.order-ava {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  background: rgba(255,255,255,0.08); display: flex; align-items: center;
+  justify-content: center; font-size: 14px;
+}
+.order-info { flex: 1; min-width: 0; }
+.order-name { font-size: 12px; font-weight: 700; color: #fff; }
+.order-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.order-right { text-align: right; }
+.order-amount { font-size: 12px; font-weight: 800; color: #34D399; }
+.order-status { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px; margin-top: 2px; display: inline-block; }
+.status-selesai { background: rgba(52,211,153,0.15); color: #34D399; }
+.status-proses { background: rgba(252,211,77,0.15); color: #FCD34D; }
+.status-batal { background: rgba(248,113,113,0.15); color: #F87171; }
+.status-pending { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+
+/* ===================== TALENT MANAGEMENT ===================== */
+.talent-mgmt-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.tm-card {
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: all 0.15s;
+}
+.tm-card:active { transform: scale(0.99); }
+.tm-avatar {
+  width: 44px; height: 44px; border-radius: 13px; flex-shrink: 0;
+  background: rgba(255,255,255,0.08); display: flex; align-items: center;
+  justify-content: center; font-size: 18px; font-family: 'Instrument Serif', serif;
+  font-style: italic; color: rgba(255,255,255,0.8); position: relative;
+}
+.tm-online-dot {
+  position: absolute; bottom: 2px; right: 2px;
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid #060208;
+}
+.tm-online-dot.online { background: #34D399; }
+.tm-online-dot.offline { background: rgba(255,255,255,0.2); }
+.tm-info { flex: 1; min-width: 0; }
+.tm-name { font-size: 13px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 5px; }
+.tm-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.tm-poin {
+  font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px;
+  background: rgba(252,211,77,0.12); border: 0.5px solid rgba(252,211,77,0.25);
+  color: #FCD34D; white-space: nowrap;
+}
+.tm-stats { display: flex; gap: 6px; margin-top: 6px; }
+.tm-stat-chip {
+  font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+}
+.tm-action-row { display: flex; gap: 6px; margin-top: 8px; }
+.tm-btn {
+  flex: 1; height: 30px; border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit; font-size: 10px; font-weight: 700; transition: all 0.2s;
+}
+.tm-btn.approve { background: rgba(52,211,153,0.15); color: #34D399; border: 0.5px solid rgba(52,211,153,0.3); }
+.tm-btn.suspend { background: rgba(248,113,113,0.12); color: #F87171; border: 0.5px solid rgba(248,113,113,0.25); }
+.tm-btn.edit { background: rgba(167,139,250,0.12); color: #A78BFA; border: 0.5px solid rgba(167,139,250,0.25); }
+.tm-btn.warn { background: rgba(252,211,77,0.12); color: #FCD34D; border: 0.5px solid rgba(252,211,77,0.25); }
+
+.filter-row {
+  display: flex; gap: 6px; padding: 0 16px 8px; overflow-x: auto; scrollbar-width: none;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-chip {
+  flex-shrink: 0; border: none; cursor: pointer; font-family: inherit;
+  font-size: 10px; font-weight: 700; padding: 5px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35);
+  border: 0.5px solid rgba(255,255,255,0.08); transition: all 0.2s;
+}
+.filter-chip.active {
+  background: rgba(167,139,250,0.15); color: #C4B5FD;
+  border-color: rgba(167,139,250,0.35);
+}
+
+/* ADD TALENT BTN */
+.fab-add {
+  position: fixed; bottom: 100px; right: calc(50% - 224px);
+  width: 50px; height: 50px; border-radius: 16px;
+  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  border: none; cursor: pointer; font-size: 22px; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.45);
+  z-index: 150; transition: transform 0.2s;
+}
+.fab-add:active { transform: scale(0.93); }
+@media (max-width: 480px) {
+  .fab-add { right: 16px; }
+}
+
+/* ===================== VOUCHER ===================== */
+.voucher-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.vc-card {
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 14px;
+}
+.vc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.vc-code {
+  font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 800;
+  color: #FCD34D; letter-spacing: 0.08em;
+}
+.vc-status { font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+.vc-status.aktif { background: rgba(52,211,153,0.15); color: #34D399; border: 0.5px solid rgba(52,211,153,0.3); }
+.vc-status.terpakai { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); }
+.vc-status.expired { background: rgba(248,113,113,0.12); color: #F87171; }
+.vc-info { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.vc-row { font-size: 10px; color: rgba(255,255,255,0.35); }
+.vc-row span { color: rgba(255,255,255,0.65); font-weight: 600; }
+.vc-action-row { display: flex; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.06); }
+.vc-btn {
+  flex: 1; height: 30px; border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit; font-size: 10px; font-weight: 700; transition: all 0.2s;
+}
+.vc-btn.copy { background: rgba(252,211,77,0.12); color: #FCD34D; border: 0.5px solid rgba(252,211,77,0.25); }
+.vc-btn.revoke { background: rgba(248,113,113,0.12); color: #F87171; border: 0.5px solid rgba(248,113,113,0.25); }
+.vc-btn.send { background: rgba(52,211,153,0.12); color: #34D399; border: 0.5px solid rgba(52,211,153,0.25); }
+
+/* GENERATE VOUCHER FORM */
+.gen-form {
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(167,139,250,0.2);
+  border-radius: 16px; margin: 0 16px 12px; padding: 14px;
+}
+.gen-form-title { font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.form-input, .form-select {
+  height: 38px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 0 12px; font-family: inherit; font-size: 12px;
+  color: #fff; outline: none; transition: border-color 0.2s; width: 100%;
+}
+.form-input:focus, .form-select:focus { border-color: rgba(167,139,250,0.5); }
+.form-select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+.form-select option { background: #1a0d2e; color: #fff; }
+.btn-generate {
+  width: 100%; height: 42px; border: none; border-radius: 12px; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 800;
+  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  color: #fff; box-shadow: 0 6px 20px rgba(124,58,237,0.35); margin-top: 4px;
+}
+
+/* ===================== KEUANGAN ===================== */
+.finance-summary {
+  margin: 0 16px 12px;
+  background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.03));
+  border: 0.5px solid rgba(52,211,153,0.2); border-radius: 18px; padding: 18px;
+}
+.finance-total-label { font-size: 10px; color: rgba(52,211,153,0.6); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.finance-total-val {
+  font-size: 30px; font-weight: 900;
+  background: linear-gradient(135deg, #6EE7B7, #34D399);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+.finance-sub { font-size: 10px; color: rgba(255,255,255,0.3); }
+.finance-row { display: flex; gap: 8px; margin: 0 16px 12px; }
+.finance-mini {
+  flex: 1; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 12px;
+}
+.finance-mini-label { font-size: 9px; color: rgba(255,255,255,0.3); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.finance-mini-val { font-size: 16px; font-weight: 900; color: #fff; }
+.finance-mini-val.gold { color: #FCD34D; }
+.finance-mini-val.red { color: #F87171; }
+
+/* PENCAIRAN LIST */
+.pencairan-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+}
+.pencairan-item:last-child { border-bottom: none; }
+.pencairan-avatar {
+  width: 36px; height: 36px; border-radius: 11px;
+  background: rgba(255,255,255,0.08); display: flex; align-items: center;
+  justify-content: center; font-size: 15px;
+}
+.pencairan-info { flex: 1; }
+.pencairan-name { font-size: 12px; font-weight: 700; color: #fff; }
+.pencairan-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.pencairan-right { text-align: right; }
+.pencairan-amount { font-size: 13px; font-weight: 800; color: #FCD34D; }
+.pencairan-status { font-size: 9px; font-weight: 700; margin-top: 2px; }
+.ps-menunggu { color: #FCD34D; }
+.ps-selesai { color: #34D399; }
+.ps-ditolak { color: #F87171; }
+
+/* BTN CAIRKAN */
+.btn-cairkan {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 0 16px 8px; padding: 12px 14px;
+  background: rgba(252,211,77,0.08); border: 0.5px solid rgba(252,211,77,0.25);
+  border-radius: 14px; cursor: pointer;
+}
+.btn-cairkan-text { font-size: 12px; font-weight: 800; color: #FCD34D; }
+.btn-cairkan-sub { font-size: 10px; color: rgba(252,211,77,0.5); margin-top: 1px; }
+.btn-cairkan-icon { font-size: 20px; }
+
+/* ===================== LAPORAN ===================== */
+.report-period {
+  display: flex; gap: 6px; padding: 12px 16px 8px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.report-period::-webkit-scrollbar { display: none; }
+.period-chip {
+  flex-shrink: 0; border: none; cursor: pointer; font-family: inherit;
+  font-size: 10px; font-weight: 700; padding: 5px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+  border: 0.5px solid rgba(255,255,255,0.08); transition: all 0.2s;
+}
+.period-chip.active { background: rgba(52,211,153,0.15); color: #34D399; border-color: rgba(52,211,153,0.3); }
+
+.bar-chart { padding: 0 16px 16px; }
+.bar-chart-title { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.bar-label { font-size: 10px; color: rgba(255,255,255,0.35); width: 28px; text-align: right; flex-shrink: 0; }
+.bar-track { flex: 1; height: 20px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 8px; }
+.bar-fill.green { background: linear-gradient(90deg, rgba(52,211,153,0.5), rgba(52,211,153,0.25)); }
+.bar-fill.violet { background: linear-gradient(90deg, rgba(167,139,250,0.5), rgba(167,139,250,0.25)); }
+.bar-fill.gold { background: linear-gradient(90deg, rgba(252,211,77,0.5), rgba(252,211,77,0.25)); }
+.bar-val { font-size: 9px; font-weight: 800; color: #fff; }
+.bar-amount { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.4); width: 62px; text-align: right; flex-shrink: 0; }
+
+.report-table { margin: 0 16px; }
+.rt-head {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  padding: 6px 10px; font-size: 9px; font-weight: 800;
+  color: rgba(255,255,255,0.25); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.rt-row {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  padding: 9px 10px; border-top: 0.5px solid rgba(255,255,255,0.05);
+  font-size: 11px;
+}
+.rt-row:last-child { border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.rt-name { font-weight: 700; color: #fff; }
+.rt-cell { color: rgba(255,255,255,0.5); }
+.rt-cell.green { color: #34D399; font-weight: 700; }
+
+/* ===================== PENGATURAN ===================== */
+.settings-section { padding: 12px 16px; }
+.settings-group {
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; overflow: hidden; margin-bottom: 12px;
+}
+.settings-item {
+  display: flex; align-items: center; gap: 12px; padding: 13px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05); cursor: pointer;
+  transition: background 0.15s;
+}
+.settings-item:last-child { border-bottom: none; }
+.settings-item:active { background: rgba(255,255,255,0.03); }
+.settings-icon {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.settings-text { flex: 1; }
+.settings-label { font-size: 12px; font-weight: 700; color: #fff; }
+.settings-desc { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+.settings-arrow { font-size: 14px; color: rgba(255,255,255,0.2); }
+.settings-val { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); }
+
+/* TOGGLE */
+.toggle-wrap { position: relative; width: 40px; height: 22px; cursor: pointer; flex-shrink: 0; }
+.toggle-track { position: absolute; inset: 0; border-radius: 11px; background: rgba(255,255,255,0.12); transition: background 0.3s; }
+.toggle-track.on { background: #7C3AED; }
+.toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.toggle-thumb.on { transform: translateX(18px); }
+
+
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(30,20,50,0.95); backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(167,139,250,0.3); border-radius: 12px;
+  padding: 10px 18px; font-size: 12px; font-weight: 700; color: #fff;
+  z-index: 9999; opacity: 0; transition: all 0.3s; white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* MODAL OVERLAY */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px); z-index: 500; display: none;
+  align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-sheet {
+  width: 480px; max-width: 100vw;
+  background: linear-gradient(160deg, #0D0718 0%, #160B28 100%);
+  border-radius: 28px 28px 0 0;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  padding: 20px 20px 40px;
+  animation: slideUp 0.35s cubic-bezier(0.22,1,0.36,1);
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.12); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 20px; color: #fff; margin-bottom: 16px; }
+
+/* SEARCH BAR */
+.search-bar {
+  margin: 8px 16px 0; display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 0 14px; height: 40px;
+}
+.search-bar input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: inherit; font-size: 12px; color: #fff;
+}
+.search-bar input::placeholder { color: rgba(255,255,255,0.25); }
+.search-icon { font-size: 14px; opacity: 0.4; }
+
+/* INFO CARDS */
+.info-row {
+  display: flex; gap: 8px; padding: 0 16px 12px;
+}
+.info-mini {
+  flex: 1; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 10px;
+}
+.info-mini-val { font-size: 18px; font-weight: 900; color: #fff; }
+.info-mini-label { font-size: 9px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 0; height: 0; }
+.log-chip {
+  flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 4px 10px;
+  border-radius: 999px; background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.35); border: 0.5px solid rgba(255,255,255,0.08);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.log-chip.active {
+  background: rgba(167,139,250,0.15); color: #C4B5FD;
+  border-color: rgba(167,139,250,0.3);
+}
+
+/* LOG ITEM */
+.log-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border-bottom: 0.5px solid rgba(255,255,255,0.04);
+}
+.log-item:last-child { border-bottom: none; }
+.log-dot-wrap {
+  display: flex; flex-direction: column; align-items: center; padding-top: 3px;
+}
+.log-dot {
+  width: 28px; height: 28px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 13px;
+}
+.log-body { flex: 1; min-width: 0; }
+.log-desc { font-size: 11.5px; font-weight: 600; color: #fff; line-height: 1.4; }
+.log-desc span { font-weight: 800; }
+.log-meta { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+.log-badge {
+  font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 999px;
+  white-space: nowrap; align-self: flex-start; margin-top: 2px; flex-shrink: 0;
+}
+.lb-order-masuk   { background:rgba(167,139,250,0.15); color:#C4B5FD; }
+.lb-diterima      { background:rgba(52,211,153,0.15);  color:#34D399; }
+.lb-ditolak       { background:rgba(248,113,113,0.15); color:#F87171; }
+.lb-berlangsung   { background:rgba(252,211,77,0.15);  color:#FCD34D; }
+.lb-selesai       { background:rgba(52,211,153,0.12);  color:#6EE7B7; }
+.lb-timeout       { background:rgba(248,113,113,0.1);  color:#FCA5A5; }
+.lb-voucher-beli  { background:rgba(96,165,250,0.15);  color:#93C5FD; }
+.lb-voucher-admin { background:rgba(252,211,77,0.12);  color:#FCD34D; }
+.lb-blacklist     { background:rgba(248,113,113,0.12); color:#F87171; }
+.lb-unblacklist   { background:rgba(52,211,153,0.1);   color:#34D399; }
+
+/* dot colors */
+.ld-order    { background:rgba(167,139,250,0.15); }
+.ld-terima   { background:rgba(52,211,153,0.15);  }
+.ld-tolak    { background:rgba(248,113,113,0.15); }
+.ld-timeout  { background:rgba(255,165,0,0.12);   }
+.ld-selesai  { background:rgba(52,211,153,0.1);   }
+.ld-voucher  { background:rgba(252,211,77,0.12);  }
+.ld-beli     { background:rgba(96,165,250,0.12);  }
+.ld-blk      { background:rgba(248,113,113,0.1);  }
+.ld-unblk    { background:rgba(52,211,153,0.08);  }
 
 </style>
 </head>
@@ -471,1261 +584,1004 @@ body {
 <div id="app">
 
   <!-- STARFIELD -->
-  <svg class="starfield" viewBox="0 0 480 900" preserveAspectRatio="xMidYMid slice">
-    <circle cx="23" cy="45" r="0.8" fill="white" style="animation:twinkle1 2.1s infinite;"/>
-    <circle cx="67" cy="120" r="0.6" fill="white" style="animation:twinkle2 3.2s infinite;"/>
-    <circle cx="145" cy="30" r="1" fill="white" style="animation:twinkle1 1.8s infinite;"/>
-    <circle cx="210" cy="80" r="0.7" fill="white" style="animation:twinkle3 2.8s infinite;"/>
-    <circle cx="320" cy="55" r="0.9" fill="white" style="animation:twinkle2 2.4s infinite;"/>
-    <circle cx="400" cy="140" r="0.6" fill="white" style="animation:twinkle1 3.1s infinite;"/>
-    <circle cx="455" cy="70" r="0.8" fill="white" style="animation:twinkle3 1.9s infinite;"/>
-    <circle cx="35" cy="200" r="0.7" fill="white" style="animation:twinkle2 2.6s infinite;"/>
-    <circle cx="100" cy="270" r="1.1" fill="white" style="animation:twinkle1 2.3s infinite;"/>
-    <circle cx="180" cy="190" r="0.6" fill="white" style="animation:twinkle3 3.4s infinite;"/>
-    <circle cx="260" cy="230" r="0.8" fill="white" style="animation:twinkle2 1.7s infinite;"/>
-    <circle cx="370" cy="200" r="0.7" fill="white" style="animation:twinkle1 2.9s infinite;"/>
-    <circle cx="440" cy="250" r="1" fill="white" style="animation:twinkle3 2.1s infinite;"/>
-    <circle cx="55" cy="350" r="0.6" fill="white" style="animation:twinkle2 3.3s infinite;"/>
-    <circle cx="130" cy="400" r="0.9" fill="white" style="animation:twinkle1 1.6s infinite;"/>
-    <circle cx="220" cy="360" r="0.7" fill="white" style="animation:twinkle3 2.7s infinite;"/>
-    <circle cx="300" cy="420" r="0.8" fill="white" style="animation:twinkle2 2.2s infinite;"/>
-    <circle cx="410" cy="380" r="1" fill="white" style="animation:twinkle1 3s infinite;"/>
-    <circle cx="470" cy="340" r="0.6" fill="white" style="animation:twinkle3 1.8s infinite;"/>
-    <circle cx="15" cy="500" r="0.8" fill="white" style="animation:twinkle2 2.5s infinite;"/>
-    <circle cx="90" cy="550" r="0.7" fill="white" style="animation:twinkle1 3.2s infinite;"/>
-    <circle cx="170" cy="510" r="1" fill="white" style="animation:twinkle3 2s infinite;"/>
-    <circle cx="250" cy="580" r="0.6" fill="white" style="animation:twinkle2 2.8s infinite;"/>
-    <circle cx="340" cy="530" r="0.9" fill="white" style="animation:twinkle1 1.9s infinite;"/>
-    <circle cx="420" cy="600" r="0.7" fill="white" style="animation:twinkle3 3.1s infinite;"/>
-    <circle cx="460" cy="480" r="0.8" fill="white" style="animation:twinkle2 2.3s infinite;"/>
-    <circle cx="75" cy="680" r="1.1" fill="white" style="animation:twinkle1 2.6s infinite;"/>
-    <circle cx="155" cy="720" r="0.6" fill="white" style="animation:twinkle3 1.7s infinite;"/>
-    <circle cx="240" cy="660" r="0.8" fill="white" style="animation:twinkle2 3s infinite;"/>
-    <circle cx="330" cy="700" r="0.7" fill="white" style="animation:twinkle1 2.4s infinite;"/>
-    <circle cx="400" cy="750" r="1" fill="white" style="animation:twinkle3 2.2s infinite;"/>
-    <circle cx="45" cy="800" r="0.6" fill="white" style="animation:twinkle2 3.3s infinite;"/>
-    <circle cx="120" cy="840" r="0.9" fill="white" style="animation:twinkle1 1.8s infinite;"/>
-    <circle cx="200" cy="800" r="0.7" fill="white" style="animation:twinkle3 2.9s infinite;"/>
-    <circle cx="290" cy="860" r="0.8" fill="white" style="animation:twinkle2 2.1s infinite;"/>
-    <circle cx="380" cy="820" r="1" fill="white" style="animation:twinkle1 2.7s infinite;"/>
-    <circle cx="450" cy="880" r="0.6" fill="white" style="animation:twinkle3 1.6s infinite;"/>
-    <circle cx="190" cy="150" r="1.2" fill="#60D9FA" style="animation:twinkle1 2.5s infinite;"/>
-    <circle cx="350" cy="300" r="1" fill="#38BDF8" style="animation:twinkle2 2.2s infinite;"/>
-    <circle cx="80" cy="450" r="1.3" fill="#5EEAD4" style="animation:twinkle3 3s infinite;"/>
-    <circle cx="420" cy="500" r="1.1" fill="#60D9FA" style="animation:twinkle1 1.9s infinite;"/>
-    <circle cx="150" cy="620" r="1" fill="#7DD3FC" style="animation:twinkle2 2.6s infinite;"/>
-    <circle cx="310" cy="750" r="1.2" fill="#34D399" style="animation:twinkle3 2.3s infinite;"/>
-    <circle cx="50" cy="700" r="1" fill="#FCD34D" style="animation:twinkle1 2.8s infinite;"/>
-    <circle cx="440" cy="650" r="1.1" fill="#5EEAD4" style="animation:twinkle2 1.7s infinite;"/>
-    <ellipse cx="240" cy="450" rx="200" ry="30" fill="rgba(255,255,255,0.02)" transform="rotate(-20 240 450)"/>
-    <ellipse cx="240" cy="450" rx="160" ry="18" fill="rgba(200,200,255,0.02)" transform="rotate(-20 240 450)"/>
+  <svg class="starfield" style="position:fixed;inset:0;pointer-events:none;z-index:0;max-width:480px;margin:0 auto;width:100%;height:100%;" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="45" cy="90" r="1" fill="#A78BFA" style="animation:twinkleSpark 3.1s ease-in-out infinite;opacity:0.5"/>
+    <circle cx="120" cy="40" r="0.7" fill="#fff" style="animation:twinkleSpark 2.3s ease-in-out infinite 0.5s;opacity:0.4"/>
+    <circle cx="220" cy="130" r="1.2" fill="#C4B5FD" style="animation:twinkleSpark 4s ease-in-out infinite 1s;opacity:0.3"/>
+    <circle cx="340" cy="70" r="0.8" fill="#fff" style="animation:twinkleSpark 2.7s ease-in-out infinite 0.3s;opacity:0.5"/>
+    <circle cx="400" cy="200" r="1" fill="#A78BFA" style="animation:twinkleSpark 3.5s ease-in-out infinite 1.5s;opacity:0.4"/>
+    <circle cx="60" cy="300" r="0.7" fill="#fff" style="animation:twinkleSpark 2.9s ease-in-out infinite 0.8s;opacity:0.3"/>
+    <circle cx="290" cy="250" r="1.1" fill="#C4B5FD" style="animation:twinkleSpark 3.8s ease-in-out infinite 0.2s;opacity:0.4"/>
+    <circle cx="150" cy="400" r="0.8" fill="#fff" style="animation:twinkleSpark 2.5s ease-in-out infinite 1.2s;opacity:0.3"/>
+    <circle cx="430" cy="350" r="1" fill="#A78BFA" style="animation:twinkleSpark 4.2s ease-in-out infinite 0.6s;opacity:0.3"/>
+    <circle cx="80" cy="500" r="0.9" fill="#fff" style="animation:twinkleSpark 3.3s ease-in-out infinite 1.8s;opacity:0.4"/>
+    <circle cx="370" cy="480" r="0.7" fill="#C4B5FD" style="animation:twinkleSpark 2.8s ease-in-out infinite 0.9s;opacity:0.3"/>
+    <circle cx="250" cy="550" r="1.2" fill="#fff" style="animation:twinkleSpark 3.6s ease-in-out infinite 0.4s;opacity:0.35"/>
   </svg>
 
-  <!-- DRAWER OVERLAY -->
-  <div class="ht-drawer-overlay" id="htDrawerOverlay" onclick="closeDrawer()"></div>
-
-  <!-- DRAWER -->
-  <div class="ht-drawer" id="htDrawer">
-    <div class="ht-drawer-head">
-      <div>
-        <div class="ht-drawer-name">Vania ✨</div>
-        <div class="ht-drawer-sub">Talent SleepcallPay</div>
-      </div>
-      <div class="ht-drawer-close" onclick="closeDrawer()">×</div>
-    </div>
-
-    <div class="ht-drawer-section">Akun</div>
-    <div class="ht-drawer-item" onclick="openPage('blacklistPage')">
-      <div class="ht-drawer-icon" style="background:rgba(248,113,113,0.12);">⛔</div>
-      <div><div class="ht-drawer-label">Daftar Blacklist</div><div class="ht-drawer-desc">Nomor yang kamu blokir</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-    <div class="ht-drawer-item" onclick="openPage('rekeningPage')">
-      <div class="ht-drawer-icon" style="background:rgba(52,211,153,0.12);">🏦</div>
-      <div><div class="ht-drawer-label">Rekening Pencairan</div><div class="ht-drawer-desc">Daftarkan rekening bank</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-    <div class="ht-drawer-item" onclick="openPage('historiGajiPage')">
-      <div class="ht-drawer-icon" style="background:rgba(252,211,77,0.12);">💰</div>
-      <div><div class="ht-drawer-label">Histori Gaji</div><div class="ht-drawer-desc">Riwayat periode sebelumnya</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-
-    <div class="ht-drawer-divider"></div>
-    <div class="ht-drawer-section">Panduan</div>
-    <div class="ht-drawer-item" onclick="openPage('fiturPage')">
-      <div class="ht-drawer-icon" style="background:rgba(99,102,241,0.12);">⭐</div>
-      <div><div class="ht-drawer-label">Penjelasan Fitur</div><div class="ht-drawer-desc">Poin, top talent, dll</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-    <div class="ht-drawer-item" onclick="openPage('aturanPage')">
-      <div class="ht-drawer-icon" style="background:rgba(139,92,246,0.12);">📋</div>
-      <div><div class="ht-drawer-label">Aturan Agency</div><div class="ht-drawer-desc">Kebijakan dan ketentuan kerja</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-
-    <div class="ht-drawer-divider"></div>
-    <div class="ht-drawer-section">Legal</div>
-    <div class="ht-drawer-item" onclick="openPage('tncPage')">
-      <div class="ht-drawer-icon" style="background:rgba(255,255,255,0.07);">📄</div>
-      <div><div class="ht-drawer-label">Syarat & Ketentuan</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-    <div class="ht-drawer-item" onclick="openPage('privacyPage')">
-      <div class="ht-drawer-icon" style="background:rgba(255,255,255,0.07);">🔒</div>
-      <div><div class="ht-drawer-label">Kebijakan Privasi</div></div>
-      <div class="ht-drawer-arrow">›</div>
-    </div>
-  </div>
-
-  <!-- PAGE: BLACKLIST -->
-  <div class="ht-inner-page" id="blacklistPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('blacklistPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Daftar Blacklist</span>
-    </div>
-    <div class="ht-inner-content">
-      <!-- Input tambah blacklist -->
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
-        <input id="blacklistInput" class="ep-input" type="number" placeholder="Masukkan nomor WA" style="flex:1;margin-bottom:0;"/>
-        <button onclick="addBlacklistManual()" style="height:46px;padding:0 16px;border-radius:13px;border:none;background:linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);color:#1a0f00;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;">⛔ Blacklist</button>
-      </div>
-      <div id="blacklistPageList"></div>
-      <div id="blacklistEmpty" style="font-size:12px;color:rgba(255,255,255,0.2);text-align:center;padding:30px 0;">Belum ada nomor yang diblacklist</div>
-    </div>
-  </div>
-
-  <!-- PAGE: REKENING -->
-  <div class="ht-inner-page" id="rekeningPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('rekeningPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Rekening Pencairan</span>
-    </div>
-    <div class="ht-inner-content">
-      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.15);">
-        <div class="ht-info-title">💡 Info Pencairan</div>
-        <div class="ht-info-body">Pencairan dilakukan setiap hari Jumat. Minimal pencairan Rp 50.000. Pastikan nama rekening sesuai dengan KTP.</div>
-      </div>
-      <div class="ht-input-label">Nama Bank</div>
-      <input class="ep-input" placeholder="Contoh: BCA, BRI, Mandiri, GoPay, OVO..." value="BCA"/>
-      <div class="ht-input-label">Nomor Rekening / Akun</div>
-      <input class="ep-input" type="number" placeholder="Nomor rekening atau akun e-wallet" value="1234567890"/>
-      <div class="ht-input-label">Nama Pemilik Rekening</div>
-      <input class="ep-input" placeholder="Sesuai KTP / akun terdaftar" value="Vania Putri"/>
-      <button class="ht-save-btn" onclick="showToast('✅ Rekening berhasil disimpan!')">✦ Simpan Rekening</button>
-    </div>
-  </div>
-
-  <!-- PAGE: HISTORI GAJI -->
-  <div class="ht-inner-page" id="historiGajiPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('historiGajiPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Histori Gaji</span>
-    </div>
-    <div class="ht-inner-content">
-      <!-- INFO PENCAIRAN -->
-      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.15);margin-bottom:14px;">
-        <div class="ht-info-title">📅 Jadwal Pencairan</div>
-        <div class="ht-info-body">Gaji dicairkan <b style="color:#FCD34D;">2x sebulan</b> — tanggal <b style="color:#FCD34D;">5</b> (untuk periode 20–4) dan tanggal <b style="color:#FCD34D;">20</b> (untuk periode 5–19).</div>
-      </div>
-
-      <!-- APRIL 2025 -->
-      <div style="display:flex;align-items:center;gap:8px;margin:4px 0 8px;">
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;">APRIL 2025</span>
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-      </div>
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div><div class="ht-info-title">Periode 5–19 Apr</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 158.000</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">10</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">8</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#FCD34D;">2</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 20 April 2025</div>
-      </div>
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div><div class="ht-info-title">Periode 20 Mar–4 Apr</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 127.000</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">8</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">7</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#FCD34D;">1</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 5 April 2025</div>
-      </div>
-
-      <!-- MARET 2025 -->
-      <div style="display:flex;align-items:center;gap:8px;margin:8px 0 8px;">
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;">MARET 2025</span>
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-      </div>
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div><div class="ht-info-title">Periode 5–19 Mar</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 174.000</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">12</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">9</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#FCD34D;">3</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 20 Maret 2025</div>
-      </div>
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div><div class="ht-info-title">Periode 20 Feb–4 Mar</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 138.000</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">9</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">8</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#FCD34D;">1</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 5 Maret 2025</div>
-      </div>
-
-      <!-- FEBRUARI 2025 -->
-      <div style="display:flex;align-items:center;gap:8px;margin:8px 0 8px;">
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;">FEBRUARI 2025</span>
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-      </div>
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div><div class="ht-info-title">Periode 5–19 Feb</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 108.000</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">7</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">6</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#FCD34D;">1</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 20 Februari 2025</div>
-      </div>
-      <div class="ht-info-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div><div class="ht-info-title">Periode 20 Jan–4 Feb</div></div>
-          <div style="font-size:16px;font-weight:900;color:#34D399;">Rp 90.000</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">6</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Total Call</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#fff;">6</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:7px 10px;text-align:center;">
-            <div style="font-size:14px;font-weight:900;color:#FCD34D;">0</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-        <div style="padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(52,211,153,0.5);">✓ Dicairkan 5 Februari 2025</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAGE: FITUR -->
-  <div class="ht-inner-page" id="fiturPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('fiturPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Penjelasan Fitur</span>
-    </div>
-    <div class="ht-inner-content">
-      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.2);">
-        <div class="ht-info-title">⭐ Sistem Poin Disiplin</div>
-        <div class="ht-info-body">Setiap talent baru mulai dengan <b style="color:#FCD34D;">50 poin</b>. Maksimal 100 poin.<br><br>
-        <b style="color:#34D399;">+2 poin</b> — Menerima order<br>
-        <b style="color:#F87171;">-10 poin</b> — Tidak merespons order hingga waktu habis<br>
-        <b style="color:rgba(255,255,255,0.4);">0 poin</b> — Menolak order</div>
-      </div>
-      <div class="ht-info-card" style="border-color:rgba(252,211,77,0.2);">
-        <div class="ht-info-title">🏆 Cara Jadi Top Talent</div>
-        <div class="ht-info-body">
-        • Poin disiplin di atas <b style="color:#FCD34D;">80</b><br>
-        • Konsisten online di jam ramai (malam hari)<br>
-        • Tidak sering menolak order<br>
-        • Rating tinggi dari customer<br>
-        • Aktif minimal 5 hari per minggu</div>
-      </div>
-      <div class="ht-info-card">
-        <div class="ht-info-title">💰 Sistem Pembayaran</div>
-        <div class="ht-info-body">Kamu mendapat <b style="color:#34D399;">60%</b> dari harga voucher. Agency mengambil <b style="color:rgba(255,255,255,0.5);">40%</b>.<br><br>Pencairan setiap Jumat, minimal Rp 50.000.</div>
-      </div>
-      <div class="ht-info-card">
-        <div class="ht-info-title">⏱️ Countdown Order</div>
-        <div class="ht-info-body">Saat ada order masuk, kamu punya <b style="color:#FCD34D;">2 menit</b> untuk merespons. Jika tidak, kamu otomatis <b style="color:#F87171;">offline</b> dan poin berkurang 10.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAGE: ATURAN AGENCY -->
-  <div class="ht-inner-page" id="aturanPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('aturanPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Aturan Agency</span>
-    </div>
-    <div class="ht-inner-content">
-      <div class="ht-info-card"><div class="ht-info-title">1. Profesionalisme</div><div class="ht-info-body">Selalu bersikap profesional kepada customer. Dilarang menggunakan bahasa kasar, tidak sopan, atau menyinggung.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">2. Kejujuran</div><div class="ht-info-body">Dilarang memberikan informasi palsu kepada customer atau agency. Foto profil harus sesuai dengan diri sendiri.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">3. Kehadiran</div><div class="ht-info-body">Jika sudah online, usahakan selalu siap menerima order. Sering offline tanpa alasan dapat menurunkan peringkat.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">4. Konten</div><div class="ht-info-body">Dilarang membuat atau mendistribusikan konten yang melanggar hukum, pornografi, atau merugikan pihak lain.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">5. Data Customer</div><div class="ht-info-body">Nomor dan data customer HANYA digunakan untuk keperluan layanan. Dilarang menyebarkan data customer kepada siapapun.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">6. Pembayaran</div><div class="ht-info-body">Semua transaksi HARUS melalui platform. Dilarang melakukan transaksi langsung di luar sistem dengan alasan apapun.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">7. Pelanggaran</div><div class="ht-info-body">Pelanggaran berat dapat mengakibatkan akun dinonaktifkan permanen tanpa pencairan saldo tersisa.</div></div>
-    </div>
-  </div>
-
-  <!-- PAGE: TNC -->
-  <div class="ht-inner-page" id="tncPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('tncPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Syarat & Ketentuan</span>
-    </div>
-    <div class="ht-inner-content">
-      <div class="ht-info-card"><div class="ht-info-title">Penggunaan Layanan</div><div class="ht-info-body">Dengan bergabung sebagai talent SleepcallPay, kamu menyetujui seluruh syarat dan ketentuan yang berlaku. Layanan ini hanya untuk pengguna berusia 18 tahun ke atas.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">Hak & Kewajiban</div><div class="ht-info-body">Talent berhak menerima pembayaran sesuai ketentuan. Talent wajib menjaga kualitas layanan dan mematuhi aturan agency yang berlaku.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">Pemutusan Kontrak</div><div class="ht-info-body">Agency berhak menonaktifkan akun talent yang melanggar ketentuan tanpa pemberitahuan sebelumnya.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">Perubahan Ketentuan</div><div class="ht-info-body">SleepcallPay berhak mengubah syarat dan ketentuan sewaktu-waktu. Talent akan diberitahu melalui notifikasi aplikasi.</div></div>
-    </div>
-  </div>
-
-  <!-- PAGE: PRIVACY -->
-  <div class="ht-inner-page" id="privacyPage">
-    <div class="ht-inner-nav">
-      <div class="ht-inner-back" onclick="closePage('privacyPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <span class="ht-inner-title">Kebijakan Privasi</span>
-    </div>
-    <div class="ht-inner-content">
-      <div class="ht-info-card"><div class="ht-info-title">Data yang Dikumpulkan</div><div class="ht-info-body">Kami mengumpulkan nama, nomor WhatsApp, foto profil, dan data aktivitas layanan untuk keperluan operasional platform.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">Penggunaan Data</div><div class="ht-info-body">Data kamu digunakan untuk menjalankan layanan, menghitung pembayaran, dan meningkatkan kualitas platform. Kami tidak menjual data ke pihak ketiga.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">Keamanan Data</div><div class="ht-info-body">Kami menggunakan enkripsi untuk melindungi data kamu. Akses data dibatasi hanya untuk tim yang berwenang.</div></div>
-      <div class="ht-info-card"><div class="ht-info-title">Hapus Akun</div><div class="ht-info-body">Kamu dapat meminta penghapusan data dengan menghubungi admin. Proses penghapusan membutuhkan waktu 7-14 hari kerja.</div></div>
-    </div>
-  </div>
-
-  <!-- HALAMAN EDIT PROFIL -->
-  <div id="editProfilePage" class="ep-page">
-    <div class="ep-navbar">
-      <div class="ep-back" onclick="closeEditProfile()">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </div>
-      <span class="ep-title">Edit Profil</span>
-    </div>
-    <div class="ep-inner">
-
-      <!-- Foto -->
-      <div class="ep-section-label">Foto Profil</div>
-      <div class="ep-avatar-wrap">
-        <div class="ep-avatar-big" id="epAvatarBig">V</div>
-        <label class="ep-foto-btn" for="epFotoInput">📷 Ganti Foto</label>
-        <input type="file" id="epFotoInput" accept="image/*" style="display:none" onchange="handleFoto(this)"/>
-      </div>
-
-      <!-- Nama -->
-      <div class="ep-section-label">Nama</div>
-      <input class="ep-input" id="epNama" type="text" placeholder="Nama kamu" value="Vania"/>
-
-      <!-- Umur -->
-      <div class="ep-section-label">Umur</div>
-      <input class="ep-input" id="epUmur" type="number" placeholder="Umur" value="21" min="17" max="99"/>
-
-      <!-- Bio -->
-      <div class="ep-section-label">Bio</div>
-      <textarea class="ep-textarea" id="epBio" placeholder="Ceritakan sedikit tentang kamu...">Halo! Aku Vania, suka dengerin cerita kamu sambil menemanimu tidur. Suaraku lembut dan aku sangat sabar.</textarea>
-
-      <!-- Layanan -->
-      <div class="ep-section-label">Layanan yang Tersedia</div>
-      <div class="ep-layanan-grid" id="epLayananGrid">
-        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
-          <div class="ep-layanan-check">✓</div>
-          <span class="ep-layanan-name">🌙 Sleep Call</span>
-        </div>
-        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
-          <div class="ep-layanan-check">✓</div>
-          <span class="ep-layanan-name">📞 Teman Call</span>
-        </div>
-        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
-          <div class="ep-layanan-check">✓</div>
-          <span class="ep-layanan-name">🫂 Curhat Call</span>
-        </div>
-        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
-          <div class="ep-layanan-check">✓</div>
-          <span class="ep-layanan-name">💕 Pacar Virtual</span>
-        </div>
-        <div class="ep-layanan-item" onclick="toggleLayanan(this)">
-          <div class="ep-layanan-check"></div>
-          <span class="ep-layanan-name">🎮 Mabar</span>
-        </div>
-        <div class="ep-layanan-item" onclick="toggleLayanan(this)">
-          <div class="ep-layanan-check"></div>
-          <span class="ep-layanan-name">🎯 Marah-marah</span>
-        </div>
-      </div>
-
-      <!-- Audio Sample -->
-      <div class="ep-section-label" style="margin-top:18px;">Sample Suara</div>
-      <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;">
-        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Upload rekaman suaramu (mp3/wav). Akan otomatis di-mix dengan backsound dan muncul sebagai sample di halaman client.</div>
-        
-        <div id="epAudioWrap" style="margin-bottom:10px;">
-          <label for="epAudioInput" style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:11px 14px;cursor:pointer;">
-            <span style="font-size:18px;">🎙️</span>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:#fff;">Upload Audio Suara</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;">Format mp3 atau wav, maks 10MB</div>
-            </div>
-          </label>
-          <input type="file" id="epAudioInput" accept="audio/*" style="display:none" onchange="handleAudio(this)"/>
-        </div>
-
-        <div id="epAudioPreview" style="display:none">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:8px;">
-            <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);">Preview Sample</span>
-            <button onclick="removeAudio()" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;line-height:1;margin-top:4px;">×</button>
-          </div>
-
-          <!-- Toggle backsound -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:9px 12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.5);">Pakai backsound</span>
-            <div onclick="toggleBacskound()" style="position:relative;width:38px;height:22px;cursor:pointer;">
-              <div id="bsTrack" style="position:absolute;inset:0;border-radius:11px;background:#34D399;transition:background 0.3s;"></div>
-              <div id="bsThumb" style="position:absolute;top:3px;left:17px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>
-            </div>
-          </div>
-
-          <button onclick="playMixPreview()" id="epPlayBtn" style="width:100%;height:40px;border-radius:12px;background:rgba(52,211,153,0.1);border:0.5px solid rgba(52,211,153,0.2);color:#34D399;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-            ▶ Putar Preview (dengan backsound)
-          </button>
-        </div>
-
-        <div style="margin-top:10px;padding:8px 12px;background:rgba(252,211,77,0.05);border:0.5px solid rgba(252,211,77,0.1);border-radius:10px;display:flex;align-items:center;gap:8px;">
-          <span style="font-size:14px;">🎵</span>
-          <span style="font-size:10.5px;color:rgba(255,255,255,0.3);">Backsound: <span style="color:rgba(252,211,77,0.6);" id="backsoundName">Belum diatur</span></span>
-        </div>
-      </div>
-
-      <button class="ep-save-btn" onclick="saveProfile()">✦ Simpan Profil</button>
-    </div>
-  </div>
-
   <!-- NAVBAR -->
-  <nav class="navbar">
+  <div class="navbar">
     <div class="logo">
-      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" style="animation:logoGlow 4s ease-in-out infinite;">
-        <defs>
-          <linearGradient id="lgBg2" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#2A1F05"/>
-            <stop offset="100%" stop-color="#3D2A00"/>
-          </linearGradient>
-          <linearGradient id="lgMoon2" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#FFF1B8"/>
-            <stop offset="55%" stop-color="#FCD34D"/>
-            <stop offset="100%" stop-color="#F59E0B"/>
-          </linearGradient>
-          <radialGradient id="lgInnerGlow2" cx="0.35" cy="0.35" r="0.7">
-            <stop offset="0%" stop-color="rgba(255,220,140,0.35)"/>
-            <stop offset="100%" stop-color="rgba(255,220,140,0)"/>
-          </radialGradient>
-          <mask id="lgMoonMask2">
-            <rect width="40" height="40" fill="black"/>
-            <circle cx="19" cy="20" r="9" fill="white"/>
-            <circle cx="23.5" cy="17" r="8.2" fill="black"/>
-          </mask>
-        </defs>
-        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgBg2)" stroke="rgba(252,211,77,0.25)" stroke-width="0.6"/>
-        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgInnerGlow2)"/>
-        <rect width="40" height="40" fill="url(#lgMoon2)" mask="url(#lgMoonMask2)"/>
-        <g transform="translate(28.5 11.5)" style="animation:twinkleSpark 2.6s ease-in-out infinite;transform-origin:28.5px 11.5px;">
-          <path d="M0,-3.2 L0.8,-0.8 L3.2,0 L0.8,0.8 L0,3.2 L-0.8,0.8 L-3.2,0 L-0.8,-0.8 Z" fill="#FFF4C8"/>
-        </g>
-        <circle cx="11.5" cy="12.5" r="0.8" fill="rgba(255,240,180,0.9)" style="animation:twinkleSpark 3.4s ease-in-out infinite 0.6s;"/>
-      </svg>
-      <span class="logo-text">SleepcallPay</span>
-      <div class="navbar-badge">TALENT</div>
+      <div class="logo-icon">🛡️</div>
+      <div>
+        <div class="logo-text">SleepcallPay</div>
+      </div>
+      <div class="admin-badge">Admin</div>
     </div>
-    <div class="hamburger" onclick="openDrawer()">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
-
-  <!-- CONTENT -->
-  <div class="content">
-    <div class="ht-section">
-
-      <!-- PROFILE CARD -->
-      <div class="ht-profile-card">
-        <div class="ht-profile-top">
-          <div class="ht-avatar" id="profileAvatar" style="cursor:pointer;" onclick="openEditProfile()">V</div>
-          <div style="flex:1;">
-            <div class="ht-greet">Selamat pagi,</div>
-            <div class="ht-name" id="profileName">Vania <span class="ht-name-spark">✨</span></div>
-            <div class="ht-meta" id="profileMeta">Bergabung 2024</div>
-          </div>
-          <button onclick="openEditProfile()" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:6px 10px;color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;">Edit</button>
-        </div>
-
-        <!-- TOGGLE ONLINE -->
-        <div class="ht-toggle-row" onclick="toggleOnline()">
-          <div class="ht-toggle-left">
-            <div id="statusDot" class="ht-online-dot"></div>
-            <div class="ht-toggle-text">
-              <div class="ht-toggle-status" id="statusText">Online — Siap menerima order</div>
-              <div class="ht-toggle-sub" id="statusSub">Profilmu tampil di list customer</div>
-            </div>
-          </div>
-          <div class="ht-switch">
-            <div class="ht-switch-track on" id="switchTrack"></div>
-            <div class="ht-switch-thumb on" id="switchThumb"></div>
-          </div>
-        </div>
+    <div class="navbar-right">
+      <div class="notif-btn" onclick="showToast('🔔 3 notifikasi baru')">
+        🔔
+        <div class="notif-dot"></div>
       </div>
-
-      <!-- POIN + GAJI CARD -->
-      <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(252,211,77,0.15);border-radius:16px;padding:10px 14px;margin-bottom:10px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:14px;">⭐</span>
-            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;">POIN DISIPLIN</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:12px;font-weight:900;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="poinVal">50 <span style="-webkit-text-fill-color:rgba(255,255,255,0.3);font-size:10px;font-weight:500">/ 100</span></span>
-            <div style="width:1px;height:14px;background:rgba(255,255,255,0.1);"></div>
-            <span style="font-size:10px;">💰</span>
-            <span style="font-size:12px;font-weight:900;color:#34D399;" id="totalGaji">Rp 0</span>
-          </div>
-        </div>
-        <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
-          <div id="poinBar" style="height:100%;width:50%;border-radius:4px;background:linear-gradient(90deg,#FCD34D,#F59E0B);box-shadow:0 0 8px rgba(252,211,77,0.4);transition:width 0.6s cubic-bezier(0.22,1,0.36,1);"></div>
-        </div>
-      </div>
-
-      <!-- PERIODE AKTIF -->
-      <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(252,211,77,0.12);border-radius:16px;padding:10px 14px;margin-bottom:12px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:13px;">📅</span>
-            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;" id="periodeLabel">PERIODE INI</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:10px;font-weight:700;color:#FCD34D;" id="periodeTanggal">5–19 Mei · Cair 20 Mei</span>
-            <button onclick="toggleTotalKeseluruhan()" id="btnTotal" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s;" onmousedown="this.style.background='rgba(252,211,77,0.12)';this.style.borderColor='rgba(252,211,77,0.3)'" onmouseup="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)'">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="23 4 23 10 17 10"/>
-                <polyline points="1 20 1 14 7 14"/>
-                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;" id="statTabs">
-          <div onclick="switchTab('order')" id="tab-order" style="background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.15);border-radius:10px;padding:7px 10px;text-align:center;cursor:pointer;transition:all 0.15s;">
-            <div style="font-size:16px;font-weight:900;color:#fff;" id="statTotalCall">7</div>
-            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);margin-top:2px;">Total Call</div>
-          </div>
-          <div onclick="switchTab('customer')" id="tab-customer" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 10px;text-align:center;cursor:pointer;transition:all 0.15s;">
-            <div style="font-size:16px;font-weight:900;color:#fff;" id="statCustomer">5</div>
-            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);margin-top:2px;">Customer</div>
-          </div>
-          <div onclick="switchTab('repeat')" id="tab-repeat" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 10px;text-align:center;cursor:pointer;transition:all 0.15s;">
-            <div style="font-size:16px;font-weight:900;color:#FCD34D;" id="statRepeat">2</div>
-            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);margin-top:2px;">Repeat</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ORDER MASUK CARD -->
-      <div class="ht-order-card" id="orderCard">
-        <div class="ht-order-header">
-          <div class="ht-order-label">
-            <div class="ht-order-blink"></div>
-            Order Masuk
-          </div>
-          <div class="ht-order-timer" id="orderTimer">2:00</div>
-        </div>
-        <div class="ht-order-info">
-          <div class="ht-order-avatar" id="orderClientAvatar">A</div>
-          <div>
-            <div class="ht-order-client" id="orderClientName">—</div>
-            <div class="ht-order-detail" id="orderClientDetail">—</div>
-          </div>
-          <div style="text-align:right;margin-left:auto;">
-            <div class="ht-order-price" id="orderPrice">—</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;">yang kamu dapat</div>
-          </div>
-        </div>
-        <div class="ht-order-progress">
-          <div class="ht-order-progress-bar" id="orderProgressBar" style="width:100%"></div>
-        </div>
-        <div id="orderRevealBox" style="display:none;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px;">
-          <div style="font-size:13px;font-weight:700;color:#34D399;" id="orderRevealNumber">—</div>
-          <button onclick="salinNomor()" style="background:rgba(52,211,153,0.12);border:0.5px solid rgba(52,211,153,0.25);border-radius:8px;padding:5px 12px;color:#34D399;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;">Salin</button>
-        </div>
-        <div class="ht-order-actions" id="orderActions">
-          <button class="ht-btn-tolak" onclick="tolakOrder()">Tolak</button>
-          <button class="ht-btn-terima" onclick="terimaOrder()">Terima</button>
-        </div>
-        <button id="orderCloseBtn" onclick="closeOrder()" style="display:none;width:100%;height:36px;border-radius:10px;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;">Tutup</button>
-      </div>
-
-      <!-- KONTEN TAB -->
-      <div style="margin-bottom:12px;">
-        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;" id="tabLabel">Riwayat Order</div>
-        <div id="riwayatList"></div>
-        <div style="text-align:right;margin-top:6px;">
-          <button id="btnLihatSemua" onclick="lihatSemua()" style="background:none;border:none;color:rgba(255,255,255,0.25);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;padding:4px 2px;">Lihat semua →</button>
-        </div>
-      </div>
-
-      <!-- SIMULASI BTN -->
-      <button class="ht-sim-btn" onclick="simulasiOrder()">
-        ⚡ Simulasi order masuk (demo)
-      </button>
-
+      <div class="admin-avatar" onclick="showToast('👤 Admin Panel')">A</div>
     </div>
   </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('talent', this)">👥 Talent</button>
+    <button class="tab-btn" onclick="switchTab('voucher', this)">🎟️ Voucher</button>
+    <button class="tab-btn" onclick="switchTab('keuangan', this)">💰 Keuangan</button>
+    <button class="tab-btn" onclick="switchTab('laporan', this)">📈 Laporan</button>
+    <button class="tab-btn" onclick="switchTab('settings', this)">⚙️ Pengaturan</button>
+  </div>
+
+  <div class="content" style="padding-bottom:40px;">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="section-page active" id="page-dashboard">
+      <div class="dash-header">
+        <div class="dash-greeting">Selamat malam, Admin 🌙</div>
+        <div class="dash-title">Overview Hari Ini</div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card violet">
+          <div class="stat-icon">👥</div>
+          <div class="stat-val">24</div>
+          <div class="stat-label">Total Talent</div>
+          <div class="stat-change up">↑ 2 talent baru minggu ini</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-icon">🎟️</div>
+          <div class="stat-val">87</div>
+          <div class="stat-label">Voucher Aktif</div>
+          <div class="stat-change up">↑ 12 dari kemarin</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon">💰</div>
+          <div class="stat-val">Rp 4,2jt</div>
+          <div class="stat-label">Pendapatan Hari Ini</div>
+          <div class="stat-change up">↑ 18% vs kemarin</div>
+        </div>
+        <div class="stat-card pink">
+          <div class="stat-icon">📞</div>
+          <div class="stat-val">156</div>
+          <div class="stat-label">Total Call Hari Ini</div>
+          <div class="stat-change down">↓ 5 dari kemarin</div>
+        </div>
+      </div>
+
+      <!-- Info row -->
+      <div class="info-row">
+        <div class="info-mini">
+          <div class="info-mini-val" style="color:#34D399;">18</div>
+          <div class="info-mini-label">Talent Online</div>
+        </div>
+        <div class="info-mini">
+          <div class="info-mini-val" style="color:#FCD34D;">6</div>
+          <div class="info-mini-label">Talent Offline</div>
+        </div>
+        <div class="info-mini">
+          <div class="info-mini-val" style="color:#F87171;">3</div>
+          <div class="info-mini-label">Pencairan Pending</div>
+        </div>
+        <div class="info-mini">
+          <div class="info-mini-val" style="color:#A78BFA;">12</div>
+          <div class="info-mini-label">Order Aktif</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section-label">Aksi Cepat</div>
+      <div class="quick-actions">
+        <div class="qa-btn" onclick="showToast('🎟️ Buka generate voucher'); switchTab('voucher', document.querySelectorAll(\'.tab-btn\')[2])">
+          <div class="qa-icon" style="background:rgba(252,211,77,0.12);">🎟️</div>
+          <div class="qa-label">Buat Voucher</div>
+        </div>
+        <div class="qa-btn" onclick="openAddTalent()">
+          <div class="qa-icon" style="background:rgba(167,139,250,0.12);">➕</div>
+          <div class="qa-label">Tambah Talent</div>
+        </div>
+        <div class="qa-btn" onclick="showToast('💸 Cairkan gaji talent')">
+          <div class="qa-icon" style="background:rgba(52,211,153,0.12);">💸</div>
+          <div class="qa-label">Cairkan Gaji</div>
+        </div>
+        <div class="qa-btn" onclick="showToast('📢 Broadcast ke talent')">
+          <div class="qa-icon" style="background:rgba(96,165,250,0.12);">📢</div>
+          <div class="qa-label">Broadcast</div>
+        </div>
+      </div>
+
+      <!-- Log Aktivitas -->
+      <div class="section-label">Aktivitas Terbaru</div>
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <div class="admin-card-title">Semua Aktivitas</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div id="logFilterActive" class="admin-card-link" style="font-size:9px;background:rgba(167,139,250,0.12);border:0.5px solid rgba(167,139,250,0.25);border-radius:999px;padding:3px 8px;color:#C4B5FD;cursor:pointer;" onclick="setLogFilter('semua',this)">Semua</div>
+          </div>
+        </div>
+        <!-- Filter chips log -->
+        <div style="display:flex;gap:5px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;border-bottom:0.5px solid rgba(255,255,255,0.05);">
+          <div class="log-chip active" onclick="setLogFilter('semua',this)">Semua</div>
+          <div class="log-chip" onclick="setLogFilter('order',this)">📞 Order</div>
+          <div class="log-chip" onclick="setLogFilter('voucher',this)">🎟️ Voucher</div>
+          <div class="log-chip" onclick="setLogFilter('blacklist',this)">⛔ Blacklist</div>
+        </div>
+        <div id="logList"></div>
+      </div>
+
+      <!-- Pending Pencairan -->
+      <div class="section-label">Pencairan Menunggu</div>
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <div class="admin-card-title">Harus Dicairkan</div>
+          <div class="admin-card-link" onclick="switchTab('keuangan', document.querySelectorAll('.tab-btn')[3])">Keuangan</div>
+        </div>
+        <div class="pencairan-item" onclick="showToast('💸 Detail pencairan Vania')">
+          <div class="pencairan-avatar">✨</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Vania</div>
+            <div class="pencairan-meta">BCA · 1234-xxxx · Periode 5–19 Mei</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 174.000</div>
+            <div class="pencairan-status ps-menunggu">⏳ Menunggu</div>
+          </div>
+        </div>
+        <div class="pencairan-item" onclick="showToast('💸 Detail pencairan Luna')">
+          <div class="pencairan-avatar">🌙</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Luna</div>
+            <div class="pencairan-meta">Mandiri · 8901-xxxx · Periode 5–19 Mei</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 210.000</div>
+            <div class="pencairan-status ps-menunggu">⏳ Menunggu</div>
+          </div>
+        </div>
+        <div class="pencairan-item" onclick="showToast('💸 Detail pencairan Ara')">
+          <div class="pencairan-avatar">🌸</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Ara</div>
+            <div class="pencairan-meta">BRI · 5678-xxxx · Periode 5–19 Mei</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 138.000</div>
+            <div class="pencairan-status ps-menunggu">⏳ Menunggu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TALENT MANAGEMENT ===== -->
+    <div class="section-page" id="page-talent">
+      <div class="dash-header">
+        <div class="dash-greeting">Kelola talent agency</div>
+        <div class="dash-title">Manajemen Talent</div>
+      </div>
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Cari nama talent..." oninput="filterTalent(this.value)"/>
+      </div>
+      <div style="height:8px;"></div>
+      <div class="filter-row">
+        <button class="filter-chip active" onclick="setFilter(this,'semua')">Semua (24)</button>
+        <button class="filter-chip" onclick="setFilter(this,'online')">🟢 Online (18)</button>
+        <button class="filter-chip" onclick="setFilter(this,'offline')">⚫ Offline (6)</button>
+        <button class="filter-chip" onclick="setFilter(this,'top')">⭐ Top Talent</button>
+        <button class="filter-chip" onclick="setFilter(this,'suspend')">🚫 Disuspend</button>
+      </div>
+      <div class="talent-mgmt-list" id="talentList">
+        <!-- Talent items rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ===== VOUCHER ===== -->
+    <div class="section-page" id="page-voucher">
+      <div class="dash-header">
+        <div class="dash-greeting">Kelola & generate voucher</div>
+        <div class="dash-title">Manajemen Voucher</div>
+      </div>
+
+      <!-- Generate form -->
+      <div class="gen-form">
+        <div class="gen-form-title">⚡ Generate Voucher Baru</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">Nominal</div>
+            <select class="form-select" id="vcNominal">
+              <option value="10000">Rp 10.000</option>
+              <option value="20000">Rp 20.000</option>
+              <option value="30000" selected>Rp 30.000</option>
+              <option value="40000">Rp 40.000</option>
+              <option value="50000">Rp 50.000</option>
+              <option value="60000">Rp 60.000</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Layanan</div>
+            <select class="form-select" id="vcLayanan">
+              <option value="semua">Semua Layanan</option>
+              <option value="sleep">Sleep Call</option>
+              <option value="teman">Teman Call</option>
+              <option value="curhat">Curhat Call</option>
+              <option value="pv">Pacar Virtual</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">Jumlah Voucher</div>
+            <input class="form-input" type="number" id="vcJumlah" value="1" min="1" max="100"/>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Expired (hari)</div>
+            <input class="form-input" type="number" id="vcExpired" value="30" min="1"/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <div class="form-label">Untuk Customer (opsional)</div>
+          <input class="form-input" type="text" id="vcCustomer" placeholder="Nama atau nomor WA customer"/>
+        </div>
+        <button class="btn-generate" onclick="generateVoucher()">⚡ Generate Voucher</button>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-row">
+        <button class="filter-chip active" onclick="setFilter(this,'semua')">Semua</button>
+        <button class="filter-chip" onclick="setFilter(this,'aktif')">✅ Aktif (87)</button>
+        <button class="filter-chip" onclick="setFilter(this,'terpakai')">✓ Terpakai (243)</button>
+        <button class="filter-chip" onclick="setFilter(this,'expired')">❌ Expired (12)</button>
+      </div>
+
+      <div class="voucher-list">
+        <div class="vc-card">
+          <div class="vc-top">
+            <div class="vc-code">SCP-A7X9-KL23</div>
+            <div class="vc-status aktif">Aktif</div>
+          </div>
+          <div class="vc-info">
+            <div class="vc-row">Nominal: <span>Rp 30.000</span></div>
+            <div class="vc-row">Layanan: <span>Sleep Call</span></div>
+            <div class="vc-row">Dibuat: <span>10 Mei 2025</span></div>
+            <div class="vc-row">Expired: <span>9 Jun 2025</span></div>
+          </div>
+          <div class="vc-action-row">
+            <button class="vc-btn copy" onclick="copyVoucher('SCP-A7X9-KL23')">📋 Copy</button>
+            <button class="vc-btn send" onclick="showToast('💬 Kirim ke WA customer')">💬 Kirim WA</button>
+            <button class="vc-btn revoke" onclick="showToast('🗑️ Voucher direvoke')">🗑️ Revoke</button>
+          </div>
+        </div>
+        <div class="vc-card">
+          <div class="vc-top">
+            <div class="vc-code">SCP-B2M4-NP87</div>
+            <div class="vc-status aktif">Aktif</div>
+          </div>
+          <div class="vc-info">
+            <div class="vc-row">Nominal: <span>Rp 40.000</span></div>
+            <div class="vc-row">Layanan: <span>Semua</span></div>
+            <div class="vc-row">Dibuat: <span>11 Mei 2025</span></div>
+            <div class="vc-row">Expired: <span>10 Jun 2025</span></div>
+          </div>
+          <div class="vc-action-row">
+            <button class="vc-btn copy" onclick="copyVoucher('SCP-B2M4-NP87')">📋 Copy</button>
+            <button class="vc-btn send" onclick="showToast('💬 Kirim ke WA customer')">💬 Kirim WA</button>
+            <button class="vc-btn revoke" onclick="showToast('🗑️ Voucher direvoke')">🗑️ Revoke</button>
+          </div>
+        </div>
+        <div class="vc-card" style="opacity:0.6;">
+          <div class="vc-top">
+            <div class="vc-code">SCP-C9R1-QW56</div>
+            <div class="vc-status terpakai">Terpakai</div>
+          </div>
+          <div class="vc-info">
+            <div class="vc-row">Nominal: <span>Rp 20.000</span></div>
+            <div class="vc-row">Layanan: <span>Curhat Call</span></div>
+            <div class="vc-row">Dipakai: <span>9 Mei 2025</span></div>
+            <div class="vc-row">Talent: <span>Vania</span></div>
+          </div>
+          <div class="vc-action-row">
+            <button class="vc-btn copy" onclick="copyVoucher('SCP-C9R1-QW56')">📋 Copy Kode</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== KEUANGAN ===== -->
+    <div class="section-page" id="page-keuangan">
+      <div class="dash-header">
+        <div class="dash-greeting">Periode: 1–15 Mei 2025</div>
+        <div class="dash-title">Keuangan Agency</div>
+      </div>
+
+      <div class="finance-summary">
+        <div class="finance-total-label">Total Pendapatan Bulan Ini</div>
+        <div class="finance-total-val">Rp 18.240.000</div>
+        <div class="finance-sub">Dari 412 transaksi · Rata-rata Rp 44.272/transaksi</div>
+      </div>
+
+      <div class="finance-row">
+        <div class="finance-mini">
+          <div class="finance-mini-label">Komisi Agency</div>
+          <div class="finance-mini-val gold">Rp 5,47jt</div>
+        </div>
+        <div class="finance-mini">
+          <div class="finance-mini-label">Gaji Talent</div>
+          <div class="finance-mini-val" style="color:#A78BFA;">Rp 12,77jt</div>
+        </div>
+        <div class="finance-mini">
+          <div class="finance-mini-label">Pending Cair</div>
+          <div class="finance-mini-val red">Rp 522rb</div>
+        </div>
+      </div>
+
+      <!-- Cairkan semua -->
+      <div class="btn-cairkan" onclick="showToast('💸 Konfirmasi pencairan semua gaji')">
+        <div>
+          <div class="btn-cairkan-text">💸 Cairkan Semua Gaji</div>
+          <div class="btn-cairkan-sub">3 talent menunggu · Total Rp 522.000</div>
+        </div>
+        <div class="btn-cairkan-icon">›</div>
+      </div>
+
+      <div class="section-label">Pencairan Menunggu</div>
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <div class="admin-card-title">Antrian Pencairan</div>
+          <div class="admin-card-link" onclick="showToast('📋 Filter pencairan')">Filter</div>
+        </div>
+        <div class="pencairan-item" onclick="openPencairanModal('Vania','174000','BCA','1234567890')">
+          <div class="pencairan-avatar">✨</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Vania</div>
+            <div class="pencairan-meta">BCA · 1234-xxxx · 12 call · 8 customer</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 174.000</div>
+            <div class="pencairan-status ps-menunggu">⏳ Menunggu</div>
+          </div>
+        </div>
+        <div class="pencairan-item" onclick="openPencairanModal('Luna','210000','Mandiri','9876543210')">
+          <div class="pencairan-avatar">🌙</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Luna</div>
+            <div class="pencairan-meta">Mandiri · 8901-xxxx · 15 call · 11 customer</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 210.000</div>
+            <div class="pencairan-status ps-menunggu">⏳ Menunggu</div>
+          </div>
+        </div>
+        <div class="pencairan-item" onclick="openPencairanModal('Ara','138000','BRI','5678901234')">
+          <div class="pencairan-avatar">🌸</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Ara</div>
+            <div class="pencairan-meta">BRI · 5678-xxxx · 9 call · 7 customer</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 138.000</div>
+            <div class="pencairan-status ps-menunggu">⏳ Menunggu</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Riwayat Pencairan</div>
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <div class="admin-card-title">Sudah Dicairkan</div>
+          <div class="admin-card-link" onclick="showToast('📋 Export CSV')">Export</div>
+        </div>
+        <div class="pencairan-item">
+          <div class="pencairan-avatar">✨</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Vania · Periode 20 Apr–4 Mei</div>
+            <div class="pencairan-meta">BCA · Dicairkan 5 Mei 2025</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 138.000</div>
+            <div class="pencairan-status ps-selesai">✓ Selesai</div>
+          </div>
+        </div>
+        <div class="pencairan-item">
+          <div class="pencairan-avatar">🌙</div>
+          <div class="pencairan-info">
+            <div class="pencairan-name">Luna · Periode 20 Apr–4 Mei</div>
+            <div class="pencairan-meta">Mandiri · Dicairkan 5 Mei 2025</div>
+          </div>
+          <div class="pencairan-right">
+            <div class="pencairan-amount">Rp 174.000</div>
+            <div class="pencairan-status ps-selesai">✓ Selesai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LAPORAN ===== -->
+    <div class="section-page" id="page-laporan">
+      <div class="dash-header">
+        <div class="dash-greeting">Analitik & statistik agency</div>
+        <div class="dash-title">Laporan</div>
+      </div>
+
+      <div class="report-period">
+        <button class="period-chip" onclick="setFilter(this,'7h')">7 Hari</button>
+        <button class="period-chip active" onclick="setFilter(this,'30h')">30 Hari</button>
+        <button class="period-chip" onclick="setFilter(this,'3b')">3 Bulan</button>
+        <button class="period-chip" onclick="setFilter(this,'6b')">6 Bulan</button>
+        <button class="period-chip" onclick="setFilter(this,'1t')">1 Tahun</button>
+      </div>
+
+      <!-- Bar chart pendapatan -->
+      <div class="bar-chart">
+        <div class="bar-chart-title">PENDAPATAN PER MINGGU</div>
+        <div class="bar-row">
+          <div class="bar-label">W1</div>
+          <div class="bar-track"><div class="bar-fill green" style="width:78%"><div class="bar-val">78%</div></div></div>
+          <div class="bar-amount">Rp 4,2jt</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">W2</div>
+          <div class="bar-track"><div class="bar-fill green" style="width:92%"><div class="bar-val">92%</div></div></div>
+          <div class="bar-amount">Rp 5,1jt</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">W3</div>
+          <div class="bar-track"><div class="bar-fill green" style="width:65%"><div class="bar-val">65%</div></div></div>
+          <div class="bar-amount">Rp 3,6jt</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">W4</div>
+          <div class="bar-track"><div class="bar-fill green" style="width:100%"><div class="bar-val">100%</div></div></div>
+          <div class="bar-amount">Rp 5,4jt</div>
+        </div>
+      </div>
+
+      <!-- Bar chart layanan -->
+      <div class="bar-chart">
+        <div class="bar-chart-title">POPULASI LAYANAN</div>
+        <div class="bar-row">
+          <div class="bar-label" style="width:50px;font-size:9px;">🌙 Sleep</div>
+          <div class="bar-track"><div class="bar-fill violet" style="width:85%"><div class="bar-val">85%</div></div></div>
+          <div class="bar-amount">412 call</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label" style="width:50px;font-size:9px;">🎧 Teman</div>
+          <div class="bar-track"><div class="bar-fill violet" style="width:62%"><div class="bar-val">62%</div></div></div>
+          <div class="bar-amount">298 call</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label" style="width:50px;font-size:9px;">💬 Curhat</div>
+          <div class="bar-track"><div class="bar-fill violet" style="width:45%"><div class="bar-val">45%</div></div></div>
+          <div class="bar-amount">218 call</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label" style="width:50px;font-size:9px;">❤️ PV</div>
+          <div class="bar-track"><div class="bar-fill violet" style="width:30%"><div class="bar-val">30%</div></div></div>
+          <div class="bar-amount">147 call</div>
+        </div>
+      </div>
+
+      <!-- Top talent table -->
+      <div class="section-label">Top Talent Bulan Ini</div>
+      <div class="report-table admin-card" style="margin:0 16px;">
+        <div class="rt-head">
+          <div>Talent</div>
+          <div>Call</div>
+          <div>Customer</div>
+          <div>Komisi</div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-name">⭐ Vania</div>
+          <div class="rt-cell">67</div>
+          <div class="rt-cell">48</div>
+          <div class="rt-cell green">Rp 492rb</div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-name">⭐ Luna</div>
+          <div class="rt-cell">58</div>
+          <div class="rt-cell">41</div>
+          <div class="rt-cell green">Rp 438rb</div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-name">Ara</div>
+          <div class="rt-cell">45</div>
+          <div class="rt-cell">33</div>
+          <div class="rt-cell green">Rp 312rb</div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-name">Mika</div>
+          <div class="rt-cell">38</div>
+          <div class="rt-cell">29</div>
+          <div class="rt-cell green">Rp 264rb</div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-name">Sora</div>
+          <div class="rt-cell">31</div>
+          <div class="rt-cell">24</div>
+          <div class="rt-cell green">Rp 216rb</div>
+        </div>
+      </div>
+      <div style="height:16px;"></div>
+    </div>
+
+    <!-- ===== PENGATURAN ===== -->
+    <div class="section-page" id="page-settings">
+      <div class="dash-header">
+        <div class="dash-greeting">Konfigurasi sistem</div>
+        <div class="dash-title">Pengaturan</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-label" style="padding:0 0 8px;">Sistem Agency</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="showToast('💰 Atur komisi agency')">
+            <div class="settings-icon" style="background:rgba(252,211,77,0.12);">💰</div>
+            <div class="settings-text">
+              <div class="settings-label">Komisi Agency</div>
+              <div class="settings-desc">Persentase potongan dari setiap transaksi</div>
+            </div>
+            <div class="settings-val">30%</div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('📅 Atur periode pencairan')">
+            <div class="settings-icon" style="background:rgba(167,139,250,0.12);">📅</div>
+            <div class="settings-text">
+              <div class="settings-label">Periode Pencairan</div>
+              <div class="settings-desc">Jadwal otomatis pencairan gaji</div>
+            </div>
+            <div class="settings-val">2× / bulan</div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('⭐ Atur poin disiplin')">
+            <div class="settings-icon" style="background:rgba(52,211,153,0.12);">⭐</div>
+            <div class="settings-text">
+              <div class="settings-label">Sistem Poin Disiplin</div>
+              <div class="settings-desc">Atur poin awal & aturan pengurangan</div>
+            </div>
+            <div class="settings-val">50 poin</div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('⏰ Atur batas timeout order')">
+            <div class="settings-icon" style="background:rgba(248,113,113,0.12);">⏰</div>
+            <div class="settings-text">
+              <div class="settings-label">Timeout Order</div>
+              <div class="settings-desc">Batas waktu talent harus terima order</div>
+            </div>
+            <div class="settings-val">2 menit</div>
+            <div class="settings-arrow">›</div>
+          </div>
+        </div>
+
+        <div class="section-label" style="padding:12px 0 8px;">Layanan & Harga</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="showToast('💲 Atur harga Sleep Call')">
+            <div class="settings-icon" style="background:rgba(96,165,250,0.12);">🌙</div>
+            <div class="settings-text">
+              <div class="settings-label">Harga Sleep Call</div>
+              <div class="settings-desc">Rp 10rb–60rb · 30 mnt–3 jam</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('💲 Atur harga Teman Call')">
+            <div class="settings-icon" style="background:rgba(52,211,153,0.12);">🎧</div>
+            <div class="settings-text">
+              <div class="settings-label">Harga Teman Call</div>
+              <div class="settings-desc">Rp 10rb–60rb · 30 mnt–3 jam</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('💲 Atur harga Curhat Call')">
+            <div class="settings-icon" style="background:rgba(252,211,77,0.12);">💬</div>
+            <div class="settings-text">
+              <div class="settings-label">Harga Curhat Call</div>
+              <div class="settings-desc">Rp 10rb–60rb · 20 mnt–2 jam</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('💲 Atur harga Pacar Virtual')">
+            <div class="settings-icon" style="background:rgba(248,113,113,0.12);">❤️</div>
+            <div class="settings-text">
+              <div class="settings-label">Harga Pacar Virtual</div>
+              <div class="settings-desc">Atur nominal & durasi</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+        </div>
+
+        <div class="section-label" style="padding:12px 0 8px;">Notifikasi</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <div class="settings-icon" style="background:rgba(167,139,250,0.12);">📲</div>
+            <div class="settings-text">
+              <div class="settings-label">Notif Order Masuk</div>
+              <div class="settings-desc">Notif ke admin saat ada order baru</div>
+            </div>
+            <div class="toggle-wrap" onclick="toggleSwitch(this)">
+              <div class="toggle-track on"></div>
+              <div class="toggle-thumb on"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon" style="background:rgba(52,211,153,0.12);">💸</div>
+            <div class="settings-text">
+              <div class="settings-label">Notif Pencairan</div>
+              <div class="settings-desc">Pengingat saat jadwal pencairan tiba</div>
+            </div>
+            <div class="toggle-wrap" onclick="toggleSwitch(this)">
+              <div class="toggle-track on"></div>
+              <div class="toggle-thumb on"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon" style="background:rgba(248,113,113,0.12);">🚨</div>
+            <div class="settings-text">
+              <div class="settings-label">Notif Laporan Masuk</div>
+              <div class="settings-desc">Saat customer melaporkan talent</div>
+            </div>
+            <div class="toggle-wrap" onclick="toggleSwitch(this)">
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label" style="padding:12px 0 8px;">Admin</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="showToast('📱 Ubah nomor WA admin')">
+            <div class="settings-icon" style="background:rgba(52,211,153,0.12);">📱</div>
+            <div class="settings-text">
+              <div class="settings-label">Nomor WA Admin</div>
+              <div class="settings-desc">Untuk menerima pesanan manual</div>
+            </div>
+            <div class="settings-val">081234xxx</div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('🔑 Ubah password admin')">
+            <div class="settings-icon" style="background:rgba(167,139,250,0.12);">🔑</div>
+            <div class="settings-text">
+              <div class="settings-label">Ganti Password</div>
+              <div class="settings-desc">Keamanan akun admin</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item" onclick="showToast('🎵 Ubah URL backsound')">
+            <div class="settings-icon" style="background:rgba(96,165,250,0.12);">🎵</div>
+            <div class="settings-text">
+              <div class="settings-label">URL Backsound</div>
+              <div class="settings-desc">Audio default untuk sample talent</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+        </div>
+
+        <div class="settings-group" style="border-color:rgba(248,113,113,0.2);">
+          <div class="settings-item" onclick="showToast('🚪 Logout dari panel admin')">
+            <div class="settings-icon" style="background:rgba(248,113,113,0.12);">🚪</div>
+            <div class="settings-text">
+              <div class="settings-label" style="color:#F87171;">Logout</div>
+              <div class="settings-desc">Keluar dari panel admin</div>
+            </div>
+            <div class="settings-arrow" style="color:rgba(248,113,113,0.4);">›</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .content -->
+
+
+
+  <!-- FAB ADD TALENT -->
+  <button class="fab-add" id="fabAdd" style="display:none;" onclick="openAddTalent()">+</button>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- MODAL PENCAIRAN -->
+  <div class="modal-overlay" id="pencairanModal" onclick="closePencairanModal()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-title">💸 Konfirmasi Pencairan</div>
+      <div id="pencairanContent"></div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button onclick="closePencairanModal()" style="flex:1;height:44px;border-radius:12px;border:0.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">Batal</button>
+        <button onclick="confirmPencairan()" style="flex:2;height:44px;border-radius:12px;border:none;background:linear-gradient(135deg,#34D399,#059669);color:#fff;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;">✓ Tandai Sudah Dicairkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADD TALENT -->
+  <div class="modal-overlay" id="addTalentModal" onclick="closeAddTalent()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-title">➕ Tambah Talent Baru</div>
+      <div class="form-group" style="margin-bottom:10px;">
+        <div class="form-label">Nama Talent</div>
+        <input class="form-input" type="text" placeholder="Nama panggilan talent" style="width:100%;"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <div class="form-label">Jenis Kelamin</div>
+          <select class="form-select">
+            <option>Wanita</option>
+            <option>Pria</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Usia</div>
+          <input class="form-input" type="number" placeholder="20" min="18"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:10px;">
+        <div class="form-label">Nomor WhatsApp</div>
+        <input class="form-input" type="tel" placeholder="08xxx"/>
+      </div>
+      <div class="form-group" style="margin-bottom:10px;">
+        <div class="form-label">Bio Singkat</div>
+        <input class="form-input" type="text" placeholder="Deskripsi singkat talent..."/>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <div class="form-label">Layanan yang Ditawarkan</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;" id="layananCheckboxes">
+          <div class="filter-chip active" onclick="this.classList.toggle('active')" style="cursor:pointer;">🌙 Sleep Call</div>
+          <div class="filter-chip" onclick="this.classList.toggle('active')" style="cursor:pointer;">🎧 Teman Call</div>
+          <div class="filter-chip" onclick="this.classList.toggle('active')" style="cursor:pointer;">💬 Curhat Call</div>
+          <div class="filter-chip" onclick="this.classList.toggle('active')" style="cursor:pointer;">❤️ Pacar Virtual</div>
+        </div>
+      </div>
+      <button onclick="showToast('✅ Talent berhasil ditambahkan!'); closeAddTalent();" style="width:100%;height:44px;border-radius:12px;border:none;background:linear-gradient(135deg,#A78BFA,#7C3AED);color:#fff;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;">✓ Tambah Talent</button>
+    </div>
+  </div>
+
+</div><!-- end #app -->
 
 <script>
-// ===== RIWAYAT ORDER =====
-let riwayat = [
-  { status:'terima',  nomor:'081234512345', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'10:24', hari:'Hari ini' },
-  { status:'tolak',   nomor:'****87601',    layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'09:51', hari:'Hari ini' },
-  { status:'terima',  nomor:'082198765432', layanan:'Curhat Call',   durasi:'40 menit', harga:'Rp 12.000', jam:'09:10', hari:'Hari ini' },
-  { status:'timeout', nomor:'****54085',    layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'08:44', hari:'Hari ini' },
-  { status:'terima',  nomor:'085261754085', layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'08:02', hari:'Hari ini' },
-  { status:'terima',  nomor:'089987601234', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'22:15', hari:'Kemarin', period:'lalu' },
-  { status:'timeout', nomor:'****65432',    layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'20:33', hari:'Kemarin', period:'lalu' },
-  { status:'tolak',   nomor:'****12398',    layanan:'Curhat Call',   durasi:'20 menit', harga:'Rp 12.000', jam:'18:11', hari:'Kemarin', period:'lalu' },
-  { status:'terima',  nomor:'081398765000', layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'14:05', hari:'Kemarin', period:'lalu' },
-  { status:'terima',  nomor:'087812345678', layanan:'Teman Call',    durasi:'30 menit', harga:'Rp 18.000', jam:'23:47', hari:'11 Mei', period:'lalu' },
-  { status:'timeout', nomor:'****77654',    layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'21:30', hari:'11 Mei', period:'lalu' },
-  { status:'terima',  nomor:'082398761234', layanan:'Curhat Call',   durasi:'40 menit', harga:'Rp 12.000', jam:'19:20', hari:'11 Mei', period:'lalu' },
-  { status:'tolak',   nomor:'****33210',    layanan:'Pacar Virtual', durasi:'45 menit', harga:'Rp 18.000', jam:'10:08', hari:'10 Mei', period:'lalu' },
-  { status:'terima',  nomor:'085761234509', layanan:'Sleep Call',    durasi:'60 menit', harga:'Rp 45.000', jam:'09:15', hari:'10 Mei', period:'lalu' },
+// =============================================
+// LOG AKTIVITAS
+// =============================================
+const logData = [
+  { type:'order',     icon:'📞', dotClass:'ld-order',   badge:'lb-order-masuk',   badgeText:'Order Masuk',      desc:'<span>0812-xxxx</span> memesan <span>Vania</span> — Sleep Call 2 jam', meta:'Rp 40.000 · 3 menit lalu' },
+  { type:'order',     icon:'✅', dotClass:'ld-terima',   badge:'lb-diterima',      badgeText:'Diterima',         desc:'<span>Vania</span> menerima order dari <span>0812-xxxx</span>', meta:'Sleep Call · 3 menit lalu' },
+  { type:'order',     icon:'📞', dotClass:'ld-order',   badge:'lb-order-masuk',   badgeText:'Order Masuk',      desc:'<span>0857-xxxx</span> memesan <span>Luna</span> — Curhat Call 1 jam', meta:'Rp 30.000 · 18 menit lalu' },
+  { type:'order',     icon:'✅', dotClass:'ld-terima',   badge:'lb-diterima',      badgeText:'Diterima',         desc:'<span>Luna</span> menerima order dari <span>0857-xxxx</span>', meta:'Curhat Call · 18 menit lalu' },
+  { type:'order',     icon:'⏰', dotClass:'ld-selesai',  badge:'lb-selesai',       badgeText:'Selesai',          desc:'Sesi <span>Ara</span> dengan <span>0823-xxxx</span> selesai', meta:'Teman Call 30 mnt · 45 menit lalu' },
+  { type:'voucher',   icon:'🛒', dotClass:'ld-beli',    badge:'lb-voucher-beli',  badgeText:'Beli via Website', desc:'<span>0834-xxxx</span> membeli voucher Sleep Call', meta:'Rp 40.000 · 1 jam lalu' },
+  { type:'order',     icon:'❌', dotClass:'ld-tolak',   badge:'lb-ditolak',       badgeText:'Ditolak',          desc:'<span>Mika</span> menolak order dari <span>0878-xxxx</span>', meta:'Pacar Virtual · 1 jam lalu' },
+  { type:'order',     icon:'📞', dotClass:'ld-order',   badge:'lb-order-masuk',   badgeText:'Order Masuk',      desc:'<span>0878-xxxx</span> memesan <span>Mika</span> — Pacar Virtual 2 jam', meta:'Rp 60.000 · 1 jam lalu' },
+  { type:'voucher',   icon:'⚡', dotClass:'ld-voucher', badge:'lb-voucher-admin', badgeText:'Voucher Dibuat',   desc:'Admin membuat <span>3 voucher</span> Sleep Call Rp 30.000', meta:'SCP-A7X9-KL23 · 2 jam lalu' },
+  { type:'order',     icon:'⏱️', dotClass:'ld-timeout', badge:'lb-timeout',       badgeText:'Timeout',          desc:'Order ke <span>Sora</span> timeout, tidak ada respons', meta:'0865-xxxx · Teman Call · 2 jam lalu' },
+  { type:'voucher',   icon:'🛒', dotClass:'ld-beli',    badge:'lb-voucher-beli',  badgeText:'Beli via Website', desc:'<span>0891-xxxx</span> membeli voucher Teman Call', meta:'Rp 20.000 · 3 jam lalu' },
+  { type:'blacklist', icon:'⛔', dotClass:'ld-blk',     badge:'lb-blacklist',     badgeText:'Diblacklist',      desc:'<span>Vania</span> memblacklist nomor <span>0812-xxxx</span>', meta:'Alasan: spam · 3 jam lalu' },
+  { type:'order',     icon:'✅', dotClass:'ld-selesai',  badge:'lb-selesai',       badgeText:'Selesai',          desc:'Sesi <span>Vania</span> dengan <span>0845-xxxx</span> selesai', meta:'Sleep Call 1 jam · 4 jam lalu' },
+  { type:'voucher',   icon:'⚡', dotClass:'ld-voucher', badge:'lb-voucher-admin', badgeText:'Voucher Dibuat',   desc:'Admin membuat <span>1 voucher</span> Pacar Virtual Rp 60.000', meta:'SCP-B2M4-NP87 · 5 jam lalu' },
+  { type:'blacklist', icon:'🔓', dotClass:'ld-unblk',   badge:'lb-unblacklist',   badgeText:'Blacklist Dibuka', desc:'<span>Luna</span> membuka blacklist nomor <span>0857-xxxx</span>', meta:'5 jam lalu' },
+  { type:'order',     icon:'❌', dotClass:'ld-tolak',   badge:'lb-ditolak',       badgeText:'Ditolak',          desc:'<span>Niko</span> menolak order dari <span>0823-xxxx</span>', meta:'Teman Call · 6 jam lalu' },
+  { type:'voucher',   icon:'🛒', dotClass:'ld-beli',    badge:'lb-voucher-beli',  badgeText:'Beli via Website', desc:'<span>0877-xxxx</span> membeli voucher Curhat Call', meta:'Rp 30.000 · 7 jam lalu' },
 ];
 
-function addRiwayat(status, wa, layanan, durasi, harga) {
-  const now = new Date();
-  const jam = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-  const nomor = status === 'terima' ? wa : '****' + wa.slice(-5);
-  riwayat.unshift({ status, nomor, layanan, durasi, harga, jam });
-  if (riwayat.length > 10) riwayat.pop();
-  renderRiwayat();
-}
+let currentLogFilter = 'semua';
 
-function renderRiwayat() {
-  if (currentTab === 'customer') { renderCustomerTab(false); return; }
-  if (currentTab === 'repeat')   { renderCustomerTab(true);  return; }
-  const list = document.getElementById('riwayatList');
-  const btnLihat = document.getElementById('btnLihatSemua');
-
-  const periodeIni = riwayat.filter(r => !r.period);
-  const periodeLalu = riwayat.filter(r => r.period === 'lalu');
-
-  function buatItem(r) {
-    const isTerma = r.status === 'terima';
-    const isTolak = r.status === 'tolak';
-    const statusColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.3)' : '#F87171';
-    const statusText = isTerma ? '✓ Diterima' : isTolak ? '✕ Ditolak' : '⏰ Timeout';
-    const poinDelta = isTerma ? '+2 poin' : isTolak ? '—' : '-10 poin';
-    const poinColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.2)' : '#F87171';
-    const isBlacklisted = blacklist.includes(r.nomor);
-    const nomorDisplay = isBlacklisted
-      ? `<span style="text-decoration:line-through;color:rgba(255,80,80,0.5);">${r.nomor}</span> <span style="font-size:9px;color:#F87171;">⛔</span>`
-      : `<span style="cursor:pointer;border-bottom:1px dashed rgba(255,255,255,0.2);" onclick="showBlacklistMenu(this)" data-nomor="${r.nomor}">${r.nomor}</span>`;
-    return `<div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-      <div style="flex:1;min-width:0;">
-        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${nomorDisplay}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.35);">${r.layanan} · ${r.durasi}</div>
+function renderLog(filter) {
+  const list = document.getElementById('logList');
+  if (!list) return;
+  const filtered = filter === 'semua' ? logData : logData.filter(l => l.type === filter);
+  list.innerHTML = filtered.map(l => `
+    <div class="log-item">
+      <div class="log-dot ${l.dotClass}">${l.icon}</div>
+      <div class="log-body">
+        <div class="log-desc">${l.desc}</div>
+        <div class="log-meta">${l.meta}</div>
       </div>
-      <div style="text-align:right;flex-shrink:0;">
-        <div style="font-size:11px;font-weight:800;color:#FCD34D;margin-bottom:2px;">${r.harga}</div>
-        <div style="font-size:9px;font-weight:700;color:${statusColor};">${statusText}</div>
-        <div style="font-size:9px;font-weight:700;color:${poinColor};margin-top:1px;">${poinDelta}</div>
-      </div>
-      <div style="font-size:9px;color:rgba(255,255,255,0.2);flex-shrink:0;padding-left:4px;">${r.jam}</div>
-    </div>`;
-  }
-
-  function buatGrupHari(items) {
-    const groups = {};
-    items.forEach(r => {
-      if (!groups[r.hari]) groups[r.hari] = [];
-      groups[r.hari].push(r);
-    });
-    let html = '';
-    Object.entries(groups).forEach(([hari, list]) => {
-      html += `<div style="display:flex;align-items:center;gap:8px;margin:10px 0 7px;">
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-        <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;white-space:nowrap;">${hari}</span>
-        <div style="flex:1;height:0.5px;background:rgba(255,255,255,0.07);"></div>
-      </div>`;
-      html += list.map(buatItem).join('');
-    });
-    return html;
-  }
-
-  if (riwayat.length === 0) {
-    list.innerHTML = '<div style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:14px 0;">Belum ada riwayat order</div>';
-    if (btnLihat) btnLihat.style.display = 'none';
-    return;
-  }
-
-  const semuaRiwayat = [...periodeIni, ...periodeLalu];
-  const tampilData = showAll ? semuaRiwayat : semuaRiwayat.slice(0, 10);
-  const html = buatGrupHari(tampilData);
-
-  list.innerHTML = html;
-  if (btnLihat) btnLihat.style.display = (!showAll && semuaRiwayat.length > 10) ? 'block' : 'none';
-}
-let showingTotal = false;
-
-const STAT_PERIODE = { call: 7, customer: 5, repeat: 2 };
-const STAT_TOTAL   = { call: 42, customer: 28, repeat: 14 };
-
-function toggleTotalKeseluruhan() {
-  showingTotal = !showingTotal;
-  const label = document.getElementById('periodeLabel');
-  const tanggal = document.getElementById('periodeTanggal');
-  if (showingTotal) {
-    document.getElementById('statTotalCall').textContent = STAT_TOTAL.call;
-    document.getElementById('statCustomer').textContent = STAT_TOTAL.customer;
-    document.getElementById('statRepeat').textContent = STAT_TOTAL.repeat;
-    label.textContent = 'TOTAL KESELURUHAN';
-    tanggal.style.display = 'none';
-  } else {
-    document.getElementById('statTotalCall').textContent = STAT_PERIODE.call;
-    document.getElementById('statCustomer').textContent = STAT_PERIODE.customer;
-    document.getElementById('statRepeat').textContent = STAT_PERIODE.repeat;
-    label.textContent = 'PERIODE INI';
-    tanggal.style.display = 'inline';
-  }
-}
-
-let currentTab = 'order';
-
-function switchTab(tab) {
-  currentTab = tab;
-  showAll = false;
-  ['order','customer','repeat'].forEach(t => {
-    const el = document.getElementById('tab-' + t);
-    if (t === tab) {
-      el.style.background = 'rgba(255,255,255,0.06)';
-      el.style.border = '0.5px solid rgba(255,255,255,0.15)';
-    } else {
-      el.style.background = 'rgba(255,255,255,0.04)';
-      el.style.border = '0.5px solid rgba(255,255,255,0.07)';
-    }
-  });
-  const labels = { order:'Riwayat Order', customer:'Semua Customer', repeat:'Customer Repeat' };
-  document.getElementById('tabLabel').textContent = labels[tab];
-  renderRiwayat();
-}
-
-function renderCustomerTab(filterRepeat) {
-  const list = document.getElementById('riwayatList');
-  const btnLihat = document.getElementById('btnLihatSemua');
-  if (btnLihat) btnLihat.style.display = 'none';
-  const demoCustomers = [
-    { nomor:'081234512345', total:5, terakhir:'Hari ini' },
-    { nomor:'082198765432', total:4, terakhir:'Hari ini' },
-    { nomor:'085261754085', total:3, terakhir:'Kemarin' },
-    { nomor:'089987601234', total:3, terakhir:'11 Mei' },
-    { nomor:'087812345678', total:2, terakhir:'11 Mei' },
-    { nomor:'****54085',    total:2, terakhir:'Kemarin' },
-    { nomor:'****87601',    total:1, terakhir:'Hari ini' },
-    { nomor:'****12398',    total:1, terakhir:'Kemarin' },
-  ];
-  const filtered = filterRepeat ? demoCustomers.filter(c => c.total > 1) : demoCustomers;
-  list.innerHTML = filtered.map(c => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;margin-bottom:6px;">
-      <div>
-        <div style="font-size:12px;font-weight:700;color:#fff;">${c.nomor}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;">Terakhir: ${c.terakhir}</div>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:14px;font-weight:900;color:${c.total > 1 ? '#FCD34D' : 'rgba(255,255,255,0.5)'};">${c.total}×</div>
-        <div style="font-size:9px;color:rgba(255,255,255,0.25);">order</div>
-      </div>
+      <div class="log-badge ${l.badge}">${l.badgeText}</div>
     </div>
   `).join('');
 }
 
-let showAll = false;
-
-function lihatSemua() {
-  showAll = true;
-  renderRiwayat();
-  document.querySelector('[onclick="lihatSemua()"]').style.display = 'none';
+function setLogFilter(filter, el) {
+  currentLogFilter = filter;
+  // update chip styles
+  const chips = el.closest('.admin-card') ? el.closest('.admin-card').querySelectorAll('.log-chip') : document.querySelectorAll('.log-chip');
+  chips.forEach(c => c.classList.remove('active'));
+  if (el.classList.contains('log-chip')) el.classList.add('active');
+  renderLog(filter);
 }
 
-function updateGaji(nominal) {
-  totalGaji += nominal;
-  document.getElementById('totalGaji').textContent = 'Rp ' + totalGaji.toLocaleString('id');
-}
+renderLog('semua');
 
-function updateStatistik(wa) {
-  statTotalCall++;
-  document.getElementById('statTotalCall').textContent = statTotalCall;
-  if (!customerList.includes(wa)) {
-    customerList.push(wa);
-    statCustomer++;
-    document.getElementById('statCustomer').textContent = statCustomer;
-  } else {
-    statRepeat++;
-    document.getElementById('statRepeat').textContent = statRepeat;
-  }
-}
+const talentData = [
+  { nama:'Vania', emoji:'✨', gender:'w', status:'online', poin:87, call:67, customer:48, repeat:12, layanan:'Sleep, Teman, PV', top:true },
+  { nama:'Luna', emoji:'🌙', gender:'w', status:'online', poin:72, call:58, customer:41, repeat:9, layanan:'Sleep, Curhat, PV', top:true },
+  { nama:'Ara', emoji:'🌸', gender:'w', status:'online', poin:65, call:45, customer:33, repeat:6, layanan:'Teman, Curhat', top:false },
+  { nama:'Mika', emoji:'💫', gender:'p', status:'offline', poin:58, call:38, customer:29, repeat:4, layanan:'Sleep, Teman', top:false },
+  { nama:'Sora', emoji:'🌟', gender:'w', status:'online', poin:50, call:31, customer:24, repeat:3, layanan:'Semua Layanan', top:false },
+  { nama:'Niko', emoji:'🎵', gender:'p', status:'offline', poin:34, call:22, customer:18, repeat:2, layanan:'Teman, Curhat', top:false },
+];
 
-function updatePoin(delta) {
-  poin = Math.max(0, Math.min(100, poin + delta));
-  document.getElementById('poinVal').innerHTML = poin + ' <span style="-webkit-text-fill-color:rgba(255,255,255,0.3);font-size:10px;font-weight:500">/ 100</span>';
-  document.getElementById('poinBar').style.width = poin + '%';
-  const bar = document.getElementById('poinBar');
-  if (poin >= 80) {
-    bar.style.background = 'linear-gradient(90deg,#FCD34D,#F59E0B)';
-    bar.style.boxShadow = '0 0 8px rgba(252,211,77,0.4)';
-  } else if (poin >= 50) {
-    bar.style.background = 'linear-gradient(90deg,#34D399,#10B981)';
-    bar.style.boxShadow = '0 0 8px rgba(52,211,153,0.4)';
-  } else {
-    bar.style.background = 'linear-gradient(90deg,#F87171,#EF4444)';
-    bar.style.boxShadow = '0 0 8px rgba(248,113,113,0.4)';
-  }
-}
-let blacklist = [];
-
-function showBlacklistMenu(el) {
-  const nomor = el.dataset.nomor;
-  const e = window.event;
-  e.stopPropagation();
-  const old = document.getElementById('blacklistMenu');
-  if (old) { old.remove(); return; }
-
-  const isBlacklisted = blacklist.includes(nomor);
-  const menu = document.createElement('div');
-  menu.id = 'blacklistMenu';
-  menu.style.cssText = `position:fixed;z-index:999;background:#1A2030;border:0.5px solid rgba(255,255,255,0.12);border-radius:14px;padding:6px;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:190px;`;
-
-  const rect = el.getBoundingClientRect();
-  menu.style.top = (rect.bottom + 6) + 'px';
-  menu.style.left = rect.left + 'px';
-
-  menu.innerHTML = `
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);padding:6px 10px 4px;letter-spacing:0.06em;">${nomor}</div>
-    <div style="height:0.5px;background:rgba(255,255,255,0.07);margin:4px 0;"></div>
-    ${isBlacklisted
-      ? `<div onclick="unblacklist('${nomor.replace(/\*/g,'STAR')}')" data-nomor="${nomor}" style="padding:9px 10px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#34D399;">✓ Hapus dari blacklist</div>`
-      : `<div onclick="addBlacklist(this)" data-nomor="${nomor}" style="padding:9px 10px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#F87171;">⛔ Blacklist nomor ini</div>`
-    }
-  `;
-
-  document.body.appendChild(menu);
-  setTimeout(() => { document.addEventListener('click', () => menu.remove(), { once:true }); }, 10);
-}
-
-function addBlacklist(el) {
-  const nomor = el.dataset.nomor;
-  if (!blacklist.includes(nomor)) blacklist.push(nomor);
-  document.getElementById('blacklistMenu')?.remove();
-  renderRiwayat();
-  showToast('⛔ ' + nomor + ' diblacklist');
-}
-
-function unblacklist(nomorKey) {
-  const nomor = nomorKey.replace(/STAR/g,'*');
-  blacklist = blacklist.filter(n => n !== nomor);
-  document.getElementById('blacklistMenu')?.remove();
-  renderRiwayat();
-  showToast('✓ Dihapus dari blacklist');
-}
-
-// ===== DRAWER =====
-function openDrawer() {
-  document.getElementById('htDrawer').classList.add('open');
-  document.getElementById('htDrawerOverlay').classList.add('open');
-}
-function closeDrawer() {
-  document.getElementById('htDrawer').classList.remove('open');
-  document.getElementById('htDrawerOverlay').classList.remove('open');
-}
-function openPage(id) {
-  closeDrawer();
-  if (id === 'blacklistPage') renderBlacklistPage();
-  document.getElementById(id).classList.add('open');
-  document.getElementById('app').style.overflow = 'visible';
-}
-function closePage(id) {
-  document.getElementById(id).classList.remove('open');
-  document.getElementById('app').style.overflow = 'hidden';
-}
-function renderBlacklistPage() {
-  const list = document.getElementById('blacklistPageList');
-  const empty = document.getElementById('blacklistEmpty');
-  if (blacklist.length === 0) {
-    list.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-  list.innerHTML = blacklist.map(nomor => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:rgba(248,113,113,0.06);border:0.5px solid rgba(248,113,113,0.15);border-radius:13px;margin-bottom:8px;">
-      <div>
-        <div style="font-size:13px;font-weight:700;color:#fff;">${nomor}</div>
-        <div style="font-size:10px;color:rgba(248,113,113,0.6);margin-top:2px;">⛔ Diblacklist</div>
+function renderTalentList(data) {
+  const list = document.getElementById('talentList');
+  list.innerHTML = data.map(t => `
+    <div class="tm-card">
+      <div class="tm-avatar">
+        ${t.emoji}
+        <div class="tm-online-dot ${t.status}"></div>
       </div>
-      <button onclick="unblacklistFromPage('${nomor.replace(/\*/g,'STAR')}')" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 12px;color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">Hapus</button>
+      <div class="tm-info">
+        <div class="tm-name">
+          ${t.nama}
+          ${t.gender === 'w' ? '<span style="font-size:9px;background:rgba(244,114,182,0.15);color:#F472B6;padding:1px 6px;border-radius:999px;">Wanita</span>' : '<span style="font-size:9px;background:rgba(96,165,250,0.15);color:#60A5FA;padding:1px 6px;border-radius:999px;">Pria</span>'}
+          ${t.top ? '<span style="font-size:9px;background:rgba(252,211,77,0.15);color:#FCD34D;padding:1px 6px;border-radius:999px;">⭐ Top</span>' : ''}
+        </div>
+        <div class="tm-meta">${t.layanan}</div>
+        <div class="tm-stats">
+          <div class="tm-stat-chip">${t.call} call</div>
+          <div class="tm-stat-chip">${t.customer} customer</div>
+          <div class="tm-stat-chip">${t.repeat} repeat</div>
+        </div>
+        <div class="tm-action-row">
+          <button class="tm-btn edit" onclick="showToast('✏️ Edit profil ${t.nama}')">✏️ Edit</button>
+          <button class="tm-btn warn" onclick="showToast('⚠️ Kirim peringatan ke ${t.nama}')">⚠️ Warn</button>
+          <button class="tm-btn suspend" onclick="showToast('🚫 Suspend ${t.nama}')">🚫 Suspend</button>
+        </div>
+      </div>
+      <div class="tm-poin">${t.poin} poin</div>
     </div>
   `).join('');
 }
-function addBlacklistManual() {
-  const input = document.getElementById('blacklistInput');
-  const nomor = input.value.trim();
-  if (!nomor) { showToast('⚠️ Masukkan nomor dulu'); return; }
-  if (blacklist.includes(nomor)) { showToast('⚠️ Nomor sudah ada di blacklist'); return; }
-  blacklist.push(nomor);
-  input.value = '';
-  renderBlacklistPage();
-  renderRiwayat();
-  showToast('⛔ ' + nomor + ' diblacklist');
+
+function filterTalent(q) {
+  const filtered = talentData.filter(t => t.nama.toLowerCase().includes(q.toLowerCase()));
+  renderTalentList(filtered);
 }
 
-function unblacklistFromPage(nomorKey) {
-  const nomor = nomorKey.replace(/STAR/g,'*');
-  blacklist = blacklist.filter(n => n !== nomor);
-  renderBlacklistPage();
-  renderRiwayat();
-  showToast('✓ Dihapus dari blacklist');
-}
+renderTalentList(talentData);
 
-const BACKSOUND_URL = 'https://YOUR_BACKSOUND_URL_HERE.mp3';
-const BACKSOUND_NAME = 'Backsound Malam';
+// =============================================
+// TAB SWITCHING
+// =============================================
+function switchTab(name, btn, navIdx) {
+  // Pages
+  document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
 
-let useBacskound = true;
-let talentAudioBlob = null;
-
-function toggleBacskound() {
-  useBacskound = !useBacskound;
-  document.getElementById('bsTrack').style.background = useBacskound ? '#34D399' : 'rgba(255,255,255,0.15)';
-  document.getElementById('bsThumb').style.transform = useBacskound ? 'translateX(0)' : 'translateX(-17px)';
-  document.getElementById('epPlayBtn').innerHTML = useBacskound
-    ? '▶ Putar Preview (dengan backsound)'
-    : '▶ Putar Preview (tanpa backsound)';
-}
-let mixAudioCtx = null;
-let mixPlaying = false;
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('backsoundName').textContent = BACKSOUND_NAME;
-});
-
-function handleAudio(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 10 * 1024 * 1024) { showToast('⚠️ File terlalu besar, maks 10MB'); return; }
-  talentAudioBlob = file;
-  document.getElementById('epAudioWrap').style.display = 'none';
-  document.getElementById('epAudioPreview').style.display = 'block';
-  showToast('🎙️ Audio berhasil diupload!');
-}
-
-function removeAudio() {
-  talentAudioBlob = null;
-  document.getElementById('epAudioInput').value = '';
-  document.getElementById('epAudioWrap').style.display = 'block';
-  document.getElementById('epAudioPreview').style.display = 'none';
-  if (mixAudioCtx) { mixAudioCtx.close(); mixAudioCtx = null; }
-  mixPlaying = false;
-}
-
-async function playMixPreview() {
-  const btn = document.getElementById('epPlayBtn');
-  if (mixPlaying) {
-    if (mixAudioCtx) { mixAudioCtx.close(); mixAudioCtx = null; }
-    mixPlaying = false;
-    btn.innerHTML = '▶ Putar Preview (dengan backsound)';
-    btn.style.color = '#34D399';
-    return;
+  // Tab btns
+  if (btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
   }
 
-  try {
-    btn.innerHTML = '⏳ Memuat...';
-    mixAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    const talentBuffer = await mixAudioCtx.decodeAudioData(await talentAudioBlob.arrayBuffer());
-
-    let backsoundBuffer = null;
-    if (useBacskound && BACKSOUND_URL !== 'https://YOUR_BACKSOUND_URL_HERE.mp3') {
-      try {
-        const resp = await fetch(BACKSOUND_URL);
-        backsoundBuffer = await mixAudioCtx.decodeAudioData(await resp.arrayBuffer());
-      } catch(e) { showToast('⚠️ Backsound tidak bisa dimuat'); }
-    }
-
-    const talentSource = mixAudioCtx.createBufferSource();
-    talentSource.buffer = talentBuffer;
-    const talentGain = mixAudioCtx.createGain();
-    talentGain.gain.value = 1.0;
-    talentSource.connect(talentGain);
-    talentGain.connect(mixAudioCtx.destination);
-    talentSource.start(0);
-
-    if (backsoundBuffer) {
-      const bsSource = mixAudioCtx.createBufferSource();
-      bsSource.buffer = backsoundBuffer;
-      bsSource.loop = true;
-      const bsGain = mixAudioCtx.createGain();
-      bsGain.gain.value = 0.35;
-      bsSource.connect(bsGain);
-      bsGain.connect(mixAudioCtx.destination);
-      bsSource.start(0);
-      talentSource.onended = () => { bsSource.stop(); };
-    }
-
-    mixPlaying = true;
-    btn.innerHTML = '⏹ Stop';
-    btn.style.color = '#F87171';
-
-    talentSource.onended = () => {
-      mixPlaying = false;
-      btn.innerHTML = '▶ Putar Preview (dengan backsound)';
-      btn.style.color = '#34D399';
-    };
-
-  } catch(e) {
-    showToast('⚠️ Gagal memutar audio');
-    btn.innerHTML = '▶ Putar Preview (dengan backsound)';
-    mixPlaying = false;
+  // Sync tab btn
+  const tabMap = { dashboard:0, talent:1, voucher:2, keuangan:3, laporan:4, settings:5 };
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const ti = tabMap[name];
+  if (ti !== undefined) {
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabBtns[ti].classList.add('active');
   }
+
+  // Show FAB only on talent page
+  document.getElementById('fabAdd').style.display = name === 'talent' ? 'flex' : 'none';
+
+  // Scroll to top
+  document.querySelector('.content').scrollTop = 0;
+  window.scrollTo(0, 0);
 }
 
-function openEditProfile() {
-  document.getElementById('editProfilePage').classList.add('open');
-  document.getElementById('app').style.overflow = 'visible';
-  document.getElementById('editProfilePage').scrollTop = 0;
-}
-function closeEditProfile() {
-  document.getElementById('editProfilePage').classList.remove('open');
-  document.getElementById('app').style.overflow = 'hidden';
-}
-function toggleLayanan(el) {
-  el.classList.toggle('active');
-  el.querySelector('.ep-layanan-check').textContent = el.classList.contains('active') ? '✓' : '';
-}
-function handleFoto(input) {
-  const file = input.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('epAvatarBig').innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">`;
-    document.getElementById('profileAvatar').innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">`;
-  };
-  reader.readAsDataURL(file);
-}
-function editFoto() { document.getElementById('epFotoInput').click(); }
-function saveProfile() {
-  const nama = document.getElementById('epNama').value.trim() || 'Vania';
-  document.getElementById('profileName').innerHTML = nama + ' <span class="ht-name-spark">✨</span>';
-  const avatar = document.getElementById('profileAvatar');
-  if (!avatar.querySelector('img')) avatar.textContent = nama[0].toUpperCase();
-  closeEditProfile();
-  showToast('✅ Profil berhasil disimpan!');
+// =============================================
+// FILTER CHIPS
+// =============================================
+function setFilter(el, val) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('button, div.filter-chip').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  showToast('🔽 Filter: ' + el.textContent.trim());
 }
 
-let isOnline = true;
-renderRiwayat();
-
-function toggleOnline() {
-  isOnline = !isOnline;
-  const dot = document.getElementById('statusDot');
-  const text = document.getElementById('statusText');
-  const sub = document.getElementById('statusSub');
-  const track = document.getElementById('switchTrack');
-  const thumb = document.getElementById('switchThumb');
-  if (isOnline) {
-    dot.className = 'ht-online-dot';
-    text.textContent = 'Online — Siap menerima order';
-    sub.textContent = 'Profilmu tampil di list customer';
-    track.classList.add('on'); thumb.classList.add('on');
-  } else {
-    dot.className = 'ht-offline-dot';
-    text.textContent = 'Offline — Tidak menerima order';
-    sub.textContent = 'Profilmu disembunyikan dari customer';
-    track.classList.remove('on'); thumb.classList.remove('on');
-  }
-}
-
-// ===== ORDER MASUK =====
-let orderInterval = null;
-let orderSeconds = 120;
-
-const DEMO_ORDERS = [
-  { wa: '081234512345', layanan: 'Sleep Call', durasi: '60 menit', harga: 75000, avatar: 'A' },
-  { wa: '082198765432', layanan: 'Teman Call', durasi: '30 menit', harga: 30000, avatar: 'R' },
-  { wa: '085261754085', layanan: 'Curhat Call', durasi: '40 menit', harga: 20000, avatar: 'S' },
-  { wa: '089987601234', layanan: 'Pacar Virtual', durasi: '45 menit', harga: 30000, avatar: 'B' },
-];
-
-let currentOrderWA = '';
-let lastOrder = {};
-
-function simulasiOrder() {
-  if (document.getElementById('orderCard').classList.contains('show')) return;
-  const order = DEMO_ORDERS[Math.floor(Math.random() * DEMO_ORDERS.length)];
-  const talentCut = Math.round(order.harga * 0.6);
-  currentOrderWA = order.wa;
-  lastOrder = { wa: order.wa, layanan: order.layanan, durasi: order.durasi, harga: 'Rp ' + talentCut.toLocaleString('id'), nominal: talentCut };
-
-  const maskedWA = '****' + order.wa.slice(-5);
-  document.getElementById('orderClientAvatar').textContent = order.avatar;
-  document.getElementById('orderClientName').textContent = maskedWA + ' · ' + order.layanan;
-  document.getElementById('orderClientDetail').textContent = order.durasi;
-  document.getElementById('orderPrice').textContent = 'Rp ' + talentCut.toLocaleString('id');
-  document.getElementById('orderCard').classList.add('show');
-  document.getElementById('orderRevealBox').style.display = 'none';
-  orderSeconds = 120;
-  updateTimer();
-  orderInterval = setInterval(() => {
-    orderSeconds--;
-    updateTimer();
-    if (orderSeconds <= 0) { clearInterval(orderInterval); timeoutOrder(); }
-  }, 1000);
-}
-
-function updateTimer() {
-  const m = Math.floor(orderSeconds / 60);
-  const s = orderSeconds % 60;
-  const el = document.getElementById('orderTimer');
-  el.textContent = m + ':' + String(s).padStart(2, '0');
-  el.className = orderSeconds <= 30 ? 'ht-order-timer urgent' : 'ht-order-timer';
-  document.getElementById('orderProgressBar').style.width = (orderSeconds / 120 * 100) + '%';
-}
-
-function tolakOrder() {
-  clearInterval(orderInterval);
-  document.getElementById('orderCard').classList.remove('show');
-  addRiwayat('tolak', lastOrder.wa, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
-}
-
-function terimaOrder() {
-  clearInterval(orderInterval);
-  const layanan = document.getElementById('orderClientName').textContent.split(' · ')[1];
-  document.getElementById('orderClientName').textContent = currentOrderWA + ' · ' + layanan;
-  document.getElementById('orderRevealBox').style.display = 'flex';
-  document.getElementById('orderRevealNumber').textContent = currentOrderWA;
-  document.getElementById('orderActions').style.display = 'none';
-  document.getElementById('orderCloseBtn').style.display = 'block';
-  document.getElementById('orderTimer').textContent = '✓';
-  document.getElementById('orderTimer').style.color = '#34D399';
-  document.getElementById('orderProgressBar').style.width = '100%';
-  document.getElementById('orderProgressBar').style.background = '#34D399';
-
-  navigator.clipboard.writeText(currentOrderWA).catch(() => {});
-  setTimeout(() => updatePoin(2), 1500);
-  updateGaji(lastOrder.nominal);
-  updateStatistik(currentOrderWA);
-  addRiwayat('terima', currentOrderWA, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
-}
-
+// =============================================
+// TOAST
+// =============================================
 function showToast(msg) {
-  const existing = document.getElementById('ht-toast');
-  if (existing) existing.remove();
-  const toast = document.createElement('div');
-  toast.id = 'ht-toast';
-  toast.textContent = msg;
-  toast.style.cssText = `
-    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-    background: #1E2A1E; border: 0.5px solid rgba(52,211,153,0.4);
-    color: #34D399; font-size: 12px; font-weight: 700;
-    padding: 10px 18px; border-radius: 20px; z-index: 9999;
-    white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    animation: toastIn 0.25s cubic-bezier(0.22,1,0.36,1);
-    font-family: 'Inter', sans-serif;
-  `;
-  document.body.appendChild(toast);
-  setTimeout(() => {
-    toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function salinNomor() {
-  navigator.clipboard.writeText(currentOrderWA).then(() => {
-    const btn = document.querySelector('#orderRevealBox button');
-    btn.textContent = '✓ Tersalin';
-    btn.style.color = '#34D399';
-    setTimeout(() => { btn.textContent = 'Salin'; }, 2000);
-  });
+// =============================================
+// VOUCHER
+// =============================================
+function generateVoucher() {
+  const nominal = document.getElementById('vcNominal').value;
+  const jumlah = document.getElementById('vcJumlah').value;
+  const layanan = document.getElementById('vcLayanan').options[document.getElementById('vcLayanan').selectedIndex].text;
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = 'SCP-';
+  for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  code += '-';
+  for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  showToast(`✅ ${jumlah} voucher Rp ${parseInt(nominal).toLocaleString('id')} dibuat! Contoh: ${code}`);
 }
 
-function closeOrder() {
-  document.getElementById('orderCard').classList.remove('show');
-  document.getElementById('orderActions').style.display = 'flex';
-  document.getElementById('orderCloseBtn').style.display = 'none';
-  document.getElementById('orderRevealBox').style.display = 'none';
-}
-
-function timeoutOrder() {
-  document.getElementById('orderCard').classList.remove('show');
-  addRiwayat('timeout', lastOrder.wa, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
-  updatePoin(-10);
-  if (isOnline) {
-    isOnline = false;
-    toggleOnline();
-    showToast('⏰ Tidak ada respons — otomatis offline');
+function copyVoucher(code) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => showToast('📋 Kode ' + code + ' disalin!'));
+  } else {
+    showToast('📋 Kode: ' + code);
   }
+}
+
+// =============================================
+// MODAL PENCAIRAN
+// =============================================
+let currentPencairan = null;
+function openPencairanModal(nama, amount, bank, rekening) {
+  currentPencairan = { nama, amount, bank, rekening };
+  const fmt = (n) => 'Rp ' + parseInt(n).toLocaleString('id');
+  document.getElementById('pencairanContent').innerHTML = `
+    <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:11px;color:rgba(255,255,255,0.4);">Talent</span>
+        <span style="font-size:12px;font-weight:700;color:#fff;">${nama}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:11px;color:rgba(255,255,255,0.4);">Bank</span>
+        <span style="font-size:12px;font-weight:700;color:#fff;">${bank}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:11px;color:rgba(255,255,255,0.4);">No. Rekening</span>
+        <span style="font-size:12px;font-weight:700;color:#fff;">${rekening}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding-top:8px;border-top:0.5px solid rgba(255,255,255,0.07);">
+        <span style="font-size:11px;color:rgba(255,255,255,0.4);">Jumlah Transfer</span>
+        <span style="font-size:16px;font-weight:900;color:#34D399;">${fmt(amount)}</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Pastikan transfer sudah dilakukan ke rekening ${nama} sebelum menandai selesai.</p>
+  `;
+  document.getElementById('pencairanModal').classList.add('open');
+}
+function closePencairanModal() {
+  document.getElementById('pencairanModal').classList.remove('open');
+}
+function confirmPencairan() {
+  if (currentPencairan) {
+    showToast('✅ Pencairan ' + currentPencairan.nama + ' ditandai selesai!');
+    closePencairanModal();
+  }
+}
+
+// =============================================
+// MODAL ADD TALENT
+// =============================================
+function openAddTalent() {
+  document.getElementById('addTalentModal').classList.add('open');
+}
+function closeAddTalent() {
+  document.getElementById('addTalentModal').classList.remove('open');
+}
+
+// =============================================
+// TOGGLE SWITCH
+// =============================================
+function toggleSwitch(wrap) {
+  const track = wrap.querySelector('.toggle-track');
+  const thumb = wrap.querySelector('.toggle-thumb');
+  track.classList.toggle('on');
+  thumb.classList.toggle('on');
+  showToast(track.classList.contains('on') ? '🔔 Notifikasi diaktifkan' : '🔕 Notifikasi dinonaktifkan');
 }
 </script>
 </body>
