@@ -457,7 +457,7 @@ body {
           </div>
           <div style="text-align:right;margin-left:auto;">
             <div class="ht-order-price" id="orderPrice">—</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;">untukmu (60%)</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;">yang kamu dapat</div>
           </div>
         </div>
         <div class="ht-order-progress">
@@ -514,8 +514,10 @@ function renderRiwayat() {
     const isTolak = r.status === 'tolak';
     const statusColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.3)' : '#F87171';
     const statusText = isTerma ? '✓ Diterima' : isTolak ? '✕ Ditolak' : '⏰ Timeout';
-    const statusBg = isTerma ? 'rgba(52,211,153,0.1)' : isTolak ? 'rgba(255,255,255,0.05)' : 'rgba(248,113,113,0.08)';
-    const statusBorder = isTerma ? 'rgba(52,211,153,0.2)' : isTolak ? 'rgba(255,255,255,0.08)' : 'rgba(248,113,113,0.2)';
+    const statusBg = isTerma ? 'rgba(52,211,153,0.07)' : isTolak ? 'rgba(255,255,255,0.04)' : 'rgba(248,113,113,0.07)';
+    const statusBorder = isTerma ? 'rgba(52,211,153,0.18)' : isTolak ? 'rgba(255,255,255,0.07)' : 'rgba(248,113,113,0.18)';
+    const poinDelta = isTerma ? '+2 poin' : isTolak ? '—' : '-10 poin';
+    const poinColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.2)' : '#F87171';
     return `<div style="background:${statusBg};border:0.5px solid ${statusBorder};border-radius:12px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
       <div style="flex:1;min-width:0;">
         <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.nomor}</div>
@@ -524,8 +526,9 @@ function renderRiwayat() {
       <div style="text-align:right;flex-shrink:0;">
         <div style="font-size:11px;font-weight:800;color:#FCD34D;margin-bottom:2px;">${r.harga}</div>
         <div style="font-size:9px;font-weight:700;color:${statusColor};">${statusText}</div>
+        <div style="font-size:9px;font-weight:700;color:${poinColor};margin-top:1px;">${poinDelta}</div>
       </div>
-      <div style="font-size:9px;color:rgba(255,255,255,0.2);flex-shrink:0;">${r.jam}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.2);flex-shrink:0;padding-left:4px;">${r.jam}</div>
     </div>`;
   }).join('');
 }
