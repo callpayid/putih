@@ -826,17 +826,25 @@ body{
         <div class="page-sub">Data semua customer</div>
         <div class="page-title">Data Client</div>
       </div>
+      <!-- Filter Periode -->
+      <div style="display:flex;gap:6px;padding:0 18px 12px;overflow-x:auto;scrollbar-width:none;">
+        <button class="cp-btn" id="cperiod-hari" onclick="setClientPeriodFilter(this,'hari')">📅 Hari Ini</button>
+        <button class="cp-btn" id="cperiod-minggu" onclick="setClientPeriodFilter(this,'minggu')">🗓️ Minggu Ini</button>
+        <button class="cp-btn" id="cperiod-bulan" onclick="setClientPeriodFilter(this,'bulan')">📆 Bulan Ini</button>
+        <button class="cp-btn active" id="cperiod-semua" onclick="setClientPeriodFilter(this,'semua')">📋 Semua</button>
+      </div>
+      <!-- Summary cards (dinamis) -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 18px 12px;">
         <div style="background:#fff;border:1px solid #E4E7F0;border-radius:14px;padding:10px;text-align:center;">
-          <div style="font-size:17px;font-weight:900;color:#1E3A5F;">389</div>
+          <div style="font-size:17px;font-weight:900;color:#1E3A5F;" id="cSumTotal">-</div>
           <div style="font-size:9px;color:#8A92A6;margin-top:2px;">Total Client</div>
         </div>
         <div style="background:#EBF1FB;border:1px solid #B8CCEE;border-radius:14px;padding:10px;text-align:center;">
-          <div style="font-size:17px;font-weight:900;color:#1E3A5F;">265</div>
+          <div style="font-size:17px;font-weight:900;color:#1E3A5F;" id="cSumRepeat">-</div>
           <div style="font-size:9px;color:#2D5A9E;margin-top:2px;">🔄 Repeat</div>
         </div>
         <div style="background:#E8F7EF;border:1px solid #9FDAB8;border-radius:14px;padding:10px;text-align:center;">
-          <div style="font-size:17px;font-weight:900;color:#0D6E5C;">124</div>
+          <div style="font-size:17px;font-weight:900;color:#0D6E5C;" id="cSumBaru">-</div>
           <div style="font-size:9px;color:#0D6E5C;margin-top:2px;">🆕 Baru</div>
         </div>
       </div>
@@ -1194,6 +1202,50 @@ body{
               <div class="tgl-track on"></div>
               <div class="tgl-thumb on"></div>
             </div>
+          </div>
+        </div>
+
+        <div class="sec-label" style="padding:12px 0 8px;">Backsound</div>
+        <div class="set-group">
+          <div class="set-item" onclick="openModal('backsound')">
+            <div class="set-icon" style="background:#EBF1FB;">🎵</div>
+            <div class="set-text">
+              <div class="set-label">URL Backsound</div>
+              <div class="set-desc">Ganti link audio default untuk talent</div>
+            </div>
+            <div class="set-arrow">›</div>
+          </div>
+          <div class="set-item" onclick="toggleBacksoundUpload()">
+            <div class="set-icon" style="background:#E8F7EF;">📁</div>
+            <div class="set-text">
+              <div class="set-label">Upload File Audio</div>
+              <div class="set-desc">MP3 / WAV · Maks 10MB</div>
+            </div>
+            <div class="set-arrow">›</div>
+          </div>
+        </div>
+
+        <!-- Upload area (hidden default) -->
+        <div id="backsoundUploadArea" style="display:none;margin:0 18px 12px;">
+          <div style="background:#fff;border:1px solid #E4E7F0;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+            <div style="font-size:18px;">🎵</div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:700;color:#1E3A5F;">Upload file audio</div>
+              <div style="font-size:10px;color:#B0B7C8;">MP3 / WAV · Maks 10MB</div>
+            </div>
+            <input type="file" id="backsoundFile" accept="audio/mp3,audio/wav,audio/*" onchange="handleBacksoundUpload(this)" style="display:none;"/>
+            <button onclick="document.getElementById('backsoundFile').click()" style="height:32px;padding:0 14px;background:#EBF1FB;color:#2D5A9E;border:1px solid #B8CCEE;border-radius:9px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;">Pilih</button>
+          </div>
+          <div id="backsoundPreview" style="display:none;margin-top:8px;background:#fff;border:1px solid #E4E7F0;border-radius:14px;padding:12px 14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <div style="font-size:16px;">🎵</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:12px;font-weight:700;color:#1E3A5F;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" id="backsoundFileName">-</div>
+                <div style="font-size:10px;color:#8A92A6;" id="backsoundFileSize">-</div>
+              </div>
+            </div>
+            <audio id="backsoundAudio" controls style="width:100%;height:32px;"></audio>
+            <button onclick="saveBacksound()" style="width:100%;height:36px;margin-top:8px;background:#1E3A5F;color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;">✓ Simpan Backsound</button>
           </div>
         </div>
 
@@ -1825,6 +1877,39 @@ function markRead(el) {
 // =============================================
 // TOGGLE
 // =============================================
+function toggleBacksoundUpload() {
+  const area = document.getElementById('backsoundUploadArea');
+  if (!area) return;
+  area.style.display = area.style.display === 'none' ? 'block' : 'none';
+}
+
+function handleBacksoundUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    showToast('❌ File terlalu besar, maks 10MB');
+    return;
+  }
+  const url = URL.createObjectURL(file);
+  document.getElementById('backsoundFileName').textContent = file.name;
+  document.getElementById('backsoundFileSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+  document.getElementById('backsoundAudio').src = url;
+  document.getElementById('backsoundPreview').style.display = 'block';
+}
+
+function saveBacksound() {
+  showToast('✅ Backsound berhasil disimpan!');
+  document.getElementById('backsoundUploadArea').style.display = 'none';
+  document.getElementById('backsoundPreview').style.display = 'none';
+}
+
+function saveBacgroundUrl() {
+  const url = document.getElementById('backsoundUrl').value.trim();
+  if (!url) { showToast('❌ URL tidak boleh kosong'); return; }
+  showToast('✅ URL backsound disimpan!');
+  closeModal();
+}
+
 function toggleSwitch(wrap) {
   const track = wrap.querySelector('.tgl-track');
   const thumb = wrap.querySelector('.tgl-thumb');
@@ -1837,6 +1922,17 @@ function toggleSwitch(wrap) {
 // MODAL
 // =============================================
 const modalConfigs = {
+  'backsound': {
+    title: '🎵 URL Backsound',
+    content: `
+      <div class="form-group">
+        <div class="form-label">Link Audio (URL)</div>
+        <input class="form-input" type="url" placeholder="https://example.com/audio.mp3" id="backsoundUrl"/>
+      </div>
+      <p style="font-size:11px;color:#8A92A6;margin-bottom:12px;">Masukkan link langsung ke file MP3/WAV yang bisa diakses publik.</p>
+      <button class="btn-primary" onclick="saveBacgroundUrl()">✓ Simpan URL</button>
+      <button class="btn-secondary" onclick="closeModal()">Batal</button>`
+  },
   'komisi': {
     title: '💰 Atur Komisi Agency',
     content: `
@@ -1967,6 +2063,28 @@ let clientPageSort = 'terbaru';
 let clientPagePeriod = 'semua';
 let clientPageShown = 20;
 let clientPageSearch = '';
+let clientPeriodFilter = 'semua';
+
+function setClientPeriodFilter(el, period) {
+  document.querySelectorAll('[id^=cperiod-]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  clientPeriodFilter = period;
+  renderClientPage(true);
+  const labels = { hari:'Hari Ini', minggu:'Minggu Ini', bulan:'Bulan Ini', semua:'Semua' };
+  showToast('📅 Periode: ' + labels[period]);
+}
+
+function updateClientSummary(data) {
+  const total = data.length;
+  const repeat = data.filter(c => c.repeat).length;
+  const baru = data.filter(c => !c.repeat).length;
+  const el1 = document.getElementById('cSumTotal');
+  const el2 = document.getElementById('cSumRepeat');
+  const el3 = document.getElementById('cSumBaru');
+  if (el1) el1.textContent = total;
+  if (el2) el2.textContent = repeat;
+  if (el3) el3.textContent = baru;
+}
 
 // Tambah field tanggal ke data (simulasi)
 clientData.forEach((c, i) => {
@@ -1980,8 +2098,18 @@ function getFilteredClients() {
   const now = new Date(2026, 4, 12);
   let data = [...clientData];
   // Filter periode
-  if (clientPagePeriod === 'bulan') {
-    data = data.filter(c => c.lastOrder && c.lastOrder.getMonth() === now.getMonth() && c.lastOrder.getFullYear() === now.getFullYear());
+  if (clientPeriodFilter === 'hari') {
+    data = data.filter(c => c.lastOrder &&
+      c.lastOrder.getDate() === now.getDate() &&
+      c.lastOrder.getMonth() === now.getMonth() &&
+      c.lastOrder.getFullYear() === now.getFullYear());
+  } else if (clientPeriodFilter === 'minggu') {
+    const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
+    data = data.filter(c => c.lastOrder && c.lastOrder >= weekAgo);
+  } else if (clientPeriodFilter === 'bulan') {
+    data = data.filter(c => c.lastOrder &&
+      c.lastOrder.getMonth() === now.getMonth() &&
+      c.lastOrder.getFullYear() === now.getFullYear());
   }
   // Filter search
   if (clientPageSearch) {
@@ -2014,6 +2142,7 @@ function renderClientPage(reset) {
   var info = document.getElementById('clientCountInfo');
   if (!list) return;
   if (info) info.textContent = 'Menampilkan ' + Math.min(clientPageShown, total) + ' dari ' + total + ' client';
+  updateClientSummary(filtered);
   if (total === 0) {
     list.innerHTML = '<div style="padding:24px;text-align:center;font-size:12px;color:#B0B7C8;">Tidak ada client ditemukan</div>';
     return;
