@@ -440,6 +440,14 @@ body {
         </div>
       </div>
 
+      <!-- RIWAYAT ORDER -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;">Riwayat Order</div>
+        <div id="riwayatList">
+          <div style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:14px 0;">Belum ada riwayat order</div>
+        </div>
+      </div>
+
       <!-- ORDER MASUK CARD -->
       <div class="ht-order-card" id="orderCard">
         <div class="ht-order-header">
@@ -488,7 +496,44 @@ body {
   </div>
 
 <script>
-// ===== SISTEM POIN =====
+// ===== RIWAYAT ORDER =====
+let riwayat = [];
+
+function addRiwayat(status, wa, layanan, durasi, harga) {
+  const now = new Date();
+  const jam = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const nomor = status === 'terima' ? wa : '****' + wa.slice(-5);
+  riwayat.unshift({ status, nomor, layanan, durasi, harga, jam });
+  if (riwayat.length > 10) riwayat.pop();
+  renderRiwayat();
+}
+
+function renderRiwayat() {
+  const list = document.getElementById('riwayatList');
+  if (riwayat.length === 0) {
+    list.innerHTML = '<div style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:14px 0;">Belum ada riwayat order</div>';
+    return;
+  }
+  list.innerHTML = riwayat.map(r => {
+    const isTerma = r.status === 'terima';
+    const isTolak = r.status === 'tolak';
+    const statusColor = isTerma ? '#34D399' : isTolak ? 'rgba(255,255,255,0.3)' : '#F87171';
+    const statusText = isTerma ? '✓ Diterima' : isTolak ? '✕ Ditolak' : '⏰ Timeout';
+    const statusBg = isTerma ? 'rgba(52,211,153,0.1)' : isTolak ? 'rgba(255,255,255,0.05)' : 'rgba(248,113,113,0.08)';
+    const statusBorder = isTerma ? 'rgba(52,211,153,0.2)' : isTolak ? 'rgba(255,255,255,0.08)' : 'rgba(248,113,113,0.2)';
+    return `<div style="background:${statusBg};border:0.5px solid ${statusBorder};border-radius:12px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.nomor}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);">${r.layanan} · ${r.durasi}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-size:11px;font-weight:800;color:#FCD34D;margin-bottom:2px;">${r.harga}</div>
+        <div style="font-size:9px;font-weight:700;color:${statusColor};">${statusText}</div>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.2);flex-shrink:0;">${r.jam}</div>
+    </div>`;
+  }).join('');
+}
 let poin = 50;
 
 function updatePoin(delta) {
@@ -546,15 +591,16 @@ const DEMO_ORDERS = [
 
 let currentOrderWA = '';
 
+let lastOrder = {};
+
 function simulasiOrder() {
   if (document.getElementById('orderCard').classList.contains('show')) return;
   const order = DEMO_ORDERS[Math.floor(Math.random() * DEMO_ORDERS.length)];
   const talentCut = Math.round(order.harga * 0.6);
   currentOrderWA = order.wa;
+  lastOrder = { wa: order.wa, layanan: order.layanan, durasi: order.durasi, harga: 'Rp ' + talentCut.toLocaleString('id') };
 
-  // Tampilkan 5 digit terakhir saja
   const maskedWA = '****' + order.wa.slice(-5);
-
   document.getElementById('orderClientAvatar').textContent = order.avatar;
   document.getElementById('orderClientName').textContent = maskedWA + ' · ' + order.layanan;
   document.getElementById('orderClientDetail').textContent = order.durasi;
@@ -566,10 +612,7 @@ function simulasiOrder() {
   orderInterval = setInterval(() => {
     orderSeconds--;
     updateTimer();
-    if (orderSeconds <= 0) {
-      clearInterval(orderInterval);
-      timeoutOrder();
-    }
+    if (orderSeconds <= 0) { clearInterval(orderInterval); timeoutOrder(); }
   }, 1000);
 }
 
@@ -585,6 +628,7 @@ function updateTimer() {
 function tolakOrder() {
   clearInterval(orderInterval);
   document.getElementById('orderCard').classList.remove('show');
+  addRiwayat('tolak', lastOrder.wa, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
 }
 
 function terimaOrder() {
@@ -607,6 +651,7 @@ function terimaOrder() {
     showToast('✅ Order diterima! Nomor: ' + currentOrderWA);
   });
   setTimeout(() => updatePoin(2), 1500);
+  addRiwayat('terima', currentOrderWA, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
 }
 
 function showToast(msg) {
@@ -649,6 +694,7 @@ function closeOrder() {
 
 function timeoutOrder() {
   document.getElementById('orderCard').classList.remove('show');
+  addRiwayat('timeout', lastOrder.wa, lastOrder.layanan, lastOrder.durasi, lastOrder.harga);
   updatePoin(-10);
   if (isOnline) {
     isOnline = false;
