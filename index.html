@@ -432,6 +432,26 @@ body{
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:0;height:0;}
 
+/* CLIENT PREVIEW */
+.client-preview{
+  position:fixed;left:50%;transform:translateX(-50%);
+  background:#1E3A5F;border-radius:18px;
+  padding:16px 18px;z-index:9999;
+  width:300px;max-width:85vw;
+  box-shadow:0 12px 40px rgba(20,30,80,0.25);
+  pointer-events:none;opacity:0;transition:opacity 0.15s;
+}
+.client-preview.show{opacity:1;}
+.cp-wa{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:#fff;margin-bottom:10px;}
+.cp-talent-title{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px;}
+.cp-talent-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.cp-talent-row:last-child{margin-bottom:0;}
+.cp-t-emoji{width:24px;height:24px;border-radius:7px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.cp-t-name{font-size:11px;font-weight:700;color:#fff;flex:1;}
+.cp-t-bar-track{flex:2;height:4px;background:rgba(255,255,255,0.15);border-radius:999px;overflow:hidden;}
+.cp-t-bar-fill{height:4px;background:rgba(255,255,255,0.7);border-radius:999px;}
+.cp-t-count{font-size:10px;font-weight:800;color:rgba(255,255,255,0.6);flex-shrink:0;width:24px;text-align:right;}
+
 /* CLIENT LIST */
 .client-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid #F7F8FC;cursor:pointer;transition:background 0.15s;}
 .client-item:last-child{border-bottom:none;}
@@ -1200,6 +1220,13 @@ body{
       <div class="modal-title" id="modalTitle">Pengaturan</div>
       <div id="modalContent"></div>
     </div>
+  </div>
+
+  <!-- CLIENT PREVIEW CARD -->
+  <div class="client-preview" id="clientPreview">
+    <div class="cp-wa" id="cpWa"></div>
+    <div class="cp-talent-title">Top Talent Diorder</div>
+    <div id="cpTalents"></div>
   </div>
 
   <!-- MODAL CLIENT TOP TALENT -->
@@ -1992,7 +2019,7 @@ function renderClientPage(reset) {
     var rank = i + 1;
     var rankClass = rank <= 3 ? 'cr-' + rank : 'cr-n';
     var rankLabel = rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank;
-    items += '<div class="client-item" onclick="openClientModal(' + i + ')">'
+    items += '<div class="client-item" onmousedown="showClientPreview(' + i + ',event)" onmouseup="hideClientPreview()" onmouseleave="hideClientPreview()" ontouchstart="showClientPreview(' + i + ',event)" ontouchend="hideClientPreview()" ontouchcancel="hideClientPreview()">'
       + '<div class="client-rank ' + rankClass + '">' + rankLabel + '</div>'
       + '<div style="flex:1;min-width:0;">'
       + '<div class="client-wa">' + c.wa + '</div>'
@@ -2050,6 +2077,57 @@ renderClientPage(true);
 // =============================================
 const talentNames = ['Vania','Luna','Ara','Mika','Sora','Niko','Rara','Kira','Nana','Lila','Esti','Dira'];
 const talentEmojis = ['✨','🌙','🌸','💫','🌟','🎵','🌺','💎','🌻','🦋','🎀','🌈'];
+
+function showClientPreview(idx, e) {
+  const c = window._visibleClients[idx];
+  if (!c) return;
+  e.preventDefault();
+
+  const seed = c.wa.replace(/-/g,'').split('').reduce(function(a,b){ return a + b.charCodeAt(0); }, 0);
+  const talentNames = ['Vania','Luna','Ara','Mika','Sora','Niko','Rara','Kira','Nana','Lila'];
+  const talentEmojis = ['✨','🌙','🌸','💫','🌟','🎵','🌺','💎','🌻','🦋'];
+  const top = [];
+  const used = new Set();
+  for (var i = 0; i < 5; i++) {
+    var idx2 = (seed * (i+1) * 7) % talentNames.length;
+    while (used.has(idx2)) idx2 = (idx2 + 1) % talentNames.length;
+    used.add(idx2);
+    var cnt = Math.max(1, Math.floor(Math.abs(Math.sin(seed * (i+1))) * c.orders));
+    top.push({ nama: talentNames[idx2], emoji: talentEmojis[idx2], orders: cnt });
+  }
+  top.sort(function(a,b){ return b.orders - a.orders; });
+  var maxO = top[0].orders;
+
+  document.getElementById('cpWa').textContent = c.wa;
+  document.getElementById('cpTalents').innerHTML = top.map(function(t) {
+    var pct = Math.round((t.orders / maxO) * 100);
+    return '<div class="cp-talent-row">'
+      + '<div class="cp-t-emoji">' + t.emoji + '</div>'
+      + '<div class="cp-t-name">' + t.nama + '</div>'
+      + '<div class="cp-t-bar-track"><div class="cp-t-bar-fill" style="width:' + pct + '%;"></div></div>'
+      + '<div class="cp-t-count">' + t.orders + 'x</div>'
+      + '</div>';
+  }).join('');
+
+  var preview = document.getElementById('clientPreview');
+  // Posisi vertikal: di atas atau bawah touch
+  var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  var appEl = document.getElementById('app');
+  var appRect = appEl.getBoundingClientRect();
+  var relY = clientY - appRect.top;
+  if (relY > appRect.height / 2) {
+    preview.style.bottom = (appRect.height - relY + 20) + 'px';
+    preview.style.top = 'auto';
+  } else {
+    preview.style.top = (relY + 20) + 'px';
+    preview.style.bottom = 'auto';
+  }
+  preview.classList.add('show');
+}
+
+function hideClientPreview() {
+  document.getElementById('clientPreview').classList.remove('show');
+}
 
 function openClientModal(idx) {
   const c = window._visibleClients[idx];
