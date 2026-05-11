@@ -445,19 +445,19 @@ body {
         </div>
       </div>
 
-      <!-- STATISTIK CARD -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
-        <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;">
+      <!-- TAB STATISTIK -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;" id="statTabs">
+        <div onclick="switchTab('order')" id="tab-order" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.2);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:all 0.15s;">
           <div style="font-size:18px;margin-bottom:4px;">📞</div>
           <div style="font-size:16px;font-weight:900;color:#fff;" id="statTotalCall">42</div>
-          <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Total Call</div>
+          <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.5);margin-top:2px;letter-spacing:0.04em;">Total Call</div>
         </div>
-        <div onclick="showStatDetail('customer')" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:background 0.15s;" onmousedown="this.style.background='rgba(255,255,255,0.08)'" onmouseup="this.style.background='rgba(255,255,255,0.04)'">
+        <div onclick="switchTab('customer')" id="tab-customer" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:all 0.15s;">
           <div style="font-size:18px;margin-bottom:4px;">👥</div>
           <div style="font-size:16px;font-weight:900;color:#fff;" id="statCustomer">28</div>
           <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Customer</div>
         </div>
-        <div onclick="showStatDetail('repeat')" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:background 0.15s;" onmousedown="this.style.background='rgba(255,255,255,0.08)'" onmouseup="this.style.background='rgba(255,255,255,0.04)'">
+        <div onclick="switchTab('repeat')" id="tab-repeat" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:all 0.15s;">
           <div style="font-size:18px;margin-bottom:4px;">🔁</div>
           <div style="font-size:16px;font-weight:900;color:#FCD34D;" id="statRepeat">14</div>
           <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Repeat</div>
@@ -498,12 +498,10 @@ body {
         <button id="orderCloseBtn" onclick="closeOrder()" style="display:none;width:100%;height:36px;border-radius:10px;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;">Tutup</button>
       </div>
 
-      <!-- RIWAYAT ORDER -->
+      <!-- KONTEN TAB -->
       <div style="margin-bottom:12px;">
-        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;">Riwayat Order</div>
-        <div id="riwayatList">
-          <div style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:14px 0;">Belum ada riwayat order</div>
-        </div>
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;" id="tabLabel">Riwayat Order</div>
+        <div id="riwayatList"></div>
         <div style="text-align:right;margin-top:6px;">
           <button id="btnLihatSemua" onclick="lihatSemua()" style="background:none;border:none;color:rgba(255,255,255,0.25);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;padding:4px 2px;">Lihat semua →</button>
         </div>
@@ -546,6 +544,8 @@ function addRiwayat(status, wa, layanan, durasi, harga) {
 }
 
 function renderRiwayat() {
+  if (currentTab === 'customer') { renderCustomerTab(false); return; }
+  if (currentTab === 'repeat')   { renderCustomerTab(true);  return; }
   const list = document.getElementById('riwayatList');
   const btnLihat = document.getElementById('btnLihatSemua');
 
@@ -673,6 +673,55 @@ function showStatDetail(type) {
   overlay.onclick = () => { overlay.remove(); modal.remove(); };
   document.body.appendChild(overlay);
   document.body.appendChild(modal);
+}
+
+let currentTab = 'order';
+
+function switchTab(tab) {
+  currentTab = tab;
+  showAll = false;
+  ['order','customer','repeat'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (t === tab) {
+      el.style.background = 'rgba(255,255,255,0.08)';
+      el.style.border = '0.5px solid rgba(255,255,255,0.2)';
+    } else {
+      el.style.background = 'rgba(255,255,255,0.04)';
+      el.style.border = '0.5px solid rgba(255,255,255,0.08)';
+    }
+  });
+  const labels = { order:'Riwayat Order', customer:'Semua Customer', repeat:'Customer Repeat' };
+  document.getElementById('tabLabel').textContent = labels[tab];
+  renderRiwayat();
+}
+
+function renderCustomerTab(filterRepeat) {
+  const list = document.getElementById('riwayatList');
+  const btnLihat = document.getElementById('btnLihatSemua');
+  if (btnLihat) btnLihat.style.display = 'none';
+  const demoCustomers = [
+    { nomor:'081234512345', total:5, terakhir:'Hari ini' },
+    { nomor:'082198765432', total:4, terakhir:'Hari ini' },
+    { nomor:'085261754085', total:3, terakhir:'Kemarin' },
+    { nomor:'089987601234', total:3, terakhir:'11 Mei' },
+    { nomor:'087812345678', total:2, terakhir:'11 Mei' },
+    { nomor:'****54085',    total:2, terakhir:'Kemarin' },
+    { nomor:'****87601',    total:1, terakhir:'Hari ini' },
+    { nomor:'****12398',    total:1, terakhir:'Kemarin' },
+  ];
+  const filtered = filterRepeat ? demoCustomers.filter(c => c.total > 1) : demoCustomers;
+  list.innerHTML = filtered.map(c => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;margin-bottom:6px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#fff;">${c.nomor}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;">Terakhir: ${c.terakhir}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:14px;font-weight:900;color:${c.total > 1 ? '#FCD34D' : 'rgba(255,255,255,0.5)'};">${c.total}×</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.25);">order</div>
+      </div>
+    </div>
+  `).join('');
 }
 
 let showAll = false;
