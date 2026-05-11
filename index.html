@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<title>SleepcallPay 8</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Poppins:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
+<title>SleepcallPay — Talent Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; min-height: 100vh; }
 body {
   font-family: 'Inter', sans-serif;
-  background: #020208;
+  background: #020810;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -22,7 +22,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #020208 0%, #0A0A20 60%, #0D0A25 100%);
+  background: linear-gradient(160deg, #020810 0%, #071020 60%, #081525 100%);
 }
 @media (min-width: 481px) {
   body { padding: 20px 0; background: #000; }
@@ -48,307 +48,48 @@ body {
   75% { opacity: 0.5; }
   100% { transform: translateX(-220px) translateY(110px); opacity: 0; }
 }
+@keyframes twinkleSpark { 0%,100%{opacity:0.4;transform:scale(0.85)} 50%{opacity:1;transform:scale(1.1)} }
+@keyframes logoGlow { 0%,100%{filter:drop-shadow(0 0 4px rgba(252,211,77,0.3))} 50%{filter:drop-shadow(0 0 10px rgba(252,211,77,0.6))} }
 
+/* CONTENT */
+.content { position: relative; z-index: 1; padding-bottom: 40px; padding-top: 72px; }
 
-/* CONTENT PADDING */
-.content { padding-top: 62px; }
+/* PLACEHOLDER CENTER */
+.ht-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 80vh; padding: 40px 24px; text-align: center;
+}
+.ht-placeholder-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+.ht-placeholder-title {
+  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px;
+  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.ht-placeholder-sub { font-size: 13px; color: rgba(255,255,255,0.3); line-height: 1.6; }
 
-/* TALENT SECTION */
-.greeting {
-  padding: 22px 20px 4px;
-  position: relative;
-}
-.greet-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px 4px 4px;
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.08);
-  border-radius: 999px;
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.7);
-  letter-spacing: 0.02em;
-  margin-bottom: 12px;
-}
-.greet-row::before {
-  content: "";
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #FCD34D, #F59E0B);
-  box-shadow: 0 0 10px rgba(252,211,77,0.5);
-  margin-right: 2px;
-  flex-shrink: 0;
-}
-.greet-emoji { font-size: 11px; }
-.greet-headline {
-  font-family: 'Instrument Serif', serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 26px;
-  line-height: 1.18;
-  color: #fff;
-  letter-spacing: -0.015em;
-  margin: 0 0 8px;
-  text-wrap: pretty;
-}
-.greet-headline em {
-  font-style: italic;
-  background: linear-gradient(135deg, #FFF1B8 0%, #FCD34D 55%, #F59E0B 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-.greet-sub {
-  font-family: 'Inter', sans-serif;
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: rgba(255,255,255,0.5);
-  margin: 0;
-  max-width: 320px;
-  text-wrap: pretty;
-}
-.type-display .greet-headline { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.035em; }
-.type-display .greet-headline em { font-style: normal; }
-.type-mono .greet-headline { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 18px; letter-spacing: -0.05em; }
-.type-mono .greet-headline em { font-style: normal; }
-.type-mono .greet-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: -0.02em; }
-
-.section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 20px 12px;}
-.section-title { font-size: 16px; font-weight: 800; color: #fff; }
-.online-badge {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11px; font-weight: 600; color: #34D399;
-}
-.online-dot { width: 7px; height: 7px; border-radius: 50%; background: #34D399; }
-
-.talent-list { display: flex; flex-direction: column; gap: 10px; padding: 0 16px 40px; }
-
-.talent-card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 18px; overflow: hidden;
-  display: flex; min-height: 100px;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-.talent-card:active { transform: scale(0.98); }
-
-.card-avatar {
-  width: 90px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 38px;
-  color: rgba(255,255,255,0.9);
-  position: relative;
-  cursor: pointer;
-}
-.av-overlay {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.0);
-  transition: background 0.2s;
-}
-.card-avatar:hover .av-overlay { background: rgba(0,0,0,0.28); }
-.av-play {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.5);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transform: scale(0.8);
-  transition: opacity 0.18s, transform 0.18s;
-  pointer-events: none;
-}
-.card-avatar:hover .av-play { opacity: 1; transform: scale(1); }
-.av-play svg { width: 12px; height: 12px; fill: #fff; margin-left: 1.5px; }
-.av-eq {
-  display: none;
-  align-items: flex-end;
-  gap: 2px;
-  height: 11px;
-}
-.av-eq span {
-  width: 2.2px; height: 100%;
-  background: #1a1000;
-  border-radius: 1.5px;
-  transform-origin: bottom center;
-  animation: avEq 0.9s ease-in-out infinite;
-}
-.av-eq span:nth-child(1) { animation-delay: 0s; }
-.av-eq span:nth-child(2) { animation-delay: 0.15s; }
-.av-eq span:nth-child(3) { animation-delay: 0.3s; }
-.av-eq span:nth-child(4) { animation-delay: 0.45s; }
-@keyframes avEq {
-  0%, 100% { transform: scaleY(0.3); }
-  50%      { transform: scaleY(1); }
-}
-.av-duration {
-  position: absolute;
-  left: 8px; bottom: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 9.5px; font-weight: 700;
-  color: #fff;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 2px 6px 2px 3px;
-  border-radius: 999px;
-  display: inline-flex; align-items: center; gap: 3px;
-  letter-spacing: -0.01em;
-}
-.av-duration::before {
-  content: "";
-  width: 11px; height: 11px;
-  background: #FCD34D;
-  border-radius: 50%;
-  display: inline-block;
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><polygon points='3,2 10,6 3,10' fill='black'/></svg>") center/8px no-repeat;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><polygon points='3,2 10,6 3,10' fill='black'/></svg>") center/8px no-repeat;
-}
-.card-avatar.playing .av-overlay { background: rgba(0,0,0,0.45); }
-.card-avatar.playing .av-play { opacity: 1; transform: scale(1); background: rgba(252,211,77,0.95); border-color: #FCD34D; }
-.card-avatar.playing .av-play svg { display: none; }
-.card-avatar.playing .av-eq { display: inline-flex; }
-.card-avatar.playing .av-duration::before {
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/8px no-repeat;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/8px no-repeat;
-}
-@keyframes avRing {
-  0%   { transform: scale(0.8); opacity: 0.7; }
-  100% { transform: scale(1.4); opacity: 0; }
-}
-.av-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 1.5px solid rgba(252,211,77,0.6);
-  pointer-events: none;
-  opacity: 0;
-}
-.card-avatar.playing .av-ring { animation: avRing 1.6s ease-out infinite; opacity: 1; }
-.card-avatar.playing .av-ring.r2 { animation-delay: 0.55s; }
-.card-avatar.playing .av-ring.r3 { animation-delay: 1.1s; }
-.card-info { flex: 1; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
-.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
-.card-name { font-size: 15px; font-weight: 800; color: #fff; }
-.card-status { font-size: 10px; font-weight: 700; white-space: nowrap; display: flex; align-items: center; gap: 3px; }
-.gender-badge {
-  display: inline-flex; align-items: center; gap: 2px;
-  border-radius: 999px; padding: 1px 6px;
-  font-size: 8.5px; font-weight: 700; margin-top: 3px;
-}
-.gender-badge.w { background: rgba(236,72,153,0.2); color: #F472B6; }
-.gender-badge.p { background: rgba(96,165,250,0.2); color: #60A5FA; }
-
-/* TALENT TAGS — top, baru, repeat */
-.tag-row { display: inline-flex; flex-wrap: wrap; gap: 3px; margin-top: 3px; margin-left: 3px; vertical-align: middle; }
-.t-tag {
-  display: inline-flex; align-items: center; gap: 3px;
-  border-radius: 999px; padding: 1px 6px;
-  font-size: 8.5px; font-weight: 700;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  border: 0.5px solid transparent;
-}
-.t-tag.top {
-  background: linear-gradient(135deg, rgba(252,211,77,0.22), rgba(245,158,11,0.18));
-  color: #FCD34D;
-  border-color: rgba(252,211,77,0.35);
-}
-.t-tag.baru {
-  background: rgba(94,234,212,0.18);
-  color: #5EEAD4;
-  border-color: rgba(94,234,212,0.35);
-}
-.t-tag.repeat {
-  background: rgba(167,139,250,0.2);
-  color: #C4B5FD;
-  border-color: rgba(167,139,250,0.35);
-}
-.t-tag.verified {
-  background: rgba(96,165,250,0.18);
-  color: #60A5FA;
-  border-color: rgba(96,165,250,0.35);
-}
-.t-tag svg { width: 8px; height: 8px; }
-.card-services { font-size: 10.5px; color: rgba(255,255,255,0.45); margin-top: 4px; }
-.card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
-.btn-pesan {
-  border: none; cursor: pointer; font-family: inherit;
-  font-size: 11px; font-weight: 700; height: 26px; padding: 0 14px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #FF6B9D, #FF8C42);
-  color: #fff; box-shadow: 0 4px 10px rgba(255,107,157,0.3);
-}
-.btn-pesan.off { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
-
-
-/* SHOOTING STARS AT NAVBAR BOTTOM */
-.navbar-stars {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  overflow: hidden;
-  pointer-events: none;
-}
-@keyframes starMove {
-  0% { transform: translateX(110%); opacity: 0; }
-  5% { opacity: 1; }
-  95% { opacity: 1; }
-  100% { transform: translateX(-110%); opacity: 0; }
-}
-.moving-star {
-  position: absolute;
-  top: 0;
-  width: 60px;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, #fff, rgba(255,255,255,0.8), transparent);
-  border-radius: 999px;
-  animation: starMove linear infinite;
-}
-.moving-star::after {
-  content: none;
-}
-.s1 { animation-duration: 5s; animation-delay: 0s; top: 1px; width: 70px; }
-
-.logo-icon {
-  width: 34px; height: 34px; border-radius: 10px;
-  background: linear-gradient(135deg, #FCD34D, #F59E0B);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; color: #0F0D14;
-  box-shadow: 0 4px 12px rgba(252,211,77,0.3);
-}
-.logo-text {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 16px; font-weight: 800;
-  color: #fff; letter-spacing: -0.02em;
-}
 /* NAVBAR */
 .navbar {
-  position: fixed; top: 0; left: 0; right: 0;
-  max-width: 480px; margin: 0 auto;
-  z-index: 100;
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px;
-  background: #000000;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: none; overflow: visible;
+  padding: 12px 20px; z-index: 100;
+  background: rgba(2,2,8,0.85);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
 }
-.logo { display: flex; align-items: center; gap: 8px; }
-
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-text {
+  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px;
+  background: linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 6px rgba(252,211,77,0.4));
+}
+.navbar-badge {
+  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+  background: rgba(252,211,77,0.12); border: 0.5px solid rgba(252,211,77,0.3);
+  color: #FCD34D; letter-spacing: 0.06em;
+}
 .hamburger {
   width: 38px; height: 38px; border-radius: 12px;
   background: rgba(255,255,255,0.07);
@@ -358,1073 +99,213 @@ body {
 }
 .hamburger span { display: block; width: 18px; height: 2px; border-radius: 2px; background: #fff; }
 
-/* CONTENT */
-.content { position: relative; z-index: 1; padding-bottom: 40px; }
+/* SECTION */
+.ht-section { padding: 12px 16px; }
 
-
-
-
-
-
-
-/* PULSE ON CLICK */
-@keyframes cardPulse {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.04); }
-  100% { transform: scale(1); }
-}
-.talent-card.pulsing {
-  animation: cardPulse 0.35s ease-out;
-}
-
-@keyframes softPulse { 0%,100%{box-shadow:0 0 8px rgba(96,217,250,0.2),0 0 16px rgba(167,139,250,0.1)} 50%{box-shadow:0 0 16px rgba(96,217,250,0.5),0 0 30px rgba(167,139,250,0.2)} }
-
-/* ANTI COPY */
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-}
-
-
-
-
-
-/* BIO DI CARD */
-.card-bio {
-  font-size: 10px;
-  color: rgba(255,255,255,0.35);
-  line-height: 1.4;
-  margin-top: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font-style: italic;
-}
-
-
-.bio-input {
-  width: 100%; padding: 10px 14px; border-radius: 12px;
-  border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
-  font-family: inherit; font-size: 13px; color: #fff; outline: none;
-  resize: none; line-height: 1.5;
-  max-height: 80px;
-}
-.bio-input:focus { border-color: rgba(96,217,250,0.4); }
-.bio-input::placeholder { color: rgba(255,255,255,0.2); }
-.bio-count { font-size: 10px; color: rgba(255,255,255,0.25); text-align: right; margin-top: 3px; }
-
-
-/* GENDER FILTER */
-.gender-filter { display: flex; gap: 6px; }
-.gender-btn {
-  border: none; cursor: pointer; font-family: inherit;
-  font-size: 11px; font-weight: 700;
-  height: 28px; padding: 0 12px; border-radius: 999px;
-  transition: all 0.2s;
-}
-.gender-btn.active-all { background: rgba(255,255,255,0.15); color: #fff; }
-.gender-btn.active-w { background: rgba(244,114,182,0.2); color: #F472B6; border: 0.5px solid rgba(244,114,182,0.4); }
-.gender-btn.active-p { background: rgba(96,217,250,0.2); color: #60D9FA; border: 0.5px solid rgba(96,217,250,0.4); }
-.gender-btn.inactive { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 0.5px solid rgba(255,255,255,0.1); }
-
-@keyframes hexGlow {
-  0%,100%{filter:drop-shadow(0 0 4px rgba(252,211,77,0.5)) drop-shadow(0 0 10px rgba(252,211,77,0.2));}
-  50%{filter:drop-shadow(0 0 8px rgba(252,211,77,0.9)) drop-shadow(0 0 20px rgba(252,211,77,0.4));}
-}
-@keyframes logoGlow {
-  0%,100% { filter: drop-shadow(0 0 6px rgba(252,211,77,0.45)) drop-shadow(0 0 14px rgba(245,158,11,0.2)); }
-  50%     { filter: drop-shadow(0 0 10px rgba(252,211,77,0.75)) drop-shadow(0 0 22px rgba(245,158,11,0.4)); }
-}
-@keyframes twinkleSpark { 0%,100%{opacity:0.4;transform:scale(0.85)} 50%{opacity:1;transform:scale(1.1)} }
-
-/* Wordmark — single string SleepcallPay, gold-tinted to match the mark */
-.logo { gap: 9px; }
-.logo-text {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 21px;
-  line-height: 1;
-  letter-spacing: -0.01em;
-  background: linear-gradient(135deg, #FFF1B8 0%, #FCD34D 55%, #F59E0B 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  text-shadow: 0 0 18px rgba(252,211,77,0.18);
-}
-.type-display .logo-text { font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 900; font-size: 17px; letter-spacing: -0.035em; text-transform: none; }
-.type-mono .logo-text { font-family: 'JetBrains Mono', monospace; font-style: normal; font-weight: 800; font-size: 14px; letter-spacing: -0.06em; }
-
-html, body {
-  touch-action: pan-x pan-y;
-  -ms-touch-action: pan-x pan-y;
-}
-
-/* ============================================================
-   TWEAKABLE OVERRIDES
-   Three expressive macros: vibe / card-form / type-voice.
-   Defaults match the original cosmic look; classes toggle a full
-   coordinated change across multiple properties.
-   ============================================================ */
-
-/* ---------- VIBE: SUNSET MAUVE ---------- */
-.vibe-sunset #app {
-  background: linear-gradient(160deg, #150509 0%, #2A0F1A 55%, #3A1A22 100%);
-}
-.vibe-sunset .btn-pesan:not(.off) {
-  background: linear-gradient(135deg, #FFB17A, #FF5C8A);
-  box-shadow: 0 4px 14px rgba(255,92,138,0.35);
-}
-.vibe-sunset .logo-icon { background: linear-gradient(135deg, #FFB17A, #FF5C8A); box-shadow: 0 4px 12px rgba(255,92,138,0.35); }
-.vibe-sunset .online-badge, .vibe-sunset .card-status[style*="34D399"] { color: #FFD2A0 !important; }
-.vibe-sunset .online-dot, .vibe-sunset .card-status span[style*="34D399"] { background: #FFD2A0 !important; }
-.vibe-sunset .gender-btn.active-w { background: rgba(255,92,138,0.22); color: #FFB1C8; border-color: rgba(255,92,138,0.45); }
-.vibe-sunset .gender-btn.active-p { background: rgba(255,177,122,0.22); color: #FFD0A8; border-color: rgba(255,177,122,0.45); }
-.vibe-sunset .starfield circle[fill="#60D9FA"] { fill: #FFB17A; }
-.vibe-sunset .starfield circle[fill="#A78BFA"] { fill: #FF8FB1; }
-.vibe-sunset .starfield circle[fill="#34D399"] { fill: #FFD2A0; }
-.vibe-sunset .starfield circle[fill="#FCD34D"] { fill: #FFE0B0; }
-
-/* ---------- VIBE: AURORA MINT ---------- */
-.vibe-aurora #app {
-  background: linear-gradient(160deg, #02100E 0%, #042820 50%, #07142E 100%);
-}
-.vibe-aurora .btn-pesan:not(.off) {
-  background: linear-gradient(135deg, #5EEAD4, #818CF8);
-  box-shadow: 0 4px 14px rgba(94,234,212,0.3);
-  color: #062018;
-}
-.vibe-aurora .logo-icon { background: linear-gradient(135deg, #5EEAD4, #818CF8); box-shadow: 0 4px 12px rgba(94,234,212,0.35); }
-.vibe-aurora .gender-btn.active-w { background: rgba(244,114,182,0.18); color: #F0ABCC; border-color: rgba(244,114,182,0.4); }
-.vibe-aurora .gender-btn.active-p { background: rgba(94,234,212,0.18); color: #5EEAD4; border-color: rgba(94,234,212,0.45); }
-.vibe-aurora .starfield circle[fill="#FCD34D"] { fill: #5EEAD4; }
-.vibe-aurora .starfield circle[fill="#F472B6"] { fill: #818CF8; }
-
-/* ---------- CARD FORM: SOLID TINTED ---------- */
-.card-solid .talent-card {
-  background: rgba(255,255,255,0.025);
-  backdrop-filter: none; -webkit-backdrop-filter: none;
-  border: none;
-  border-radius: 14px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-  position: relative;
-}
-.card-solid .talent-card::before {
-  content: ""; position: absolute; inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(96,217,250,0.04) 60%, transparent);
-  pointer-events: none;
-}
-.card-solid .talent-card:nth-child(3n)::before { background: linear-gradient(135deg, rgba(167,139,250,0.10), rgba(94,234,212,0.04) 60%, transparent); }
-.card-solid .talent-card:nth-child(3n+1)::before { background: linear-gradient(135deg, rgba(252,211,77,0.08), rgba(244,114,182,0.04) 60%, transparent); }
-.card-solid .talent-card > * { position: relative; z-index: 1; }
-
-/* ---------- CARD FORM: HAIRLINE OUTLINE ---------- */
-.card-outline .talent-list { gap: 0; padding: 0 16px 40px; }
-.card-outline .talent-card {
-  background: transparent;
-  backdrop-filter: none; -webkit-backdrop-filter: none;
-  border: none;
-  border-top: 0.5px solid rgba(255,255,255,0.08);
-  border-radius: 0;
-  min-height: 92px;
-  padding: 4px 0;
-}
-.card-outline .talent-card:last-child { border-bottom: 0.5px solid rgba(255,255,255,0.08); }
-.card-outline .card-avatar { width: 78px; font-size: 34px; background: transparent !important; border: 0.5px solid rgba(255,255,255,0.18); border-radius: 50%; height: 56px; width: 56px; margin: 18px 0 0 12px; flex-shrink: 0; }
-.card-outline .card-info { padding: 14px 14px 14px 12px; }
-.card-outline .btn-pesan:not(.off) {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.6);
-  color: #fff;
-  box-shadow: none;
-}
-
-/* ---------- TYPE VOICE: DISPLAY POP ---------- */
-.type-display .card-name,
-.type-display .section-title,
-.type-display .logo-text {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 900;
-  letter-spacing: -0.025em;
-}
-.type-display .logo-text { font-size: 17px; text-transform: lowercase; }
-.type-display .card-avatar {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 30px;
-  letter-spacing: -0.04em;
-}
-.type-display .btn-pesan { font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; font-size: 10px; }
-
-/* ---------- TYPE VOICE: MONO TECH ---------- */
-.type-mono body, .type-mono .card-services, .type-mono .card-bio {
-  font-family: 'JetBrains Mono', monospace;
-}
-.type-mono .card-name,
-.type-mono .section-title,
-.type-mono .logo-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-}
-.type-mono .logo-text { font-size: 14px; }
-.type-mono .card-avatar {
-  font-family: 'JetBrains Mono', monospace;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 30px;
-}
-.type-mono .card-name { font-size: 14px; }
-.type-mono .card-services { font-size: 9.5px; letter-spacing: -0.02em; }
-.type-mono .card-bio { font-style: normal; font-size: 9.5px; letter-spacing: -0.02em; }
-.type-mono .btn-pesan { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; letter-spacing: -0.02em; }
-.type-mono .gender-btn { font-family: 'JetBrains Mono', monospace; }
-.type-mono .gender-badge { font-family: 'JetBrains Mono', monospace; }
-
-/* ============================================================
-   TWEAKS PANEL UI
-   ============================================================ */
-#tweaks-panel {
-  position: fixed;
-  bottom: 16px; right: 16px;
-  z-index: 9999;
-  width: 264px;
-  background: rgba(14,12,28,0.92);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  border: 0.5px solid rgba(255,255,255,0.14);
-  border-radius: 18px;
-  padding: 14px 14px 12px;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
-  display: none;
-  user-select: none;
-}
-#tweaks-panel.open { display: block; }
-.tw-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.tw-title { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
-.tw-close {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: rgba(255,255,255,0.08); border: none;
-  color: #fff; font-size: 14px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-family: inherit;
-}
-.tw-close:hover { background: rgba(255,255,255,0.16); }
-.tw-section { margin-bottom: 10px; }
-.tw-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 6px; letter-spacing: 0.06em; text-transform: uppercase; }
-.tw-seg {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 4px;
-  padding: 3px;
+/* PROFILE CARD */
+.ht-profile-card {
   background: rgba(255,255,255,0.05);
-  border-radius: 10px;
-  border: 0.5px solid rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.09);
+  border-radius: 18px; padding: 12px 14px;
+  margin-bottom: 10px; position: relative; overflow: hidden;
 }
-.tw-opt {
-  border: none;
-  background: transparent;
-  color: rgba(255,255,255,0.55);
-  font-family: inherit;
-  font-size: 10.5px;
-  font-weight: 700;
-  padding: 7px 4px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  text-align: center;
+.ht-profile-card::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(252,211,77,0.07) 0%, transparent 70%);
+  pointer-events: none;
 }
-.tw-opt:hover { color: rgba(255,255,255,0.8); }
-.tw-opt.active {
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.08), 0 4px 10px rgba(0,0,0,0.3);
-}
-.tw-swatch {
-  display: block;
-  width: 100%; height: 18px;
-  border-radius: 5px;
-  margin-bottom: 4px;
-}
-.tw-opt[data-vibe="cosmic"] .tw-swatch { background: linear-gradient(135deg,#0D0A25 0%,#FF6B9D 100%); }
-.tw-opt[data-vibe="sunset"] .tw-swatch { background: linear-gradient(135deg,#2A0F1A 0%,#FF5C8A 60%,#FFB17A 100%); }
-.tw-opt[data-vibe="aurora"] .tw-swatch { background: linear-gradient(135deg,#042820 0%,#5EEAD4 60%,#818CF8 100%); }
-
-#tweaks-fab {
-  position: fixed;
-  bottom: 16px; right: 16px;
-  z-index: 9998;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(14,12,28,0.92);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  border: 0.5px solid rgba(255,255,255,0.18);
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-  display: none;
-  align-items: center; justify-content: center;
-}
-#tweaks-fab.open { display: flex; }
-
-/* VOUCHER SECTION */
-.voucher-section { padding: 0 16px 12px; }
-.voucher-btn {
-  width: 100%; display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 14px; border-radius: 12px; cursor: pointer; border: none;
-  background: rgba(252,211,77,0.07);
-  border: 0.5px solid rgba(252,211,77,0.2);
-  transition: all 0.2s;
-}
-.voucher-btn:active { transform: scale(0.98); }
-.voucher-left { display: flex; align-items: center; gap: 10px; }
-.voucher-icon {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: rgba(252,211,77,0.15);
+.ht-profile-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; position: relative; }
+.ht-avatar {
+  width: 44px; height: 44px; border-radius: 13px; flex-shrink: 0;
+  background: rgba(255,255,255,0.1);
+  border: 0.5px solid rgba(255,255,255,0.15);
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; flex-shrink: 0;
-}
-.voucher-text { text-align: left; }
-.voucher-title { font-size: 12px; font-weight: 700; color: #FCD34D; }
-.voucher-sub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top:1px; }
-.voucher-arrow { font-size: 13px; color: rgba(252,211,77,0.4); }
-
-/* VOUCHER PACKAGES */
-.voucher-packages { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.voucher-pkg {
-  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;
+  font-size: 18px; font-weight: 800; color: rgba(255,255,255,0.7);
   position: relative;
 }
-.voucher-pkg.selected { border-color: #FCD34D; background: rgba(252,211,77,0.08); }
-.voucher-pkg.popular::after {
-  content: 'POPULER';
-  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
-  background: #FCD34D; color: #0A0700; font-size: 8px; font-weight: 900;
-  padding: 2px 8px; border-radius: 999px; letter-spacing: 0.08em;
+.ht-poin-badge {
+  position: absolute; top: -6px; right: -6px;
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
+  border-radius: 20px; padding: 2px 7px;
+  font-size: 10px; font-weight: 900; color: #1a0f00;
+  box-shadow: 0 2px 8px rgba(252,211,77,0.4);
+  white-space: nowrap; border: 1.5px solid rgba(255,255,255,0.2);
 }
-.pkg-amount { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
-.pkg-price { font-size: 18px; font-weight: 900; color: #FCD34D; }
-.pkg-bonus { font-size: 10px; color: #34D399; margin-top: 4px; font-weight: 600; }
-
-/* PAYMENT METHOD */
-.payment-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; margin-bottom: 10px; }
-.payment-methods { display: flex; gap: 8px; margin-bottom: 20px; }
-.payment-method {
-  flex: 1; height: 44px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5);
-  transition: all 0.2s;
-}
-.payment-method.selected { border-color: #FCD34D; color: #FCD34D; background: rgba(252,211,77,0.08); }
-
-.btn-beli {
-  width: 100%; height: 52px; border: none; border-radius: 16px; cursor: pointer;
-  font-family: inherit; font-size: 15px; font-weight: 800;
-  background: linear-gradient(135deg, #FCD34D, #F59E0B);
-  color: #0A0700; box-shadow: 0 6px 20px rgba(252,211,77,0.3);
-}
-.btn-beli:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
-
-
-
-/* TOTAL ORDER & REPEAT */
-.card-stats-row {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4);
-  position: relative; cursor: pointer;
-}
-.stat-order { color: rgba(255,255,255,0.6); }
-.stat-repeat { color: rgba(96,217,250,0.7); }
-.stat-divider { color: rgba(255,255,255,0.15); }
-
-/* TOOLTIP */
-.stat-tooltip {
-  display: none;
-  position: absolute;
-  bottom: 130%; right: 0;
-  background: rgba(15,15,30,0.97);
-  border: 0.5px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
-  padding: 8px 12px;
-  white-space: nowrap;
-  z-index: 99;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-  pointer-events: none;
-}
-.stat-tooltip.show { display: block; }
-.tooltip-row {
+.ht-greet { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 2px; }
+.ht-name {
+  font-size: 17px; font-weight: 800; color: #fff;
   display: flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.7);
-  margin-bottom: 4px;
 }
-.tooltip-row:last-child { margin-bottom: 0; }
-.tooltip-row span { color: #fff; font-weight: 800; }
+.ht-name-spark { font-size: 18px; }
+.ht-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.ht-meta span { color: #FCD34D; font-weight: 700; }
 
-
-/* VOUCHER MODAL */
-.voucher-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75); z-index: 500;
-  backdrop-filter: blur(8px);
+/* POIN */
+.ht-poin-wrap { margin-top: 12px; }
+.ht-poin-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 6px;
 }
-.voucher-overlay.open { display: block; }
-
-.voucher-modal {
-  display: none; position: fixed;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: calc(100% - 48px); max-width: 380px;
-  max-height: 88vh; overflow-y: auto;
-  z-index: 600;
-  background: #1A2030;
-  border-radius: 26px;
-  border: 1px solid rgba(138,168,200,0.22);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-  padding: 22px 20px 26px;
-  overscroll-behavior: contain;
-}
-.voucher-modal.open { display: block; animation: vmFadeIn 0.28s cubic-bezier(0.22,1,0.36,1); }
-
-.modal-handle {
-  width: 32px; height: 3px; border-radius: 2px;
-  background: rgba(255,255,255,0.15); margin: 0 auto 18px;
-}
-.modal-title {
-  font-size: 16px; font-weight: 800; color: #fff;
-  margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
-}
-.modal-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 18px; }
-
-.step-indicator { display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
-.step-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: rgba(255,255,255,0.15); transition: all 0.3s;
-}
-.step-dot.active {
-  background: linear-gradient(135deg,#FCD34D,#F59E0B);
-  width: 22px; border-radius: 4px;
-  box-shadow: 0 0 8px rgba(252,211,77,0.5);
-}
-.step-dot.done { background: #34D399; box-shadow: 0 0 6px rgba(52,211,153,0.4); }
-
-.step { display: none; }
-.step.show { display: block; }
-
-/* NOMINAL */
-.nominal-title {
-  font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.4);
-  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px;
-}
-.nominal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.nominal-item {
-  background: rgba(255,255,255,0.08);
-  border: 0.5px solid rgba(255,255,255,0.14);
-  border-radius: 16px; padding: 14px 8px; text-align: center;
-  cursor: pointer; transition: all 0.18s; position: relative; overflow: hidden;
-}
-.nominal-item::before {
-  content: '';
-  position: absolute; inset: 0; border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 60%);
-  pointer-events: none;
-}
-.nominal-item:active { transform: scale(0.95); }
-.nominal-item.selected {
-  background: rgba(252,211,77,0.15);
-  border-color: rgba(252,211,77,0.55);
-  box-shadow: 0 0 22px rgba(252,211,77,0.15), 0 0 0 0.5px rgba(252,211,77,0.3);
-}
-.nominal-item.selected::before {
-  background: linear-gradient(180deg, rgba(252,211,77,0.15) 0%, transparent 60%);
-}
-.nominal-amount {
-  font-size: 14px; font-weight: 900; color: #fff;
-}
-.nominal-item.selected .nominal-amount {
+.ht-poin-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; }
+.ht-poin-val {
+  font-size: 13px; font-weight: 900;
   background: linear-gradient(135deg,#FFF5A0,#FCD34D);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 6px rgba(252,211,77,0.4));
 }
-
-/* LAYANAN INFO */
-.layanan-info {
-  background: rgba(255,255,255,0.08);
-  border: 0.5px solid rgba(255,255,255,0.14);
-  border-radius: 18px; padding: 14px; margin-bottom: 14px; display: none;
-  position: relative; overflow: hidden;
+.ht-poin-val span { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.3); -webkit-text-fill-color: rgba(255,255,255,0.3); }
+.ht-poin-bar-wrap {
+  height: 5px; background: rgba(255,255,255,0.08);
+  border-radius: 5px; overflow: hidden;
 }
-.layanan-info::before {
-  content: '';
-  position: absolute; top: -40px; right: -40px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(252,211,77,0.08) 0%, transparent 70%);
-  pointer-events: none;
+.ht-poin-bar {
+  height: 100%; border-radius: 5px;
+  background: linear-gradient(90deg,#FCD34D,#F59E0B);
+  transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 0 8px rgba(252,211,77,0.4);
 }
-.layanan-info.show { display: block; }
-.layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-.layanan-item {
-  background: rgba(255,255,255,0.09);
-  border: 0.5px solid rgba(255,255,255,0.15);
-  border-radius: 14px; padding: 12px; cursor: pointer; transition: all 0.15s;
-  position: relative; overflow: hidden;
-}
-.layanan-item::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-}
-.layanan-item:active { transform: scale(0.97); }
-.layanan-item.selected {
-  background: rgba(252,211,77,0.12);
-  border-color: rgba(252,211,77,0.35);
-  box-shadow: 0 0 14px rgba(252,211,77,0.1);
-}
-.layanan-item.selected .layanan-name { color: rgba(252,211,77,0.7); }
-.layanan-item.selected .layanan-dur { color: #FCD34D; }
-.layanan-name {
-  font-size: 10px; color: rgba(255,255,255,0.5);
-  margin-bottom: 4px; display: flex; align-items: center; gap: 4px;
-}
-.layanan-dur { font-size: 14px; font-weight: 900; color: #fff; }
-
-/* WA INPUT */
-.wa-label {
-  font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.25);
-  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px;
-}
-.wa-input-wrap { display: flex; align-items: center; margin-bottom: 8px; }
-.wa-prefix {
-  height: 48px; padding: 0 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08); border-right: none;
-  border-radius: 14px 0 0 14px;
-  display: flex; align-items: center;
-  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); white-space: nowrap;
-}
-.wa-input {
-  flex: 1; height: 48px;
+.ht-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px;
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
-  padding: 0 14px; font-family: inherit; font-size: 14px; color: #fff; outline: none;
-  transition: all 0.2s;
-}
-.wa-input:focus {
-  border-color: rgba(252,211,77,0.35);
-  background: rgba(252,211,77,0.03);
-  box-shadow: 0 0 0 3px rgba(252,211,77,0.06);
-}
-.wa-input::placeholder { color: rgba(255,255,255,0.18); }
-.wa-hint { font-size: 10.5px; color: rgba(255,255,255,0.2); margin-bottom: 14px; line-height: 1.4; }
-
-/* SUMMARY */
-.summary-card {
-  background: rgba(252,211,77,0.04);
-  border: 0.5px solid rgba(252,211,77,0.15);
-  border-radius: 16px; padding: 14px; margin-bottom: 14px;
-}
-.summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-.summary-row:last-child {
-  margin-bottom: 0; padding-top: 10px;
-  border-top: 0.5px solid rgba(252,211,77,0.12);
-}
-.summary-label { font-size: 12px; color: rgba(255,255,255,0.35); }
-.summary-val { font-size: 12px; font-weight: 700; color: #fff; }
-.summary-total { font-size: 17px; font-weight: 900; color: #FCD34D; filter: drop-shadow(0 0 6px rgba(252,211,77,0.4)); }
-
-/* BUY OPTIONS */
-.buy-opt {
-  display: flex; align-items: center; gap: 14px;
-  border-radius: 16px; padding: 14px 16px; margin-bottom: 8px;
-  cursor: pointer; border: none; width: 100%; text-align: left;
-  font-family: inherit; transition: transform 0.15s, opacity 0.15s;
-}
-.buy-opt:last-child { margin-bottom: 0; }
-.buy-opt:active { transform: scale(0.97); opacity: 0.9; }
-.buy-opt-icon {
-  width: 42px; height: 42px; border-radius: 13px;
-  background: rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
-}
-.buy-opt-text { flex: 1; }
-.buy-opt-title { font-size: 14px; font-weight: 800; color: #fff; }
-.buy-opt-sub { font-size: 10.5px; color: rgba(255,255,255,0.55); margin-top: 2px; }
-.buy-opt-arrow { font-size: 18px; color: rgba(255,255,255,0.3); }
-.buy-opt-wa {
-  background: linear-gradient(135deg, rgba(18,140,126,0.9), rgba(37,211,102,0.85));
-  box-shadow: 0 4px 20px rgba(37,211,102,0.15);
-}
-.buy-opt-web {
-  background: linear-gradient(135deg, rgba(30,58,95,0.9), rgba(37,99,235,0.85));
-  box-shadow: 0 4px 20px rgba(37,99,235,0.15);
-}
-
-/* NAV BTN */
-.modal-nav { display: flex; gap: 8px; margin-top: 6px; }
-.btn-back {
-  height: 48px; padding: 0 18px; border-radius: 14px;
   border: 0.5px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);
-  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  border-radius: 14px;
 }
-.btn-next {
-  flex: 1; height: 48px; border-radius: 14px; border: none; cursor: pointer;
-  font-family: 'Instrument Serif', serif; font-style: italic;
-  font-size: 17px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);
-  color: #1a0f00;
-  box-shadow: 0 4px 20px rgba(252,211,77,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
-  transition: transform 0.15s, box-shadow 0.15s;
+.ht-toggle-left { display: flex; align-items: center; gap: 10px; }
+.ht-online-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #34D399;
+  box-shadow: 0 0 8px rgba(52,211,153,0.6); flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
 }
-.btn-next:not(:disabled):active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(252,211,77,0.2); }
-.btn-next:disabled {
-  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2);
-  box-shadow: none; cursor: not-allowed;
-  font-family: inherit; font-style: normal; font-size: 14px;
+.ht-offline-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0;
 }
+@keyframes pulse-dot { 0%,100%{box-shadow:0 0 6px rgba(52,211,153,0.5)} 50%{box-shadow:0 0 14px rgba(52,211,153,0.9)} }
+.ht-toggle-text { }
+.ht-toggle-status { font-size: 12px; font-weight: 700; color: #fff; }
+.ht-toggle-sub { font-size: 9.5px; color: rgba(255,255,255,0.35); margin-top: 1px; }
 
+/* SWITCH */
+.ht-switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+.ht-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.ht-switch-track {
+  position: absolute; inset: 0; border-radius: 13px; cursor: pointer;
+  background: rgba(255,255,255,0.15); transition: background 0.3s;
+}
+.ht-switch-track.on { background: #34D399; }
+.ht-switch-thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; transition: transform 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.ht-switch-thumb.on { transform: translateX(20px); }
 
-/* =============================================
-   MODAL ORDER — premium galaxy
-   ============================================= */
-.order-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75); z-index: 700;
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-}
-.order-overlay.open { display: block; }
-
-.order-modal {
-  display: none; position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100% - 48px); max-width: 380px;
-  max-height: 90vh; overflow-y: auto;
-  z-index: 800;
-  background: #1A2030;
-  border-radius: 26px;
-  border: 1px solid rgba(138,168,200,0.22);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-  padding: 24px 22px 28px;
-  overscroll-behavior: contain;
-}
-.order-modal.open {
-  display: block;
-  animation: omFadeIn 0.28s cubic-bezier(0.22,1,0.36,1);
-}
-@keyframes omFadeIn {
-  from { transform: translate(-50%, -47%); opacity: 0; }
-  to   { transform: translate(-50%, -50%); opacity: 1; }
-}
-
-/* Top row */
-.order-top-row {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 18px;
-}
-.order-modal-title {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 23px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 14px rgba(252,211,77,0.35));
-}
-.order-close-btn {
-  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-  background: rgba(255,255,255,0.08);
-  border: 0.5px solid rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.6); font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; line-height: 1;
-  transition: all 0.15s;
-}
-.order-close-btn:active { background: rgba(255,255,255,0.18); color: #fff; }
-
-/* Card talent — glass premium */
-.order-talent-card {
-  display: flex; align-items: center; gap: 14px;
-  background: rgba(255,255,255,0.09);
-  border: 1px solid transparent;
-  background-clip: padding-box;
-  border-radius: 18px; padding: 13px 15px;
-  margin-bottom: 22px;
+/* ORDER MASUK CARD */
+.ht-order-card {
+  background: linear-gradient(135deg, #1A0818 0%, #2A0F20 100%);
+  border: 1px solid rgba(236,72,153,0.3);
+  border-radius: 16px; padding: 10px 12px; margin-bottom: 10px;
   position: relative; overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(252,211,77,0.4), 0 0 16px rgba(252,211,77,0.08);
+  box-shadow: 0 4px 24px rgba(236,72,153,0.08);
+  display: none;
 }
-.order-talent-card::before {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 18px;
-  padding: 1px;
-  background: linear-gradient(135deg, #FFF5A0, #FCD34D 40%, rgba(245,158,11,0.4) 70%, transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
+.ht-order-card.show { display: block; animation: slideDown 0.3s cubic-bezier(0.22,1,0.36,1); }
+@keyframes slideDown { from{transform:translateY(-10px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+.ht-order-card::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%);
   pointer-events: none;
 }
-.order-talent-card::after {
-  content: '';
-  position: absolute; top: -30px; right: -20px;
-  width: 100px; height: 100px;
-  background: radial-gradient(circle, rgba(252,211,77,0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.order-talent-avatar {
-  width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 21px; font-weight: 800; color: #fff;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-}
-.order-talent-name { font-size: 15px; font-weight: 800; color: #fff; }
-.order-talent-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 3px; line-height: 1.4; }
-
-/* Steps */
-.order-step { display: none; }
-.order-step.show { display: block; }
-
-/* Label */
-.om-label {
-  font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em;
-  text-transform: uppercase; color: rgba(255,255,255,0.5);
-  margin-bottom: 6px;
-}
-.om-sublabel {
-  font-size: 12px; color: rgba(255,255,255,0.5);
-  margin-bottom: 14px; line-height: 1.5;
-}
-
-/* Input voucher */
-.om-voucher-row { display: flex; gap: 8px; margin-bottom: 16px; }
-.voucher-code-input {
-  flex: 1; height: 52px;
-  background: rgba(255,255,255,0.09);
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 15px; padding: 0 18px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 600; color: #fff;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  outline: none; transition: all 0.2s;
-}
-.voucher-code-input:focus {
-  border-color: rgba(252,211,77,0.35);
-  background: rgba(252,211,77,0.03);
-  box-shadow: 0 0 0 3px rgba(252,211,77,0.06);
-}
-.voucher-code-input::placeholder {
-  text-transform: none; letter-spacing: 0; font-weight: 400;
-  color: rgba(255,255,255,0.3); font-size: 13px;
-}
-
-/* Tombol Pesan Sekarang */
-.om-btn-pesan {
-  width: 100%; height: 52px; border-radius: 15px; border: none;
-  background: linear-gradient(135deg,#FFF8CC 0%,#FCD34D 45%,#F59E0B 100%);
-  color: #1a0f00; font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 18px; font-weight: 400;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  gap: 8px; transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 4px 24px rgba(252,211,77,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
-  letter-spacing: 0.01em;
-}
-.om-btn-pesan:disabled {
-  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2);
-  box-shadow: none; cursor: not-allowed; font-style: normal; font-family: inherit; font-size: 14px;
-}
-.om-btn-pesan:not(:disabled):active { transform: scale(0.97); box-shadow: 0 2px 12px rgba(252,211,77,0.2); }
-
-.om-lock-note {
-  text-align: center; font-size: 11px; color: rgba(255,255,255,0.2);
-  margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px;
-}
-.om-beli-link {
-  text-align: center; font-size: 12.5px; color: rgba(255,255,255,0.45);
-  margin-top: 14px;
-}
-.om-beli-link a {
-  color: #FCD34D; font-weight: 700; text-decoration: none;
-  border-bottom: 1px solid rgba(252,211,77,0.4); cursor: pointer;
-}
-
-/* Layanan list */
-.om-layanan-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
-.om-layanan-item {
+.ht-order-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px; border-radius: 16px; cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.03); transition: all 0.15s;
+  margin-bottom: 8px;
 }
-.om-layanan-item:active { transform: scale(0.98); }
-.om-layanan-item.selected {
-  border-color: rgba(252,211,77,0.4);
-  background: rgba(252,211,77,0.06);
+.ht-order-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(236,72,153,0.8);
 }
-.om-layanan-left { display: flex; align-items: center; gap: 12px; }
-.om-layanan-emoji { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
-.om-layanan-name { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.85); }
-.om-layanan-item.selected .om-layanan-name { color: #fff; }
-.om-layanan-right { display: flex; align-items: center; gap: 10px; }
-.om-layanan-dur {
-  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.08); border-radius: 20px;
-  padding: 4px 10px;
+.ht-order-blink {
+  width: 7px; height: 7px; border-radius: 50%; background: #EC4899;
+  box-shadow: 0 0 8px rgba(236,72,153,0.7);
+  animation: blink 1s ease-in-out infinite;
 }
-.om-layanan-item.selected .om-layanan-dur {
-  background: rgba(252,211,77,0.15); color: #FCD34D;
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.ht-order-timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px; font-weight: 700; color: #fff;
+  letter-spacing: -0.02em;
 }
-.om-layanan-check {
-  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
-  border: 1.5px solid rgba(255,255,255,0.2);
+.ht-order-timer.urgent { color: #EC4899; }
+
+.ht-order-info { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ht-order-avatar {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: rgba(255,255,255,0.12);
   display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800; color: #fff;
+  border: 0.5px solid rgba(255,255,255,0.15);
+}
+.ht-order-client { font-size: 13px; font-weight: 800; color: #fff; }
+.ht-order-detail { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 1px; }
+.ht-order-price {
+  margin-left: auto; font-size: 13px; font-weight: 900;
+  color: #FCD34D; filter: drop-shadow(0 0 6px rgba(252,211,77,0.3));
+  white-space: nowrap;
+}
+
+.ht-order-progress {
+  height: 3px; background: rgba(255,255,255,0.08); border-radius: 3px;
+  margin-bottom: 8px; overflow: hidden;
+}
+.ht-order-progress-bar {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, #EC4899, #F97316);
+  transition: width 1s linear;
+}
+
+.ht-order-actions { display: flex; gap: 8px; }
+.ht-btn-tolak {
+  flex: 1; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7); font-family: inherit;
+  font-size: 13px; font-weight: 700; cursor: pointer;
   transition: all 0.15s;
 }
-.om-layanan-item.selected .om-layanan-check {
-  background: #FCD34D; border-color: #FCD34D;
-  box-shadow: 0 0 8px rgba(252,211,77,0.4);
+.ht-btn-tolak:active { background: rgba(255,80,80,0.15); border-color: rgba(255,80,80,0.3); color: #FF6B6B; }
+.ht-btn-terima {
+  flex: 1; height: 36px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, #10B981, #34D399);
+  color: #fff; font-family: inherit;
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(52,211,153,0.3);
+  transition: all 0.15s;
 }
-.om-layanan-check-icon {
-  display: none; font-size: 12px; color: #1a1000; font-weight: 900;
-}
-.om-layanan-item.selected .om-layanan-check-icon { display: block; }
+.ht-btn-terima:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(52,211,153,0.2); }
 
-/* Voucher Berhasil card */
-.om-voucher-success-card {
-  background: rgba(255,255,255,0.04);
-  border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 18px; overflow: hidden; margin-bottom: 4px;
+/* SIMULASI BTN */
+.ht-sim-btn {
+  width: 100%; height: 48px; border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5); font-family: inherit;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.15s;
 }
-.om-vs-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 16px;
-  background: rgba(52,211,153,0.08);
-  border-bottom: 0.5px solid rgba(52,211,153,0.12);
-}
-.om-vs-check {
-  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-  background: #34D399; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 900;
-}
-.om-vs-title { font-size: 14px; font-weight: 800; color: #34D399; }
-.om-vs-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
-.om-vs-body { padding: 0 16px; }
-.om-vs-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 0;
-}
-.om-vs-icon {
-  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
-  background: rgba(255,255,255,0.08);
-  display: flex; align-items: center; justify-content: center; font-size: 16px;
-}
-.om-vs-label { flex: 1; font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; }
-.om-vs-val { font-size: 14px; font-weight: 800; color: #FCD34D; }
-.om-vs-val-white { font-size: 14px; font-weight: 800; color: #fff; }
-.om-vs-divider { height: 0.5px; background: rgba(255,255,255,0.06); }
-
-/* Nav layanan & konfirmasi */
-.om-nav { display: flex; gap: 8px; margin-top: 18px; }
-.om-btn-back {
-  height: 48px; padding: 0 18px; border-radius: 14px; border: none;
-  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5);
-  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-}
-.om-btn-next {
-  flex: 1; height: 48px; border-radius: 14px; border: none;
-  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
-  color: #1a1000; font-family: inherit; font-size: 14px; font-weight: 900;
-  cursor: pointer; transition: opacity 0.15s, transform 0.15s;
-}
-.om-btn-next:disabled {
-  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2); cursor: not-allowed;
-}
-.om-btn-next:not(:disabled):active { transform: scale(0.97); }
-
-/* Konfirmasi */
-.om-confirm-list { display: flex; flex-direction: column; }
-.om-confirm-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 11px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); font-size: 13px;
-}
-.om-confirm-row:last-child { border-bottom: none; }
-.om-confirm-label { color: rgba(255,255,255,0.35); font-weight: 500; }
-.om-confirm-val { color: #fff; font-weight: 700; }
-.om-confirm-val.pink { color: #FCD34D; }
-
-/* Sukses */
-.om-success { text-align: center; padding: 12px 0 8px; }
-.om-success-icon { font-size: 48px; margin-bottom: 14px; }
-.om-success-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-.om-success-sub { font-size: 12.5px; color: rgba(255,255,255,0.35); line-height: 1.6; }
-.om-success-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  margin-top: 14px; padding: 8px 18px; border-radius: 20px;
-  background: rgba(52,211,153,0.08); border: 0.5px solid rgba(52,211,153,0.2);
-  font-size: 11px; font-weight: 700; color: #34D399;
-}
-
-/* Countdown */
-.om-countdown-card {
-  background: rgba(252,211,77,0.05);
-  border: 0.5px solid rgba(252,211,77,0.15);
-  border-radius: 16px; padding: 16px; margin-top: 16px; text-align: center;
-}
-.om-countdown-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(252,211,77,0.6); margin-bottom: 8px; }
-.om-countdown-timer { font-size: 36px; font-weight: 900; color: #FCD34D; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
-.om-countdown-bar-wrap { height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
-.om-countdown-bar { height: 100%; width: 100%; background: #FCD34D; border-radius: 4px; transition: width 1s linear; }
-.om-countdown-note { font-size: 10.5px; color: rgba(255,255,255,0.25); line-height: 1.5; }
-
-
-/* =============================================
-   DRAWER MENU — premium galaxy
-   ============================================= */
-.drawer-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.7); z-index: 900;
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-}
-.drawer-overlay.open { display: block; }
-
-.drawer {
-  position: fixed; top: 0; right: -100%; bottom: 0;
-  width: 82%; max-width: 300px;
-  background: linear-gradient(160deg, #06060F 0%, #0A0A1E 50%, #0C0A20 100%);
-  border-left: 0.5px solid rgba(252,211,77,0.08);
-  box-shadow: -20px 0 60px rgba(0,0,0,0.6);
-  z-index: 1000; display: flex; flex-direction: column;
-  transition: right 0.35s cubic-bezier(0.22,1,0.36,1);
-  overflow: hidden;
-}
-.drawer.open { right: 0; }
-
-/* Bintang dekoratif di dalam drawer */
-.drawer-stars {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
-}
-.drawer-star {
-  position: absolute; border-radius: 50%;
-  background: #fff; animation: twinkle1 3s ease-in-out infinite;
-}
-
-/* Header */
-.drawer-header {
-  position: relative; z-index: 1;
-  padding: 60px 22px 24px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.05);
-}
-/* Glow efek di belakang logo */
-.drawer-header::before {
-  content: '';
-  position: absolute; top: 30px; left: 10px;
-  width: 120px; height: 60px;
-  background: radial-gradient(ellipse, rgba(252,211,77,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-.drawer-logo {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-size: 26px; font-weight: 400;
-  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 12px rgba(252,211,77,0.3));
-  display: block; margin-bottom: 6px;
-}
-.drawer-tagline {
-  font-size: 11px; color: rgba(255,255,255,0.3);
-  font-style: italic; line-height: 1.5; letter-spacing: 0.01em;
-}
-
-/* Menu */
-.drawer-menu { flex: 1; padding: 10px 0 16px; position: relative; z-index: 1; overflow-y: auto; }
-
-.drawer-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 12px 20px; cursor: pointer; position: relative;
-  transition: all 0.2s;
-}
-.drawer-item::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgba(252,211,77,0.04) 0%, transparent 100%);
-  opacity: 0; transition: opacity 0.2s;
-}
-.drawer-item:active::after { opacity: 1; }
-.drawer-item.active-item::before {
-  content: '';
-  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-  width: 3px; height: 22px; border-radius: 0 4px 4px 0;
-  background: linear-gradient(135deg,#FFF5A0,#F59E0B);
-  box-shadow: 0 0 8px rgba(252,211,77,0.4);
-}
-
-/* Icon dengan glow efek per item */
-.drawer-item-icon {
-  width: 40px; height: 40px; border-radius: 13px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-  position: relative;
-}
-.drawer-item:nth-child(1) .drawer-item-icon { background: rgba(252,211,77,0.1); box-shadow: 0 0 16px rgba(252,211,77,0.08); }
-.drawer-item:nth-child(2) .drawer-item-icon { background: rgba(139,92,246,0.12); box-shadow: 0 0 16px rgba(139,92,246,0.08); }
-.drawer-item:nth-child(4) .drawer-item-icon { background: rgba(52,211,153,0.1); box-shadow: 0 0 16px rgba(52,211,153,0.08); }
-.drawer-item:nth-child(5) .drawer-item-icon { background: rgba(99,179,237,0.1); box-shadow: 0 0 16px rgba(99,179,237,0.08); }
-.drawer-item:nth-child(6) .drawer-item-icon { background: rgba(167,139,250,0.1); box-shadow: 0 0 16px rgba(167,139,250,0.08); }
-.drawer-item:nth-child(7) .drawer-item-icon { background: rgba(248,180,112,0.1); box-shadow: 0 0 16px rgba(248,180,112,0.08); }
-
-.drawer-item-text { flex: 1; }
-.drawer-item-label {
-  font-size: 13.5px; font-weight: 700; color: rgba(255,255,255,0.82);
-  letter-spacing: 0.01em;
-}
-.drawer-item.active-item .drawer-item-label { color: #FCD34D; }
-.drawer-item-desc { font-size: 10.5px; color: rgba(255,255,255,0.22); margin-top: 1px; }
-.drawer-item-arrow { font-size: 14px; color: rgba(255,255,255,0.12); }
-
-.drawer-divider {
-  height: 0.5px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-  margin: 6px 20px;
-}
-
-/* Danger */
-.drawer-item.danger .drawer-item-icon { background: rgba(255,80,80,0.1); box-shadow: 0 0 16px rgba(255,80,80,0.06); }
-.drawer-item.danger .drawer-item-label { color: rgba(255,110,110,0.85); }
-.drawer-item.danger .drawer-item-arrow { color: rgba(255,80,80,0.2); }
-
-/* Footer */
-.drawer-footer {
-  position: relative; z-index: 1;
-  padding: 16px 22px 48px; text-align: center;
-  border-top: 0.5px solid rgba(255,255,255,0.04);
-}
-.drawer-footer-moon {
-  font-size: 22px; opacity: 0.35; display: block; margin-bottom: 8px;
-  animation: logoGlow 4s ease-in-out infinite;
-}
-.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.12); line-height: 1.6; }
-
+.ht-sim-btn:active { background: rgba(255,255,255,0.08); color: #fff; }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- STARFIELD SVG -->
+  <!-- STARFIELD -->
   <svg class="starfield" viewBox="0 0 480 900" preserveAspectRatio="xMidYMid slice">
-    <!-- Small stars -->
     <circle cx="23" cy="45" r="0.8" fill="white" style="animation:twinkle1 2.1s infinite;"/>
     <circle cx="67" cy="120" r="0.6" fill="white" style="animation:twinkle2 3.2s infinite;"/>
     <circle cx="145" cy="30" r="1" fill="white" style="animation:twinkle1 1.8s infinite;"/>
@@ -1462,21 +343,14 @@ html, body {
     <circle cx="290" cy="860" r="0.8" fill="white" style="animation:twinkle2 2.1s infinite;"/>
     <circle cx="380" cy="820" r="1" fill="white" style="animation:twinkle1 2.7s infinite;"/>
     <circle cx="450" cy="880" r="0.6" fill="white" style="animation:twinkle3 1.6s infinite;"/>
-
-    <!-- Colored stars -->
     <circle cx="190" cy="150" r="1.2" fill="#60D9FA" style="animation:twinkle1 2.5s infinite;"/>
-    <circle cx="350" cy="300" r="1" fill="#F472B6" style="animation:twinkle2 2.2s infinite;"/>
-    <circle cx="80" cy="450" r="1.3" fill="#A78BFA" style="animation:twinkle3 3s infinite;"/>
+    <circle cx="350" cy="300" r="1" fill="#38BDF8" style="animation:twinkle2 2.2s infinite;"/>
+    <circle cx="80" cy="450" r="1.3" fill="#5EEAD4" style="animation:twinkle3 3s infinite;"/>
     <circle cx="420" cy="500" r="1.1" fill="#60D9FA" style="animation:twinkle1 1.9s infinite;"/>
-    <circle cx="150" cy="620" r="1" fill="#F472B6" style="animation:twinkle2 2.6s infinite;"/>
+    <circle cx="150" cy="620" r="1" fill="#7DD3FC" style="animation:twinkle2 2.6s infinite;"/>
     <circle cx="310" cy="750" r="1.2" fill="#34D399" style="animation:twinkle3 2.3s infinite;"/>
     <circle cx="50" cy="700" r="1" fill="#FCD34D" style="animation:twinkle1 2.8s infinite;"/>
-    <circle cx="440" cy="650" r="1.1" fill="#A78BFA" style="animation:twinkle2 1.7s infinite;"/>
-
-    <!-- Shooting star -->
-    <line x1="380" y1="100" x2="420" y2="80" stroke="rgba(255,255,255,0.85)" stroke-width="1" style="opacity:0;animation:shootingStar 5s ease-out 0.5s infinite;animation-fill-mode:both;"/>
-
-    <!-- Milky way glow -->
+    <circle cx="440" cy="650" r="1.1" fill="#5EEAD4" style="animation:twinkle2 1.7s infinite;"/>
     <ellipse cx="240" cy="450" rx="200" ry="30" fill="rgba(255,255,255,0.02)" transform="rotate(-20 240 450)"/>
     <ellipse cx="240" cy="450" rx="160" ry="18" fill="rgba(200,200,255,0.02)" transform="rotate(-20 240 450)"/>
   </svg>
@@ -1484,1514 +358,304 @@ html, body {
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
-      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" style="animation: logoGlow 4s ease-in-out infinite;">
+      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" style="animation:logoGlow 4s ease-in-out infinite;">
         <defs>
-          <linearGradient id="lgBg" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="lgBg2" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#2A1F05"/>
             <stop offset="100%" stop-color="#3D2A00"/>
           </linearGradient>
-          <linearGradient id="lgMoon" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="lgMoon2" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#FFF1B8"/>
             <stop offset="55%" stop-color="#FCD34D"/>
             <stop offset="100%" stop-color="#F59E0B"/>
           </linearGradient>
-          <radialGradient id="lgInnerGlow" cx="0.35" cy="0.35" r="0.7">
+          <radialGradient id="lgInnerGlow2" cx="0.35" cy="0.35" r="0.7">
             <stop offset="0%" stop-color="rgba(255,220,140,0.35)"/>
             <stop offset="100%" stop-color="rgba(255,220,140,0)"/>
           </radialGradient>
-          <mask id="lgMoonMask">
+          <mask id="lgMoonMask2">
             <rect width="40" height="40" fill="black"/>
             <circle cx="19" cy="20" r="9" fill="white"/>
             <circle cx="23.5" cy="17" r="8.2" fill="black"/>
           </mask>
         </defs>
-        <!-- squircle plate -->
-        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgBg)" stroke="rgba(252,211,77,0.25)" stroke-width="0.6"/>
-        <!-- soft inner light -->
-        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgInnerGlow)"/>
-        <!-- crescent moon -->
-        <rect width="40" height="40" fill="url(#lgMoon)" mask="url(#lgMoonMask)"/>
-        <!-- four-point sparkle -->
-        <g transform="translate(28.5 11.5)" style="animation: twinkleSpark 2.6s ease-in-out infinite; transform-origin: 28.5px 11.5px;">
+        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgBg2)" stroke="rgba(252,211,77,0.25)" stroke-width="0.6"/>
+        <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="11.5" fill="url(#lgInnerGlow2)"/>
+        <rect width="40" height="40" fill="url(#lgMoon2)" mask="url(#lgMoonMask2)"/>
+        <g transform="translate(28.5 11.5)" style="animation:twinkleSpark 2.6s ease-in-out infinite;transform-origin:28.5px 11.5px;">
           <path d="M0,-3.2 L0.8,-0.8 L3.2,0 L0.8,0.8 L0,3.2 L-0.8,0.8 L-3.2,0 L-0.8,-0.8 Z" fill="#FFF4C8"/>
         </g>
-        <!-- tiny stardust -->
-        <circle cx="11.5" cy="12.5" r="0.8" fill="rgba(255,240,180,0.9)" style="animation: twinkleSpark 3.4s ease-in-out infinite 0.6s;"/>
-        <circle cx="13.5" cy="28" r="0.55" fill="rgba(255,240,180,0.6)" style="animation: twinkleSpark 4s ease-in-out infinite 1.2s;"/>
-        <circle cx="30" cy="27" r="0.5" fill="rgba(255,240,180,0.5)" style="animation: twinkleSpark 3s ease-in-out infinite 0.3s;"/>
+        <circle cx="11.5" cy="12.5" r="0.8" fill="rgba(255,240,180,0.9)" style="animation:twinkleSpark 3.4s ease-in-out infinite 0.6s;"/>
       </svg>
-      <span class="logo-text" style="background:linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 6px rgba(252,211,77,0.4));">SleepcallPay</span>
+      <span class="logo-text">SleepcallPay</span>
+      <div class="navbar-badge">TALENT</div>
     </div>
     <div class="hamburger">
       <span></span><span></span><span></span>
     </div>
-    <div class="navbar-stars"><div class="moving-star s1"></div></div>
   </nav>
 
   <!-- CONTENT -->
   <div class="content">
+    <div class="ht-section">
 
-    <!-- GREETING -->
-    <div class="greeting">
-      <div class="greet-row">
-        <span class="greet-time" id="greetTime">Selamat malam</span>
-        <span class="greet-emoji" aria-hidden="true">✨</span>
-      </div>
-      <h1 class="greet-headline">Mau ditemani siapa <em>malam ini</em>?</h1>
-      <p class="greet-sub" id="greetSub">Pilih talent favoritmu, dengarkan suara yang nyaman, lalu tidur nyenyak.</p>
-    </div>
-
-
-    <!-- VOUCHER SECTION -->
-    <div class="voucher-section">
-      <button class="voucher-btn" onclick="openVoucher()" >
-        <div class="voucher-left">
-          <div class="voucher-icon">🎟️</div>
-          <div class="voucher-text">
-            <div class="voucher-title">Beli Voucher</div>
-            <div class="voucher-sub">Top up saldo untuk bayar order talent</div>
+      <!-- PROFILE CARD -->
+      <div class="ht-profile-card">
+        <div class="ht-profile-top">
+          <div class="ht-avatar">V</div>
+          <div>
+            <div class="ht-greet">Selamat pagi,</div>
+            <div class="ht-name">Vania <span class="ht-name-spark">✨</span></div>
+            <div class="ht-meta">Bergabung 2024</div>
           </div>
         </div>
-        <span class="voucher-arrow">›</span>
+
+        <!-- TOGGLE ONLINE -->
+        <div class="ht-toggle-row" onclick="toggleOnline()">
+          <div class="ht-toggle-left">
+            <div id="statusDot" class="ht-online-dot"></div>
+            <div class="ht-toggle-text">
+              <div class="ht-toggle-status" id="statusText">Online — Siap menerima order</div>
+              <div class="ht-toggle-sub" id="statusSub">Profilmu tampil di list customer</div>
+            </div>
+          </div>
+          <div class="ht-switch">
+            <div class="ht-switch-track on" id="switchTrack"></div>
+            <div class="ht-switch-thumb on" id="switchThumb"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POIN CARD -->
+      <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(252,211,77,0.15);border-radius:16px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+        <span style="font-size:16px;">⭐</span>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;">POIN DISIPLIN</span>
+            <span style="font-size:12px;font-weight:900;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="poinVal">50 <span style="-webkit-text-fill-color:rgba(255,255,255,0.3);font-size:10px;font-weight:500">/ 100</span></span>
+          </div>
+          <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
+            <div id="poinBar" style="height:100%;width:50%;border-radius:4px;background:linear-gradient(90deg,#FCD34D,#F59E0B);box-shadow:0 0 8px rgba(252,211,77,0.4);transition:width 0.6s cubic-bezier(0.22,1,0.36,1);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER MASUK CARD -->
+      <div class="ht-order-card" id="orderCard">
+        <div class="ht-order-header">
+          <div class="ht-order-label">
+            <div class="ht-order-blink"></div>
+            Order Masuk
+          </div>
+          <div class="ht-order-timer" id="orderTimer">2:00</div>
+        </div>
+        <div class="ht-order-info">
+          <div class="ht-order-avatar" id="orderClientAvatar">A</div>
+          <div>
+            <div class="ht-order-client" id="orderClientName">Andi · Sleep Call</div>
+            <div class="ht-order-detail" id="orderClientDetail">60 menit · estimasi mulai sekarang</div>
+          </div>
+          <div style="text-align:right;margin-left:auto;">
+            <div class="ht-order-price" id="orderPrice">—</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;">untukmu (60%)</div>
+          </div>
+        </div>
+        <div class="ht-order-progress">
+          <div class="ht-order-progress-bar" id="orderProgressBar" style="width:100%"></div>
+        </div>
+
+        <!-- Nomor WA reveal setelah terima -->
+        <div id="orderRevealBox" style="display:none;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px;">
+          <div style="font-size:13px;font-weight:700;color:#34D399;" id="orderRevealNumber">—</div>
+          <button onclick="salinNomor()" style="background:rgba(52,211,153,0.12);border:0.5px solid rgba(52,211,153,0.25);border-radius:8px;padding:5px 12px;color:#34D399;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;">Salin</button>
+        </div>
+
+        <div class="ht-order-actions" id="orderActions">
+          <button class="ht-btn-tolak" onclick="tolakOrder()">Tolak</button>
+          <button class="ht-btn-terima" onclick="terimaOrder()">Terima</button>
+        </div>
+
+        <!-- Tutup setelah terima -->
+        <button id="orderCloseBtn" onclick="closeOrder()" style="display:none;width:100%;height:38px;border-radius:12px;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:2px;">Tutup</button>
+      </div>
+
+      <!-- SIMULASI BTN -->
+      <button class="ht-sim-btn" onclick="simulasiOrder()">
+        ⚡ Simulasi order masuk (demo)
       </button>
-    </div>
 
-    <!-- TALENT SECTION -->
-    <div class="section-header">
-      <span class="section-title" style="font-family: Inter; font-weight: 800; color: rgb(255, 255, 255)">Talent Tersedia</span>
-      <div class="gender-filter">
-        <button class="gender-btn active-all" onclick="filterGender('all', this)">Semua</button>
-        <button class="gender-btn inactive" onclick="filterGender('w', this)">♀</button>
-        <button class="gender-btn inactive" onclick="filterGender('p', this)">♂</button>
-      </div>
-    </div>
-    <div class="talent-list">
-      
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#E8D5C4,#A78A7F);">V</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Vania</div>
-                <span class="gender-badge w">♀ 21 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual</div>
-            <div class="card-bio">Haii! Aku Vania, suka dengerin cerita kamu sambil menemanimu tidur. Suaraku lembut dan aku sangat sabar. Udah lebih dari 1000 sesi dan selalu dapat rating bintang 5! Jangan ragu buat chat aku dulu ya, aku fast respon kok dan selalu available malam hari.</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 312</span><span class='stat-divider'>·</span><span class='stat-repeat'>⟳ 31x</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>312</span></div>
-        <div class="tooltip-row">⟳ Repeat Order: <span>31x</span></div>
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#BFB7D8,#544A7A);">M</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Mirelle</div>
-                <span class="gender-badge w">♀ 23 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Teman Call · Pacar Virtual</div>
-            <div class="card-bio">Halo! Aku Mirelle, lulusan psikologi yang bisa jadi teman curhat kamu. Bisa bahasa Indonesia dan Inggris. Aku bakal dengerin semua cerita kamu tanpa menghakimi, bantu kamu ngerasa lebih tenang dan didengar. Udah banyak pelanggan setia yang selalu balik ke aku!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 198</span><span class='stat-divider'>·</span><span class='stat-repeat'>⟳ 18x</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>198</span></div>
-        <div class="tooltip-row">⟳ Repeat Order: <span>18x</span></div>
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#C5D4C0,#5A7A52);">N</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Nadira</div>
-                <span class="gender-badge w">♀ 19 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual · Mabar ML</div>
-            <div class="card-bio">Hai kak! Aku Nadira, aku orangnya asik, seru, dan bisa jadi teman ngobrol yang nyenengin! Mau cerita apapun aman sama aku, aku ga akan judge. Aku available hampir tiap malam dan suka dengerin musik lo-fi bareng sambil ngobrol santai. Yuk temenin malammu bareng aku!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 87</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>87</span></div>
-        
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#D4C5C0,#7A5A52);">S</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Sasha</div>
-                <span class="gender-badge w">♀ 22 thn</span>
-              </div>
-              <span class="card-status" style="color:rgba(255,255,255,0.3);">
-                <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);display:inline-block;"></span>Offline
-              </span>
-            </div>
-            <div class="card-services">Sleep Call · Mabar ML</div>
-            <div class="card-bio">Haii! Aku Sasha, suka main game dan sleep call bareng. Fast respon dan selalu ceria!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan off">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 145</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>145</span></div>
-        
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#C0C5D4,#524A7A);">K</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Kiraa</div>
-                <span class="gender-badge w">♀ 20 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Teman Call · Sleep Call · Mabar</div>
-            <div class="card-bio">Hai kak! Aku Kiraa, pecinta lo-fi dan talkative banget. Dijamin ga bakal sepi ngobrol sama aku!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 203</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>203</span></div>
-        
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#D4C0C5,#7A5264);">L</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Luna</div>
-                <span class="gender-badge w">♀ 24 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Pacar Virtual · Sleep Call · Curhat</div>
-            <div class="card-bio">Halo! Aku Luna, bisa jadi pacar virtual yang perhatian. Selalu ada buat kamu setiap malam.</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 176</span><span class='stat-divider'>·</span><span class='stat-repeat'>⟳ 12x</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>176</span></div>
-        <div class="tooltip-row">⟳ Repeat Order: <span>12x</span></div>
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#D4D0C0,#7A7052);">T</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Tasya</div>
-                <span class="gender-badge w">♀ 21 thn</span>
-              </div>
-              <span class="card-status" style="color:rgba(255,255,255,0.3);">
-                <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);display:inline-block;"></span>Offline
-              </span>
-            </div>
-            <div class="card-services">Curhat Call · Teman Call</div>
-            <div class="card-bio">Hai! Aku Tasya, pendengar setia yang siap dengerin cerita kamu. Yuk curhat bareng aku!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan off">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 92</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>92</span></div>
-        
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#C8BFD8,#604A7A);">B</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Bella</div>
-                <span class="gender-badge w">♀ 22 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Sleep · Teman · Curhat · Pacar Virtual · Mabar</div>
-            <div class="card-bio">Haii semuaa! Aku Bella, bisa semua layanan! Sleep call, curhat, mabar, semua bisa bareng aku.</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 441</span><span class='stat-divider'>·</span><span class='stat-repeat'>⟳ 24x</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>441</span></div>
-        <div class="tooltip-row">⟳ Repeat Order: <span>24x</span></div>
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#BFC5D4,#4A527A);">R</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Rizky</div>
-                <span class="gender-badge p">♂ 23 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Teman Call · Mabar ML · Sleep Call</div>
-            <div class="card-bio">Halo! Aku Rizky, bro yang asik buat temenin mabar atau ngobrol santai. GG dan fast respon!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 167</span><span class='stat-divider'>·</span><span class='stat-repeat'>⟳ 9x</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>167</span></div>
-        <div class="tooltip-row">⟳ Repeat Order: <span>9x</span></div>
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#C0C5C0,#527A52);">D</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Daffa</div>
-                <span class="gender-badge p">♂ 22 thn</span>
-              </div>
-              <span class="card-status" style="color:#34D399;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;"></span>Online
-              </span>
-            </div>
-            <div class="card-services">Mabar ML · Teman Call · Curhat</div>
-            <div class="card-bio">Hai! Aku Daffa, suka mabar ML dan ngobrol seru. Yuk temenin malam kamu bareng aku!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 134</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>134</span></div>
-        
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-        <div class="talent-card">
-          <div class="card-avatar" style="background:linear-gradient(135deg,#C5C0C0,#7A5252);">A</div>
-          <div class="card-info">
-            <div class="card-top">
-              <div>
-                <div class="card-name">Arkan</div>
-                <span class="gender-badge p">♂ 24 thn</span>
-              </div>
-              <span class="card-status" style="color:rgba(255,255,255,0.3);">
-                <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);display:inline-block;"></span>Offline
-              </span>
-            </div>
-            <div class="card-services">Mabar ML · Teman Call</div>
-            <div class="card-bio">Halo kak! Aku Arkan, santai dan enak diajak ngobrol. Mabar bareng aku yuk, dijamin seru!</div>
-            <div class="card-bottom">
-              <button class="btn-pesan off">Order Sekarang</button>
-            <div class="card-stats-row" 
-      onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
-      onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
-      ontouchstart="this.querySelector('.stat-tooltip').classList.add('show');event.preventDefault()"
-      ontouchend="this.querySelector('.stat-tooltip').classList.remove('show')">
-      <span class="stat-order">📞 78</span>
-      <div class="stat-tooltip">
-        <div class="tooltip-row">📞 Total Order: <span>78</span></div>
-        
-      </div>
-    </div></div>
-          </div>
-        </div>
-    
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- TWEAKS PANEL -->
-<button id="tweaks-fab" type="button" aria-label="Open tweaks">✦</button>
-<div id="tweaks-panel" role="dialog" aria-label="Tweaks">
-  <div class="tw-head">
-    <span class="tw-title">Tweaks</span>
-    <button class="tw-close" type="button" aria-label="Close">×</button>
-  </div>
-
-  <div class="tw-section" data-key="vibe">
-    <div class="tw-label">Vibe</div>
-    <div class="tw-seg">
-      <button class="tw-opt" data-vibe="cosmic" data-value="cosmic"><span class="tw-swatch"></span>Cosmic</button>
-      <button class="tw-opt" data-vibe="sunset" data-value="sunset"><span class="tw-swatch"></span>Sunset</button>
-      <button class="tw-opt" data-vibe="aurora" data-value="aurora"><span class="tw-swatch"></span>Aurora</button>
     </div>
   </div>
-
-  <div class="tw-section" data-key="card">
-    <div class="tw-label">Card form</div>
-    <div class="tw-seg">
-      <button class="tw-opt" data-value="glass">Glass</button>
-      <button class="tw-opt" data-value="solid">Tinted</button>
-      <button class="tw-opt" data-value="outline">Hairline</button>
-    </div>
-  </div>
-
-  <div class="tw-section" data-key="type">
-    <div class="tw-label">Type voice</div>
-    <div class="tw-seg">
-      <button class="tw-opt" data-value="serif" style="font-family:'Instrument Serif',serif;font-style:italic;font-size:13px;">Editorial</button>
-      <button class="tw-opt" data-value="display" style="font-family:'Poppins',sans-serif;font-weight:900;">POP</button>
-      <button class="tw-opt" data-value="mono" style="font-family:'JetBrains Mono',monospace;letter-spacing:-0.04em;">mono</button>
-    </div>
-  </div>
-</div>
 
 <script>
-// Tweakable defaults — host rewrites this block on persist.
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "vibe": "cosmic",
-  "card": "glass",
-  "type": "display"
-}/*EDITMODE-END*/;
+// ===== SISTEM POIN =====
+let poin = 50;
 
-(function(){
-  const panel = document.getElementById('tweaks-panel');
-  const fab = document.getElementById('tweaks-fab');
-  const closeBtn = panel.querySelector('.tw-close');
-  const app = document.getElementById('app');
-  const body = document.body;
-  let state = Object.assign({}, TWEAK_DEFAULTS);
-  let editModeActive = false;
+function updatePoin(delta) {
+  poin = Math.max(0, Math.min(100, poin + delta));
+  document.getElementById('poinVal').innerHTML = poin + ' <span>/ 100</span>';
+  document.getElementById('poinBar').style.width = poin + '%';
 
-  function apply() {
-    // vibe applies on body so starfield + #app gradient both swap
-    body.classList.remove('vibe-cosmic','vibe-sunset','vibe-aurora');
-    body.classList.add('vibe-' + state.vibe);
-    body.classList.remove('card-glass','card-solid','card-outline');
-    body.classList.add('card-' + state.card);
-    body.classList.remove('type-serif','type-display','type-mono');
-    body.classList.add('type-' + state.type);
-
-    // reflect active state in panel
-    panel.querySelectorAll('.tw-section').forEach(sec => {
-      const key = sec.getAttribute('data-key');
-      sec.querySelectorAll('.tw-opt').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-value') === state[key]);
-      });
-    });
-  }
-
-  function persist(partial) {
-    try {
-      window.parent.postMessage({type: '__edit_mode_set_keys', edits: partial}, '*');
-    } catch(e) {}
-  }
-
-  panel.addEventListener('click', (e) => {
-    const opt = e.target.closest('.tw-opt');
-    if (!opt) return;
-    const sec = opt.closest('.tw-section');
-    const key = sec.getAttribute('data-key');
-    const val = opt.getAttribute('data-value');
-    if (state[key] === val) return;
-    state[key] = val;
-    apply();
-    persist({[key]: val});
-  });
-
-  function openPanel() {
-    panel.classList.add('open');
-    fab.classList.remove('open');
-  }
-  function closePanel() {
-    panel.classList.remove('open');
-    fab.classList.add('open');
-    try { window.parent.postMessage({type: '__edit_mode_dismissed'}, '*'); } catch(e){}
-  }
-
-  closeBtn.addEventListener('click', closePanel);
-  fab.addEventListener('click', openPanel);
-
-  // Edit-mode protocol
-  window.addEventListener('message', (e) => {
-    const d = e.data || {};
-    if (d.type === '__activate_edit_mode') {
-      editModeActive = true;
-      openPanel();
-    } else if (d.type === '__deactivate_edit_mode') {
-      editModeActive = false;
-      panel.classList.remove('open');
-      fab.classList.remove('open');
-    }
-  });
-
-  apply();
-
-  // Announce availability AFTER listener is registered
-  try { window.parent.postMessage({type: '__edit_mode_available'}, '*'); } catch(e){}
-})();
-</script>
-
-<script>
-document.querySelectorAll('.talent-card').forEach(card => {
-  card.addEventListener('click', function() {
-    this.classList.remove('pulsing');
-    void this.offsetWidth;
-    this.classList.add('pulsing');
-    setTimeout(() => this.classList.remove('pulsing'), 350);
-  });
-});
-</script>
-<script>
-// ANTI COPY
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('cut', e => e.preventDefault());
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-</script>
-
-<script>
-function isOnline(card) {
-  const s = card.querySelector('.card-status');
-  return s && s.textContent.trim().includes('Online');
-}
-function getGender(card) {
-  const b = card.querySelector('.gender-badge');
-  return b && b.classList.contains('w') ? 'w' : 'p';
-}
-
-function sortAndRender(filterGenderVal) {
-  const list = document.querySelector('.talent-list');
-  const allCards = Array.from(list.querySelectorAll('.talent-card'));
-
-  // Show/hide berdasarkan filter
-  allCards.forEach(c => {
-    if (filterGenderVal === 'all') c.style.display = '';
-    else c.style.display = getGender(c) === filterGenderVal ? '' : 'none';
-  });
-
-  const visible = allCards.filter(c => c.style.display !== 'none');
-
-  if (filterGenderVal === 'all') {
-    // Pisah online/offline dulu
-    const onlineW = visible.filter(c => isOnline(c) && getGender(c) === 'w');
-    const onlineP = visible.filter(c => isOnline(c) && getGender(c) === 'p');
-    const offlineW = visible.filter(c => !isOnline(c) && getGender(c) === 'w');
-    const offlineP = visible.filter(c => !isOnline(c) && getGender(c) === 'p');
-
-    // Online semua dulu dengan pola 3w-3p, lalu offline 3w-3p
-    const sorted = [];
-    let iW = 0, iP = 0;
-    // Masukkan semua online: 3w, 3p, 3w, 3p...
-    while (iW < onlineW.length || iP < onlineP.length) {
-      for (let k = 0; k < 3 && iW < onlineW.length; k++, iW++) sorted.push(onlineW[iW]);
-      for (let k = 0; k < 3 && iP < onlineP.length; k++, iP++) sorted.push(onlineP[iP]);
-    }
-    // Lalu semua offline: 3w, 3p, 3w, 3p...
-    let jW = 0, jP = 0;
-    while (jW < offlineW.length || jP < offlineP.length) {
-      for (let k = 0; k < 3 && jW < offlineW.length; k++, jW++) sorted.push(offlineW[jW]);
-      for (let k = 0; k < 3 && jP < offlineP.length; k++, jP++) sorted.push(offlineP[jP]);
-    }
-    sorted.forEach(c => list.appendChild(c));
+  // Warna bar sesuai poin
+  const bar = document.getElementById('poinBar');
+  if (poin >= 80) {
+    bar.style.background = 'linear-gradient(90deg,#FCD34D,#F59E0B)';
+    bar.style.boxShadow = '0 0 8px rgba(252,211,77,0.4)';
+  } else if (poin >= 50) {
+    bar.style.background = 'linear-gradient(90deg,#34D399,#10B981)';
+    bar.style.boxShadow = '0 0 8px rgba(52,211,153,0.4)';
   } else {
-    // Filter gender tertentu: online dulu, offline kemudian
-    const online = visible.filter(c => isOnline(c));
-    const offline = visible.filter(c => !isOnline(c));
-    [...online, ...offline].forEach(c => list.appendChild(c));
+    bar.style.background = 'linear-gradient(90deg,#F87171,#EF4444)';
+    bar.style.boxShadow = '0 0 8px rgba(248,113,113,0.4)';
+  }
+
+  if (delta > 0) showToast('⭐ +' + delta + ' poin! Total: ' + poin + '/100');
+  else if (delta < 0) showToast('⚠️ ' + Math.abs(delta) + ' poin berkurang! Total: ' + poin + '/100');
+}
+let isOnline = true;
+function toggleOnline() {
+  isOnline = !isOnline;
+  const dot = document.getElementById('statusDot');
+  const text = document.getElementById('statusText');
+  const sub = document.getElementById('statusSub');
+  const track = document.getElementById('switchTrack');
+  const thumb = document.getElementById('switchThumb');
+  if (isOnline) {
+    dot.className = 'ht-online-dot';
+    text.textContent = 'Online — Siap menerima order';
+    sub.textContent = 'Profilmu tampil di list customer';
+    track.classList.add('on'); thumb.classList.add('on');
+  } else {
+    dot.className = 'ht-offline-dot';
+    text.textContent = 'Offline — Tidak menerima order';
+    sub.textContent = 'Profilmu disembunyikan dari customer';
+    track.classList.remove('on'); thumb.classList.remove('on');
   }
 }
 
-// Filter gender button
-function filterGender(gender, btn) {
-  document.querySelectorAll('.gender-btn').forEach(b => b.className = 'gender-btn inactive');
-  if (gender === 'all') btn.className = 'gender-btn active-all';
-  else if (gender === 'w') btn.className = 'gender-btn active-w';
-  else btn.className = 'gender-btn active-p';
-  sortAndRender(gender);
-}
-
-window.addEventListener('load', () => sortAndRender('all'));
-
-// Time-aware greeting
-(function(){
-  const t = document.getElementById('greetTime');
-  const s = document.getElementById('greetSub');
-  const e = document.querySelector('.greet-emoji');
-  const h = document.querySelector('.greet-headline');
-  if (!t) return;
-  const hr = new Date().getHours();
-  let label, emoji, sub, headline;
-  if (hr >= 5 && hr < 11)       { label = 'Selamat pagi';  emoji = '☀️'; headline = 'Mau ditemani siapa <em>pagi ini</em>?';  sub = 'Mulai harimu dengan obrolan hangat dan suara yang nyaman.'; }
-  else if (hr >= 11 && hr < 15) { label = 'Selamat siang'; emoji = '🌤️'; headline = 'Mau ditemani siapa <em>siang ini</em>?'; sub = 'Istirahat sejenak, ngobrol santai, lalu lanjut produktif.'; }
-  else if (hr >= 15 && hr < 18) { label = 'Selamat sore';  emoji = '🌅'; headline = 'Mau ditemani siapa <em>sore ini</em>?';  sub = 'Sore yang tenang lebih nyaman bareng teman ngobrol.'; }
-  else                          { label = 'Selamat malam'; emoji = '✨'; headline = 'Mau ditemani siapa <em>malam ini</em>?'; sub = 'Pilih talent favoritmu, dengarkan suara yang nyaman, lalu tidur nyenyak.'; }
-  t.textContent = label;
-  if (e) e.textContent = emoji;
-  if (h) h.innerHTML = headline;
-  if (s) s.textContent = sub;
-})();
-
-// AVATAR AUDIO SAMPLES
-// Click avatar → plays a synthesized voice-sample placeholder.
-// Each talent gets a unique calming melody seeded from their name.
-(function(){
-  let audioCtx = null;
-  let activeCard = null;
-  let activeStop = null;
-  let activeTimer = null;
-
-  function strHash(s) {
-    let h = 0;
-    for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
-    return Math.abs(h);
-  }
-  function fmt(sec) { return '0:' + String(Math.max(0, Math.ceil(sec))).padStart(2, '0'); }
-
-  function ensureCtx() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    return audioCtx;
-  }
-
-  // Synthesize a soft pad + melodic sequence (placeholder for a real voice sample)
-  function playSample(seed, durationSec) {
-    const ctx = ensureCtx();
-    const out = ctx.createGain();
-    out.gain.value = 0;
-    out.connect(ctx.destination);
-
-    // soft fade in/out envelope
-    const t0 = ctx.currentTime;
-    out.gain.linearRampToValueAtTime(0.18, t0 + 0.4);
-    out.gain.setValueAtTime(0.18, t0 + durationSec - 0.6);
-    out.gain.linearRampToValueAtTime(0, t0 + durationSec);
-
-    // Pentatonic-ish notes for calm feel
-    const scale = [220.00, 246.94, 277.18, 329.63, 369.99, 440.00, 493.88, 554.37];
-    const baseIdx = seed % scale.length;
-    const noteCount = 7;
-    const notes = [];
-    let idx = baseIdx;
-    for (let i = 0; i < noteCount; i++) {
-      idx = (idx + ((seed >> (i * 2)) & 3) - 1 + scale.length) % scale.length;
-      notes.push(scale[idx]);
-    }
-
-    // Drone pad
-    const pad = ctx.createOscillator();
-    pad.type = 'sine';
-    pad.frequency.value = scale[baseIdx] / 2;
-    const padGain = ctx.createGain();
-    padGain.gain.value = 0.25;
-    pad.connect(padGain).connect(out);
-    pad.start(t0);
-    pad.stop(t0 + durationSec);
-
-    // Melody
-    const stepDur = (durationSec - 0.5) / noteCount;
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      osc.type = (seed % 2) ? 'triangle' : 'sine';
-      osc.frequency.value = freq;
-      const g = ctx.createGain();
-      const start = t0 + 0.2 + i * stepDur;
-      const peak = start + 0.05;
-      const end = start + stepDur * 0.9;
-      g.gain.setValueAtTime(0, start);
-      g.gain.linearRampToValueAtTime(0.5, peak);
-      g.gain.exponentialRampToValueAtTime(0.001, end);
-      osc.connect(g).connect(out);
-      osc.start(start);
-      osc.stop(end + 0.05);
-    });
-
-    return function stop() {
-      try { out.gain.cancelScheduledValues(ctx.currentTime); } catch(e){}
-      try { out.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.15); } catch(e){}
-    };
-  }
-
-  function stopActive() {
-    if (activeStop) { try { activeStop(); } catch(e){} activeStop = null; }
-    if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
-    if (activeCard) {
-      activeCard.classList.remove('playing');
-      const dur = activeCard.querySelector('.av-duration-text');
-      if (dur) dur.textContent = activeCard.dataset.duration || '0:14';
-      activeCard = null;
-    }
-  }
-
-  function setupAvatar(av) {
-    if (av.dataset.audioReady) return;
-    av.dataset.audioReady = '1';
-    // duration based on hash → 8–18 sec
-    const card = av.closest('.talent-card');
-    const name = (card && card.querySelector('.card-name')?.textContent.trim()) || av.textContent.trim() || 'x';
-    const seed = strHash(name);
-    const duration = 8 + (seed % 11); // 8..18 sec
-    av.dataset.seed = seed;
-    av.dataset.durSec = duration;
-    av.dataset.duration = fmt(duration);
-
-    // Build overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'av-overlay';
-    overlay.innerHTML =
-      '<span class="av-ring r1"></span>' +
-      '<span class="av-ring r2"></span>' +
-      '<span class="av-ring r3"></span>' +
-      '<span class="av-play">' +
-        '<svg viewBox="0 0 12 12"><polygon points="3,2 10,6 3,10"/></svg>' +
-        '<span class="av-eq"><span></span><span></span><span></span><span></span></span>' +
-      '</span>';
-    av.appendChild(overlay);
-
-    const dur = document.createElement('span');
-    dur.className = 'av-duration';
-    dur.innerHTML = '<span class="av-duration-text">' + fmt(duration) + '</span>';
-    av.appendChild(dur);
-
-    av.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (activeCard === av) {
-        stopActive();
-        return;
-      }
-      stopActive();
-      activeCard = av;
-      av.classList.add('playing');
-      const durSec = +av.dataset.durSec;
-      activeStop = playSample(+av.dataset.seed, durSec);
-      const startedAt = Date.now();
-      const durText = av.querySelector('.av-duration-text');
-      activeTimer = setInterval(() => {
-        const remaining = durSec - (Date.now() - startedAt) / 1000;
-        if (remaining <= 0) { stopActive(); return; }
-        if (durText) durText.textContent = fmt(remaining);
-      }, 200);
-    });
-  }
-
-  document.querySelectorAll('.card-avatar').forEach(setupAvatar);
-})();
-
-// TALENT TAGS — distribute Top / Baru / Repeat / Verified per talent
-(function(){
-  const tagMap = {
-    Vania:   ['top'],
-    Mirelle: ['top'],
-    Nadira:  ['baru'],
-    Sasha:   [],
-    Kiraa:   ['baru'],
-    Luna:    [],
-    Tasya:   [],
-    Bella:   ['top'],
-    Rizky:   [],
-    Daffa:   ['baru'],
-    Arkan:   []
-  };
-  const labels = {
-    top:      { text: 'Top Talent', icon: '<svg viewBox="0 0 10 10"><polygon points="5,1 6.2,3.8 9,4 6.7,5.9 7.4,8.7 5,7.2 2.6,8.7 3.3,5.9 1,4 3.8,3.8" fill="currentColor"/></svg>' },
-    baru:     { text: 'Baru',       icon: '<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="2.4" fill="currentColor"/></svg>' },
-    repeat:   { text: 'Repeat',     icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5a3 3 0 0 1 5.5-1.7"/><polyline points="7.5,1.6 7.5,3.6 5.5,3.6"/><path d="M8 5a3 3 0 0 1-5.5 1.7"/><polyline points="2.5,8.4 2.5,6.4 4.5,6.4"/></svg>' }
-  };
-  document.querySelectorAll('.talent-card').forEach(card => {
-    const name = card.querySelector('.card-name')?.textContent.trim();
-    const tags = tagMap[name];
-    if (!tags || !tags.length) return;
-    const genderBadge = card.querySelector('.gender-badge');
-    if (!genderBadge) return;
-    const row = document.createElement('span');
-    row.className = 'tag-row';
-    tags.forEach(k => {
-      const t = labels[k]; if (!t) return;
-      const el = document.createElement('span');
-      el.className = 't-tag ' + k;
-      el.innerHTML = t.icon + '<span>' + t.text + '</span>';
-      row.appendChild(el);
-    });
-    genderBadge.insertAdjacentElement('afterend', row);
-  });
-})();
-</script>
-
-
-
-<!-- VOUCHER OVERLAY -->
-<div class="voucher-overlay" id="vOverlay"></div>
-
-<!-- VOUCHER MODAL -->
-<div class="voucher-modal" id="vModal">
-  <div class="modal-handle"></div>
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
-    <div class="modal-title">🎟️ Beli Voucher</div>
-    <button onclick="closeVoucherModal()" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;">×</button>
-  </div>
-  <div class="modal-sub">Voucher berlaku untuk semua layanan</div>
-
-  <!-- STEP DOTS -->
-  <div class="step-indicator">
-    <div class="step-dot active" id="sd1"></div>
-    <div class="step-dot" id="sd2"></div>
-    <div class="step-dot" id="sd3"></div>
-  </div>
-
-  <!-- STEP 1: PILIH NOMINAL -->
-  <div class="step show" id="step1">
-    <div class="nominal-title">Pilih Nominal Voucher</div>
-    <div class="nominal-grid">
-      <div class="nominal-item" onclick="selectNominal(this, 10000)"><div class="nominal-amount">Rp 10rb</div></div>
-      <div class="nominal-item" onclick="selectNominal(this, 20000)"><div class="nominal-amount">Rp 20rb</div></div>
-      <div class="nominal-item" onclick="selectNominal(this, 30000)"><div class="nominal-amount">Rp 30rb</div></div>
-      <div class="nominal-item" onclick="selectNominal(this, 40000)"><div class="nominal-amount">Rp 40rb</div></div>
-      <div class="nominal-item" onclick="selectNominal(this, 50000)"><div class="nominal-amount">Rp 50rb</div></div>
-      <div class="nominal-item" onclick="selectNominal(this, 60000)"><div class="nominal-amount">Rp 60rb</div></div>
-    </div>
-
-    <div class="layanan-info" id="layananInfo">
-      <div class="nominal-title">Durasi yang kamu dapat</div>
-      <div class="layanan-grid" id="layananGrid"></div>
-    </div>
-
-    <div class="modal-nav">
-      <button class="btn-next" id="btnStep1" onclick="goStep(2)" disabled>Lanjut →</button>
-    </div>
-  </div>
-
-  <!-- STEP 2: NOMOR WA -->
-  <div class="step" id="step2">
-    <div class="wa-label">Nomor WhatsApp Kamu</div>
-    <div class="wa-input-wrap">
-      
-      <input class="wa-input" id="waInput" type="tel" placeholder="Contoh: 08123456789" oninput="checkWa()" onfocus="setTimeout(()=>this.scrollIntoView({behavior:'smooth',block:'center'}),300)"/>
-    </div>
-    <div class="wa-hint">Pastikan nomor ini benar — talent akan menghubungi kamu via WhatsApp saat voucher digunakan</div>
-    <div class="modal-nav">
-      <button class="btn-back" onclick="goStep(1)">← Kembali</button>
-      <button class="btn-next" id="btnStep2" onclick="goStep(3)" disabled>Lanjut →</button>
-    </div>
-  </div>
-
-  <!-- STEP 3: KONFIRMASI & BELI -->
-  <div class="step" id="step3">
-    <div class="summary-card" id="summaryCard"></div>
-    <button class="buy-opt buy-opt-wa" onclick="buyViaWA()">
-      <div class="buy-opt-icon">💬</div>
-      <div class="buy-opt-text">
-        <div class="buy-opt-title">Beli via Admin WA</div>
-        <div class="buy-opt-sub">Detail dikirim ke admin, voucher dibuatkan manual</div>
-      </div>
-      <span class="buy-opt-arrow">›</span>
-    </button>
-    <button class="buy-opt buy-opt-web" onclick="buyViaWeb()">
-      <div class="buy-opt-icon">💳</div>
-      <div class="buy-opt-text">
-        <div class="buy-opt-title">Beli via Website</div>
-        <div class="buy-opt-sub">Bayar otomatis, voucher langsung dikirim</div>
-      </div>
-      <span class="buy-opt-arrow">›</span>
-    </button>
-    <div class="modal-nav" style="margin-top:12px;">
-      <button class="btn-back" onclick="goStep(2)">← Kembali</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// VOUCHER MODAL
-const PRICELIST = {
-  teman:  { label: '🎧 Teman Call',   durations: {10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam'} },
-  sleep:  { label: '🌙 Sleep Call',   durations: {10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam'} },
-  curhat: { label: '💬 Curhat Call',  durations: {10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam'} },
-  pv:     { label: '❤️ Pacar Virtual',durations: {10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt'} },
-};
-const ADMIN_FEE = 3000;
-const ADMIN_WA = '6281234269016';
-
-let vNominal = 0, vWA = '', vLayanan = null;
-
-function openVoucher() {
-  document.getElementById('vOverlay').classList.add('open');
-  document.getElementById('vModal').classList.add('open');
-  document.body.classList.add('modal-open');
-  goStep(1);
-  const firstItem = document.querySelector('.nominal-item');
-  if (firstItem) selectNominal(firstItem, 10000);
-}
-function closeVoucherModal(e) {
-  document.getElementById('vOverlay').classList.remove('open');
-  document.getElementById('vModal').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-
-function goStep(n) {
-  [1,2,3].forEach(i => {
-    document.getElementById('step'+i).classList.toggle('show', i===n);
-    const sd = document.getElementById('sd'+i);
-    sd.classList.toggle('active', i===n);
-    sd.classList.toggle('done', i<n);
-  });
-  if (n===3) renderSummary();
-}
-
-function selectNominal(el, amount) {
-  document.querySelectorAll('.nominal-item').forEach(x => x.classList.remove('selected'));
-  el.classList.add('selected');
-  vNominal = amount;
-  // Tampilkan durasi per layanan
-  const grid = document.getElementById('layananGrid');
-  grid.innerHTML = Object.entries(PRICELIST).map(([key, s]) =>
-    `<div class="layanan-item" onclick="selectLayanan(this, '${key}')" data-key="${key}">
-      <div class="layanan-name">${s.label}</div>
-      <div class="layanan-dur">${s.durations[amount]}</div>
-    </div>`
-  ).join('');
-  vLayanan = null;
-  document.getElementById('layananInfo').classList.add('show');
-  document.getElementById('btnStep1').disabled = true;
-}
-
-function selectLayanan(el, key) {
-  document.querySelectorAll('.layanan-item').forEach(x => x.classList.remove('selected'));
-  el.classList.add('selected');
-  vLayanan = key;
-  document.getElementById('btnStep1').disabled = false;
-}
-
-function checkWa() {
-  vWA = document.getElementById('waInput').value.trim();
-  document.getElementById('btnStep2').disabled = vWA.length < 9;
-}
-
-function fmt(n) { return 'Rp ' + n.toLocaleString('id'); }
-
-function renderSummary() {
-  const total = vNominal + ADMIN_FEE;
-  const layananLabel = vLayanan ? PRICELIST[vLayanan].label + ' · ' + PRICELIST[vLayanan].durations[vNominal] : 'Semua layanan';
-  document.getElementById('summaryCard').innerHTML = `
-    <div class="summary-row"><span class="summary-label">Layanan</span><span class="summary-val">${layananLabel}</span></div>
-    <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
-    <div class="summary-row"><span class="summary-label">Biaya admin</span><span class="summary-val">${fmt(ADMIN_FEE)}</span></div>
-    <div class="summary-row"><span class="summary-label" style="font-weight:800;color:#fff;">Total</span><span class="summary-total">${fmt(total)}</span></div>
-  `;
-}
-
-function formatWA(num) {
-  num = num.trim().replace(/\D/g, ''); // hapus non-digit
-  if (num.startsWith('62')) return num;
-  if (num.startsWith('0')) return '62' + num.slice(1);
-  return '62' + num;
-}
-
-function buyViaWA() {
-  const msg = encodeURIComponent(
-    '🎟️ *BELI VOUCHER SLEEPCALLPAY*\n\n' +
-    'Nominal voucher: ' + fmt(vNominal) + '\n' +
-    'Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
-    'WhatsApp: ' + vWA + '\n\n' +
-    'Mohon kirimkan QRIS untuk pembayaran. Terima kasih.'
-  );
-  window.open('https://wa.me/' + ADMIN_WA + '?text=' + msg, '_blank');
-  closeVoucherModal();
-}
-
-function buyViaWeb() {
-  alert('Fitur beli via website segera hadir!');
-}
-</script>
-
-<!-- MODAL ORDER VOUCHER -->
-<div class="order-overlay" id="orderOverlay"></div>
-<div class="order-modal" id="orderModal">
-
-  <!-- Top row -->
-  <div class="order-top-row">
-    <span class="order-modal-title">Pesan Layanan</span>
-    <button class="order-close-btn" onclick="closeOrderModal()">×</button>
-  </div>
-
-  <!-- Card talent -->
-  <div class="order-talent-card">
-    <div class="order-talent-avatar" id="orderAvatar">?</div>
-    <div>
-      <div class="order-talent-name" id="orderTalentName">—</div>
-      <div class="order-talent-sub" id="orderTalentSub">—</div>
-    </div>
-  </div>
-
-  <!-- Step 1: Input Voucher -->
-  <div class="order-step show" id="orderStep1">
-    <div class="om-label">Masukkan Kode Voucher</div>
-    <div class="om-sublabel">Masukkan kode voucher yang kamu beli dari admin.</div>
-    <div class="om-voucher-row">
-      <input class="voucher-code-input" id="voucherCodeInput" type="text" placeholder="KODE VOUCHER" oninput="onVoucherInput(this)" autocomplete="off"/>
-    </div>
-    <button class="om-btn-pesan" id="orderBtnPesan" onclick="orderGoStep(2)" disabled>
-      ✦ Pesan Sekarang
-    </button>
-    <div class="om-lock-note" id="omLockNote">🔒 Masukkan kode voucher untuk melanjutkan</div>
-    <div class="om-beli-link">Belum punya voucher? <a onclick="closeOrderModal(); openVoucher();">Beli di sini</a></div>
-  </div>
-
-  <!-- Step 2: Pilih Layanan -->
-  <div class="order-step" id="orderStep2">
-    <!-- Card Voucher Berhasil -->
-    <div class="om-voucher-success-card">
-      <div class="om-vs-header">
-        <div class="om-vs-check">✓</div>
-        <div>
-          <div class="om-vs-title">Voucher Berhasil!</div>
-          <div class="om-vs-sub">Berikut detail voucher kamu.</div>
-        </div>
-      </div>
-      <div class="om-vs-body">
-        <div class="om-vs-row">
-          <div class="om-vs-icon">🎟️</div>
-          <span class="om-vs-label">Saldo Voucher</span>
-          <span class="om-vs-val" id="omVsNominal">—</span>
-        </div>
-        <div class="om-vs-divider"></div>
-        <div class="om-vs-row">
-          <div class="om-vs-icon">📱</div>
-          <span class="om-vs-label">Nomor WhatsApp</span>
-          <span class="om-vs-val-white" id="omVsWa">—</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="om-label" style="margin-top:18px;">Pilih Layanan</div>
-    <div class="om-layanan-list" id="orderLayananGrid"></div>
-    <div class="om-nav">
-      <button class="om-btn-back" onclick="orderGoStep(1)">←</button>
-      <button class="om-btn-next" id="orderBtn2" onclick="orderGoStep(3)" disabled>Lanjut</button>
-    </div>
-  </div>
-
-  <!-- Step 3: Konfirmasi -->
-  <div class="order-step" id="orderStep3">
-    <div class="om-label">Konfirmasi Order</div>
-    <div class="om-confirm-list" id="orderConfirmCard"></div>
-    <div class="om-nav">
-      <button class="om-btn-back" onclick="orderGoStep(2)">←</button>
-      <button class="om-btn-next" onclick="submitOrder()">Kirim Order</button>
-    </div>
-  </div>
-
-  <!-- Step 4: Menunggu Konfirmasi -->
-  <div class="order-step" id="orderStep4">
-
-    <!-- State: Menunggu -->
-    <div id="omStateWaiting">
-      <div class="om-success">
-        <div class="om-success-icon">📨</div>
-        <div class="om-success-title">Order Terkirim!</div>
-        <div class="om-success-sub">Notifikasi sudah dikirim ke <strong id="notifTalentName">talent</strong>.<br>Menunggu konfirmasi...</div>
-      </div>
-      <div class="om-countdown-card">
-        <div class="om-countdown-label">Batas waktu konfirmasi</div>
-        <div class="om-countdown-timer" id="omCountdown">2:00</div>
-        <div class="om-countdown-bar-wrap"><div class="om-countdown-bar" id="omCountdownBar"></div></div>
-        <div class="om-countdown-note">Jika tidak ada konfirmasi dalam 2 menit, talent akan otomatis offline dan voucher kamu tetap bisa digunakan.</div>
-      </div>
-      <div class="om-nav" style="gap:8px;">
-        <button class="om-btn-back" onclick="simulateReject()" style="flex:1;color:#ff6b6b;border:0.5px solid rgba(255,100,100,0.2);">✕ Tolak</button>
-        <button class="om-btn-next" onclick="simulateAccept()">✓ Terima</button>
-      </div>
-      <div style="font-size:10px;color:rgba(255,255,255,0.2);text-align:center;margin-top:8px;">Tombol simulasi — hanya untuk preview</div>
-    </div>
-
-    <!-- State: Timeout -->
-    <div id="omStateTimeout" style="display:none;">
-      <div class="om-success">
-        <div class="om-success-icon">⏰</div>
-        <div class="om-success-title">Waktu Habis</div>
-        <div class="om-success-sub"><strong id="timeoutTalentName">Talent</strong> tidak merespons dalam 2 menit dan sekarang otomatis offline.<br><br>Voucher kamu masih bisa digunakan untuk order talent lain.</div>
-      </div>
-      <div class="om-nav">
-        <button class="om-btn-next" onclick="closeOrderModal()">Cari Talent Lain</button>
-      </div>
-    </div>
-
-    <!-- State: Ditolak -->
-    <div id="omStateRejected" style="display:none;">
-      <div class="om-success">
-        <div class="om-success-icon">❌</div>
-        <div class="om-success-title">Order Ditolak</div>
-        <div class="om-success-sub"><strong id="rejectedTalentName">Talent</strong> tidak bisa menerima ordermu saat ini.<br><br>Voucher kamu masih bisa digunakan untuk order talent lain.</div>
-      </div>
-      <div class="om-nav">
-        <button class="om-btn-next" onclick="closeOrderModal()">Cari Talent Lain</button>
-      </div>
-    </div>
-
-    <!-- State: Diterima -->
-    <div id="omStateAccepted" style="display:none;">
-      <div class="om-success">
-        <div class="om-success-icon">✅</div>
-        <div class="om-success-title">Order Diterima!</div>
-        <div class="om-success-sub"><strong id="acceptedTalentName">Talent</strong> akan segera menghubungi kamu via WhatsApp.<br><br>Jika dalam <strong>5 menit</strong> belum dihubungi, segera hubungi admin.</div>
-      </div>
-      <div class="om-countdown-card" style="background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.15);">
-        <div class="om-countdown-label" style="color:#34D399;">Batas waktu talent menghubungi</div>
-        <div class="om-countdown-timer" id="omCountdown2" style="color:#34D399;">5:00</div>
-        <div class="om-countdown-bar-wrap"><div class="om-countdown-bar" id="omCountdownBar2" style="background:#34D399;"></div></div>
-      </div>
-      <div class="om-nav" style="gap:8px;">
-        <button class="om-btn-next" style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.6);flex:1;" onclick="window.open('https://wa.me/6281234269016','_blank')">Hubungi Admin</button>
-        <button class="om-btn-next" onclick="closeOrderModal()">Tutup</button>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<script>
-// =============================================
-// MODAL ORDER VOUCHER
-// =============================================
-const ORDER_PRICELIST = {
-  'Teman Call':    { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
-  'Sleep Call':    { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
-  'Curhat Call':   { 10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam' },
-  'Pacar Virtual': { 10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt' },
-  'Mabar ML':      { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
-  'Mabar':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
-  'Curhat':        { 10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam' },
-  'Sleep':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
-  'Teman':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
-};
-
-let orderTalent = { name: '', avatarText: '', avatarBg: '', services: [] };
-let orderVoucherCode = '';
-let orderVoucherNominal = 0;
-let orderSelectedLayanan = '';
-let orderTalentWA = '';
-
-function openOrderModal(btn) {
-  const card = btn.closest('.talent-card');
-  const name = card.querySelector('.card-name').textContent.trim();
-  const avatarEl = card.querySelector('.card-avatar');
-  const avatarBg = avatarEl.style.background || '#333';
-  const avatarText = avatarEl.textContent.trim();
-  const servicesText = card.querySelector('.card-services').textContent;
-  const ageBadge = card.querySelector('.gender-badge')?.textContent.trim() || '';
-  const services = servicesText.split('·').map(s => s.trim()).filter(Boolean);
-
-  orderTalent = { name, avatarText, avatarBg, services };
-
-  document.getElementById('orderTalentName').textContent = name;
-  document.getElementById('orderTalentSub').textContent = ageBadge + (ageBadge ? ' · ' : '') + servicesText;
-  document.getElementById('notifTalentName').textContent = name;
-  const av = document.getElementById('orderAvatar');
-  av.textContent = avatarText;
-  av.style.background = avatarBg;
-
-  document.getElementById('voucherCodeInput').value = '';
-  orderVoucherCode = '';
-  orderVoucherNominal = 0;
-  orderSelectedLayanan = '';
-  document.getElementById('orderBtnPesan').disabled = true;
-  document.getElementById('omLockNote').style.display = 'flex';
-
-  document.getElementById('orderOverlay').classList.add('open');
-  document.getElementById('orderModal').classList.add('open');
-  document.body.classList.add('modal-open');
-  orderGoStep(1);
-}
-
-function gunakanVoucher() {
-  const code = document.getElementById('voucherCodeInput').value.trim();
-  if (code.length >= 4) {
-    orderVoucherCode = code.toUpperCase();
-    orderVoucherNominal = 20000; // simulasi
-    document.getElementById('orderBtnPesan').disabled = false;
-    document.getElementById('omLockNote').style.display = 'none';
-  }
-}
-
-function closeOrderModal() {
-  document.getElementById('orderOverlay').classList.remove('open');
-  document.getElementById('orderModal').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-
-function orderGoStep(n) {
-  [1,2,3,4].forEach(i => {
-    document.getElementById('orderStep'+i).classList.toggle('show', i===n);
-  });
-  if (n===2) renderOrderLayanan();
-  if (n===3) renderOrderConfirm();
-}
-
-function onVoucherInput(input) {
-  orderVoucherCode = input.value.trim().toUpperCase();
-  const valid = orderVoucherCode.length >= 4;
-  document.getElementById('orderBtnPesan').disabled = !valid;
-  document.getElementById('omLockNote').style.display = valid ? 'none' : 'flex';
-  if (valid) {
-    orderVoucherNominal = 20000; // simulasi
-    // Ambil nomor WA dari input halaman beli voucher jika ada
-    orderTalentWA = document.getElementById('waInput')?.value?.trim() || '—';
-  }
-}
-
-function gunakanVoucher() {
-  const code = document.getElementById('voucherCodeInput').value.trim();
-  if (code.length >= 4) {
-    orderVoucherCode = code.toUpperCase();
-    orderVoucherNominal = 20000;
-    orderTalentWA = document.getElementById('waInput')?.value?.trim() || '—';
-    document.getElementById('orderBtnPesan').disabled = false;
-    document.getElementById('omLockNote').style.display = 'none';
-  }
-}
-
-const LAYANAN_EMOJI = {
-  'Teman Call': '📞', 'Sleep Call': '🌙', 'Curhat Call': '🫂',
-  'Pacar Virtual': '💕', 'Mabar ML': '🎮', 'Mabar': '🎮',
-  'Curhat': '🫂', 'Sleep': '🌙', 'Teman': '📞',
-};
-
-function renderOrderLayanan() {
-  const grid = document.getElementById('orderLayananGrid');
-  orderSelectedLayanan = '';
-  document.getElementById('orderBtn2').disabled = true;
-
-  // Isi card voucher berhasil
-  const wa = document.getElementById('waInputOrder')?.value || document.getElementById('voucherCodeInput')?.dataset.wa || '—';
-  document.getElementById('omVsNominal').textContent = 'Rp ' + orderVoucherNominal.toLocaleString('id');
-  document.getElementById('omVsWa').textContent = orderTalentWA || '—';
-
-  // Hanya tampilkan layanan milik talent ini — exact match
-  const talentServices = orderTalent.services.map(s => s.toLowerCase().trim());
-  const matchLayanan = Object.keys(ORDER_PRICELIST).filter(layanan =>
-    talentServices.some(s => s === layanan.toLowerCase())
-  );
-
-  grid.innerHTML = matchLayanan.map(layanan => {
-    const dur = ORDER_PRICELIST[layanan][orderVoucherNominal];
-    if (!dur) return '';
-    const emoji = LAYANAN_EMOJI[layanan] || '✦';
-    return `<div class="om-layanan-item" onclick="selectOrderLayanan(this,'${layanan}')">
-      <div class="om-layanan-left">
-        <span class="om-layanan-emoji">${emoji}</span>
-        <span class="om-layanan-name">${layanan}</span>
-      </div>
-      <div class="om-layanan-right">
-        <span class="om-layanan-dur">${dur}</span>
-        <div class="om-layanan-check"><span class="om-layanan-check-icon">✓</span></div>
-      </div>
-    </div>`;
-  }).filter(Boolean).join('');
-}
-
-function selectOrderLayanan(el, layanan) {
-  document.querySelectorAll('.om-layanan-item').forEach(x => x.classList.remove('selected'));
-  el.classList.add('selected');
-  orderSelectedLayanan = layanan;
-  document.getElementById('orderBtn2').disabled = false;
-}
-
-function renderOrderConfirm() {
-  const dur = ORDER_PRICELIST[orderSelectedLayanan]?.[orderVoucherNominal] || '—';
-  document.getElementById('orderConfirmCard').innerHTML = `
-    <div class="om-confirm-row"><span class="om-confirm-label">Talent</span><span class="om-confirm-val">${orderTalent.name}</span></div>
-    <div class="om-confirm-row"><span class="om-confirm-label">Layanan</span><span class="om-confirm-val pink">${orderSelectedLayanan}</span></div>
-    <div class="om-confirm-row"><span class="om-confirm-label">Durasi</span><span class="om-confirm-val pink">${dur}</span></div>
-    <div class="om-confirm-row"><span class="om-confirm-label">Kode Voucher</span><span class="om-confirm-val">${orderVoucherCode}</span></div>
-  `;
-}
-
-let omCountdownInterval = null;
-
-function submitOrder() {
-  document.getElementById('notifTalentName').textContent = orderTalent.name;
-  document.getElementById('timeoutTalentName').textContent = orderTalent.name;
-  document.getElementById('rejectedTalentName').textContent = orderTalent.name;
-  document.getElementById('acceptedTalentName').textContent = orderTalent.name;
-  orderGoStep(4);
-  startCountdown();
-}
-
-function startCountdown() {
-  // Reset semua state
-  document.getElementById('omStateWaiting').style.display = 'block';
-  document.getElementById('omStateTimeout').style.display = 'none';
-  document.getElementById('omStateRejected').style.display = 'none';
-  document.getElementById('omStateAccepted').style.display = 'none';
-
-  let total = 120; // 2 menit
-  if (omCountdownInterval) clearInterval(omCountdownInterval);
-
-  omCountdownInterval = setInterval(() => {
-    total--;
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    document.getElementById('omCountdown').textContent = m + ':' + String(s).padStart(2,'0');
-    document.getElementById('omCountdownBar').style.width = (total / 120 * 100) + '%';
-
-    if (total <= 0) {
-      clearInterval(omCountdownInterval);
-      // Timeout → talent otomatis offline
-      document.getElementById('omStateWaiting').style.display = 'none';
-      document.getElementById('omStateTimeout').style.display = 'block';
+// ===== ORDER MASUK =====
+let orderInterval = null;
+let orderSeconds = 120;
+
+const DEMO_ORDERS = [
+  { wa: '081234512345', layanan: 'Sleep Call', durasi: '60 menit', harga: 75000, avatar: 'A' },
+  { wa: '082198765432', layanan: 'Teman Call', durasi: '30 menit', harga: 30000, avatar: 'R' },
+  { wa: '085261754085', layanan: 'Curhat Call', durasi: '40 menit', harga: 20000, avatar: 'S' },
+  { wa: '089987601234', layanan: 'Pacar Virtual', durasi: '45 menit', harga: 30000, avatar: 'B' },
+];
+
+let currentOrderWA = '';
+
+function simulasiOrder() {
+  if (document.getElementById('orderCard').classList.contains('show')) return;
+  const order = DEMO_ORDERS[Math.floor(Math.random() * DEMO_ORDERS.length)];
+  const talentCut = Math.round(order.harga * 0.6);
+  currentOrderWA = order.wa;
+
+  // Tampilkan 5 digit terakhir saja
+  const maskedWA = '****' + order.wa.slice(-5);
+
+  document.getElementById('orderClientAvatar').textContent = order.avatar;
+  document.getElementById('orderClientName').textContent = maskedWA + ' · ' + order.layanan;
+  document.getElementById('orderClientDetail').textContent = order.durasi;
+  document.getElementById('orderPrice').textContent = 'Rp ' + talentCut.toLocaleString('id');
+  document.getElementById('orderCard').classList.add('show');
+  document.getElementById('orderRevealBox').style.display = 'none';
+  orderSeconds = 120;
+  updateTimer();
+  orderInterval = setInterval(() => {
+    orderSeconds--;
+    updateTimer();
+    if (orderSeconds <= 0) {
+      clearInterval(orderInterval);
+      timeoutOrder();
     }
   }, 1000);
-
-  // SIMULASI: talent terima setelah 8 detik (untuk demo/preview)
-  // Di production ini diganti dengan real-time backend
-  // setTimeout(() => simulateAccept(), 8000);
 }
 
-function simulateAccept() {
-  if (omCountdownInterval) clearInterval(omCountdownInterval);
-  document.getElementById('omStateWaiting').style.display = 'none';
-  document.getElementById('omStateAccepted').style.display = 'block';
-  startCountdown5();
+function updateTimer() {
+  const m = Math.floor(orderSeconds / 60);
+  const s = orderSeconds % 60;
+  const el = document.getElementById('orderTimer');
+  el.textContent = m + ':' + String(s).padStart(2, '0');
+  el.className = orderSeconds <= 30 ? 'ht-order-timer urgent' : 'ht-order-timer';
+  document.getElementById('orderProgressBar').style.width = (orderSeconds / 120 * 100) + '%';
 }
 
-function simulateReject() {
-  if (omCountdownInterval) clearInterval(omCountdownInterval);
-  document.getElementById('omStateWaiting').style.display = 'none';
-  document.getElementById('omStateRejected').style.display = 'block';
+function tolakOrder() {
+  clearInterval(orderInterval);
+  document.getElementById('orderCard').classList.remove('show');
 }
 
-function startCountdown5() {
-  let total = 300; // 5 menit
-  const interval = setInterval(() => {
-    total--;
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    document.getElementById('omCountdown2').textContent = m + ':' + String(s).padStart(2,'0');
-    document.getElementById('omCountdownBar2').style.width = (total / 300 * 100) + '%';
-    if (total <= 0) clearInterval(interval);
-  }, 1000);
+function terimaOrder() {
+  clearInterval(orderInterval);
+  const layanan = document.getElementById('orderClientName').textContent.split(' · ')[1];
+  document.getElementById('orderClientName').textContent = currentOrderWA + ' · ' + layanan;
+  document.getElementById('orderRevealBox').style.display = 'flex';
+  document.getElementById('orderRevealNumber').textContent = currentOrderWA;
+  document.getElementById('orderActions').style.display = 'none';
+  document.getElementById('orderCloseBtn').style.display = 'block';
+  document.getElementById('orderTimer').textContent = '✓';
+  document.getElementById('orderTimer').style.color = '#34D399';
+  document.getElementById('orderProgressBar').style.width = '100%';
+  document.getElementById('orderProgressBar').style.background = '#34D399';
+
+  // Auto salin nomor
+  navigator.clipboard.writeText(currentOrderWA).then(() => {
+    showToast('📋 Nomor ' + currentOrderWA + ' tersalin!');
+  }).catch(() => {
+    showToast('✅ Order diterima! Nomor: ' + currentOrderWA);
+  });
+  setTimeout(() => updatePoin(2), 1500);
 }
 
-// =============================================
-// DRAWER MENU
-// =============================================
-function openDrawer() {
-  document.getElementById('drawer').classList.add('open');
-  document.getElementById('drawerOverlay').classList.add('open');
-  document.body.classList.add('modal-open');
-}
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('drawerOverlay').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-function openDrawerPage(page) {
-  closeDrawer();
-  const pages = {
-    bantuan: 'Butuh bantuan? Hubungi admin kami via WhatsApp di 081234269016.',
-    terms: 'Terms & Conditions SleepcallPay akan tersedia segera.',
-    privacy: 'Privacy Policy SleepcallPay akan tersedia segera.',
-    refund: 'Refund Policy: Voucher yang sudah dibeli tidak dapat di-refund kecuali talent tidak tersedia.',
-    lapor: 'Untuk melaporkan talent, hubungi admin via WhatsApp di 081234269016 dengan menyertakan nama talent dan kronologi kejadian.'
-  };
-  alert(pages[page] || '');
+function showToast(msg) {
+  const existing = document.getElementById('ht-toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.id = 'ht-toast';
+  toast.textContent = msg;
+  toast.style.cssText = `
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    background: #1E2A1E; border: 0.5px solid rgba(52,211,153,0.4);
+    color: #34D399; font-size: 12px; font-weight: 700;
+    padding: 10px 18px; border-radius: 20px; z-index: 9999;
+    white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    animation: toastIn 0.25s cubic-bezier(0.22,1,0.36,1);
+    font-family: 'Inter', sans-serif;
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
 }
 
-// Sambungkan hamburger ke drawer
-document.querySelector('.hamburger').addEventListener('click', openDrawer);
+function salinNomor() {
+  navigator.clipboard.writeText(currentOrderWA).then(() => {
+    const btn = document.querySelector('#orderRevealBox button');
+    btn.textContent = '✓ Tersalin';
+    btn.style.color = '#34D399';
+    setTimeout(() => { btn.textContent = 'Salin'; }, 2000);
+  });
+}
 
+function closeOrder() {
+  document.getElementById('orderCard').classList.remove('show');
+  document.getElementById('orderActions').style.display = 'flex';
+  document.getElementById('orderCloseBtn').style.display = 'none';
+  document.getElementById('orderRevealBox').style.display = 'none';
+}
+
+function timeoutOrder() {
+  document.getElementById('orderCard').classList.remove('show');
+  updatePoin(-10);
+  if (isOnline) {
+    isOnline = false;
+    toggleOnline();
+    showToast('⏰ Tidak ada respons — otomatis offline');
+  }
+}
 </script>
-
-
-<!-- DRAWER OVERLAY -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-
-<!-- DRAWER -->
-<div class="drawer" id="drawer">
-  <!-- Bintang dekoratif -->
-  <div class="drawer-stars">
-    <div class="drawer-star" style="width:1.5px;height:1.5px;top:8%;left:75%;animation-delay:0s;opacity:0.6;"></div>
-    <div class="drawer-star" style="width:1px;height:1px;top:15%;left:55%;animation-delay:0.8s;opacity:0.4;"></div>
-    <div class="drawer-star" style="width:2px;height:2px;top:22%;left:88%;animation-delay:1.5s;opacity:0.5;"></div>
-    <div class="drawer-star" style="width:1px;height:1px;top:35%;left:70%;animation-delay:0.3s;opacity:0.3;"></div>
-    <div class="drawer-star" style="width:1.5px;height:1.5px;top:5%;left:40%;animation-delay:2s;opacity:0.5;"></div>
-  </div>
-
-  <div class="drawer-header">
-    <span class="drawer-logo">SleepcallPay</span>
-    <div class="drawer-tagline">Temani malammu dengan<br>suara yang nyaman 🌙</div>
-  </div>
-
-  <div class="drawer-menu">
-
-    <div class="drawer-item active-item" onclick="closeDrawer()">
-      <div class="drawer-item-icon">🏠</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Beranda</div>
-        <div class="drawer-item-desc">Lihat talent yang tersedia</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-    <div class="drawer-item" onclick="closeDrawer(); openVoucher();">
-      <div class="drawer-item-icon">🎟️</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Beli Voucher</div>
-        <div class="drawer-item-desc">Top up untuk mulai order</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-    <div class="drawer-divider"></div>
-
-    <div class="drawer-item" onclick="openDrawerPage('bantuan')">
-      <div class="drawer-item-icon">💬</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Bantuan</div>
-        <div class="drawer-item-desc">Hubungi admin kami</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-    <div class="drawer-item" onclick="openDrawerPage('terms')">
-      <div class="drawer-item-icon">📋</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Terms & Conditions</div>
-        <div class="drawer-item-desc">Syarat & ketentuan layanan</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-    <div class="drawer-item" onclick="openDrawerPage('privacy')">
-      <div class="drawer-item-icon">🔒</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Privacy Policy</div>
-        <div class="drawer-item-desc">Kebijakan privasi data</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-    <div class="drawer-item" onclick="openDrawerPage('refund')">
-      <div class="drawer-item-icon">↩️</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Refund Policy</div>
-        <div class="drawer-item-desc">Kebijakan pengembalian dana</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-    <div class="drawer-divider"></div>
-
-    <div class="drawer-item danger" onclick="openDrawerPage('lapor')">
-      <div class="drawer-item-icon">🚨</div>
-      <div class="drawer-item-text">
-        <div class="drawer-item-label">Laporkan Talent</div>
-        <div class="drawer-item-desc">Ada masalah dengan talent?</div>
-      </div>
-      <span class="drawer-item-arrow">›</span>
-    </div>
-
-  </div>
-
-  <div class="drawer-footer">
-    <div class="drawer-footer-moon">🌙</div>
-    <div class="drawer-footer-text">© 2025 SleepcallPay<br>All rights reserved</div>
-  </div>
-</div>
-
-
 </body>
 </html>
