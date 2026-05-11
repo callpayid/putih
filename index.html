@@ -788,126 +788,634 @@ html, body {
 .voucher-modal {
   display: none; position: fixed;
   top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: calc(100% - 32px); max-width: 440px;
+  width: calc(100% - 48px); max-width: 380px;
   max-height: 88vh; overflow-y: auto;
   z-index: 600;
-  background: #0F0F1E;
-  border-radius: 24px;
+  background: linear-gradient(160deg, #12112A 0%, #181630 60%, #1A1235 100%);
+  border-radius: 26px;
   border: 0.5px solid rgba(252,211,77,0.2);
-  padding: 20px;
+  box-shadow: 0 0 0 0.5px rgba(255,255,255,0.06), 0 24px 80px rgba(0,0,0,0.7), 0 0 60px rgba(252,211,77,0.06);
+  padding: 22px 20px 26px;
+  overscroll-behavior: contain;
 }
-.voucher-modal.open { display: block; }
-.modal-handle { width: 36px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.12); margin: 0 auto 16px; }
-.modal-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-.modal-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+.voucher-modal.open { display: block; animation: vmFadeIn 0.28s cubic-bezier(0.22,1,0.36,1); }
 
-/* STEP INDICATOR */
+.modal-handle {
+  width: 32px; height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,0.15); margin: 0 auto 18px;
+}
+.modal-title {
+  font-size: 16px; font-weight: 800; color: #fff;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+}
+.modal-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 18px; }
+
 .step-indicator { display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
-.step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.3s; }
-.step-dot.active { background: #FCD34D; width: 24px; border-radius: 4px; }
-.step-dot.done { background: #34D399; }
+.step-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); transition: all 0.3s;
+}
+.step-dot.active {
+  background: linear-gradient(135deg,#FCD34D,#F59E0B);
+  width: 22px; border-radius: 4px;
+  box-shadow: 0 0 8px rgba(252,211,77,0.5);
+}
+.step-dot.done { background: #34D399; box-shadow: 0 0 6px rgba(52,211,153,0.4); }
 
-/* STEP CONTENT */
 .step { display: none; }
 .step.show { display: block; }
 
 /* NOMINAL */
-.nominal-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
-.nominal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.nominal-item {
-  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px; padding: 10px 8px; text-align: center; cursor: pointer; transition: all 0.15s;
+.nominal-title {
+  font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.4);
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px;
 }
-.nominal-item:active { transform: scale(0.97); }
-.nominal-item.selected { background: rgba(252,211,77,0.1); border-color: rgba(252,211,77,0.5); }
-.nominal-amount { font-size: 13px; font-weight: 800; color: #fff; }
-.nominal-item.selected .nominal-amount { color: #FCD34D; }
+.nominal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.nominal-item {
+  background: rgba(255,255,255,0.1);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 16px; padding: 14px 8px; text-align: center;
+  cursor: pointer; transition: all 0.18s; position: relative; overflow: hidden;
+}
+.nominal-item::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.nominal-item:active { transform: scale(0.95); }
+.nominal-item.selected {
+  background: rgba(252,211,77,0.15);
+  border-color: rgba(252,211,77,0.55);
+  box-shadow: 0 0 22px rgba(252,211,77,0.15), 0 0 0 0.5px rgba(252,211,77,0.3);
+}
+.nominal-item.selected::before {
+  background: linear-gradient(180deg, rgba(252,211,77,0.15) 0%, transparent 60%);
+}
+.nominal-amount {
+  font-size: 14px; font-weight: 900; color: #fff;
+}
+.nominal-item.selected .nominal-amount {
+  background: linear-gradient(135deg,#FFF5A0,#FCD34D);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 6px rgba(252,211,77,0.4));
+}
 
 /* LAYANAN INFO */
 .layanan-info {
-  background: rgba(255,255,255,0.04); border-radius: 12px;
-  padding: 12px; margin-bottom: 16px; display: none;
+  background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: 18px; padding: 14px; margin-bottom: 14px; display: none;
+  position: relative; overflow: hidden;
+}
+.layanan-info::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(252,211,77,0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 .layanan-info.show { display: block; }
-.layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+.layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
 .layanan-item {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px; padding: 8px; cursor: pointer; transition: all 0.15s;
+  background: rgba(255,255,255,0.08);
+  border: 0.5px solid rgba(255,255,255,0.13);
+  border-radius: 14px; padding: 12px; cursor: pointer; transition: all 0.15s;
+  position: relative; overflow: hidden;
+}
+.layanan-item::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
 }
 .layanan-item:active { transform: scale(0.97); }
 .layanan-item.selected {
-  background: rgba(252,211,77,0.1); border-color: rgba(252,211,77,0.4);
+  background: rgba(252,211,77,0.12);
+  border-color: rgba(252,211,77,0.35);
+  box-shadow: 0 0 14px rgba(252,211,77,0.1);
 }
-.layanan-item.selected .layanan-name { color: rgba(252,211,77,0.6); }
+.layanan-item.selected .layanan-name { color: rgba(252,211,77,0.7); }
 .layanan-item.selected .layanan-dur { color: #FCD34D; }
-.layanan-name { font-size: 10px; color: rgba(255,255,255,0.45); margin-bottom: 2px; }
-.layanan-dur { font-size: 12px; font-weight: 700; color: #fff; }
+.layanan-name {
+  font-size: 10px; color: rgba(255,255,255,0.5);
+  margin-bottom: 4px; display: flex; align-items: center; gap: 4px;
+}
+.layanan-dur { font-size: 14px; font-weight: 900; color: #fff; }
 
 /* WA INPUT */
-.wa-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-.wa-input-wrap { display: flex; align-items: center; gap: 0; margin-bottom: 8px; }
+.wa-label {
+  font-size: 9.5px; font-weight: 800; color: rgba(255,255,255,0.25);
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px;
+}
+.wa-input-wrap { display: flex; align-items: center; margin-bottom: 8px; }
 .wa-prefix {
-  height: 46px; padding: 0 12px; background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.1); border-right: none;
-  border-radius: 12px 0 0 12px; display: flex; align-items: center;
-  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6); white-space: nowrap;
+  height: 48px; padding: 0 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08); border-right: none;
+  border-radius: 14px 0 0 14px;
+  display: flex; align-items: center;
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); white-space: nowrap;
 }
 .wa-input {
-  flex: 1; height: 46px; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 0 12px 12px 0;
+  flex: 1; height: 48px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
   padding: 0 14px; font-family: inherit; font-size: 14px; color: #fff; outline: none;
+  transition: all 0.2s;
 }
-.wa-input:focus { border-color: rgba(252,211,77,0.4); }
-.wa-input::placeholder { color: rgba(255,255,255,0.2); }
-.wa-hint { font-size: 10px; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
+.wa-input:focus {
+  border-color: rgba(252,211,77,0.35);
+  background: rgba(252,211,77,0.03);
+  box-shadow: 0 0 0 3px rgba(252,211,77,0.06);
+}
+.wa-input::placeholder { color: rgba(255,255,255,0.18); }
+.wa-hint { font-size: 10.5px; color: rgba(255,255,255,0.2); margin-bottom: 14px; line-height: 1.4; }
 
 /* SUMMARY */
 .summary-card {
-  background: rgba(252,211,77,0.06); border: 0.5px solid rgba(252,211,77,0.2);
-  border-radius: 14px; padding: 14px; margin-bottom: 16px;
+  background: rgba(252,211,77,0.04);
+  border: 0.5px solid rgba(252,211,77,0.15);
+  border-radius: 16px; padding: 14px; margin-bottom: 14px;
 }
-.summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
-.summary-row:last-child { margin-bottom: 0; padding-top: 8px; border-top: 0.5px solid rgba(252,211,77,0.15); }
-.summary-label { font-size: 12px; color: rgba(255,255,255,0.45); }
+.summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.summary-row:last-child {
+  margin-bottom: 0; padding-top: 10px;
+  border-top: 0.5px solid rgba(252,211,77,0.12);
+}
+.summary-label { font-size: 12px; color: rgba(255,255,255,0.35); }
 .summary-val { font-size: 12px; font-weight: 700; color: #fff; }
-.summary-total { font-size: 16px; font-weight: 900; color: #FCD34D; }
+.summary-total { font-size: 17px; font-weight: 900; color: #FCD34D; filter: drop-shadow(0 0 6px rgba(252,211,77,0.4)); }
 
 /* BUY OPTIONS */
 .buy-opt {
-  display: flex; align-items: center; gap: 12px;
-  border-radius: 14px; padding: 14px 16px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 14px;
+  border-radius: 16px; padding: 14px 16px; margin-bottom: 8px;
   cursor: pointer; border: none; width: 100%; text-align: left;
-  font-family: inherit; transition: opacity 0.15s;
+  font-family: inherit; transition: transform 0.15s, opacity 0.15s;
 }
 .buy-opt:last-child { margin-bottom: 0; }
-.buy-opt:active { opacity: 0.85; }
+.buy-opt:active { transform: scale(0.97); opacity: 0.9; }
 .buy-opt-icon {
-  width: 40px; height: 40px; border-radius: 12px;
-  background: rgba(255,255,255,0.12);
+  width: 42px; height: 42px; border-radius: 13px;
+  background: rgba(255,255,255,0.15);
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; flex-shrink: 0;
 }
 .buy-opt-text { flex: 1; }
 .buy-opt-title { font-size: 14px; font-weight: 800; color: #fff; }
-.buy-opt-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
-.buy-opt-arrow { font-size: 16px; color: rgba(255,255,255,0.4); }
-.buy-opt-wa { background: linear-gradient(135deg, #128C7E, #25D366); }
-.buy-opt-web { background: linear-gradient(135deg, #1E3A5F, #2563EB); }
+.buy-opt-sub { font-size: 10.5px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.buy-opt-arrow { font-size: 18px; color: rgba(255,255,255,0.3); }
+.buy-opt-wa {
+  background: linear-gradient(135deg, rgba(18,140,126,0.9), rgba(37,211,102,0.85));
+  box-shadow: 0 4px 20px rgba(37,211,102,0.15);
+}
+.buy-opt-web {
+  background: linear-gradient(135deg, rgba(30,58,95,0.9), rgba(37,99,235,0.85));
+  box-shadow: 0 4px 20px rgba(37,99,235,0.15);
+}
 
 /* NAV BTN */
-.modal-nav { display: flex; gap: 8px; margin-top: 4px; }
+.modal-nav { display: flex; gap: 8px; margin-top: 6px; }
 .btn-back {
-  height: 46px; padding: 0 18px; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);
+  height: 48px; padding: 0 18px; border-radius: 14px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);
   font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
 }
 .btn-next {
-  flex: 1; height: 46px; border-radius: 12px; border: none; cursor: pointer;
-  font-family: inherit; font-size: 14px; font-weight: 800;
-  background: linear-gradient(135deg, #FCD34D, #F59E0B);
-  color: #0A0700; box-shadow: 0 4px 16px rgba(252,211,77,0.3);
+  flex: 1; height: 48px; border-radius: 14px; border: none; cursor: pointer;
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 17px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);
+  color: #1a0f00;
+  box-shadow: 0 4px 20px rgba(252,211,77,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
-.btn-next:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; }
+.btn-next:not(:disabled):active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(252,211,77,0.2); }
+.btn-next:disabled {
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2);
+  box-shadow: none; cursor: not-allowed;
+  font-family: inherit; font-style: normal; font-size: 14px;
+}
+
+
+/* =============================================
+   MODAL ORDER — premium galaxy
+   ============================================= */
+.order-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); z-index: 700;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.order-overlay.open { display: block; }
+
+.order-modal {
+  display: none; position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 48px); max-width: 380px;
+  max-height: 90vh; overflow-y: auto;
+  z-index: 800;
+  background: linear-gradient(160deg, #08081A 0%, #0D0C22 60%, #100C24 100%);
+  border-radius: 26px;
+  border: 0.5px solid rgba(252,211,77,0.12);
+  box-shadow: 0 0 0 0.5px rgba(255,255,255,0.04), 0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(252,211,77,0.04);
+  padding: 24px 22px 28px;
+  overscroll-behavior: contain;
+}
+.order-modal.open {
+  display: block;
+  animation: omFadeIn 0.28s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes omFadeIn {
+  from { transform: translate(-50%, -47%); opacity: 0; }
+  to   { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+/* Top row */
+.order-top-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.order-modal-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 23px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgba(252,211,77,0.35));
+}
+.order-close-btn {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+  transition: all 0.15s;
+}
+.order-close-btn:active { background: rgba(255,255,255,0.1); color: #fff; }
+
+/* Card talent — glass premium */
+.order-talent-card {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  border-radius: 18px; padding: 13px 15px;
+  margin-bottom: 22px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(252,211,77,0.35), 0 0 16px rgba(252,211,77,0.1), 0 0 40px rgba(252,211,77,0.05);
+}
+.order-talent-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 18px;
+  padding: 1px;
+  background: linear-gradient(135deg, #FFF5A0, #FCD34D 40%, rgba(245,158,11,0.4) 70%, transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+}
+.order-talent-card::after {
+  content: '';
+  position: absolute; top: -30px; right: -20px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(252,211,77,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.order-talent-avatar {
+  width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 21px; font-weight: 800; color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.order-talent-name { font-size: 15px; font-weight: 800; color: #fff; }
+.order-talent-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 3px; line-height: 1.4; }
+
+/* Steps */
+.order-step { display: none; }
+.order-step.show { display: block; }
+
+/* Label */
+.om-label {
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.25);
+  margin-bottom: 6px;
+}
+.om-sublabel {
+  font-size: 12px; color: rgba(255,255,255,0.3);
+  margin-bottom: 14px; line-height: 1.5;
+}
+
+/* Input voucher */
+.om-voucher-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.voucher-code-input {
+  flex: 1; height: 52px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 15px; padding: 0 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600; color: #fff;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  outline: none; transition: all 0.2s;
+}
+.voucher-code-input:focus {
+  border-color: rgba(252,211,77,0.35);
+  background: rgba(252,211,77,0.03);
+  box-shadow: 0 0 0 3px rgba(252,211,77,0.06);
+}
+.voucher-code-input::placeholder {
+  text-transform: none; letter-spacing: 0; font-weight: 400;
+  color: rgba(255,255,255,0.18); font-size: 13px;
+}
+
+/* Tombol Pesan Sekarang */
+.om-btn-pesan {
+  width: 100%; height: 52px; border-radius: 15px; border: none;
+  background: linear-gradient(135deg,#FFF8CC 0%,#FCD34D 45%,#F59E0B 100%);
+  color: #1a0f00; font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 18px; font-weight: 400;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 8px; transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 24px rgba(252,211,77,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
+  letter-spacing: 0.01em;
+}
+.om-btn-pesan:disabled {
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2);
+  box-shadow: none; cursor: not-allowed; font-style: normal; font-family: inherit; font-size: 14px;
+}
+.om-btn-pesan:not(:disabled):active { transform: scale(0.97); box-shadow: 0 2px 12px rgba(252,211,77,0.2); }
+
+.om-lock-note {
+  text-align: center; font-size: 11px; color: rgba(255,255,255,0.2);
+  margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.om-beli-link {
+  text-align: center; font-size: 12.5px; color: rgba(255,255,255,0.25);
+  margin-top: 14px;
+}
+.om-beli-link a {
+  color: #FCD34D; font-weight: 700; text-decoration: none;
+  border-bottom: 1px solid rgba(252,211,77,0.4); cursor: pointer;
+}
+
+/* Layanan list */
+.om-layanan-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.om-layanan-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-radius: 16px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03); transition: all 0.15s;
+}
+.om-layanan-item:active { transform: scale(0.98); }
+.om-layanan-item.selected {
+  border-color: rgba(252,211,77,0.4);
+  background: rgba(252,211,77,0.06);
+}
+.om-layanan-left { display: flex; align-items: center; gap: 12px; }
+.om-layanan-emoji { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+.om-layanan-name { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.85); }
+.om-layanan-item.selected .om-layanan-name { color: #fff; }
+.om-layanan-right { display: flex; align-items: center; gap: 10px; }
+.om-layanan-dur {
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08); border-radius: 20px;
+  padding: 4px 10px;
+}
+.om-layanan-item.selected .om-layanan-dur {
+  background: rgba(252,211,77,0.15); color: #FCD34D;
+}
+.om-layanan-check {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.om-layanan-item.selected .om-layanan-check {
+  background: #FCD34D; border-color: #FCD34D;
+  box-shadow: 0 0 8px rgba(252,211,77,0.4);
+}
+.om-layanan-check-icon {
+  display: none; font-size: 12px; color: #1a1000; font-weight: 900;
+}
+.om-layanan-item.selected .om-layanan-check-icon { display: block; }
+
+/* Voucher Berhasil card */
+.om-voucher-success-card {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 18px; overflow: hidden; margin-bottom: 4px;
+}
+.om-vs-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: rgba(52,211,153,0.08);
+  border-bottom: 0.5px solid rgba(52,211,153,0.12);
+}
+.om-vs-check {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: #34D399; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900;
+}
+.om-vs-title { font-size: 14px; font-weight: 800; color: #34D399; }
+.om-vs-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.om-vs-body { padding: 0 16px; }
+.om-vs-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 0;
+}
+.om-vs-icon {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.om-vs-label { flex: 1; font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; }
+.om-vs-val { font-size: 14px; font-weight: 800; color: #FCD34D; }
+.om-vs-val-white { font-size: 14px; font-weight: 800; color: #fff; }
+.om-vs-divider { height: 0.5px; background: rgba(255,255,255,0.06); }
+
+/* Nav layanan & konfirmasi */
+.om-nav { display: flex; gap: 8px; margin-top: 18px; }
+.om-btn-back {
+  height: 48px; padding: 0 18px; border-radius: 14px; border: none;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5);
+  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.om-btn-next {
+  flex: 1; height: 48px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg,#FFF1B8,#FCD34D,#F59E0B);
+  color: #1a1000; font-family: inherit; font-size: 14px; font-weight: 900;
+  cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+}
+.om-btn-next:disabled {
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2); cursor: not-allowed;
+}
+.om-btn-next:not(:disabled):active { transform: scale(0.97); }
+
+/* Konfirmasi */
+.om-confirm-list { display: flex; flex-direction: column; }
+.om-confirm-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); font-size: 13px;
+}
+.om-confirm-row:last-child { border-bottom: none; }
+.om-confirm-label { color: rgba(255,255,255,0.35); font-weight: 500; }
+.om-confirm-val { color: #fff; font-weight: 700; }
+.om-confirm-val.pink { color: #FCD34D; }
+
+/* Sukses */
+.om-success { text-align: center; padding: 12px 0 8px; }
+.om-success-icon { font-size: 48px; margin-bottom: 14px; }
+.om-success-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.om-success-sub { font-size: 12.5px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+.om-success-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px; padding: 8px 18px; border-radius: 20px;
+  background: rgba(52,211,153,0.08); border: 0.5px solid rgba(52,211,153,0.2);
+  font-size: 11px; font-weight: 700; color: #34D399;
+}
+
+/* Countdown */
+.om-countdown-card {
+  background: rgba(252,211,77,0.05);
+  border: 0.5px solid rgba(252,211,77,0.15);
+  border-radius: 16px; padding: 16px; margin-top: 16px; text-align: center;
+}
+.om-countdown-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(252,211,77,0.6); margin-bottom: 8px; }
+.om-countdown-timer { font-size: 36px; font-weight: 900; color: #FCD34D; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
+.om-countdown-bar-wrap { height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+.om-countdown-bar { height: 100%; width: 100%; background: #FCD34D; border-radius: 4px; transition: width 1s linear; }
+.om-countdown-note { font-size: 10.5px; color: rgba(255,255,255,0.25); line-height: 1.5; }
+
+
+/* =============================================
+   DRAWER MENU — premium galaxy
+   ============================================= */
+.drawer-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 900;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.drawer-overlay.open { display: block; }
+
+.drawer {
+  position: fixed; top: 0; right: -100%; bottom: 0;
+  width: 82%; max-width: 300px;
+  background: linear-gradient(160deg, #06060F 0%, #0A0A1E 50%, #0C0A20 100%);
+  border-left: 0.5px solid rgba(252,211,77,0.08);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+  z-index: 1000; display: flex; flex-direction: column;
+  transition: right 0.35s cubic-bezier(0.22,1,0.36,1);
+  overflow: hidden;
+}
+.drawer.open { right: 0; }
+
+/* Bintang dekoratif di dalam drawer */
+.drawer-stars {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.drawer-star {
+  position: absolute; border-radius: 50%;
+  background: #fff; animation: twinkle1 3s ease-in-out infinite;
+}
+
+/* Header */
+.drawer-header {
+  position: relative; z-index: 1;
+  padding: 60px 22px 24px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+/* Glow efek di belakang logo */
+.drawer-header::before {
+  content: '';
+  position: absolute; top: 30px; left: 10px;
+  width: 120px; height: 60px;
+  background: radial-gradient(ellipse, rgba(252,211,77,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.drawer-logo {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 26px; font-weight: 400;
+  background: linear-gradient(135deg,#FFF5A0 0%,#FCD34D 55%,#F59E0B 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px rgba(252,211,77,0.3));
+  display: block; margin-bottom: 6px;
+}
+.drawer-tagline {
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  font-style: italic; line-height: 1.5; letter-spacing: 0.01em;
+}
+
+/* Menu */
+.drawer-menu { flex: 1; padding: 10px 0 16px; position: relative; z-index: 1; overflow-y: auto; }
+
+.drawer-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 20px; cursor: pointer; position: relative;
+  transition: all 0.2s;
+}
+.drawer-item::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(252,211,77,0.04) 0%, transparent 100%);
+  opacity: 0; transition: opacity 0.2s;
+}
+.drawer-item:active::after { opacity: 1; }
+.drawer-item.active-item::before {
+  content: '';
+  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 22px; border-radius: 0 4px 4px 0;
+  background: linear-gradient(135deg,#FFF5A0,#F59E0B);
+  box-shadow: 0 0 8px rgba(252,211,77,0.4);
+}
+
+/* Icon dengan glow efek per item */
+.drawer-item-icon {
+  width: 40px; height: 40px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  position: relative;
+}
+.drawer-item:nth-child(1) .drawer-item-icon { background: rgba(252,211,77,0.1); box-shadow: 0 0 16px rgba(252,211,77,0.08); }
+.drawer-item:nth-child(2) .drawer-item-icon { background: rgba(139,92,246,0.12); box-shadow: 0 0 16px rgba(139,92,246,0.08); }
+.drawer-item:nth-child(4) .drawer-item-icon { background: rgba(52,211,153,0.1); box-shadow: 0 0 16px rgba(52,211,153,0.08); }
+.drawer-item:nth-child(5) .drawer-item-icon { background: rgba(99,179,237,0.1); box-shadow: 0 0 16px rgba(99,179,237,0.08); }
+.drawer-item:nth-child(6) .drawer-item-icon { background: rgba(167,139,250,0.1); box-shadow: 0 0 16px rgba(167,139,250,0.08); }
+.drawer-item:nth-child(7) .drawer-item-icon { background: rgba(248,180,112,0.1); box-shadow: 0 0 16px rgba(248,180,112,0.08); }
+
+.drawer-item-text { flex: 1; }
+.drawer-item-label {
+  font-size: 13.5px; font-weight: 700; color: rgba(255,255,255,0.82);
+  letter-spacing: 0.01em;
+}
+.drawer-item.active-item .drawer-item-label { color: #FCD34D; }
+.drawer-item-desc { font-size: 10.5px; color: rgba(255,255,255,0.22); margin-top: 1px; }
+.drawer-item-arrow { font-size: 14px; color: rgba(255,255,255,0.12); }
+
+.drawer-divider {
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  margin: 6px 20px;
+}
+
+/* Danger */
+.drawer-item.danger .drawer-item-icon { background: rgba(255,80,80,0.1); box-shadow: 0 0 16px rgba(255,80,80,0.06); }
+.drawer-item.danger .drawer-item-label { color: rgba(255,110,110,0.85); }
+.drawer-item.danger .drawer-item-arrow { color: rgba(255,80,80,0.2); }
+
+/* Footer */
+.drawer-footer {
+  position: relative; z-index: 1;
+  padding: 16px 22px 48px; text-align: center;
+  border-top: 0.5px solid rgba(255,255,255,0.04);
+}
+.drawer-footer-moon {
+  font-size: 22px; opacity: 0.35; display: block; margin-bottom: 8px;
+  animation: logoGlow 4s ease-in-out infinite;
+}
+.drawer-footer-text { font-size: 10px; color: rgba(255,255,255,0.12); line-height: 1.6; }
 
 </style>
 </head>
@@ -1074,7 +1582,7 @@ html, body {
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual</div>
             <div class="card-bio">Haii! Aku Vania, suka dengerin cerita kamu sambil menemanimu tidur. Suaraku lembut dan aku sangat sabar. Udah lebih dari 1000 sesi dan selalu dapat rating bintang 5! Jangan ragu buat chat aku dulu ya, aku fast respon kok dan selalu available malam hari.</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1104,7 +1612,7 @@ html, body {
             <div class="card-services">Teman Call · Pacar Virtual</div>
             <div class="card-bio">Halo! Aku Mirelle, lulusan psikologi yang bisa jadi teman curhat kamu. Bisa bahasa Indonesia dan Inggris. Aku bakal dengerin semua cerita kamu tanpa menghakimi, bantu kamu ngerasa lebih tenang dan didengar. Udah banyak pelanggan setia yang selalu balik ke aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1134,7 +1642,7 @@ html, body {
             <div class="card-services">Teman Call · Sleep Call · Curhat Call · Pacar Virtual · Mabar ML</div>
             <div class="card-bio">Hai kak! Aku Nadira, aku orangnya asik, seru, dan bisa jadi teman ngobrol yang nyenengin! Mau cerita apapun aman sama aku, aku ga akan judge. Aku available hampir tiap malam dan suka dengerin musik lo-fi bareng sambil ngobrol santai. Yuk temenin malammu bareng aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan " style="font-family: sans-serif">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1194,7 +1702,7 @@ html, body {
             <div class="card-services">Teman Call · Sleep Call · Mabar</div>
             <div class="card-bio">Hai kak! Aku Kiraa, pecinta lo-fi dan talkative banget. Dijamin ga bakal sepi ngobrol sama aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1224,7 +1732,7 @@ html, body {
             <div class="card-services">Pacar Virtual · Sleep Call · Curhat</div>
             <div class="card-bio">Halo! Aku Luna, bisa jadi pacar virtual yang perhatian. Selalu ada buat kamu setiap malam.</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1284,7 +1792,7 @@ html, body {
             <div class="card-services">Sleep · Teman · Curhat · Pacar Virtual · Mabar</div>
             <div class="card-bio">Haii semuaa! Aku Bella, bisa semua layanan! Sleep call, curhat, mabar, semua bisa bareng aku.</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1314,7 +1822,7 @@ html, body {
             <div class="card-services">Teman Call · Mabar ML · Sleep Call</div>
             <div class="card-bio">Halo! Aku Rizky, bro yang asik buat temenin mabar atau ngobrol santai. GG dan fast respon!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1344,7 +1852,7 @@ html, body {
             <div class="card-services">Mabar ML · Teman Call · Curhat</div>
             <div class="card-bio">Hai! Aku Daffa, suka mabar ML dan ngobrol seru. Yuk temenin malam kamu bareng aku!</div>
             <div class="card-bottom">
-              <button class="btn-pesan ">Order Sekarang</button>
+              <button class="btn-pesan " onclick="openOrderModal(this)">Order Sekarang</button>
             <div class="card-stats-row" 
       onmousedown="this.querySelector('.stat-tooltip').classList.add('show')"
       onmouseup="this.querySelector('.stat-tooltip').classList.remove('show')"
@@ -1767,7 +2275,7 @@ window.addEventListener('load', () => sortAndRender('all'));
 (function(){
   const tagMap = {
     Vania:   ['top'],
-    Mirelle: ['top','verified'],
+    Mirelle: ['top'],
     Nadira:  ['baru'],
     Sasha:   [],
     Kiraa:   ['baru'],
@@ -1781,8 +2289,7 @@ window.addEventListener('load', () => sortAndRender('all'));
   const labels = {
     top:      { text: 'Top Talent', icon: '<svg viewBox="0 0 10 10"><polygon points="5,1 6.2,3.8 9,4 6.7,5.9 7.4,8.7 5,7.2 2.6,8.7 3.3,5.9 1,4 3.8,3.8" fill="currentColor"/></svg>' },
     baru:     { text: 'Baru',       icon: '<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="2.4" fill="currentColor"/></svg>' },
-    repeat:   { text: 'Repeat',     icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5a3 3 0 0 1 5.5-1.7"/><polyline points="7.5,1.6 7.5,3.6 5.5,3.6"/><path d="M8 5a3 3 0 0 1-5.5 1.7"/><polyline points="2.5,8.4 2.5,6.4 4.5,6.4"/></svg>' },
-    verified: { text: 'Verified',   icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.2,5 4,7 7.8,3"/></svg>' }
+    repeat:   { text: 'Repeat',     icon: '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5a3 3 0 0 1 5.5-1.7"/><polyline points="7.5,1.6 7.5,3.6 5.5,3.6"/><path d="M8 5a3 3 0 0 1-5.5 1.7"/><polyline points="2.5,8.4 2.5,6.4 4.5,6.4"/></svg>' }
   };
   document.querySelectorAll('.talent-card').forEach(card => {
     const name = card.querySelector('.card-name')?.textContent.trim();
@@ -1807,12 +2314,15 @@ window.addEventListener('load', () => sortAndRender('all'));
 
 
 <!-- VOUCHER OVERLAY -->
-<div class="voucher-overlay" id="vOverlay" onclick="closeVoucherModal(event)"></div>
+<div class="voucher-overlay" id="vOverlay"></div>
 
 <!-- VOUCHER MODAL -->
 <div class="voucher-modal" id="vModal">
   <div class="modal-handle"></div>
-  <div class="modal-title">🎟️ Beli Voucher</div>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+    <div class="modal-title">🎟️ Beli Voucher</div>
+    <button onclick="closeVoucherModal()" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;">×</button>
+  </div>
   <div class="modal-sub">Voucher berlaku untuk semua layanan</div>
 
   <!-- STEP DOTS -->
@@ -1848,10 +2358,10 @@ window.addEventListener('load', () => sortAndRender('all'));
   <div class="step" id="step2">
     <div class="wa-label">Nomor WhatsApp Kamu</div>
     <div class="wa-input-wrap">
-      <div class="wa-prefix">🇮🇩</div>
-      <input class="wa-input" id="waInput" type="tel" placeholder="08xx atau 628xx atau 8xx" oninput="checkWa()"/>
+      
+      <input class="wa-input" id="waInput" type="tel" placeholder="Contoh: 08123456789" oninput="checkWa()" onfocus="setTimeout(()=>this.scrollIntoView({behavior:'smooth',block:'center'}),300)"/>
     </div>
-    <div class="wa-hint">Nomor ini akan dihubungi talent saat order dimulai</div>
+    <div class="wa-hint">Pastikan nomor ini benar — talent akan menghubungi kamu via WhatsApp saat voucher digunakan</div>
     <div class="modal-nav">
       <button class="btn-back" onclick="goStep(1)">← Kembali</button>
       <button class="btn-next" id="btnStep2" onclick="goStep(3)" disabled>Lanjut →</button>
@@ -1892,20 +2402,22 @@ const PRICELIST = {
   pv:     { label: '❤️ Pacar Virtual',durations: {10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt'} },
 };
 const ADMIN_FEE = 3000;
-const ADMIN_WA = '6281234567890';
+const ADMIN_WA = '6281234269016';
 
 let vNominal = 0, vWA = '', vLayanan = null;
 
 function openVoucher() {
   document.getElementById('vOverlay').classList.add('open');
   document.getElementById('vModal').classList.add('open');
+  document.body.classList.add('modal-open');
   goStep(1);
+  const firstItem = document.querySelector('.nominal-item');
+  if (firstItem) selectNominal(firstItem, 10000);
 }
 function closeVoucherModal(e) {
-  if (!e || e.target === document.getElementById('vOverlay')) {
-    document.getElementById('vOverlay').classList.remove('open');
-    document.getElementById('vModal').classList.remove('open');
-  }
+  document.getElementById('vOverlay').classList.remove('open');
+  document.getElementById('vModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
 }
 
 function goStep(n) {
@@ -1932,13 +2444,14 @@ function selectNominal(el, amount) {
   ).join('');
   vLayanan = null;
   document.getElementById('layananInfo').classList.add('show');
-  document.getElementById('btnStep1').disabled = false;
+  document.getElementById('btnStep1').disabled = true;
 }
 
 function selectLayanan(el, key) {
   document.querySelectorAll('.layanan-item').forEach(x => x.classList.remove('selected'));
   el.classList.add('selected');
   vLayanan = key;
+  document.getElementById('btnStep1').disabled = false;
 }
 
 function checkWa() {
@@ -1952,10 +2465,9 @@ function renderSummary() {
   const total = vNominal + ADMIN_FEE;
   const layananLabel = vLayanan ? PRICELIST[vLayanan].label + ' · ' + PRICELIST[vLayanan].durations[vNominal] : 'Semua layanan';
   document.getElementById('summaryCard').innerHTML = `
-    <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
     <div class="summary-row"><span class="summary-label">Layanan</span><span class="summary-val">${layananLabel}</span></div>
+    <div class="summary-row"><span class="summary-label">Nominal voucher</span><span class="summary-val">${fmt(vNominal)}</span></div>
     <div class="summary-row"><span class="summary-label">Biaya admin</span><span class="summary-val">${fmt(ADMIN_FEE)}</span></div>
-    <div class="summary-row"><span class="summary-label">Nomor WA</span><span class="summary-val">${'+' + formatWA(vWA)}</span></div>
     <div class="summary-row"><span class="summary-label" style="font-weight:800;color:#fff;">Total</span><span class="summary-total">${fmt(total)}</span></div>
   `;
 }
@@ -1968,14 +2480,12 @@ function formatWA(num) {
 }
 
 function buyViaWA() {
-  const total = vNominal + ADMIN_FEE;
   const msg = encodeURIComponent(
     '🎟️ *BELI VOUCHER SLEEPCALLPAY*\n\n' +
-    '• Nominal: ' + fmt(vNominal) + '\n' +
-    '• Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
-    '• Total: ' + fmt(total) + '\n' +
-    '• No. WA: +' + formatWA(vWA) + '\n\n' +
-    'Mohon dibuatkan voucher. Terima kasih!'
+    'Nominal voucher: ' + fmt(vNominal) + '\n' +
+    'Biaya admin: ' + fmt(ADMIN_FEE) + '\n' +
+    'WhatsApp: ' + vWA + '\n\n' +
+    'Mohon kirimkan QRIS untuk pembayaran. Terima kasih.'
   );
   window.open('https://wa.me/' + ADMIN_WA + '?text=' + msg, '_blank');
   closeVoucherModal();
@@ -1985,5 +2495,503 @@ function buyViaWeb() {
   alert('Fitur beli via website segera hadir!');
 }
 </script>
+
+<!-- MODAL ORDER VOUCHER -->
+<div class="order-overlay" id="orderOverlay"></div>
+<div class="order-modal" id="orderModal">
+
+  <!-- Top row -->
+  <div class="order-top-row">
+    <span class="order-modal-title">Pesan Layanan</span>
+    <button class="order-close-btn" onclick="closeOrderModal()">×</button>
+  </div>
+
+  <!-- Card talent -->
+  <div class="order-talent-card">
+    <div class="order-talent-avatar" id="orderAvatar">?</div>
+    <div>
+      <div class="order-talent-name" id="orderTalentName">—</div>
+      <div class="order-talent-sub" id="orderTalentSub">—</div>
+    </div>
+  </div>
+
+  <!-- Step 1: Input Voucher -->
+  <div class="order-step show" id="orderStep1">
+    <div class="om-label">Masukkan Kode Voucher</div>
+    <div class="om-sublabel">Masukkan kode voucher yang kamu beli dari admin.</div>
+    <div class="om-voucher-row">
+      <input class="voucher-code-input" id="voucherCodeInput" type="text" placeholder="KODE VOUCHER" oninput="onVoucherInput(this)" autocomplete="off"/>
+    </div>
+    <button class="om-btn-pesan" id="orderBtnPesan" onclick="orderGoStep(2)" disabled>
+      ✦ Pesan Sekarang
+    </button>
+    <div class="om-lock-note" id="omLockNote">🔒 Masukkan kode voucher untuk melanjutkan</div>
+    <div class="om-beli-link">Belum punya voucher? <a onclick="closeOrderModal(); openVoucher();">Beli di sini</a></div>
+  </div>
+
+  <!-- Step 2: Pilih Layanan -->
+  <div class="order-step" id="orderStep2">
+    <!-- Card Voucher Berhasil -->
+    <div class="om-voucher-success-card">
+      <div class="om-vs-header">
+        <div class="om-vs-check">✓</div>
+        <div>
+          <div class="om-vs-title">Voucher Berhasil!</div>
+          <div class="om-vs-sub">Berikut detail voucher kamu.</div>
+        </div>
+      </div>
+      <div class="om-vs-body">
+        <div class="om-vs-row">
+          <div class="om-vs-icon">🎟️</div>
+          <span class="om-vs-label">Saldo Voucher</span>
+          <span class="om-vs-val" id="omVsNominal">—</span>
+        </div>
+        <div class="om-vs-divider"></div>
+        <div class="om-vs-row">
+          <div class="om-vs-icon">📱</div>
+          <span class="om-vs-label">Nomor WhatsApp</span>
+          <span class="om-vs-val-white" id="omVsWa">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="om-label" style="margin-top:18px;">Pilih Layanan</div>
+    <div class="om-layanan-list" id="orderLayananGrid"></div>
+    <div class="om-nav">
+      <button class="om-btn-back" onclick="orderGoStep(1)">←</button>
+      <button class="om-btn-next" id="orderBtn2" onclick="orderGoStep(3)" disabled>Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Konfirmasi -->
+  <div class="order-step" id="orderStep3">
+    <div class="om-label">Konfirmasi Order</div>
+    <div class="om-confirm-list" id="orderConfirmCard"></div>
+    <div class="om-nav">
+      <button class="om-btn-back" onclick="orderGoStep(2)">←</button>
+      <button class="om-btn-next" onclick="submitOrder()">Kirim Order</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Menunggu Konfirmasi -->
+  <div class="order-step" id="orderStep4">
+
+    <!-- State: Menunggu -->
+    <div id="omStateWaiting">
+      <div class="om-success">
+        <div class="om-success-icon">📨</div>
+        <div class="om-success-title">Order Terkirim!</div>
+        <div class="om-success-sub">Notifikasi sudah dikirim ke <strong id="notifTalentName">talent</strong>.<br>Menunggu konfirmasi...</div>
+      </div>
+      <div class="om-countdown-card">
+        <div class="om-countdown-label">Batas waktu konfirmasi</div>
+        <div class="om-countdown-timer" id="omCountdown">2:00</div>
+        <div class="om-countdown-bar-wrap"><div class="om-countdown-bar" id="omCountdownBar"></div></div>
+        <div class="om-countdown-note">Jika tidak ada konfirmasi dalam 2 menit, talent akan otomatis offline dan voucher kamu tetap bisa digunakan.</div>
+      </div>
+      <div class="om-nav" style="gap:8px;">
+        <button class="om-btn-back" onclick="simulateReject()" style="flex:1;color:#ff6b6b;border:0.5px solid rgba(255,100,100,0.2);">✕ Tolak</button>
+        <button class="om-btn-next" onclick="simulateAccept()">✓ Terima</button>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.2);text-align:center;margin-top:8px;">Tombol simulasi — hanya untuk preview</div>
+    </div>
+
+    <!-- State: Timeout -->
+    <div id="omStateTimeout" style="display:none;">
+      <div class="om-success">
+        <div class="om-success-icon">⏰</div>
+        <div class="om-success-title">Waktu Habis</div>
+        <div class="om-success-sub"><strong id="timeoutTalentName">Talent</strong> tidak merespons dalam 2 menit dan sekarang otomatis offline.<br><br>Voucher kamu masih bisa digunakan untuk order talent lain.</div>
+      </div>
+      <div class="om-nav">
+        <button class="om-btn-next" onclick="closeOrderModal()">Cari Talent Lain</button>
+      </div>
+    </div>
+
+    <!-- State: Ditolak -->
+    <div id="omStateRejected" style="display:none;">
+      <div class="om-success">
+        <div class="om-success-icon">❌</div>
+        <div class="om-success-title">Order Ditolak</div>
+        <div class="om-success-sub"><strong id="rejectedTalentName">Talent</strong> tidak bisa menerima ordermu saat ini.<br><br>Voucher kamu masih bisa digunakan untuk order talent lain.</div>
+      </div>
+      <div class="om-nav">
+        <button class="om-btn-next" onclick="closeOrderModal()">Cari Talent Lain</button>
+      </div>
+    </div>
+
+    <!-- State: Diterima -->
+    <div id="omStateAccepted" style="display:none;">
+      <div class="om-success">
+        <div class="om-success-icon">✅</div>
+        <div class="om-success-title">Order Diterima!</div>
+        <div class="om-success-sub"><strong id="acceptedTalentName">Talent</strong> akan segera menghubungi kamu via WhatsApp.<br><br>Jika dalam <strong>5 menit</strong> belum dihubungi, segera hubungi admin.</div>
+      </div>
+      <div class="om-countdown-card" style="background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.15);">
+        <div class="om-countdown-label" style="color:#34D399;">Batas waktu talent menghubungi</div>
+        <div class="om-countdown-timer" id="omCountdown2" style="color:#34D399;">5:00</div>
+        <div class="om-countdown-bar-wrap"><div class="om-countdown-bar" id="omCountdownBar2" style="background:#34D399;"></div></div>
+      </div>
+      <div class="om-nav" style="gap:8px;">
+        <button class="om-btn-next" style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.6);flex:1;" onclick="window.open('https://wa.me/6281234269016','_blank')">Hubungi Admin</button>
+        <button class="om-btn-next" onclick="closeOrderModal()">Tutup</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// =============================================
+// MODAL ORDER VOUCHER
+// =============================================
+const ORDER_PRICELIST = {
+  'Teman Call':    { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Sleep Call':    { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Curhat Call':   { 10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam' },
+  'Pacar Virtual': { 10000:'15 mnt', 20000:'30 mnt', 30000:'45 mnt', 40000:'1 jam', 50000:'1 jam 15 mnt', 60000:'1 jam 30 mnt' },
+  'Mabar ML':      { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Mabar':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Curhat':        { 10000:'20 mnt', 20000:'40 mnt', 30000:'1 jam', 40000:'1 jam 20 mnt', 50000:'1 jam 40 mnt', 60000:'2 jam' },
+  'Sleep':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+  'Teman':         { 10000:'30 mnt', 20000:'1 jam', 30000:'1 jam 30 mnt', 40000:'2 jam', 50000:'2 jam 30 mnt', 60000:'3 jam' },
+};
+
+let orderTalent = { name: '', avatarText: '', avatarBg: '', services: [] };
+let orderVoucherCode = '';
+let orderVoucherNominal = 0;
+let orderSelectedLayanan = '';
+let orderTalentWA = '';
+
+function openOrderModal(btn) {
+  const card = btn.closest('.talent-card');
+  const name = card.querySelector('.card-name').textContent.trim();
+  const avatarEl = card.querySelector('.card-avatar');
+  const avatarBg = avatarEl.style.background || '#333';
+  const avatarText = avatarEl.textContent.trim();
+  const servicesText = card.querySelector('.card-services').textContent;
+  const ageBadge = card.querySelector('.gender-badge')?.textContent.trim() || '';
+  const services = servicesText.split('·').map(s => s.trim()).filter(Boolean);
+
+  orderTalent = { name, avatarText, avatarBg, services };
+
+  document.getElementById('orderTalentName').textContent = name;
+  document.getElementById('orderTalentSub').textContent = ageBadge + (ageBadge ? ' · ' : '') + servicesText;
+  document.getElementById('notifTalentName').textContent = name;
+  const av = document.getElementById('orderAvatar');
+  av.textContent = avatarText;
+  av.style.background = avatarBg;
+
+  document.getElementById('voucherCodeInput').value = '';
+  orderVoucherCode = '';
+  orderVoucherNominal = 0;
+  orderSelectedLayanan = '';
+  document.getElementById('orderBtnPesan').disabled = true;
+  document.getElementById('omLockNote').style.display = 'flex';
+
+  document.getElementById('orderOverlay').classList.add('open');
+  document.getElementById('orderModal').classList.add('open');
+  document.body.classList.add('modal-open');
+  orderGoStep(1);
+}
+
+function gunakanVoucher() {
+  const code = document.getElementById('voucherCodeInput').value.trim();
+  if (code.length >= 4) {
+    orderVoucherCode = code.toUpperCase();
+    orderVoucherNominal = 20000; // simulasi
+    document.getElementById('orderBtnPesan').disabled = false;
+    document.getElementById('omLockNote').style.display = 'none';
+  }
+}
+
+function closeOrderModal() {
+  document.getElementById('orderOverlay').classList.remove('open');
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+function orderGoStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('orderStep'+i).classList.toggle('show', i===n);
+  });
+  if (n===2) renderOrderLayanan();
+  if (n===3) renderOrderConfirm();
+}
+
+function onVoucherInput(input) {
+  orderVoucherCode = input.value.trim().toUpperCase();
+  const valid = orderVoucherCode.length >= 4;
+  document.getElementById('orderBtnPesan').disabled = !valid;
+  document.getElementById('omLockNote').style.display = valid ? 'none' : 'flex';
+  if (valid) {
+    orderVoucherNominal = 20000; // simulasi
+    // Ambil nomor WA dari input halaman beli voucher jika ada
+    orderTalentWA = document.getElementById('waInput')?.value?.trim() || '—';
+  }
+}
+
+function gunakanVoucher() {
+  const code = document.getElementById('voucherCodeInput').value.trim();
+  if (code.length >= 4) {
+    orderVoucherCode = code.toUpperCase();
+    orderVoucherNominal = 20000;
+    orderTalentWA = document.getElementById('waInput')?.value?.trim() || '—';
+    document.getElementById('orderBtnPesan').disabled = false;
+    document.getElementById('omLockNote').style.display = 'none';
+  }
+}
+
+const LAYANAN_EMOJI = {
+  'Teman Call': '📞', 'Sleep Call': '🌙', 'Curhat Call': '🫂',
+  'Pacar Virtual': '💕', 'Mabar ML': '🎮', 'Mabar': '🎮',
+  'Curhat': '🫂', 'Sleep': '🌙', 'Teman': '📞',
+};
+
+function renderOrderLayanan() {
+  const grid = document.getElementById('orderLayananGrid');
+  orderSelectedLayanan = '';
+  document.getElementById('orderBtn2').disabled = true;
+
+  // Isi card voucher berhasil
+  const wa = document.getElementById('waInputOrder')?.value || document.getElementById('voucherCodeInput')?.dataset.wa || '—';
+  document.getElementById('omVsNominal').textContent = 'Rp ' + orderVoucherNominal.toLocaleString('id');
+  document.getElementById('omVsWa').textContent = orderTalentWA || '—';
+
+  // Hanya tampilkan layanan milik talent ini — exact match
+  const talentServices = orderTalent.services.map(s => s.toLowerCase().trim());
+  const matchLayanan = Object.keys(ORDER_PRICELIST).filter(layanan =>
+    talentServices.some(s => s === layanan.toLowerCase())
+  );
+
+  grid.innerHTML = matchLayanan.map(layanan => {
+    const dur = ORDER_PRICELIST[layanan][orderVoucherNominal];
+    if (!dur) return '';
+    const emoji = LAYANAN_EMOJI[layanan] || '✦';
+    return `<div class="om-layanan-item" onclick="selectOrderLayanan(this,'${layanan}')">
+      <div class="om-layanan-left">
+        <span class="om-layanan-emoji">${emoji}</span>
+        <span class="om-layanan-name">${layanan}</span>
+      </div>
+      <div class="om-layanan-right">
+        <span class="om-layanan-dur">${dur}</span>
+        <div class="om-layanan-check"><span class="om-layanan-check-icon">✓</span></div>
+      </div>
+    </div>`;
+  }).filter(Boolean).join('');
+}
+
+function selectOrderLayanan(el, layanan) {
+  document.querySelectorAll('.om-layanan-item').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  orderSelectedLayanan = layanan;
+  document.getElementById('orderBtn2').disabled = false;
+}
+
+function renderOrderConfirm() {
+  const dur = ORDER_PRICELIST[orderSelectedLayanan]?.[orderVoucherNominal] || '—';
+  document.getElementById('orderConfirmCard').innerHTML = `
+    <div class="om-confirm-row"><span class="om-confirm-label">Talent</span><span class="om-confirm-val">${orderTalent.name}</span></div>
+    <div class="om-confirm-row"><span class="om-confirm-label">Layanan</span><span class="om-confirm-val pink">${orderSelectedLayanan}</span></div>
+    <div class="om-confirm-row"><span class="om-confirm-label">Durasi</span><span class="om-confirm-val pink">${dur}</span></div>
+    <div class="om-confirm-row"><span class="om-confirm-label">Kode Voucher</span><span class="om-confirm-val">${orderVoucherCode}</span></div>
+  `;
+}
+
+let omCountdownInterval = null;
+
+function submitOrder() {
+  document.getElementById('notifTalentName').textContent = orderTalent.name;
+  document.getElementById('timeoutTalentName').textContent = orderTalent.name;
+  document.getElementById('rejectedTalentName').textContent = orderTalent.name;
+  document.getElementById('acceptedTalentName').textContent = orderTalent.name;
+  orderGoStep(4);
+  startCountdown();
+}
+
+function startCountdown() {
+  // Reset semua state
+  document.getElementById('omStateWaiting').style.display = 'block';
+  document.getElementById('omStateTimeout').style.display = 'none';
+  document.getElementById('omStateRejected').style.display = 'none';
+  document.getElementById('omStateAccepted').style.display = 'none';
+
+  let total = 120; // 2 menit
+  if (omCountdownInterval) clearInterval(omCountdownInterval);
+
+  omCountdownInterval = setInterval(() => {
+    total--;
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    document.getElementById('omCountdown').textContent = m + ':' + String(s).padStart(2,'0');
+    document.getElementById('omCountdownBar').style.width = (total / 120 * 100) + '%';
+
+    if (total <= 0) {
+      clearInterval(omCountdownInterval);
+      // Timeout → talent otomatis offline
+      document.getElementById('omStateWaiting').style.display = 'none';
+      document.getElementById('omStateTimeout').style.display = 'block';
+    }
+  }, 1000);
+
+  // SIMULASI: talent terima setelah 8 detik (untuk demo/preview)
+  // Di production ini diganti dengan real-time backend
+  // setTimeout(() => simulateAccept(), 8000);
+}
+
+function simulateAccept() {
+  if (omCountdownInterval) clearInterval(omCountdownInterval);
+  document.getElementById('omStateWaiting').style.display = 'none';
+  document.getElementById('omStateAccepted').style.display = 'block';
+  startCountdown5();
+}
+
+function simulateReject() {
+  if (omCountdownInterval) clearInterval(omCountdownInterval);
+  document.getElementById('omStateWaiting').style.display = 'none';
+  document.getElementById('omStateRejected').style.display = 'block';
+}
+
+function startCountdown5() {
+  let total = 300; // 5 menit
+  const interval = setInterval(() => {
+    total--;
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    document.getElementById('omCountdown2').textContent = m + ':' + String(s).padStart(2,'0');
+    document.getElementById('omCountdownBar2').style.width = (total / 300 * 100) + '%';
+    if (total <= 0) clearInterval(interval);
+  }, 1000);
+}
+
+// =============================================
+// DRAWER MENU
+// =============================================
+function openDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+function openDrawerPage(page) {
+  closeDrawer();
+  const pages = {
+    bantuan: 'Butuh bantuan? Hubungi admin kami via WhatsApp di 081234269016.',
+    terms: 'Terms & Conditions SleepcallPay akan tersedia segera.',
+    privacy: 'Privacy Policy SleepcallPay akan tersedia segera.',
+    refund: 'Refund Policy: Voucher yang sudah dibeli tidak dapat di-refund kecuali talent tidak tersedia.',
+    lapor: 'Untuk melaporkan talent, hubungi admin via WhatsApp di 081234269016 dengan menyertakan nama talent dan kronologi kejadian.'
+  };
+  alert(pages[page] || '');
+}
+
+// Sambungkan hamburger ke drawer
+document.querySelector('.hamburger').addEventListener('click', openDrawer);
+
+</script>
+
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <!-- Bintang dekoratif -->
+  <div class="drawer-stars">
+    <div class="drawer-star" style="width:1.5px;height:1.5px;top:8%;left:75%;animation-delay:0s;opacity:0.6;"></div>
+    <div class="drawer-star" style="width:1px;height:1px;top:15%;left:55%;animation-delay:0.8s;opacity:0.4;"></div>
+    <div class="drawer-star" style="width:2px;height:2px;top:22%;left:88%;animation-delay:1.5s;opacity:0.5;"></div>
+    <div class="drawer-star" style="width:1px;height:1px;top:35%;left:70%;animation-delay:0.3s;opacity:0.3;"></div>
+    <div class="drawer-star" style="width:1.5px;height:1.5px;top:5%;left:40%;animation-delay:2s;opacity:0.5;"></div>
+  </div>
+
+  <div class="drawer-header">
+    <span class="drawer-logo">SleepcallPay</span>
+    <div class="drawer-tagline">Temani malammu dengan<br>suara yang nyaman 🌙</div>
+  </div>
+
+  <div class="drawer-menu">
+
+    <div class="drawer-item active-item" onclick="closeDrawer()">
+      <div class="drawer-item-icon">🏠</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Beranda</div>
+        <div class="drawer-item-desc">Lihat talent yang tersedia</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="closeDrawer(); openVoucher();">
+      <div class="drawer-item-icon">🎟️</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Beli Voucher</div>
+        <div class="drawer-item-desc">Top up untuk mulai order</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <div class="drawer-item" onclick="openDrawerPage('bantuan')">
+      <div class="drawer-item-icon">💬</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Bantuan</div>
+        <div class="drawer-item-desc">Hubungi admin kami</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="openDrawerPage('terms')">
+      <div class="drawer-item-icon">📋</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Terms & Conditions</div>
+        <div class="drawer-item-desc">Syarat & ketentuan layanan</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="openDrawerPage('privacy')">
+      <div class="drawer-item-icon">🔒</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Privacy Policy</div>
+        <div class="drawer-item-desc">Kebijakan privasi data</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-item" onclick="openDrawerPage('refund')">
+      <div class="drawer-item-icon">↩️</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Refund Policy</div>
+        <div class="drawer-item-desc">Kebijakan pengembalian dana</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <div class="drawer-item danger" onclick="openDrawerPage('lapor')">
+      <div class="drawer-item-icon">🚨</div>
+      <div class="drawer-item-text">
+        <div class="drawer-item-label">Laporkan Talent</div>
+        <div class="drawer-item-desc">Ada masalah dengan talent?</div>
+      </div>
+      <span class="drawer-item-arrow">›</span>
+    </div>
+
+  </div>
+
+  <div class="drawer-footer">
+    <div class="drawer-footer-moon">🌙</div>
+    <div class="drawer-footer-text">© 2025 SleepcallPay<br>All rights reserved</div>
+  </div>
+</div>
+
+
 </body>
 </html>
