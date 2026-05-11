@@ -452,12 +452,12 @@ body {
           <div style="font-size:16px;font-weight:900;color:#fff;" id="statTotalCall">42</div>
           <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Total Call</div>
         </div>
-        <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;">
+        <div onclick="showStatDetail('customer')" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:background 0.15s;" onmousedown="this.style.background='rgba(255,255,255,0.08)'" onmouseup="this.style.background='rgba(255,255,255,0.04)'">
           <div style="font-size:18px;margin-bottom:4px;">👥</div>
           <div style="font-size:16px;font-weight:900;color:#fff;" id="statCustomer">28</div>
           <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Customer</div>
         </div>
-        <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;">
+        <div onclick="showStatDetail('repeat')" style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:10px 12px;text-align:center;cursor:pointer;transition:background 0.15s;" onmousedown="this.style.background='rgba(255,255,255,0.08)'" onmouseup="this.style.background='rgba(255,255,255,0.04)'">
           <div style="font-size:18px;margin-bottom:4px;">🔁</div>
           <div style="font-size:16px;font-weight:900;color:#FCD34D;" id="statRepeat">14</div>
           <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:0.04em;">Repeat</div>
@@ -617,17 +617,62 @@ let statCustomer = 28;
 let statRepeat = 14;
 let customerList = [];
 
-function updateStatistik(wa) {
-  statTotalCall++;
-  document.getElementById('statTotalCall').textContent = statTotalCall;
-  if (!customerList.includes(wa)) {
-    customerList.push(wa);
-    statCustomer++;
-    document.getElementById('statCustomer').textContent = statCustomer;
-  } else {
-    statRepeat++;
-    document.getElementById('statRepeat').textContent = statRepeat;
-  }
+function showStatDetail(type) {
+  const old = document.getElementById('statDetailModal');
+  if (old) old.remove();
+  const oldOv = document.getElementById('statDetailOverlay');
+  if (oldOv) oldOv.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'statDetailOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:900;backdrop-filter:blur(12px);';
+
+  const modal = document.createElement('div');
+  modal.id = 'statDetailModal';
+  modal.style.cssText = 'position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;max-height:70vh;overflow-y:auto;background:linear-gradient(150deg,#1C2130,#232B3E);border-radius:22px 22px 0 0;border-top:0.5px solid rgba(139,170,212,0.2);padding:16px 16px 40px;z-index:901;';
+
+  const isRepeat = type === 'repeat';
+  const title = isRepeat ? '🔁 Customer Repeat' : '👥 Semua Customer';
+
+  // Demo data customer
+  const demoCustomers = [
+    { nomor:'081234512345', total:5, terakhir:'Hari ini' },
+    { nomor:'082198765432', total:4, terakhir:'Hari ini' },
+    { nomor:'085261754085', total:3, terakhir:'Kemarin' },
+    { nomor:'089987601234', total:3, terakhir:'11 Mei' },
+    { nomor:'087812345678', total:2, terakhir:'11 Mei' },
+    { nomor:'****54085',    total:2, terakhir:'Kemarin' },
+    { nomor:'****87601',    total:1, terakhir:'Hari ini' },
+    { nomor:'****12398',    total:1, terakhir:'Kemarin' },
+  ];
+
+  const filtered = isRepeat ? demoCustomers.filter(c => c.total > 1) : demoCustomers;
+
+  const items = filtered.map(c => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;margin-bottom:6px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#fff;">${c.nomor}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;">Terakhir: ${c.terakhir}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:14px;font-weight:900;color:${c.total > 1 ? '#FCD34D' : 'rgba(255,255,255,0.5)'};">${c.total}x</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.25);">order</div>
+      </div>
+    </div>
+  `).join('');
+
+  modal.innerHTML = `
+    <div style="width:32px;height:3px;border-radius:2px;background:rgba(255,255,255,0.1);margin:0 auto 16px;"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <span style="font-size:14px;font-weight:800;color:#fff;">${title}</span>
+      <button onclick="document.getElementById('statDetailModal').remove();document.getElementById('statDetailOverlay').remove();" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:26px;height:26px;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">×</button>
+    </div>
+    ${items}
+  `;
+
+  overlay.onclick = () => { overlay.remove(); modal.remove(); };
+  document.body.appendChild(overlay);
+  document.body.appendChild(modal);
 }
 
 let showAll = false;
@@ -641,6 +686,19 @@ function lihatSemua() {
 function updateGaji(nominal) {
   totalGaji += nominal;
   document.getElementById('totalGaji').textContent = 'Rp ' + totalGaji.toLocaleString('id');
+}
+
+function updateStatistik(wa) {
+  statTotalCall++;
+  document.getElementById('statTotalCall').textContent = statTotalCall;
+  if (!customerList.includes(wa)) {
+    customerList.push(wa);
+    statCustomer++;
+    document.getElementById('statCustomer').textContent = statCustomer;
+  } else {
+    statRepeat++;
+    document.getElementById('statRepeat').textContent = statRepeat;
+  }
 }
 
 function updatePoin(delta) {
