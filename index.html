@@ -299,6 +299,99 @@ body {
   transition: all 0.15s;
 }
 .ht-sim-btn:active { background: rgba(255,255,255,0.08); color: #fff; }
+/* EDIT PROFILE PAGE */
+.ep-page {
+  display: none; position: absolute;
+  top: 0; left: 0; right: 0; min-height: 100%;
+  z-index: 500;
+  background: linear-gradient(160deg, #020810 0%, #071020 60%, #081525 100%);
+  overflow-y: auto;
+}
+.ep-page.open { display: block; animation: epSlideUp 0.3s cubic-bezier(0.22,1,0.36,1); }
+@keyframes epSlideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+.ep-navbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: rgba(2,8,16,0.95); backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+}
+.ep-back {
+  width: 34px; height: 34px; border-radius: 11px;
+  background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.ep-back svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ep-title {
+  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px;
+  background: linear-gradient(135deg,#FFF5A0,#FCD34D);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.ep-inner { padding: 20px 16px 60px; }
+.ep-section-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  margin-bottom: 8px; margin-top: 18px;
+}
+.ep-input {
+  width: 100%; height: 46px;
+  background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 13px; padding: 0 14px;
+  font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; outline: none;
+  transition: border-color 0.2s;
+}
+.ep-input:focus { border-color: rgba(252,211,77,0.4); }
+.ep-input::placeholder { color: rgba(255,255,255,0.2); }
+.ep-textarea {
+  width: 100%; min-height: 90px;
+  background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 13px; padding: 12px 14px;
+  font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none;
+  resize: none; line-height: 1.5; transition: border-color 0.2s;
+}
+.ep-textarea:focus { border-color: rgba(252,211,77,0.4); }
+.ep-textarea::placeholder { color: rgba(255,255,255,0.2); }
+.ep-layanan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ep-layanan-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 12px; border-radius: 13px; cursor: pointer;
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+  transition: all 0.15s;
+}
+.ep-layanan-item.active { background: rgba(252,211,77,0.08); border-color: rgba(252,211,77,0.35); }
+.ep-layanan-check {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 9px;
+}
+.ep-layanan-item.active .ep-layanan-check { background: #FCD34D; border-color: #FCD34D; color: #1a0f00; }
+.ep-layanan-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); }
+.ep-layanan-item.active .ep-layanan-name { color: #fff; }
+.ep-avatar-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 16px; background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.08); border-radius: 16px;
+}
+.ep-avatar-big {
+  width: 72px; height: 72px; border-radius: 20px;
+  background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 800; color: rgba(255,255,255,0.7); overflow: hidden;
+}
+.ep-avatar-big img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+.ep-foto-btn {
+  font-size: 12px; font-weight: 700; color: #FCD34D; cursor: pointer;
+  background: rgba(252,211,77,0.08); border: 0.5px solid rgba(252,211,77,0.2);
+  border-radius: 20px; padding: 5px 14px;
+}
+.ep-save-btn {
+  width: 100%; height: 48px; border-radius: 14px; border: none; margin-top: 20px;
+  background: linear-gradient(135deg,#FFF8CC,#FCD34D,#F59E0B);
+  color: #1a0f00; font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 17px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(252,211,77,0.3);
+}
+
 </style>
 </head>
 <body>
@@ -355,6 +448,101 @@ body {
     <ellipse cx="240" cy="450" rx="160" ry="18" fill="rgba(200,200,255,0.02)" transform="rotate(-20 240 450)"/>
   </svg>
 
+  <!-- HALAMAN EDIT PROFIL -->
+  <div id="editProfilePage" class="ep-page">
+    <div class="ep-navbar">
+      <div class="ep-back" onclick="closeEditProfile()">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <span class="ep-title">Edit Profil</span>
+    </div>
+    <div class="ep-inner">
+
+      <!-- Foto -->
+      <div class="ep-section-label">Foto Profil</div>
+      <div class="ep-avatar-wrap">
+        <div class="ep-avatar-big" id="epAvatarBig">V</div>
+        <label class="ep-foto-btn" for="epFotoInput">📷 Ganti Foto</label>
+        <input type="file" id="epFotoInput" accept="image/*" style="display:none" onchange="handleFoto(this)"/>
+      </div>
+
+      <!-- Nama -->
+      <div class="ep-section-label">Nama</div>
+      <input class="ep-input" id="epNama" type="text" placeholder="Nama kamu" value="Vania"/>
+
+      <!-- Umur -->
+      <div class="ep-section-label">Umur</div>
+      <input class="ep-input" id="epUmur" type="number" placeholder="Umur" value="21" min="17" max="99"/>
+
+      <!-- Bio -->
+      <div class="ep-section-label">Bio</div>
+      <textarea class="ep-textarea" id="epBio" placeholder="Ceritakan sedikit tentang kamu...">Halo! Aku Vania, suka dengerin cerita kamu sambil menemanimu tidur. Suaraku lembut dan aku sangat sabar.</textarea>
+
+      <!-- Layanan -->
+      <div class="ep-section-label">Layanan yang Tersedia</div>
+      <div class="ep-layanan-grid" id="epLayananGrid">
+        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
+          <div class="ep-layanan-check">✓</div>
+          <span class="ep-layanan-name">🌙 Sleep Call</span>
+        </div>
+        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
+          <div class="ep-layanan-check">✓</div>
+          <span class="ep-layanan-name">📞 Teman Call</span>
+        </div>
+        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
+          <div class="ep-layanan-check">✓</div>
+          <span class="ep-layanan-name">🫂 Curhat Call</span>
+        </div>
+        <div class="ep-layanan-item active" onclick="toggleLayanan(this)">
+          <div class="ep-layanan-check">✓</div>
+          <span class="ep-layanan-name">💕 Pacar Virtual</span>
+        </div>
+        <div class="ep-layanan-item" onclick="toggleLayanan(this)">
+          <div class="ep-layanan-check"></div>
+          <span class="ep-layanan-name">🎮 Mabar</span>
+        </div>
+        <div class="ep-layanan-item" onclick="toggleLayanan(this)">
+          <div class="ep-layanan-check"></div>
+          <span class="ep-layanan-name">🎯 Marah-marah</span>
+        </div>
+      </div>
+
+      <!-- Audio Sample -->
+      <div class="ep-section-label" style="margin-top:18px;">Sample Suara</div>
+      <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;">
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Upload rekaman suaramu (mp3/wav). Akan otomatis di-mix dengan backsound dan muncul sebagai sample di halaman client.</div>
+        
+        <div id="epAudioWrap" style="margin-bottom:10px;">
+          <label for="epAudioInput" style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:11px 14px;cursor:pointer;">
+            <span style="font-size:18px;">🎙️</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#fff;">Upload Audio Suara</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;">Format mp3 atau wav, maks 10MB</div>
+            </div>
+          </label>
+          <input type="file" id="epAudioInput" accept="audio/*" style="display:none" onchange="handleAudio(this)"/>
+        </div>
+
+        <div id="epAudioPreview" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);">Preview Sample</span>
+            <button onclick="removeAudio()" style="background:none;border:none;color:rgba(255,80,80,0.6);font-size:11px;cursor:pointer;font-family:inherit;">Hapus</button>
+          </div>
+          <button onclick="playMixPreview()" id="epPlayBtn" style="width:100%;height:40px;border-radius:12px;background:rgba(52,211,153,0.1);border:0.5px solid rgba(52,211,153,0.2);color:#34D399;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+            ▶ Putar Preview (dengan backsound)
+          </button>
+        </div>
+
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(252,211,77,0.05);border:0.5px solid rgba(252,211,77,0.1);border-radius:10px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:14px;">🎵</span>
+          <span style="font-size:10.5px;color:rgba(255,255,255,0.3);">Backsound: <span style="color:rgba(252,211,77,0.6);" id="backsoundName">Belum diatur</span></span>
+        </div>
+      </div>
+
+      <button class="ep-save-btn" onclick="saveProfile()">✦ Simpan Profil</button>
+    </div>
+  </div>
+
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
@@ -402,12 +590,16 @@ body {
       <!-- PROFILE CARD -->
       <div class="ht-profile-card">
         <div class="ht-profile-top">
-          <div class="ht-avatar">V</div>
-          <div>
-            <div class="ht-greet">Selamat pagi,</div>
-            <div class="ht-name">Vania <span class="ht-name-spark">✨</span></div>
-            <div class="ht-meta">Bergabung 2024</div>
+          <div style="position:relative;flex-shrink:0;" onclick="editFoto()">
+            <div class="ht-avatar" id="profileAvatar">V</div>
+            <div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:rgba(252,211,77,0.9);display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;">✏️</div>
           </div>
+          <div style="flex:1;">
+            <div class="ht-greet">Selamat pagi,</div>
+            <div class="ht-name" id="profileName">Vania <span class="ht-name-spark">✨</span></div>
+            <div class="ht-meta" id="profileMeta">Bergabung 2024</div>
+          </div>
+          <button onclick="openEditProfile()" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:6px 10px;color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;">Edit</button>
         </div>
 
         <!-- TOGGLE ONLINE -->
@@ -812,6 +1004,132 @@ function unblacklist(nomorKey) {
   document.getElementById('blacklistMenu')?.remove();
   renderRiwayat();
   showToast('✓ Dihapus dari blacklist');
+}
+
+// ===== AUDIO MIX =====
+// Ganti URL ini dengan backsound kamu nanti
+const BACKSOUND_URL = 'https://YOUR_BACKSOUND_URL_HERE.mp3';
+const BACKSOUND_NAME = 'Backsound Malam'; // Nama yang tampil
+
+let talentAudioBlob = null;
+let mixAudioCtx = null;
+let mixPlaying = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('backsoundName').textContent = BACKSOUND_NAME;
+});
+
+function handleAudio(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { showToast('⚠️ File terlalu besar, maks 10MB'); return; }
+  talentAudioBlob = file;
+  document.getElementById('epAudioPreview').style.display = 'block';
+  showToast('🎙️ Audio berhasil diupload!');
+}
+
+function removeAudio() {
+  talentAudioBlob = null;
+  document.getElementById('epAudioInput').value = '';
+  document.getElementById('epAudioPreview').style.display = 'none';
+  if (mixAudioCtx) { mixAudioCtx.close(); mixAudioCtx = null; }
+  mixPlaying = false;
+}
+
+async function playMixPreview() {
+  const btn = document.getElementById('epPlayBtn');
+  if (mixPlaying) {
+    if (mixAudioCtx) { mixAudioCtx.close(); mixAudioCtx = null; }
+    mixPlaying = false;
+    btn.innerHTML = '▶ Putar Preview (dengan backsound)';
+    btn.style.color = '#34D399';
+    return;
+  }
+
+  try {
+    btn.innerHTML = '⏳ Memuat...';
+    mixAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Load suara talent
+    const talentBuffer = await mixAudioCtx.decodeAudioData(await talentAudioBlob.arrayBuffer());
+
+    // Load backsound (jika URL sudah diisi)
+    let backsoundBuffer = null;
+    if (BACKSOUND_URL !== 'https://YOUR_BACKSOUND_URL_HERE.mp3') {
+      try {
+        const resp = await fetch(BACKSOUND_URL);
+        backsoundBuffer = await mixAudioCtx.decodeAudioData(await resp.arrayBuffer());
+      } catch(e) { showToast('⚠️ Backsound tidak bisa dimuat'); }
+    }
+
+    // Play talent audio
+    const talentSource = mixAudioCtx.createBufferSource();
+    talentSource.buffer = talentBuffer;
+    const talentGain = mixAudioCtx.createGain();
+    talentGain.gain.value = 1.0;
+    talentSource.connect(talentGain);
+    talentGain.connect(mixAudioCtx.destination);
+    talentSource.start(0);
+
+    // Play backsound (volume lebih rendah)
+    if (backsoundBuffer) {
+      const bsSource = mixAudioCtx.createBufferSource();
+      bsSource.buffer = backsoundBuffer;
+      bsSource.loop = true;
+      const bsGain = mixAudioCtx.createGain();
+      bsGain.gain.value = 0.35; // backsound lebih pelan
+      bsSource.connect(bsGain);
+      bsGain.connect(mixAudioCtx.destination);
+      bsSource.start(0);
+      talentSource.onended = () => { bsSource.stop(); };
+    }
+
+    mixPlaying = true;
+    btn.innerHTML = '⏹ Stop';
+    btn.style.color = '#F87171';
+
+    talentSource.onended = () => {
+      mixPlaying = false;
+      btn.innerHTML = '▶ Putar Preview (dengan backsound)';
+      btn.style.color = '#34D399';
+    };
+
+  } catch(e) {
+    showToast('⚠️ Gagal memutar audio');
+    btn.innerHTML = '▶ Putar Preview (dengan backsound)';
+    mixPlaying = false;
+  }
+}
+function openEditProfile() {
+  document.getElementById('editProfilePage').classList.add('open');
+  document.getElementById('app').style.overflow = 'visible';
+  document.getElementById('editProfilePage').scrollTop = 0;
+}
+function closeEditProfile() {
+  document.getElementById('editProfilePage').classList.remove('open');
+  document.getElementById('app').style.overflow = 'hidden';
+}
+function toggleLayanan(el) {
+  el.classList.toggle('active');
+  el.querySelector('.ep-layanan-check').textContent = el.classList.contains('active') ? '✓' : '';
+}
+function handleFoto(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('epAvatarBig').innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">`;
+    document.getElementById('profileAvatar').innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">`;
+  };
+  reader.readAsDataURL(file);
+}
+function editFoto() { document.getElementById('epFotoInput').click(); }
+function saveProfile() {
+  const nama = document.getElementById('epNama').value.trim() || 'Vania';
+  document.getElementById('profileName').innerHTML = nama + ' <span class="ht-name-spark">✨</span>';
+  const avatar = document.getElementById('profileAvatar');
+  if (!avatar.querySelector('img')) avatar.textContent = nama[0].toUpperCase();
+  closeEditProfile();
+  showToast('✅ Profil berhasil disimpan!');
 }
 
 let isOnline = true;
