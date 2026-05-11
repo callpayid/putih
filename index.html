@@ -584,13 +584,12 @@ function renderRiwayat() {
     return;
   }
 
-  let html = buatGrupHari(periodeIni);
-  if (showAll && periodeLalu.length > 0) {
-    html += buatGrupHari(periodeLalu);
-  }
+  const semuaRiwayat = [...periodeIni, ...periodeLalu];
+  const tampilData = showAll ? semuaRiwayat : semuaRiwayat.slice(0, 10);
+  const html = buatGrupHari(tampilData);
 
   list.innerHTML = html;
-  if (btnLihat) btnLihat.style.display = (!showAll && periodeLalu.length > 0) ? 'block' : 'none';
+  if (btnLihat) btnLihat.style.display = (!showAll && semuaRiwayat.length > 10) ? 'block' : 'none';
 }
 let totalGaji = 0;
 let poin = 50;
