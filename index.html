@@ -2019,7 +2019,7 @@ function renderClientPage(reset) {
     var rank = i + 1;
     var rankClass = rank <= 3 ? 'cr-' + rank : 'cr-n';
     var rankLabel = rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank;
-    items += '<div class="client-item" onmousedown="showClientPreview(' + i + ',event)" onmouseup="hideClientPreview()" onmouseleave="hideClientPreview()" ontouchstart="showClientPreview(' + i + ',event)" ontouchend="hideClientPreview()" ontouchcancel="hideClientPreview()">'
+    items += '<div class="client-item" onmousedown="startLongPress(' + i + ',event)" onmouseup="hideClientPreview()" onmouseleave="hideClientPreview()" ontouchstart="startLongPress(' + i + ',event)" ontouchend="hideClientPreview()" ontouchcancel="hideClientPreview()" ontouchmove="cancelLongPress()">'
       + '<div class="client-rank ' + rankClass + '">' + rankLabel + '</div>'
       + '<div style="flex:1;min-width:0;">'
       + '<div class="client-wa">' + c.wa + '</div>'
@@ -2078,17 +2078,28 @@ renderClientPage(true);
 const talentNames = ['Vania','Luna','Ara','Mika','Sora','Niko','Rara','Kira','Nana','Lila','Esti','Dira'];
 const talentEmojis = ['✨','🌙','🌸','💫','🌟','🎵','🌺','💎','🌻','🦋','🎀','🌈'];
 
-function showClientPreview(idx, e) {
+var _longPressTimer = null;
+
+function startLongPress(idx, e) {
+  _longPressTimer = setTimeout(function() {
+    _showPreview(idx, e);
+  }, 500);
+}
+
+function cancelLongPress() {
+  if (_longPressTimer) { clearTimeout(_longPressTimer); _longPressTimer = null; }
+}
+
+function _showPreview(idx, e) {
   const c = window._visibleClients[idx];
   if (!c) return;
-  e.preventDefault();
 
   const seed = c.wa.replace(/-/g,'').split('').reduce(function(a,b){ return a + b.charCodeAt(0); }, 0);
-  const talentNames = ['Vania','Luna','Ara','Mika','Sora','Niko','Rara','Kira','Nana','Lila'];
-  const talentEmojis = ['✨','🌙','🌸','💫','🌟','🎵','🌺','💎','🌻','🦋'];
+  const talentNames = ['Vania','Luna','Ara','Mika','Sora','Niko','Rara','Kira','Nana','Lila','Esti','Dira'];
+  const talentEmojis = ['✨','🌙','🌸','💫','🌟','🎵','🌺','💎','🌻','🦋','🎀','🌈'];
   const top = [];
   const used = new Set();
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 10; i++) {
     var idx2 = (seed * (i+1) * 7) % talentNames.length;
     while (used.has(idx2)) idx2 = (idx2 + 1) % talentNames.length;
     used.add(idx2);
@@ -2110,7 +2121,6 @@ function showClientPreview(idx, e) {
   }).join('');
 
   var preview = document.getElementById('clientPreview');
-  // Posisi vertikal: di atas atau bawah touch
   var clientY = e.touches ? e.touches[0].clientY : e.clientY;
   var appEl = document.getElementById('app');
   var appRect = appEl.getBoundingClientRect();
@@ -2126,6 +2136,7 @@ function showClientPreview(idx, e) {
 }
 
 function hideClientPreview() {
+  cancelLongPress();
   document.getElementById('clientPreview').classList.remove('show');
 }
 
