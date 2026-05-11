@@ -75,8 +75,13 @@ body{
 
 /* TABS */
 .tabs-wrap{
-  display:flex;flex-wrap:wrap;gap:4px;padding:10px 14px 8px;
+  display:flex;gap:4px;padding:10px 14px 8px;
+  overflow-x:auto;scrollbar-width:none;
   background:#F7F8FC;
+}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+@media(min-width:481px){
+  .tabs-wrap{flex-wrap:wrap;overflow-x:visible;}
 }
 .tab-btn{
   flex-shrink:0;border:none;cursor:pointer;font-family:inherit;
