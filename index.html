@@ -440,14 +440,6 @@ body {
         </div>
       </div>
 
-      <!-- RIWAYAT ORDER -->
-      <div style="margin-bottom:12px;">
-        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;">Riwayat Order</div>
-        <div id="riwayatList">
-          <div style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:14px 0;">Belum ada riwayat order</div>
-        </div>
-      </div>
-
       <!-- ORDER MASUK CARD -->
       <div class="ht-order-card" id="orderCard">
         <div class="ht-order-header">
@@ -460,8 +452,8 @@ body {
         <div class="ht-order-info">
           <div class="ht-order-avatar" id="orderClientAvatar">A</div>
           <div>
-            <div class="ht-order-client" id="orderClientName">Andi · Sleep Call</div>
-            <div class="ht-order-detail" id="orderClientDetail">60 menit · estimasi mulai sekarang</div>
+            <div class="ht-order-client" id="orderClientName">—</div>
+            <div class="ht-order-detail" id="orderClientDetail">—</div>
           </div>
           <div style="text-align:right;margin-left:auto;">
             <div class="ht-order-price" id="orderPrice">—</div>
@@ -471,20 +463,23 @@ body {
         <div class="ht-order-progress">
           <div class="ht-order-progress-bar" id="orderProgressBar" style="width:100%"></div>
         </div>
-
-        <!-- Nomor WA reveal setelah terima -->
         <div id="orderRevealBox" style="display:none;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px;">
           <div style="font-size:13px;font-weight:700;color:#34D399;" id="orderRevealNumber">—</div>
           <button onclick="salinNomor()" style="background:rgba(52,211,153,0.12);border:0.5px solid rgba(52,211,153,0.25);border-radius:8px;padding:5px 12px;color:#34D399;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;">Salin</button>
         </div>
-
         <div class="ht-order-actions" id="orderActions">
           <button class="ht-btn-tolak" onclick="tolakOrder()">Tolak</button>
           <button class="ht-btn-terima" onclick="terimaOrder()">Terima</button>
         </div>
+        <button id="orderCloseBtn" onclick="closeOrder()" style="display:none;width:100%;height:36px;border-radius:10px;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;">Tutup</button>
+      </div>
 
-        <!-- Tutup setelah terima -->
-        <button id="orderCloseBtn" onclick="closeOrder()" style="display:none;width:100%;height:38px;border-radius:12px;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:2px;">Tutup</button>
+      <!-- RIWAYAT ORDER -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;">Riwayat Order</div>
+        <div id="riwayatList">
+          <div style="font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:14px 0;">Belum ada riwayat order</div>
+        </div>
       </div>
 
       <!-- SIMULASI BTN -->
