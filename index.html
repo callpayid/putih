@@ -523,10 +523,10 @@ body {
           <input type="file" id="epAudioInput" accept="audio/*" style="display:none" onchange="handleAudio(this)"/>
         </div>
 
-        <div id="epAudioPreview" style="display:none;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div id="epAudioPreview" style="display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:8px;">
             <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);">Preview Sample</span>
-            <button onclick="removeAudio()" style="background:none;border:none;color:rgba(255,80,80,0.6);font-size:11px;cursor:pointer;font-family:inherit;">Hapus</button>
+            <button onclick="removeAudio()" style="background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;line-height:1;margin-top:4px;">×</button>
           </div>
           <button onclick="playMixPreview()" id="epPlayBtn" style="width:100%;height:40px;border-radius:12px;background:rgba(52,211,153,0.1);border:0.5px solid rgba(52,211,153,0.2);color:#34D399;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
             ▶ Putar Preview (dengan backsound)
@@ -1024,6 +1024,7 @@ function handleAudio(input) {
   if (!file) return;
   if (file.size > 10 * 1024 * 1024) { showToast('⚠️ File terlalu besar, maks 10MB'); return; }
   talentAudioBlob = file;
+  document.getElementById('epAudioWrap').style.display = 'none';
   document.getElementById('epAudioPreview').style.display = 'block';
   showToast('🎙️ Audio berhasil diupload!');
 }
@@ -1031,6 +1032,7 @@ function handleAudio(input) {
 function removeAudio() {
   talentAudioBlob = null;
   document.getElementById('epAudioInput').value = '';
+  document.getElementById('epAudioWrap').style.display = 'block';
   document.getElementById('epAudioPreview').style.display = 'none';
   if (mixAudioCtx) { mixAudioCtx.close(); mixAudioCtx = null; }
   mixPlaying = false;
