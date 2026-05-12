@@ -446,8 +446,6 @@ var aktivitasLog = [
 // ============================================================
 var selNominal  = 0;
 var selLayanan  = '';
-var vAksiKlik   = {};
-var clientKlik  = {};
 var talentChanges = {};
 var activeTalentId = null;
 
@@ -689,15 +687,10 @@ function voucherRow(v) {
 }
 
 function onVoucherKlik(kode) {
-  if (!vAksiKlik[kode]) vAksiKlik[kode] = 0;
-  vAksiKlik[kode]++;
   var v = voucherList.find(function(x){ return x.kode === kode; });
   if (!v) return;
   if (v.status === 'nonaktif' || v.status === 'cancel') { toast('Voucher ini sudah tidak aktif'); return; }
-  if (vAksiKlik[kode] >= 10) {
-    vAksiKlik[kode] = 0;
-    tampilVAksi(kode);
-  }
+  tampilVAksi(kode);
 }
 
 function tampilVAksi(kode) {
@@ -880,23 +873,64 @@ function clientRow(cl) {
     blHtml = '<div class="bl-collapsed">'
       + '<div class="bl-collapsed-head" onclick="toggleBl(this.dataset.id)" data-id="'+did+'">'
         + '<span>⛔ ' + cl.blBy.length + ' pihak · ' + names + '</span>'
-        + '<span id="' + did + '_arr" style="font-size:10px;">▼</span>'
+        + '<span id="'+did+'_arr" style="font-size:10px;">▼</span>'
       + '</div>'
-      + '<div class="bl-detail" id="' + did + '">' + rows + '</div>'
+      + '<div class="bl-detail" id="'+did+'">'+rows+'</div>'
       + '</div>';
   }
-  return '<div class="client-card' + (cl.bl ? ' blacklisted' : '') + '" onclick="onClientKlik(this.dataset.wa)" data-wa="'+cl.wa+'">'
+
+  var blBtn = cl.bl
+    ? '<button onclick="konfirmHapusBl(this.dataset.wa)" data-wa="'+cl.wa+'" style="flex-shrink:0;height:30px;padding:0 10px;border-radius:8px;border:0.5px solid #C0DD97;background:#EAF3DE;color:#3B6D11;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer;">Hapus Blacklist</button>'
+    : '<button onclick="blLangsung(this.dataset.wa)" data-wa="'+cl.wa+'" style="flex-shrink:0;height:30px;padding:0 10px;border-radius:8px;border:0.5px solid #FCA5A5;background:#FEF2F2;color:#DC2626;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer;">⛔ Blacklist</button>';
+
+  return '<div class="client-card' + (cl.bl ? ' blacklisted' : '') + '">'
     + '<div class="client-head">'
       + '<div class="client-ava" style="background:' + (cl.bl ? '#FEF2F2' : '#E1F5EE') + ';">' + (cl.bl ? '⛔' : '👤') + '</div>'
-      + '<div class="client-info">'
-        + '<div class="client-wa">' + cl.wa + (cl.bl ? ' <span class="badge badge-red">Blacklist</span>' : '') + (cl.repeat && !cl.bl ? ' <span class="badge badge-purple">Repeat</span>' : '') + '</div>'
+      + '<div class="client-info" style="flex:1;">'
+        + '<div class="client-wa">' + cl.wa
+          + (cl.bl ? ' <span class="badge badge-red">Blacklist</span>' : '')
+          + (cl.repeat && !cl.bl ? ' <span class="badge badge-purple">Repeat</span>' : '')
+        + '</div>'
         + '<div class="client-meta">' + cl.order + 'x order · Rp ' + (cl.total/1000).toFixed(0) + 'rb · Terakhir ' + cl.terakhir + '</div>'
       + '</div>'
+      + blBtn
     + '</div>'
     + blHtml
     + '</div>';
 }
+function blLangsung(wa) {
+  // Tampilkan warning dulu
+  var content = document.getElementById('clientAksiContent');
+  content.innerHTML = '<div style="text-align:center;margin-bottom:14px;">'
+    + '<div style="font-size:26px;margin-bottom:6px;">⛔</div>'
+    + '<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#2E2875;margin-bottom:3px;">Blacklist Client?</div>'
+    + '<div style="font-size:12px;font-weight:700;color:#534AB7;">' + wa + '</div>'
+    + '</div>'
+    + '<div style="background:#FEF2F2;border:0.5px solid #FCA5A5;border-radius:10px;padding:9px 11px;font-size:10px;color:#DC2626;line-height:1.5;margin-bottom:12px;">'
+      + '⚠️ Client ini akan <b>diblacklist oleh admin</b>. Tidak bisa beli voucher atau order siapapun. Bisa dibuka kembali kapan saja.'
+    + '</div>'
+    + '<div style="display:flex;gap:8px;">'
+      + '<button class="btn-sec" style="flex:1;" onclick="closeModal("clientAksiModal")">Batal</button>'
+      + '<button class="btn-red" style="flex:1;" onclick="konfirmBlLangsung(this.dataset.wa)" data-wa="'+wa+'">⛔ Blacklist</button>'
+    + '</div>';
+  showModal('clientAksiModal');
+}
 
+function konfirmBlLangsung(wa) {
+  var jam = pad(new Date().getHours()) + ':' + pad(new Date().getMinutes());
+  var cl  = clientData.find(function(x){ return x.wa === wa; });
+  if (cl) {
+    cl.bl = true;
+    if (!cl.blBy) cl.blBy = [];
+    cl.blBy.unshift({siapa:'Admin', alasan:'Diblacklist oleh admin', waktu: jam + ' Hari ini'});
+  } else {
+    clientData.push({wa:wa,order:0,total:0,terakhir:'-',repeat:false,bl:true,blBy:[{siapa:'Admin',alasan:'Diblacklist oleh admin',waktu:jam+' Hari ini'}]});
+  }
+  closeModal('clientAksiModal');
+  renderClient();
+  addLog('blacklist','Admin','Blacklist client', wa, null);
+  toast('⛔ ' + wa + ' diblacklist');
+}
 function toggleBl(id) {
   var el  = document.getElementById(id);
   var arr = document.getElementById(id + '_arr');
@@ -907,12 +941,7 @@ function toggleBl(id) {
 }
 
 function onClientKlik(wa) {
-  if (!clientKlik[wa]) clientKlik[wa] = 0;
-  clientKlik[wa]++;
-  if (clientKlik[wa] >= 10) {
-    clientKlik[wa] = 0;
-    tampilClientAksi(wa);
-  }
+  tampilClientAksi(wa);
 }
 
 function tampilClientAksi(wa) {
@@ -968,6 +997,22 @@ function doBlacklist(wa) {
   toast('⛔ ' + wa + ' diblacklist');
 }
 
+function konfirmHapusBl(wa) {
+  var content = document.getElementById('clientAksiContent');
+  content.innerHTML = '<div style="text-align:center;margin-bottom:14px;">'
+    + '<div style="font-size:26px;margin-bottom:6px;">🔓</div>'
+    + '<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#2E2875;margin-bottom:3px;">Hapus Blacklist?</div>'
+    + '<div style="font-size:12px;font-weight:700;color:#534AB7;">' + wa + '</div>'
+    + '</div>'
+    + '<div style="background:#EAF3DE;border:0.5px solid #C0DD97;border-radius:10px;padding:9px 11px;font-size:10px;color:#3B6D11;line-height:1.5;margin-bottom:12px;">'
+      + '✅ Client akan bisa order kembali setelah blacklist dihapus.'
+    + '</div>'
+    + '<div style="display:flex;gap:8px;">'
+      + '<button class="btn-sec" style="flex:1;" onclick="closeModal("clientAksiModal")">Batal</button>'
+      + '<button class="btn-green" style="flex:1;" onclick="hapusBl(this.dataset.wa)" data-wa="'+wa+'">Hapus Blacklist</button>'
+    + '</div>';
+  showModal('clientAksiModal');
+}
 function hapusBl(wa) {
   var cl = clientData.find(function(c){ return c.wa === wa; });
   if (cl) { cl.bl = false; cl.blBy = []; }
