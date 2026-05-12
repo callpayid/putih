@@ -2,11 +2,12 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>SleepcallPay — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet"/>
 <style>
 /* ===== RESET & BASE ===== */
+html{touch-action:pan-x pan-y;-ms-touch-action:pan-x pan-y;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{min-height:100vh;-webkit-font-smoothing:antialiased;}
 body{font-family:'Inter',sans-serif;background:#DDD8EE;display:flex;justify-content:center;align-items:flex-start;}
@@ -273,7 +274,7 @@ body{font-family:'Inter',sans-serif;background:#DDD8EE;display:flex;justify-cont
     <div class="chip" onclick="filterAkt('voucher',this)">Voucher</div>
     <div class="chip" onclick="filterAkt('order',this)">Order</div>
     <div class="chip" onclick="filterAkt('blacklist',this)">Blacklist</div>
-    <div class="chip" onclick="filterAkt('talent',this)">Talent</div>
+
   </div>
   <div id="aktList"></div>
 </div>
@@ -693,11 +694,9 @@ function onVoucherKlik(kode) {
   var v = voucherList.find(function(x){ return x.kode === kode; });
   if (!v) return;
   if (v.status === 'nonaktif' || v.status === 'cancel') { toast('Voucher ini sudah tidak aktif'); return; }
-  if (vAksiKlik[kode] >= 5) {
+  if (vAksiKlik[kode] >= 10) {
     vAksiKlik[kode] = 0;
     tampilVAksi(kode);
-  } else {
-    toast('Klik ' + (5-vAksiKlik[kode]) + 'x lagi untuk opsi');
   }
 }
 
@@ -910,11 +909,9 @@ function toggleBl(id) {
 function onClientKlik(wa) {
   if (!clientKlik[wa]) clientKlik[wa] = 0;
   clientKlik[wa]++;
-  if (clientKlik[wa] >= 5) {
+  if (clientKlik[wa] >= 10) {
     clientKlik[wa] = 0;
     tampilClientAksi(wa);
-  } else {
-    toast('Klik ' + (5-clientKlik[wa]) + 'x lagi untuk opsi');
   }
 }
 
@@ -1208,8 +1205,20 @@ function ubahPoin(delta) {
   if (!t) return;
   var base = talentChanges.poin !== undefined ? talentChanges.poin : t.poin;
   var next = Math.max(0, Math.min(100, base + delta));
-  if (next === t.poin) { delete talentChanges.poin; }
-  else { talentChanges.poin = next; }
+  if (next === t.poin) { delete talentChanges.poin; } else { talentChanges.poin = next; }
+  // Auto nonaktif jika poin 0
+  if (next === 0) {
+    talentChanges.status = 'nonaktif';
+    var wb = document.getElementById('warningBox');
+    if (wb) { wb.className = 'warning-box red show'; wb.innerHTML = '⚠️ Poin mencapai 0 — talent akan otomatis <b>dinonaktifkan</b> saat disimpan.'; }
+    renderActionBtns();
+  } else if (talentChanges.status === 'nonaktif' && t.status !== 'nonaktif') {
+    // Batalkan auto-nonaktif kalau poin naik lagi
+    delete talentChanges.status;
+    var wb2 = document.getElementById('warningBox');
+    if (wb2) { wb2.className = 'warning-box'; }
+    renderActionBtns();
+  }
   var el = document.getElementById('poinStepper');
   if (el) el.textContent = next;
   updateSimpanBtn();
