@@ -206,6 +206,7 @@ body{font-family:'Inter',sans-serif;background:#E8E4F0;display:flex;justify-cont
   <button class="tab-btn active" id="tab-home" onclick="switchPage('home')">Beranda</button>
   <button class="tab-btn" id="tab-voucher" onclick="switchPage('voucher')">Voucher</button>
   <button class="tab-btn" id="tab-laporan" onclick="switchPage('laporan')">Laporan <span id="laporanCount" style="background:#E24B4A;color:#fff;border-radius:10px;padding:1px 5px;font-size:8px;margin-left:2px;">3</span></button>
+  <button class="tab-btn" id="tab-aktivitas" onclick="switchPage('aktivitas')">Aktivitas</button>
   <button class="tab-btn" id="tab-talent" onclick="switchPage('talent')">Talent</button>
 </div>
 
@@ -288,6 +289,17 @@ body{font-family:'Inter',sans-serif;background:#E8E4F0;display:flex;justify-cont
   <div id="laporanList"></div>
 </div>
 
+<!-- AKTIVITAS -->
+<div class="section-page" id="pageAktivitas">
+  <div class="filter-row">
+    <div class="filter-chip active" onclick="filterAktivitas('semua',this)">Semua</div>
+    <div class="filter-chip" onclick="filterAktivitas('voucher',this)">Voucher</div>
+    <div class="filter-chip" onclick="filterAktivitas('order',this)">Order</div>
+    <div class="filter-chip" onclick="filterAktivitas('blacklist',this)">Blacklist</div>
+  </div>
+  <div id="aktivitasList"></div>
+</div>
+
 <!-- TALENT -->
 <div class="section-page" id="pageTalent">
   <div class="filter-row">
@@ -329,10 +341,12 @@ const laporanData=[
   {id:5,type:'refund',      client:'0878123xxxxx',talent:'Luna',   masalah:'Client minta refund, talent cancel sepihak',  waktu:'20:33 · Kemarin',  status:'selesai',nominal:50000},
 ];
 let voucherList=[
-  {kode:'SCP-A1B2C',wa:'081234512345',nominal:50000,jam:'10:24',used:true, src:'admin',talent:'Vania',  layanan:'Sleep Call',    durasi:'60 menit'},
+  {kode:'SCP-A1B2C',wa:'081234512345',nominal:50000,jam:'10:24',used:true, src:'admin',  talent:'Vania',  layanan:'Sleep Call',  durasi:'60 menit'},
   {kode:'SCP-X9Y8Z',wa:'082198765432',nominal:30000,jam:'09:51',used:false,src:'admin'},
-  {kode:'SCP-M3N4P',wa:'085261754085',nominal:20000,jam:'09:10',used:true, src:'admin',talent:'Nadira', layanan:'Curhat Call',   durasi:'40 menit'},
+  {kode:'SCP-M3N4P',wa:'085261754085',nominal:20000,jam:'09:10',used:true, src:'admin',  talent:'Nadira', layanan:'Curhat Call', durasi:'40 menit'},
   {kode:'SCP-Q7R8S',wa:'089987601234',nominal:50000,jam:'08:02',used:false,src:'admin'},
+  {kode:'SCP-W3B01',wa:'081398765001',nominal:30000,jam:'07:45',used:true, src:'website',talent:'Sasha',  layanan:'Teman Call',  durasi:'30 menit'},
+  {kode:'SCP-W3B02',wa:'085712345678',nominal:50000,jam:'07:20',used:false,src:'website'},
 ];
 let selectedNominal=0;
 let selectedLayanan='';
@@ -349,7 +363,7 @@ function updateClock(){
 updateClock();setInterval(updateClock,60000);
 
 function switchPage(page){
-  ['home','voucher','laporan','talent'].forEach(p=>{
+  ['home','voucher','laporan','aktivitas','talent'].forEach(p=>{
     const pid='page'+p.charAt(0).toUpperCase()+p.slice(1);
     const pEl=document.getElementById(pid); if(pEl) pEl.classList.toggle('active',p===page);
     const tEl=document.getElementById('tab-'+p); if(tEl) tEl.classList.toggle('active',p===page);
@@ -359,6 +373,7 @@ function switchPage(page){
   if(page==='talent')renderTalentPage();
   if(page==='voucher')renderVoucherHariIni();
   if(page==='home')renderHome();
+  if(page==='aktivitas')renderAktivitas();
 }
 
 function avaBg(g){return g==='w'?'#FDE8F3':'#E8F0FE';}
@@ -462,6 +477,7 @@ function buatVoucher(){
   document.getElementById('statVoucher').textContent=voucherList.length;
   renderVoucherHariIni();renderVoucherSnippet();
   showToast('🎟️ Voucher berhasil dibuat!');
+  addLog('voucher','🎟️','Admin','Buat voucher',kode+' · Rp '+selectedNominal.toLocaleString('id')+' · '+wa);
 }
 
 function tutupVoucherModal(){
@@ -741,7 +757,89 @@ function simulasiOrderWebsite(){
   document.getElementById('statVoucher').textContent=voucherList.length;
   renderVoucherHariIni();renderVoucherSnippet();
   showToast('🌐 Order website masuk! '+kode);
+  addLog('voucher','🌐','Client','Beli voucher via website',kode+' · Rp '+(nominal/1000).toFixed(0)+'rb');
 }
+// ===== DATA AKTIVITAS =====
+var aktivitasLog = [
+  {type:'voucher', icon:'🎟️', aktor:'Admin', aksi:'Buat voucher', detail:'SCP-A1B2C · Rp 50rb · 081234512345', waktu:'10:24', hari:'Hari ini'},
+  {type:'order',   icon:'✅', aktor:'Vania',  aksi:'Terima order', detail:'081234512345 · Sleep Call · 60 mnt', waktu:'10:24', hari:'Hari ini'},
+  {type:'voucher', icon:'🌐', aktor:'Client', aksi:'Beli voucher via website', detail:'SCP-W3B01 · Rp 30rb · 081398765001', waktu:'09:58', hari:'Hari ini'},
+  {type:'order',   icon:'✅', aktor:'Sasha',  aksi:'Terima order', detail:'081398765001 · Teman Call · 30 mnt', waktu:'09:59', hari:'Hari ini'},
+  {type:'voucher', icon:'🎫', aktor:'Client', aksi:'Gunakan voucher', detail:'SCP-W3B01 · Sasha · Teman Call', waktu:'10:00', hari:'Hari ini'},
+  {type:'order',   icon:'✕',  aktor:'Mirelle', aksi:'Tolak order', detail:'082198765432 · Teman Call', waktu:'09:51', hari:'Hari ini'},
+  {type:'blacklist',icon:'⛔', aktor:'Vania', aksi:'Blacklist client', detail:'085261754085 · Alasan: Request aneh', waktu:'09:30', hari:'Hari ini'},
+  {type:'order',   icon:'⏰', aktor:'Nadira', aksi:'Timeout order', detail:'085261754085 · Curhat Call', waktu:'08:44', hari:'Hari ini'},
+  {type:'voucher', icon:'🎟️', aktor:'Admin', aksi:'Buat voucher', detail:'SCP-M3N4P · Rp 20rb · 085261754085', waktu:'08:30', hari:'Hari ini'},
+  {type:'voucher', icon:'🎫', aktor:'Client', aksi:'Gunakan voucher', detail:'SCP-M3N4P · Nadira · Curhat Call', waktu:'08:45', hari:'Hari ini'},
+  {type:'blacklist',icon:'⛔', aktor:'Admin', aksi:'Blacklist client', detail:'085261754085 · Dilaporkan talent', waktu:'08:50', hari:'Hari ini'},
+  {type:'order',   icon:'✅', aktor:'Bella',  aksi:'Terima order', detail:'089987601234 · Sleep Call · 60 mnt', waktu:'08:02', hari:'Hari ini'},
+  {type:'blacklist',icon:'🔓', aktor:'Tasya', aksi:'Hapus blacklist', detail:'087812345678 · Dibuka kembali', waktu:'22:30', hari:'Kemarin'},
+  {type:'voucher', icon:'🚫', aktor:'Admin', aksi:'Nonaktifkan voucher', detail:'SCP-OLD01 · Permintaan client', waktu:'21:15', hari:'Kemarin'},
+  {type:'order',   icon:'❌', aktor:'Admin', aksi:'Cancel order', detail:'SCP-OLD02 · Luna · Sleep Call · Gaji dikurangi', waktu:'20:33', hari:'Kemarin'},
+  {type:'blacklist',icon:'🔓', aktor:'Admin', aksi:'Hapus blacklist', detail:'081234500000 · Dibuka oleh admin', waktu:'19:10', hari:'Kemarin'},
+  {type:'order',   icon:'✅', aktor:'Rizky',  aksi:'Terima order', detail:'087812345678 · Teman Call · 30 mnt', waktu:'18:44', hari:'Kemarin'},
+  {type:'voucher', icon:'🌐', aktor:'Client', aksi:'Beli voucher via website', detail:'SCP-W3B02 · Rp 50rb · 085712345678', waktu:'18:00', hari:'Kemarin'},
+];
+
+var aktivitasFilter = 'semua';
+
+function filterAktivitas(f, el) {
+  aktivitasFilter = f;
+  document.querySelectorAll('#pageAktivitas .filter-chip').forEach(function(x){x.classList.remove('active');});
+  el.classList.add('active');
+  renderAktivitas();
+}
+
+function renderAktivitas() {
+  var el = document.getElementById('aktivitasList');
+  if (!el) return;
+  var list = aktivitasFilter === 'semua' ? aktivitasLog : aktivitasLog.filter(function(a){ return a.type === aktivitasFilter; });
+
+  // Group by hari
+  var groups = {};
+  list.forEach(function(a) {
+    if (!groups[a.hari]) groups[a.hari] = [];
+    groups[a.hari].push(a);
+  });
+
+  var aktorColor = {'Admin':'#534AB7','Client':'#27500A','Vania':'#9D1B6E','Sasha':'#9D1B6E','Mirelle':'#9D1B6E','Nadira':'#9D1B6E','Bella':'#9D1B6E','Tasya':'#9D1B6E','Rizky':'#1B4FC4','Luna':'#9D1B6E'};
+  var aktorBg = {'Admin':'#EEEDFE','Client':'#EAF3DE','Vania':'#FDE8F3','Sasha':'#FDE8F3','Mirelle':'#FDE8F3','Nadira':'#FDE8F3','Bella':'#FDE8F3','Tasya':'#FDE8F3','Rizky':'#E8F0FE','Luna':'#FDE8F3'};
+
+  var html = '';
+  Object.keys(groups).forEach(function(hari) {
+    html += '<div style="display:flex;align-items:center;gap:8px;margin:10px 16px 6px;">'
+      + '<div style="flex:1;height:0.5px;background:#E5E0F5;"></div>'
+      + '<span style="font-size:9px;font-weight:700;color:#B4B2A9;letter-spacing:0.08em;white-space:nowrap;">' + hari.toUpperCase() + '</span>'
+      + '<div style="flex:1;height:0.5px;background:#E5E0F5;"></div>'
+      + '</div>';
+    groups[hari].forEach(function(a) {
+      var bg = aktorBg[a.aktor] || '#F0EEF8';
+      var col = aktorColor[a.aktor] || '#534AB7';
+      var aktorInit = a.aktor.charAt(0);
+      html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:0.5px solid #F5F3FF;">'
+        + '<div style="width:34px;height:34px;border-radius:10px;flex-shrink:0;background:' + bg + ';display:flex;align-items:center;justify-content:center;font-size:15px;margin-top:1px;">' + a.icon + '</div>'
+        + '<div style="flex:1;min-width:0;">'
+          + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:2px;">'
+            + '<span style="font-size:10px;font-weight:800;background:' + bg + ';color:' + col + ';border-radius:6px;padding:1px 7px;">' + a.aktor + '</span>'
+            + '<span style="font-size:11px;font-weight:700;color:#2C2C2A;">' + a.aksi + '</span>'
+          + '</div>'
+          + '<div style="font-size:10px;color:#888780;line-height:1.4;">' + a.detail + '</div>'
+        + '</div>'
+        + '<div style="font-size:9px;color:#B4B2A9;flex-shrink:0;margin-top:2px;">' + a.waktu + '</div>'
+        + '</div>';
+    });
+  });
+
+  el.innerHTML = html || '<div style="padding:30px;text-align:center;font-size:11px;color:#B4B2A9;">Tidak ada aktivitas</div>';
+}
+
+// Fungsi untuk tambah log aktivitas dari aksi lain
+function addLog(type, icon, aktor, aksi, detail) {
+  var now = new Date();
+  var jam = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  aktivitasLog.unshift({type:type, icon:icon, aktor:aktor, aksi:aksi, detail:detail, waktu:jam, hari:'Hari ini'});
+}
+
 renderHome();renderVoucherHariIni();
 </script>
 
@@ -824,12 +922,14 @@ function doNonaktif(kode){
   if(v)v.status='nonaktif';
   closeVA();renderVoucherHariIni();renderVoucherSnippet();
   showToast('Voucher '+kode+' dinonaktifkan');
+  addLog('voucher','🚫','Admin','Nonaktifkan voucher',kode);
 }
 function doCancel(kode){
   var v=voucherList.find(function(x){return x.kode===kode;});
   if(v)v.status='cancel';
   closeVA();renderVoucherHariIni();renderVoucherSnippet();
   showToast('Order dibatalkan - gaji talent dikurangi');
+  addLog('order','❌','Admin','Cancel order',kode+' · gaji talent dikurangi');
 }
   </script>
 </body>
