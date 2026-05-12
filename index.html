@@ -504,7 +504,7 @@ function renderVoucherHariIni(){
     var talentInfo=v.used&&v.talent?'<div style="font-size:9.5px;color:#534AB7;font-weight:700;margin-top:3px;background:#EEEDFE;border-radius:6px;padding:2px 7px;display:inline-block;">'+v.talent+' · '+v.layanan+' · '+v.durasi+'</div>':'';
     var badgeClass=v.status==='nonaktif'?'badge-yellow':v.status==='cancel'?'badge-red':v.used?'badge-gray':'badge-green';
     var badgeLabel=v.status==='nonaktif'?'Nonaktif':v.status==='cancel'?'Cancel':v.used?'Terpakai':'Aktif';
-    return '<div class="voucher-item" style="align-items:flex-start;">'+
+    return '<div class="voucher-item" style="align-items:flex-start;cursor:pointer;" onclick="onVoucherClick(\''+v.kode+'\')">'+ 
       '<div class="list-ava" style="background:'+avaBg+';font-size:14px;margin-top:2px;">🎟️</div>'+
       '<div class="list-main">'+
         '<div style="display:flex;align-items:center;">'+
@@ -776,7 +776,10 @@ function onVoucherClick(kode){
   if(v.status==='nonaktif'){showToast('Voucher sudah dinonaktifkan');return;}
   if(v.status==='cancel'){showToast('Order ini sudah dicancel');return;}
   if(!v.used){
-    showVA(kode,'aktif');
+    if(!vCC[kode])vCC[kode]=0;
+    vCC[kode]++;
+    if(vCC[kode]>=5){vCC[kode]=0;showVA(kode,'aktif');}
+    else{showToast('Klik '+(5-vCC[kode])+'x lagi untuk nonaktifkan');}
   } else {
     if(!vCC[kode])vCC[kode]=0;
     vCC[kode]++;
