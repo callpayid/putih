@@ -910,7 +910,7 @@ function blLangsung(wa) {
       + '⚠️ Client ini akan <b>diblacklist oleh admin</b>. Tidak bisa beli voucher atau order siapapun. Bisa dibuka kembali kapan saja.'
     + '</div>'
     + '<div style="display:flex;gap:8px;">'
-      + '<button class="btn-sec" style="flex:1;" onclick="closeModal("clientAksiModal")">Batal</button>'
+      + '<button class="btn-sec" style="flex:1;" onclick="closeClientAksiModal()">Batal</button>'
       + '<button class="btn-red" style="flex:1;" onclick="konfirmBlLangsung(this.dataset.wa)" data-wa="'+wa+'">⛔ Blacklist</button>'
     + '</div>';
   showModal('clientAksiModal');
@@ -931,6 +931,7 @@ function konfirmBlLangsung(wa) {
   addLog('blacklist','Admin','Blacklist client', wa, null);
   toast('⛔ ' + wa + ' diblacklist');
 }
+function closeClientAksiModal(){ closeModal('clientAksiModal'); }
 function toggleBl(id) {
   var el  = document.getElementById(id);
   var arr = document.getElementById(id + '_arr');
@@ -953,7 +954,7 @@ function tampilClientAksi(wa) {
       + '<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#2E2875;margin-bottom:3px;">Hapus Blacklist?</div>'
       + '<div style="font-size:12px;font-weight:700;color:#534AB7;">' + wa + '</div></div>'
       + '<div style="background:#EAF3DE;border:0.5px solid #C0DD97;border-radius:10px;padding:9px 11px;font-size:10px;color:#3B6D11;line-height:1.5;margin-bottom:12px;">Client akan bisa order kembali setelah blacklist dihapus.</div>'
-      + '<div style="display:flex;gap:8px;"><button class="btn-sec" style="flex:1;" onclick="closeModal(\'clientAksiModal\')">Batal</button>'
+      + '<div style="display:flex;gap:8px;"><button class="btn-sec" style="flex:1;" onclick="closeClientAksiModal()">Batal</button>'
       + '<button class="btn-green" style="flex:1;" onclick="hapusBl(this.dataset.wa)" data-wa="'+wa+'">Hapus Blacklist</button></div>';
   } else {
     html = '<div style="text-align:center;margin-bottom:14px;"><div style="font-size:26px;margin-bottom:6px;">👤</div>'
@@ -964,7 +965,7 @@ function tampilClientAksi(wa) {
       + ['Bahasa kasar','Request aneh','Tidak sopan','Lainnya'].map(function(r){ return '<div class="nom-chip" onclick="pilihBlReason(this)">' + r + '</div>'; }).join('')
       + '</div></div>'
       + '<textarea class="textarea" id="blNote" placeholder="Keterangan tambahan..." style="min-height:56px;margin-bottom:10px;"></textarea>'
-      + '<div style="display:flex;gap:8px;"><button class="btn-sec" style="flex:1;" onclick="closeModal(\'clientAksiModal\')">Batal</button>'
+      + '<div style="display:flex;gap:8px;"><button class="btn-sec" style="flex:1;" onclick="closeClientAksiModal()">Batal</button>'
       + '<button class="btn-red" style="flex:1;" onclick="doBlacklist(this.dataset.wa)" data-wa="'+wa+'">Blacklist</button></div>';
   }
   document.getElementById('clientAksiContent').innerHTML = html;
@@ -1008,7 +1009,7 @@ function konfirmHapusBl(wa) {
       + '✅ Client akan bisa order kembali setelah blacklist dihapus.'
     + '</div>'
     + '<div style="display:flex;gap:8px;">'
-      + '<button class="btn-sec" style="flex:1;" onclick="closeModal("clientAksiModal")">Batal</button>'
+      + '<button class="btn-sec" style="flex:1;" onclick="closeClientAksiModal()">Batal</button>'
       + '<button class="btn-green" style="flex:1;" onclick="hapusBl(this.dataset.wa)" data-wa="'+wa+'">Hapus Blacklist</button>'
     + '</div>';
   showModal('clientAksiModal');
