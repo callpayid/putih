@@ -109,7 +109,7 @@ body{font-family:'Inter',sans-serif;background:#E8E4F0;display:flex;justify-cont
 .nav-item.active .nav-label{color:#534AB7;}
 .nav-badge-wrap{position:relative;display:inline-flex;}
 .nav-badge{position:absolute;top:-3px;right:-6px;background:#E24B4A;border-radius:10px;font-size:8px;font-weight:900;color:#fff;padding:1px 4px;min-width:14px;text-align:center;border:1.5px solid #fff;}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(60,52,137,0.18);z-index:900;backdrop-filter:blur(8px);align-items:flex-end;justify-content:center;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:900;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;}
 .modal-overlay.open{display:flex;}
 .modal-sheet{width:100%;max-width:480px;background:#fff;border-radius:24px 24px 0 0;border-top:0.5px solid #E5E0F5;padding:18px 16px 40px;max-height:88vh;overflow-y:auto;animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1);}
 .modal-handle{width:36px;height:3px;background:#D3D1E8;border-radius:3px;margin:0 auto 14px;}
@@ -241,9 +241,12 @@ body{font-family:'Inter',sans-serif;background:#E8E4F0;display:flex;justify-cont
 <div class="section-page" id="pageVoucher">
   <div class="voucher-section" style="padding-top:12px;">
     <span class="input-label" style="margin-top:0;">Nomor WA Client</span>
-    <input class="input-field" id="vWA" type="number" placeholder="628xxx..." style="height:38px;font-size:12px;"/>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <input class="input-field" id="vWA" type="number" placeholder="628xxx..." style="height:38px;font-size:12px;flex:1;"/>
+      <button onclick="pasteWA()" style="height:38px;padding:0 12px;border-radius:11px;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">📋 Paste</button>
+    </div>
     <span class="input-label">Nominal</span>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;">
+    <div id="nominalGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;">
       <div class="nominal-chip" onclick="selectNominal(this,10000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 10rb</div></div>
       <div class="nominal-chip" onclick="selectNominal(this,20000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 20rb</div></div>
       <div class="nominal-chip" onclick="selectNominal(this,30000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 30rb</div></div>
@@ -251,26 +254,16 @@ body{font-family:'Inter',sans-serif;background:#E8E4F0;display:flex;justify-cont
       <div class="nominal-chip" onclick="selectNominal(this,50000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 50rb</div></div>
       <div class="nominal-chip" onclick="selectNominal(this,60000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 60rb</div></div>
     </div>
-    <div id="voucherResult" style="display:none;">
-      <div class="voucher-code-box">
-        <div class="voucher-code" id="voucherCode">—</div>
-        <div class="voucher-code-sub" id="voucherCodeSub">—</div>
-      </div>
-      <div class="btn-row">
-        <button class="btn-sec" onclick="salinKode()">📋 Salin</button>
-        <button class="btn-green" onclick="kirimWA()">💬 Kirim WA</button>
-      </div>
-    </div>
+
     <span class="input-label">Layanan</span>
-    <select id="layananSelect" onchange="selectedLayanan=this.value" style="width:100%;height:38px;border-radius:11px;background:#fff;border:0.5px solid #D3D1E8;padding:0 12px;font-family:inherit;font-size:12px;color:#2C2C2A;outline:none;cursor:pointer;margin-bottom:4px;appearance:none;-webkit-appearance:none;">
-      <option value="">Pilih layanan...</option>
-      <option value="Sleep Call">Sleep Call</option>
-      <option value="Teman Call">Teman Call</option>
-      <option value="Curhat Call">Curhat Call</option>
-      <option value="Pacar Virtual">Pacar Virtual</option>
-      <option value="Mabar">Mabar</option>
-    </select>
-    <button class="btn-primary" style="margin-top:10px;height:40px;" onclick="buatVoucher()">✦ Buat Voucher</button>
+    <div id="layananGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;">
+      <div class="nominal-chip" onclick="selectLayanan(this,'Sleep Call')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Sleep Call</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Teman Call')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Teman Call</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Curhat Call')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Curhat Call</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Pacar Virtual')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Pacar Virtual</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Mabar')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Mabar</div></div>
+    </div>
+    <button id="btnBuatVoucher" class="btn-primary" style="margin-top:10px;height:40px;" onclick="buatVoucher()">✦ Buat Voucher</button>
   </div>
   <div class="divider-label"><span>HARI INI</span></div>
   <div class="filter-row" style="padding-left:16px;padding-right:16px;">
@@ -420,30 +413,50 @@ function renderTalentSnippet(){
 }
 
 function selectLayanan(el, layanan){
-  document.querySelectorAll('#layananGrid .filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
+  document.querySelectorAll('#layananGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+  el.classList.add('selected');
   selectedLayanan = layanan;
 }
 function selectNominalFromSelect(val){
   selectedNominal = val ? parseInt(val) : 0;
-  document.getElementById('voucherResult').style.display='none';
+  // voucherResult removed
 }
 function selectNominal(el,nominal){
-  document.querySelectorAll('.nominal-chip').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('active');selectedNominal=nominal;
-  document.getElementById('voucherResult').style.display='none';
+  document.querySelectorAll('#nominalGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+  el.classList.add('selected');selectedNominal=nominal;
+  // voucherResult removed
 }
 
+function pasteWA(){
+  navigator.clipboard.readText().then(function(text){
+    var nomor = text.replace(/\D/g,'');
+    if(nomor){
+      document.getElementById('vWA').value = nomor;
+      showToast('📋 Nomor ditempel: ' + nomor);
+    } else {
+      showToast('⚠️ Clipboard tidak berisi nomor');
+    }
+  }).catch(function(){
+    showToast('⚠️ Izinkan akses clipboard dulu');
+  });
+}
 function buatVoucher(){
+  const btn = document.getElementById('btnBuatVoucher');
+  if(btn.disabled) return;
   const wa=document.getElementById('vWA').value.trim();
   if(!wa){showToast('⚠️ Masukkan nomor WA client');return;}
   if(!selectedNominal){showToast('⚠️ Pilih nominal voucher');return;}
   if(!selectedLayanan){showToast('⚠️ Pilih layanan');return;}
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  btn.style.cursor = 'not-allowed';
+  btn.textContent = '✓ Voucher Dibuat';
   const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const kode='SCP-'+Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-  document.getElementById('voucherCode').textContent=kode;
-  document.getElementById('voucherCodeSub').textContent=`Rp ${selectedNominal.toLocaleString('id')} · ${wa}`;
-  document.getElementById('voucherResult').style.display='block';
+  document.getElementById('vModalKode').textContent=kode;
+  document.getElementById('vModalSub').textContent=wa+' · Rp '+selectedNominal.toLocaleString('id')+' · '+selectedLayanan;
+  document.getElementById('voucherModal').style.display='flex';
+  
   const jam=new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});
   voucherList.unshift({kode,wa:wa,nominal:selectedNominal,jam,used:false,src:'admin',layananPesan:selectedLayanan,talent:null,layanan:null,durasi:null});
   document.getElementById('statVoucher').textContent=voucherList.length;
@@ -451,11 +464,30 @@ function buatVoucher(){
   showToast('🎟️ Voucher berhasil dibuat!');
 }
 
-function salinKode(){navigator.clipboard.writeText(document.getElementById('voucherCode').textContent).then(()=>showToast('📋 Kode disalin!'));}
+function tutupVoucherModal(){
+  document.getElementById('voucherModal').style.display='none';
+  resetFormVoucher();
+}
+function resetFormVoucher(){
+  const btn = document.getElementById('btnBuatVoucher');
+  if(btn){
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    btn.innerHTML = '✦ Buat Voucher';
+  }
+  document.getElementById('vWA').value = '';
+  
+  selectedNominal = 0;
+  selectedLayanan = '';
+  document.querySelectorAll('#nominalGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+  document.querySelectorAll('#layananGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+}
+function salinKode(){navigator.clipboard.writeText(document.getElementById('vModalKode').textContent).then(()=>showToast('📋 Kode disalin!'));}
 
 function kirimWA(){
   const wa=document.getElementById('vWA').value.trim();
-  const kode=document.getElementById('voucherCode').textContent;
+  const kodeEl=document.getElementById('vModalKode'); const kode=kodeEl?kodeEl.textContent:'';
   const msg=encodeURIComponent(`Halo! Berikut kode voucher SleepcallPay kamu 🌙\n\n*${kode}*\nNominal: Rp ${selectedNominal.toLocaleString('id')}\n\nMasukkan kode ini saat order. Selamat menikmati!`);
   window.open(`https://wa.me/${wa}?text=${msg}`,'_blank');
 }
@@ -487,7 +519,7 @@ function renderVoucherHariIni(){
 }
 
 function filterVoucherMain(f,el){
-  document.querySelectorAll('#pageVoucher .filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('#pageVoucher .filter-chip').forEach(el=>el.classList.remove('active'));
   el.classList.add('active');
   const filtered=f==='aktif'?voucherList.filter(v=>!v.used):f==='terpakai'?voucherList.filter(v=>v.used):f==='website'?voucherList.filter(v=>v.src==='website'):voucherList;
   const el2=document.getElementById('voucherHariIni');if(!el2)return;
@@ -506,7 +538,7 @@ function filterVoucherMain(f,el){
 }
 function filterVoucher(f,el){
   voucherFilterVal=f;
-  document.querySelectorAll('#riwayatVoucherPage .filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('#riwayatVoucherPage .filter-chip').forEach(el=>el.classList.remove('active'));
   el.classList.add('active');renderRiwayatVoucher();
 }
 
@@ -527,7 +559,7 @@ function renderRiwayatVoucher(){
 }
 
 function filterLaporan(f,el){
-  document.querySelectorAll('#pageLaporan .filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('#pageLaporan .filter-chip').forEach(el=>el.classList.remove('active'));
   el.classList.add('active');renderLaporan(f);
 }
 
@@ -595,12 +627,12 @@ function updateBadge(){
 
 function filterTalentPage(f,el){
   talentFilterVal=f;
-  document.querySelectorAll('#pageTalent .filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('#pageTalent .filter-chip').forEach(el=>el.classList.remove('active'));
   el.classList.add('active');renderTalentList('talentPageList');
 }
 function filterTalentInner(f,el){
   talentFilterVal=f;
-  document.querySelectorAll('#kelolaPage .filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('#kelolaPage .filter-chip').forEach(el=>el.classList.remove('active'));
   el.classList.add('active');renderTalentList('talentInnerList');
 }
 function renderTalentPage(){renderTalentList('talentPageList');}
@@ -712,5 +744,25 @@ function simulasiOrderWebsite(){
 }
 renderHome();renderVoucherHariIni();
 </script>
+
+  <!-- MODAL VOUCHER BERHASIL -->
+  <div id="voucherModal" style="display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:900;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;">
+    <div style="width:100%;max-width:280px;background:#fff;border-radius:24px;border:0.5px solid #E5E0F5;padding:24px 20px 28px;animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1);box-shadow:0 20px 60px rgba(60,52,137,0.2);">
+      <div style="width:36px;height:3px;background:#D3D1E8;border-radius:3px;margin:0 auto 16px;"></div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:36px;margin-bottom:8px;">🎟️</div>
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;color:#3C3489;margin-bottom:4px;">Voucher Dibuat!</div>
+        <div style="font-size:11px;color:#888780;" id="vModalSub">—</div>
+      </div>
+      <div style="background:#EEEDFE;border:1px dashed #AFA9EC;border-radius:14px;padding:16px;text-align:center;margin-bottom:14px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;color:#3C3489;letter-spacing:0.12em;" id="vModalKode">—</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button class="btn-sec" onclick="salinKode()" style="flex:1;">📋 Salin Kode</button>
+        <button class="btn-green" onclick="kirimWA()" style="flex:1;">💬 Kirim WA</button>
+      </div>
+      <button onclick="tutupVoucherModal()" style="width:100%;height:42px;border-radius:12px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">Buat Voucher Lain</button>
+    </div>
+  </div>
 </body>
 </html>
