@@ -864,7 +864,9 @@ function renderClient() {
 
 function clientRow(cl) {
   var blHtml = '';
-  if (cl.bl && cl.blBy && cl.blBy.length) {
+  var adminBl = cl.blBy ? cl.blBy.filter(function(b){ return b.siapa === "Admin"; }) : [];
+  var talentBl = cl.blBy ? cl.blBy.filter(function(b){ return b.siapa !== "Admin"; }) : [];
+  if (cl.blBy && cl.blBy.length) {
     var names = cl.blBy.map(function(b){ return b.siapa; }).join(', ');
     var did   = 'bldetail_' + cl.wa.replace(/\D/g,'');
     var rows  = cl.blBy.map(function(b){
@@ -1016,11 +1018,17 @@ function konfirmHapusBl(wa) {
 }
 function hapusBl(wa) {
   var cl = clientData.find(function(c){ return c.wa === wa; });
-  if (cl) { cl.bl = false; cl.blBy = []; }
+  if (cl) {
+    // Hapus hanya entry Admin dari blBy, bukan semua
+    cl.blBy = cl.blBy.filter(function(b){ return b.siapa !== "Admin"; });
+    // bl = false hanya kalau tidak ada blacklist dari pihak lain
+    // (blacklist talent tidak mempengaruhi bl admin)
+    cl.bl = false;
+  }
   closeModal('clientAksiModal');
   renderClient();
-  addLog('blacklist','Admin','Hapus blacklist client', wa, null);
-  toast('✓ Blacklist ' + wa + ' dihapus');
+  addLog('blacklist','Admin','Hapus blacklist admin', wa, null);
+  toast('✓ Blacklist admin untuk ' + wa + ' dihapus');
 }
 
 // ============================================================
