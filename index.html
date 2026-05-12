@@ -3,792 +3,1350 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<title>Daftar Talent — SleepcallPay</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet"/>
+<title>SleepcallPay — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{min-height:100vh;-webkit-font-smoothing:antialiased;}
-body{
-  font-family:'Inter',sans-serif;
-  background:#020208;
-  display:flex;justify-content:center;align-items:flex-start;
-}
-#app{
-  width:100%;max-width:480px;min-height:100vh;
-  background:linear-gradient(160deg,#020208 0%,#0A0A20 60%,#0D0A25 100%);
-  position:relative;
-}
-@media(min-width:481px){
-  body{padding:20px 0;background:#000;}
-  #app{border-radius:40px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.8);min-height:90vh;}
-}
+html,body{min-height:100vh;}
+body{font-family:'Inter',sans-serif;background:#E8E4F0;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;-webkit-font-smoothing:antialiased;}
+#app{width:480px;max-width:100vw;min-height:100vh;position:relative;overflow:hidden;flex-shrink:0;background:#F5F3FF;}
+@media(min-width:481px){body{padding:24px 0;background:#E8E4F0;}#app{border-radius:40px;box-shadow:0 20px 60px rgba(100,80,160,0.15),0 0 0 1px rgba(167,139,250,0.15);min-height:calc(100vh - 48px);}}
 
-/* STARFIELD */
-@keyframes twinkle{0%,100%{opacity:0.2}50%{opacity:0.8}}
-.star{position:fixed;border-radius:50%;background:#fff;pointer-events:none;animation:twinkle var(--d,3s) ease-in-out infinite;animation-delay:var(--dl,0s);}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* NAVBAR */
-.navbar{
-  position:sticky;top:0;width:100%;z-index:100;
-  background:rgba(2,2,8,0.9);backdrop-filter:blur(20px);
-  border-bottom:0.5px solid rgba(255,255,255,0.06);
-  padding:14px 18px;display:flex;align-items:center;gap:12px;
-}
-.back-btn{
-  width:36px;height:36px;border-radius:11px;
-  background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;cursor:pointer;flex-shrink:0;color:rgba(255,255,255,0.7);
-  text-decoration:none;
-}
-.nav-title{
-  font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;
-  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-}
-.nav-step{
-  margin-left:auto;font-size:10px;font-weight:700;
-  color:rgba(255,255,255,0.25);
-}
-
-/* PROGRESS */
-.progress-wrap{padding:14px 18px 0;}
-.progress-track{height:3px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#FCD34D,#F59E0B);transition:width 0.4s ease;}
-.progress-labels{display:flex;justify-content:space-between;margin-top:6px;}
-.progress-label{font-size:9px;font-weight:700;color:rgba(255,255,255,0.2);}
-.progress-label.active{color:#FCD34D;}
-
-/* SECTION */
-.form-section{
-  padding:24px 18px 0;
-  display:none;
-}
-.form-section.active{display:block;}
-.section-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:4px 12px 4px 8px;border-radius:999px;
-  background:rgba(252,211,77,0.08);border:0.5px solid rgba(252,211,77,0.2);
-  font-size:10px;font-weight:700;color:rgba(252,211,77,0.7);
-  margin-bottom:10px;
-}
-.section-title{
-  font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#fff;
-  margin-bottom:6px;
-}
-.section-desc{font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;margin-bottom:20px;}
-
-/* FORM ELEMENTS */
-.form-group{margin-bottom:14px;}
-.form-label{
-  font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
-  color:rgba(255,255,255,0.3);margin-bottom:6px;display:block;
-}
-.form-label span{color:rgba(252,211,77,0.6);}
-.form-input,.form-select,.form-textarea{
-  width:100%;background:rgba(255,255,255,0.05);
-  border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;
-  padding:0 14px;font-family:inherit;font-size:13px;color:#fff;outline:none;
-  transition:border-color 0.2s;
-}
-.form-input{height:44px;}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(252,211,77,0.4);}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.2);}
-.form-select{height:44px;appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:36px;}
-.form-select option{background:#0D0A25;color:#fff;}
-.form-textarea{height:90px;padding:12px 14px;resize:none;line-height:1.6;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
-.select-wrap{position:relative;}
-.select-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:10px;color:rgba(255,255,255,0.3);pointer-events:none;}
-
-/* TAGS */
-.tags-wrap{display:flex;flex-wrap:wrap;gap:7px;}
-.tag-item{
-  font-size:11px;font-weight:700;padding:7px 13px;border-radius:999px;
-  background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);
-  color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.2s;
-}
-.tag-item.selected{
-  background:rgba(252,211,77,0.12);border-color:rgba(252,211,77,0.35);color:#FCD34D;
-}
-.tag-item.selected-purple{
-  background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.35);color:#C4B5FD;
-}
-
-/* CHOICE CARDS */
-.choice-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.choice-card{
-  padding:12px 14px;border-radius:14px;
-  background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);
-  cursor:pointer;transition:all 0.2s;text-align:center;
-}
-.choice-card.selected-yes{background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.35);}
-.choice-card.selected-no{background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.35);}
-.choice-emoji{font-size:20px;margin-bottom:4px;}
-.choice-label{font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);}
-.choice-card.selected-yes .choice-label{color:#34D399;}
-.choice-card.selected-no .choice-label{color:#F87171;}
-
-/* SCALE RATING */
-.scale-wrap{display:flex;gap:5px;}
-.scale-btn{
-  flex:1;height:38px;border-radius:10px;border:none;cursor:pointer;
-  background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.08);
-  font-family:inherit;font-size:12px;font-weight:800;color:rgba(255,255,255,0.3);
-  transition:all 0.2s;
-}
-.scale-btn.active{background:rgba(252,211,77,0.15);border-color:rgba(252,211,77,0.4);color:#FCD34D;}
-.scale-desc{font-size:10px;color:rgba(255,255,255,0.2);margin-top:5px;display:flex;justify-content:space-between;}
-
-/* UPLOAD */
-.upload-zone{
-  background:rgba(255,255,255,0.03);
-  border:0.5px dashed rgba(255,255,255,0.15);border-radius:14px;
-  padding:16px;cursor:pointer;transition:all 0.2s;
-  display:flex;align-items:center;gap:12px;
-}
-.upload-zone:active{background:rgba(255,255,255,0.06);}
-.upload-icon{
-  width:42px;height:42px;border-radius:12px;
-  background:rgba(255,255,255,0.06);
-  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
-}
-.upload-text{font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);}
-.upload-sub{font-size:10px;color:rgba(255,255,255,0.2);margin-top:2px;}
-.upload-preview{
-  margin-top:10px;background:rgba(255,255,255,0.04);
-  border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;
-}
-.upload-preview-name{font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);}
-.upload-preview-size{font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;}
-
-/* INFO BOX */
-.info-box{
-  background:rgba(167,139,250,0.08);border:0.5px solid rgba(167,139,250,0.2);
-  border-radius:12px;padding:12px 14px;margin-bottom:14px;
-}
-.info-box-text{font-size:11px;color:rgba(167,139,250,0.8);line-height:1.6;}
-
-/* DIVIDER */
-.divider{height:0.5px;background:rgba(255,255,255,0.06);margin:20px 0;}
-
-/* BOTTOM BAR */
-.bottom-bar{
-  position:sticky;bottom:0;
-  background:rgba(2,2,8,0.95);backdrop-filter:blur(20px);
-  border-top:0.5px solid rgba(255,255,255,0.06);
-  padding:14px 18px calc(14px + env(safe-area-inset-bottom));
-  display:flex;gap:10px;
-}
-.btn-back{
-  height:48px;padding:0 20px;border-radius:14px;
-  background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);
-  font-family:inherit;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);
-  cursor:pointer;transition:all 0.2s;white-space:nowrap;
-}
-.btn-next{
-  flex:1;height:48px;border:none;border-radius:14px;cursor:pointer;
-  font-family:inherit;font-size:14px;font-weight:800;
-  background:linear-gradient(135deg,#FCD34D,#F59E0B);color:#1a0a00;
-  box-shadow:0 6px 20px rgba(252,211,77,0.2);transition:all 0.2s;
-}
-.btn-next:active{transform:scale(0.98);}
-.btn-next:disabled{opacity:0.4;cursor:not-allowed;}
-
-/* SUCCESS */
-.success-page{
-  display:none;padding:60px 24px 40px;
-  flex-direction:column;align-items:center;text-align:center;
-}
-.success-page.show{display:flex;}
-.success-icon{font-size:72px;margin-bottom:20px;animation:popIn 0.5s cubic-bezier(0.22,1,0.36,1);}
-@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
-.success-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:26px;color:#FCD34D;margin-bottom:10px;}
-.success-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:32px;}
-.success-info{
-  width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);
-  border-radius:16px;padding:16px;margin-bottom:24px;text-align:left;
-}
-.success-info-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);}
-.success-info-row:last-child{border-bottom:none;}
-.sil{font-size:11px;color:rgba(255,255,255,0.3);}
-.sir{font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);}
-
-::-webkit-scrollbar{width:0;height:0;}
+.navbar{position:sticky;top:0;left:0;width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;z-index:200;background:rgba(255,255,255,0.96);backdrop-filter:blur(24px);border-bottom:0.5px solid #E5E0F5;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#A78BFA,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 4px 12px rgba(124,58,237,0.25);}
+.logo-text{font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:#3C3489;font-weight:700;}
+.admin-badge{font-size:9px;font-weight:800;padding:3px 9px;border-radius:20px;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;letter-spacing:0.1em;}
+.notif-btn{width:36px;height:36px;border-radius:11px;background:#F0EEF8;border:0.5px solid #D3D1E8;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;position:relative;}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#E24B4A;border:1.5px solid #fff;}
+.content{position:relative;z-index:1;padding-bottom:90px;}
+.tabs-wrap{display:flex;gap:4px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none;border-bottom:0.5px solid #E5E0F5;}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tab-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700;padding:7px 16px;border-radius:999px;background:transparent;color:#888780;transition:all 0.2s;white-space:nowrap;}
+.tab-btn.active{background:#EEEDFE;color:#534AB7;border:0.5px solid #AFA9EC;}
+.section-page{display:none;animation:fadeIn 0.2s ease;}
+.section-page.active{display:block;}
+.section-label{font-size:9.5px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#B4B2A9;padding:14px 16px 8px;}
+.card{background:#fff;border:0.5px solid #E5E0F5;border-radius:16px;margin:0 16px 10px;overflow:hidden;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:0.5px solid #F0EEF8;}
+.card-title{font-size:12px;font-weight:800;color:#2C2C2A;}
+.card-link{font-size:10px;font-weight:700;color:#534AB7;cursor:pointer;}
+.greeting{padding:18px 16px 12px;}
+.greeting-sub{font-size:11px;color:#888780;margin-bottom:3px;}
+.greeting-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#3C3489;}
+.greeting-time{font-size:10px;color:#B4B2A9;margin-top:3px;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 16px 12px;}
+.stat-mini{background:#fff;border:0.5px solid #E5E0F5;border-radius:14px;padding:12px 10px;text-align:center;}
+.stat-mini.violet{background:#EEEDFE;border-color:#AFA9EC;}
+.stat-mini.gold{background:#FAEEDA;border-color:#FAC775;}
+.stat-mini.green{background:#EAF3DE;border-color:#C0DD97;}
+.stat-mini-val{font-size:20px;font-weight:900;color:#2C2C2A;line-height:1;}
+.stat-mini.violet .stat-mini-val{color:#3C3489;}
+.stat-mini.gold .stat-mini-val{color:#633806;}
+.stat-mini.green .stat-mini-val{color:#27500A;}
+.stat-mini-label{font-size:9px;font-weight:700;color:#888780;margin-top:4px;}
+.list-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:0.5px solid #F5F3FF;cursor:pointer;transition:background 0.15s;}
+.list-item:last-child{border-bottom:none;}
+.list-item:active{background:#F5F3FF;}
+.list-ava{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:#F0EEF8;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#534AB7;}
+.list-main{flex:1;min-width:0;}
+.list-name{font-size:12px;font-weight:700;color:#2C2C2A;}
+.list-sub{font-size:10px;color:#888780;margin-top:1px;}
+.list-right{text-align:right;flex-shrink:0;}
+.list-time{font-size:9px;color:#B4B2A9;margin-top:2px;}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;display:inline-block;}
+.badge-green{background:#EAF3DE;color:#3B6D11;}
+.badge-red{background:#FAECE7;color:#993C1D;}
+.badge-yellow{background:#FAEEDA;color:#854F0B;}
+.badge-gray{background:#F1EFE8;color:#5F5E5A;}
+.badge-purple{background:#EEEDFE;color:#534AB7;}
+.voucher-section{padding:0 16px 12px;}
+.nominal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+.nominal-chip{background:#fff;border:0.5px solid #E5E0F5;border-radius:11px;padding:10px;text-align:center;cursor:pointer;transition:all 0.15s;}
+.nominal-chip.selected{background:#EEEDFE;border-color:#AFA9EC;}
+.nominal-chip-val{font-size:12px;font-weight:800;color:#2C2C2A;}
+.nominal-chip.selected .nominal-chip-val{color:#3C3489;}
+.nominal-chip-sub{font-size:9px;color:#888780;margin-top:2px;}
+.input-label{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#B4B2A9;margin-bottom:5px;margin-top:12px;display:block;}
+.input-field{width:100%;height:44px;border-radius:12px;background:#fff;border:0.5px solid #D3D1E8;padding:0 13px;font-family:inherit;font-size:13px;color:#2C2C2A;outline:none;transition:border-color 0.2s;}
+.input-field:focus{border-color:#A78BFA;box-shadow:0 0 0 3px rgba(167,139,250,0.1);}
+.input-field::placeholder{color:#B4B2A9;}
+.voucher-code-box{background:#EEEDFE;border:1px dashed #AFA9EC;border-radius:14px;padding:16px;text-align:center;margin:12px 0;}
+.voucher-code{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#3C3489;letter-spacing:0.12em;}
+.voucher-code-sub{font-size:10px;color:#888780;margin-top:4px;}
+.btn-primary{width:100%;height:46px;border-radius:13px;border:none;background:linear-gradient(135deg,#A78BFA,#7C3AED);color:#fff;font-family:'Instrument Serif',serif;font-style:italic;font-size:15px;cursor:pointer;box-shadow:0 4px 16px rgba(124,58,237,0.3);transition:all 0.2s;margin-top:4px;}
+.btn-primary:active{transform:scale(0.98);}
+.btn-row{display:flex;gap:8px;margin-top:10px;}
+.btn-sec{flex:1;height:40px;border-radius:11px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.btn-green{flex:1;height:40px;border-radius:11px;border:0.5px solid #C0DD97;background:#EAF3DE;color:#3B6D11;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;}
+.voucher-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:0.5px solid #F5F3FF;}
+.voucher-item:last-child{border-bottom:none;}
+.voucher-code-sm{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#3C3489;}
+.talent-card{background:#fff;border:0.5px solid #E5E0F5;border-radius:16px;padding:12px 14px;margin:0 16px 8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.15s;}
+.talent-card:active{background:#F5F3FF;}
+.talent-ava{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:'Instrument Serif',serif;font-style:italic;color:#534AB7;position:relative;}
+.talent-dot{position:absolute;bottom:2px;right:2px;width:9px;height:9px;border-radius:50%;border:2px solid #fff;}
+.talent-dot.online{background:#639922;}
+.talent-dot.offline{background:#B4B2A9;}
+.talent-info{flex:1;min-width:0;}
+.talent-name{font-size:13px;font-weight:800;color:#2C2C2A;}
+.talent-meta{font-size:10px;color:#888780;margin-top:2px;}
+.poin-bar-wrap{height:3px;background:#F0EEF8;border-radius:3px;overflow:hidden;margin-top:5px;max-width:100px;}
+.poin-bar{height:100%;border-radius:3px;transition:width 0.4s;}
+.laporan-card{background:#fff;border:0.5px solid #E5E0F5;border-radius:14px;padding:12px 14px;margin:0 16px 8px;cursor:pointer;transition:all 0.15s;}
+.laporan-card:active{background:#F5F3FF;}
+.laporan-card.urgent{border-color:#F0997B;background:#FFFAF8;}
+.laporan-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;}
+.laporan-title{font-size:12px;font-weight:700;color:#2C2C2A;}
+.laporan-meta{font-size:10px;color:#888780;margin-top:2px;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;align-items:center;padding:10px 8px 18px;z-index:200;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-top:0.5px solid #E5E0F5;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;border-radius:12px;transition:all 0.15s;flex:1;}
+.nav-icon{font-size:20px;line-height:1;}
+.nav-label{font-size:8.5px;font-weight:700;color:#B4B2A9;letter-spacing:0.04em;}
+.nav-item.active .nav-label{color:#534AB7;}
+.nav-badge-wrap{position:relative;display:inline-flex;}
+.nav-badge{position:absolute;top:-3px;right:-6px;background:#E24B4A;border-radius:10px;font-size:8px;font-weight:900;color:#fff;padding:1px 4px;min-width:14px;text-align:center;border:1.5px solid #fff;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:900;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;}
+.modal-overlay.open{display:flex;}
+.modal-sheet{width:100%;max-width:380px;background:#fff;border-radius:20px;border:0.5px solid #E5E0F5;padding:16px;max-height:85vh;overflow-y:auto;animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1);margin:0 auto;}
+.modal-handle{width:36px;height:3px;background:#D3D1E8;border-radius:3px;margin:0 auto 14px;}
+.inner-page{display:none;position:absolute;top:0;left:0;right:0;min-height:100%;z-index:500;background:#F5F3FF;overflow-y:auto;animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1);}
+.inner-page.open{display:block;}
+.inner-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(255,255,255,0.96);backdrop-filter:blur(20px);border-bottom:0.5px solid #E5E0F5;}
+.inner-back{width:32px;height:32px;border-radius:10px;background:#F0EEF8;border:0.5px solid #D3D1E8;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.inner-back svg{width:14px;height:14px;stroke:#534AB7;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.inner-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:#3C3489;}
+.inner-content{padding:12px 16px 80px;}
+.filter-row{display:flex;gap:6px;padding:10px 16px 6px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.filter-chip{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:10px;font-weight:700;padding:5px 12px;border-radius:999px;background:#F1EFE8;color:#888780;border:0.5px solid #D3D1C7;transition:all 0.2s;}
+.filter-chip.active{background:#EEEDFE;color:#534AB7;border-color:#AFA9EC;}
+.alert{border-radius:12px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:flex-start;gap:9px;}
+.alert.warning{background:#FAEEDA;border:0.5px solid #FAC775;}
+.alert.danger{background:#FAECE7;border:0.5px solid #F0997B;}
+.alert.info{background:#EEEDFE;border:0.5px solid #AFA9EC;}
+.alert.success{background:#EAF3DE;border:0.5px solid #C0DD97;}
+.alert-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.alert-text{font-size:11px;color:#5F5E5A;line-height:1.5;}
+.alert-text b{color:#2C2C2A;}
+.divider-label{display:flex;align-items:center;gap:8px;margin:10px 16px 6px;}
+.divider-label span{font-size:9px;font-weight:700;color:#B4B2A9;letter-spacing:0.08em;white-space:nowrap;}
+.divider-label::before,.divider-label::after{content:'';flex:1;height:0.5px;background:#E5E0F5;}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:0.5px solid #F5F3FF;}
+.detail-row:last-child{border-bottom:none;}
+.detail-label{font-size:11px;color:#888780;}
+.detail-val{font-size:12px;font-weight:700;color:#2C2C2A;}
+.textarea-field{width:100%;min-height:80px;border-radius:12px;background:#fff;border:0.5px solid #D3D1E8;padding:11px 13px;font-family:inherit;font-size:13px;color:#2C2C2A;outline:none;resize:none;line-height:1.5;}
+.textarea-field:focus{border-color:#A78BFA;}
+.textarea-field::placeholder{color:#B4B2A9;}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 </head>
 <body>
 <div id="app">
 
-  <!-- ALERT BOX -->
-  <div id="alertBox" style="display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(248,113,113,0.15);border:0.5px solid rgba(248,113,113,0.4);border-radius:12px;padding:10px 18px;font-size:12px;font-weight:700;color:#FCA5A5;white-space:nowrap;backdrop-filter:blur(10px);transition:opacity 0.3s;max-width:90vw;text-align:center;"></div>
-
-  <!-- STARS -->
-  <div class="star" style="width:1.5px;height:1.5px;top:8%;left:20%;--d:3.2s;--dl:0s;opacity:0.5;"></div>
-  <div class="star" style="width:1px;height:1px;top:15%;left:75%;--d:2.4s;--dl:0.5s;opacity:0.4;"></div>
-  <div class="star" style="width:2px;height:2px;top:30%;left:88%;--d:4s;--dl:1s;opacity:0.3;"></div>
-  <div class="star" style="width:1px;height:1px;top:45%;left:12%;--d:2.8s;--dl:0.2s;opacity:0.4;"></div>
-  <div class="star" style="width:1.5px;height:1.5px;top:60%;left:60%;--d:3.6s;--dl:1.4s;opacity:0.3;"></div>
-  <div class="star" style="width:1px;height:1px;top:75%;left:35%;--d:2.6s;--dl:0.8s;opacity:0.4;"></div>
-  <div class="star" style="width:2px;height:2px;top:85%;left:80%;--d:3.8s;--dl:0.3s;opacity:0.3;"></div>
-
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <a class="back-btn" onclick="handleBack()">←</a>
-    <div class="nav-title">Daftar Talent</div>
-    <div class="nav-step" id="navStep">1 / 4</div>
+<!-- INNER: RIWAYAT VOUCHER -->
+<div class="inner-page" id="riwayatVoucherPage">
+  <div class="inner-nav">
+    <div class="inner-back" onclick="closeInner('riwayatVoucherPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <span class="inner-title">Riwayat Voucher</span>
   </div>
-
-  <!-- PROGRESS -->
-  <div class="progress-wrap">
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:25%;"></div>
+  <div class="inner-content" style="padding:8px 0 80px;">
+    <div class="filter-row">
+      <div class="filter-chip active" onclick="filterVoucher('semua',this)">Semua</div>
+      <div class="filter-chip" onclick="filterVoucher('aktif',this)">Aktif</div>
+      <div class="filter-chip" onclick="filterVoucher('terpakai',this)">Terpakai</div>
     </div>
-    <div class="progress-labels">
-      <span class="progress-label active" id="pl1">Data Diri</span>
-      <span class="progress-label" id="pl2">Layanan</span>
-      <span class="progress-label" id="pl3">Pengalaman</span>
-      <span class="progress-label" id="pl4">Media</span>
-    </div>
+    <div class="card" style="margin:0 16px;"><div id="riwayatVoucherList"></div></div>
   </div>
+</div>
 
-  <!-- ===== STEP 1: DATA DIRI ===== -->
-  <div class="form-section active" id="step1">
-    <div class="section-badge">📋 Langkah 1 dari 4</div>
-    <div class="section-title">Data Pribadi</div>
-    <div class="section-desc">Isi informasi dasarmu. Semua data hanya dilihat oleh tim SleepcallPay dan tidak akan disebarluaskan.</div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Nama Samaran <span>*</span></label>
-        <input class="form-input" id="f_nama" type="text" placeholder="Nama panggilanmu"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nomor WA <span>*</span></label>
-        <input class="form-input" id="f_wa" type="tel" placeholder="08xxx"/>
-      </div>
-    </div>
-
-    <div class="form-row-3">
-      <div class="form-group">
-        <label class="form-label">Jenis Kelamin <span>*</span></label>
-        <div class="select-wrap">
-          <select class="form-select" id="f_gender">
-            <option value="">Pilih</option>
-            <option value="p">Perempuan</option>
-            <option value="l">Laki-laki</option>
-          </select>
-          <span class="select-arrow">▾</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Usia <span>*</span></label>
-        <input class="form-input" id="f_usia" type="number" placeholder="20" min="18" max="40"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Kota</label>
-        <input class="form-input" id="f_kota" type="text" placeholder="Jakarta"/>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Jam Luang</label>
-      <input class="form-input" id="f_jam" type="text" placeholder="Contoh: 20.00–02.00 setiap hari"/>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Pendidikan Terakhir</label>
-      <div class="select-wrap">
-        <select class="form-select" id="f_pendidikan">
-          <option value="">Pilih</option>
-          <option>SMP</option>
-          <option>SMA / SMK</option>
-          <option>D3</option>
-          <option>S1</option>
-          <option>S2 / S3</option>
-          <option>Lainnya</option>
-        </select>
-        <span class="select-arrow">▾</span>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Kesibukan Saat Ini</label>
-      <div class="select-wrap">
-        <select class="form-select" id="f_kesibukan">
-          <option value="">Pilih</option>
-          <option>Pelajar / Mahasiswa</option>
-          <option>Karyawan Swasta</option>
-          <option>Wirausaha</option>
-          <option>Freelancer</option>
-          <option>Tidak Bekerja / Mencari Kerja</option>
-          <option>Lainnya</option>
-        </select>
-        <span class="select-arrow">▾</span>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Pernah Menggunakan Layanan Kami?</label>
-      <div class="choice-row">
-        <div class="choice-card" id="pernahYa" onclick="setChoice('pernah','ya')">
-          <div class="choice-emoji">✅</div>
-          <div class="choice-label">Pernah</div>
-        </div>
-        <div class="choice-card" id="pernahTidak" onclick="setChoice('pernah','tidak')">
-          <div class="choice-emoji">❌</div>
-          <div class="choice-label">Belum Pernah</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="height:20px;"></div>
+<!-- INNER: KELOLA TALENT -->
+<div class="inner-page" id="kelolaPage">
+  <div class="inner-nav">
+    <div class="inner-back" onclick="closeInner('kelolaPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <span class="inner-title">Kelola Talent</span>
   </div>
-
-  <!-- ===== STEP 2: LAYANAN ===== -->
-  <div class="form-section" id="step2">
-    <div class="section-badge">🎧 Langkah 2 dari 4</div>
-    <div class="section-title">Layanan & Kemampuan</div>
-    <div class="section-desc">Pilih layanan yang kamu kuasai dan ceritakan kemampuanmu dalam berkomunikasi.</div>
-
-    <div class="form-group">
-      <label class="form-label">Layanan yang Dikuasai <span>*</span></label>
-      <div class="tags-wrap" id="layananTags">
-        <div class="tag-item" onclick="toggleTag(this)">🌙 Sleep Call</div>
-        <div class="tag-item" onclick="toggleTag(this)">🎧 Teman Call</div>
-        <div class="tag-item" onclick="toggleTag(this)">💬 Curhat Call</div>
-        <div class="tag-item" onclick="toggleTag(this)">💕 Pacar Virtual</div>
-        <div class="tag-item" onclick="toggleTag(this)">📹 Video Call</div>
-      </div>
+  <div class="inner-content" style="padding:8px 0 80px;">
+    <div class="filter-row">
+      <div class="filter-chip active" onclick="filterTalentInner('semua',this)">Semua</div>
+      <div class="filter-chip" onclick="filterTalentInner('online',this)">Online</div>
+      <div class="filter-chip" onclick="filterTalentInner('offline',this)">Offline</div>
     </div>
-
-    <div class="divider"></div>
-
-    <div class="form-group">
-      <label class="form-label">Bahasa yang Dikuasai</label>
-      <div class="tags-wrap">
-        <div class="tag-item selected-purple" onclick="this.classList.toggle('selected-purple')">🇮🇩 Indonesia</div>
-        <div class="tag-item" onclick="this.classList.toggle('selected-purple')">🇬🇧 Inggris</div>
-        <div class="tag-item" onclick="this.classList.toggle('selected-purple')">🇯🇵 Jepang</div>
-        <div class="tag-item" onclick="this.classList.toggle('selected-purple')">🇰🇷 Korea</div>
-        <div class="tag-item" onclick="this.classList.toggle('selected-purple')">Jawa</div>
-        <div class="tag-item" onclick="this.classList.toggle('selected-purple')">Sunda</div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="form-group">
-      <label class="form-label">Nilai kemampuan komunikasimu <span>*</span></label>
-      <div class="scale-wrap" id="komSkala">
-        <button class="scale-btn" onclick="setScale('kom',this,'1')">1</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'2')">2</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'3')">3</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'4')">4</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'5')">5</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'6')">6</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'7')">7</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'8')">8</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'9')">9</button>
-        <button class="scale-btn" onclick="setScale('kom',this,'10')">10</button>
-      </div>
-      <div class="scale-desc"><span>Buruk</span><span>Sangat Baik</span></div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Nilai kemampuan mendengarkanmu</label>
-      <div class="scale-wrap" id="denSkala">
-        <button class="scale-btn" onclick="setScale('den',this,'1')">1</button>
-        <button class="scale-btn" onclick="setScale('den',this,'2')">2</button>
-        <button class="scale-btn" onclick="setScale('den',this,'3')">3</button>
-        <button class="scale-btn" onclick="setScale('den',this,'4')">4</button>
-        <button class="scale-btn" onclick="setScale('den',this,'5')">5</button>
-        <button class="scale-btn" onclick="setScale('den',this,'6')">6</button>
-        <button class="scale-btn" onclick="setScale('den',this,'7')">7</button>
-        <button class="scale-btn" onclick="setScale('den',this,'8')">8</button>
-        <button class="scale-btn" onclick="setScale('den',this,'9')">9</button>
-        <button class="scale-btn" onclick="setScale('den',this,'10')">10</button>
-      </div>
-      <div class="scale-desc"><span>Buruk</span><span>Sangat Baik</span></div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Apakah kamu nyaman dengan topik sensitif / dewasa?</label>
-      <div class="choice-row">
-        <div class="choice-card" id="sensitifYa" onclick="setChoice('sensitif','ya')">
-          <div class="choice-emoji">😌</div>
-          <div class="choice-label">Ya, nyaman</div>
-        </div>
-        <div class="choice-card" id="sensitifTidak" onclick="setChoice('sensitif','tidak')">
-          <div class="choice-emoji">🙅</div>
-          <div class="choice-label">Tidak, ada batasan</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Batasan yang tidak boleh dilanggar client</label>
-      <textarea class="form-textarea" id="f_batasan" placeholder="Contoh: tidak mau dimaki, tidak mau topik tertentu..."></textarea>
-    </div>
-
-    <div style="height:20px;"></div>
+    <div id="talentInnerList"></div>
   </div>
+</div>
 
-  <!-- ===== STEP 3: PENGALAMAN ===== -->
-  <div class="form-section" id="step3">
-    <div class="section-badge">📝 Langkah 3 dari 4</div>
-    <div class="section-title">Pengalaman & Kepribadian</div>
-    <div class="section-desc">Ceritakan tentang dirimu. Jawab dengan jujur — ini membantu kami memahami kamu lebih baik.</div>
-
-    <div class="form-group">
-      <label class="form-label">Ceritakan tentang dirimu <span>*</span></label>
-      <textarea class="form-textarea" id="f_tentang" style="height:100px;" placeholder="Kepribadian, hobi, hal yang membuatmu unik..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Pengalaman kerja / organisasi</label>
-      <textarea class="form-textarea" id="f_pengalaman" placeholder="Pernah kerja di mana? Pengalaman relevan apa yang kamu punya?"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Kenapa tertarik jadi talent SleepcallPay? <span>*</span></label>
-      <textarea class="form-textarea" id="f_motivasi" placeholder="Ceritakan alasanmu..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Bagaimana kamu menghadapi client yang susah?</label>
-      <textarea class="form-textarea" id="f_handling" placeholder="Ceritakan caramu menghadapi situasi sulit..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Apa harapanmu dari bergabung di sini?</label>
-      <textarea class="form-textarea" id="f_harapan" placeholder="Target, impian, atau hal yang ingin kamu capai..."></textarea>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="form-group">
-      <label class="form-label">Apakah kamu bersedia di-coaching / dibimbing?</label>
-      <div class="choice-row">
-        <div class="choice-card" id="coachYa" onclick="setChoice('coach','ya')">
-          <div class="choice-emoji">🙋</div>
-          <div class="choice-label">Siap!</div>
-        </div>
-        <div class="choice-card" id="coachTidak" onclick="setChoice('coach','tidak')">
-          <div class="choice-emoji">🤔</div>
-          <div class="choice-label">Perlu dipikir</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Apakah ada orang terdekat yang tahu kamu mendaftar?</label>
-      <div class="choice-row">
-        <div class="choice-card" id="tahuYa" onclick="setChoice('tahu','ya')">
-          <div class="choice-emoji">👍</div>
-          <div class="choice-label">Ada yang tahu</div>
-        </div>
-        <div class="choice-card" id="tahuTidak" onclick="setChoice('tahu','tidak')">
-          <div class="choice-emoji">🤫</div>
-          <div class="choice-label">Rahasia</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="height:20px;"></div>
+<!-- INNER: DETAIL LAPORAN -->
+<div class="inner-page" id="detailLaporanPage">
+  <div class="inner-nav">
+    <div class="inner-back" onclick="closeInner('detailLaporanPage')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <span class="inner-title">Detail Laporan</span>
   </div>
+  <div id="detailLaporanContent" class="inner-content"></div>
+</div>
 
-  <!-- ===== STEP 4: MEDIA ===== -->
-  <div class="form-section" id="step4">
-    <div class="section-badge">📸 Langkah 4 dari 4</div>
-    <div class="section-title">Foto, Audio & CV</div>
-    <div class="section-desc">Upload media pendukung. Foto dan audio sangat membantu penilaian kami.</div>
-
-    <div class="info-box">
-      <div class="info-box-text">💜 Semua file yang kamu upload hanya dilihat oleh tim internal SleepcallPay dan tidak akan disebarluaskan ke siapapun.</div>
-    </div>
-
-    <!-- Foto -->
-    <div class="form-group">
-      <label class="form-label">Foto Diri <span>*</span> <span style="color:rgba(255,255,255,0.2);font-size:8px;text-transform:none;letter-spacing:0;">(wajah terlihat jelas)</span></label>
-      <input type="file" id="fotoInput" accept="image/*" onchange="handleFoto(this)" style="display:none;"/>
-      <div class="upload-zone" onclick="document.getElementById('fotoInput').click()">
-        <div class="upload-icon">📸</div>
-        <div>
-          <div class="upload-text">Pilih foto diri</div>
-          <div class="upload-sub">JPG, PNG · Maks 10MB</div>
-        </div>
-      </div>
-      <div id="fotoPreview" style="display:none;margin-top:10px;text-align:center;">
-        <img id="fotoImg" src="" style="width:110px;height:110px;border-radius:16px;object-fit:cover;border:1.5px solid rgba(252,211,77,0.3);"/>
-        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;" id="fotoName"></div>
-      </div>
-    </div>
-
-    <!-- Audio -->
-    <div class="form-group">
-      <label class="form-label">Sample Audio Suara <span>*</span></label>
-      <input type="file" id="audioInput" accept="audio/*" onchange="handleAudio(this)" style="display:none;"/>
-      <div class="upload-zone" onclick="document.getElementById('audioInput').click()">
-        <div class="upload-icon">🎙️</div>
-        <div>
-          <div class="upload-text">Upload sample suaramu</div>
-          <div class="upload-sub">MP3, WAV, M4A · Maks 10MB · Min 30 detik</div>
-        </div>
-      </div>
-      <div id="audioPreview" style="display:none;" class="upload-preview">
-        <div class="upload-preview-name" id="audioName"></div>
-        <div class="upload-preview-size" id="audioSize"></div>
-        <audio id="audioEl" controls style="width:100%;height:34px;margin-top:8px;"></audio>
-      </div>
-    </div>
-
-    <!-- CV -->
-    <div class="form-group">
-      <label class="form-label">CV / Resume <span style="color:rgba(255,255,255,0.2);font-size:8px;text-transform:none;letter-spacing:0;">(opsional)</span></label>
-      <input type="file" id="cvInput" accept=".pdf,.doc,.docx,image/*" onchange="handleCV(this)" style="display:none;"/>
-      <div class="upload-zone" onclick="document.getElementById('cvInput').click()">
-        <div class="upload-icon">📄</div>
-        <div>
-          <div class="upload-text">Upload CV kamu (jika ada)</div>
-          <div class="upload-sub">PDF, DOC, DOCX, atau foto · Maks 10MB</div>
-        </div>
-      </div>
-      <div id="cvPreview" style="display:none;" class="upload-preview">
-        <div class="upload-preview-name" id="cvName"></div>
-        <div class="upload-preview-size" id="cvSize"></div>
-      </div>
-    </div>
-
-    <!-- Video perkenalan opsional -->
-    <div class="form-group">
-      <label class="form-label">Video Perkenalan <span style="color:rgba(255,255,255,0.2);font-size:8px;text-transform:none;letter-spacing:0;">(opsional, nilai plus!)</span></label>
-      <input type="file" id="videoInput" accept="video/*" onchange="handleVideo(this)" style="display:none;"/>
-      <div class="upload-zone" onclick="document.getElementById('videoInput').click()">
-        <div class="upload-icon">🎥</div>
-        <div>
-          <div class="upload-text">Upload video perkenalan singkat</div>
-          <div class="upload-sub">MP4, MOV · Maks 50MB · 30–60 detik</div>
-        </div>
-      </div>
-      <div id="videoPreview" style="display:none;" class="upload-preview">
-        <div class="upload-preview-name" id="videoName"></div>
-        <div class="upload-preview-size" id="videoSize"></div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Persetujuan -->
-    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;">
-      <input type="checkbox" id="agreeCheck" style="margin-top:2px;accent-color:#FCD34D;width:16px;height:16px;cursor:pointer;flex-shrink:0;"/>
-      <label for="agreeCheck" style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.6;cursor:pointer;">
-        Saya menyatakan bahwa semua data yang saya isi adalah benar, dan saya bersedia mengikuti proses seleksi lebih lanjut jika terpilih.
-      </label>
-    </div>
-
-    <div style="height:10px;"></div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">🌙</div>
+    <span class="logo-text">SleepcallPay</span>
+    <span class="admin-badge">ADMIN</span>
   </div>
-
-  <!-- SUCCESS -->
-  <div class="success-page" id="successPage">
-    <div class="success-icon">🌙</div>
-    <div class="success-title">Pendaftaran Terkirim!</div>
-    <div class="success-desc">
-      Terima kasih sudah mendaftar jadi talent SleepcallPay.<br>
-      Tim kami akan mereview pendaftaranmu dalam 3–5 hari kerja.<br>
-      Jika terpilih, kami akan menghubungimu untuk interview.
-    </div>
-    <div class="success-info">
-      <div class="success-info-row">
-        <span class="sil">Nama</span>
-        <span class="sir" id="sucNama">-</span>
-      </div>
-      <div class="success-info-row">
-        <span class="sil">Nomor WA</span>
-        <span class="sir" id="sucWA">-</span>
-      </div>
-      <div class="success-info-row">
-        <span class="sil">Status</span>
-        <span class="sir" style="color:#34D399;">⏳ Dalam Review</span>
-      </div>
-    </div>
-    <button onclick="window.location.href='Client_1.html'" style="width:100%;height:48px;border:none;border-radius:14px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;background:linear-gradient(135deg,#FCD34D,#F59E0B);color:#1a0a00;">
-      Kembali ke Beranda
-    </button>
+  <div class="notif-btn" onclick="switchPage('aktivitas')">
+    🔔
+    <div class="notif-dot" id="notifDot"></div>
   </div>
+</nav>
 
-  <!-- BOTTOM BAR -->
-  <div class="bottom-bar" id="bottomBar">
-    <button class="btn-back" id="btnBack" onclick="handleBack()" style="display:none;">← Kembali</button>
-    <button class="btn-next" id="btnNext" onclick="handleNext()">Lanjut →</button>
+<!-- TABS -->
+<div class="tabs-wrap">
+  <button class="tab-btn active" id="tab-voucher" onclick="switchPage('voucher')">Voucher</button>
+  <button class="tab-btn" id="tab-aktivitas" onclick="switchPage('aktivitas')">Aktivitas</button>
+  <button class="tab-btn" id="tab-client" onclick="switchPage('client')">Client</button>
+  <button class="tab-btn" id="tab-talent" onclick="switchPage('talent')">Talent</button>
+</div>
+
+<div class="content">
+
+<!-- HOME -->
+<div class="section-page active" id="pageHome" style="display:none">
+  <div class="greeting">
+    <div class="greeting-sub">Selamat datang,</div>
+    <div class="greeting-title">Admin 👋</div>
+    <div class="greeting-time" id="clockDisplay">—</div>
   </div>
+  <div class="stat-row">
+    <div class="stat-mini violet"><div class="stat-mini-val" id="statVoucher">4</div><div class="stat-mini-label">Voucher Hari Ini</div></div>
+    <div class="stat-mini gold"><div class="stat-mini-val" id="statPending">3</div><div class="stat-mini-label">Perlu Ditangani</div></div>
+    <div class="stat-mini green"><div class="stat-mini-val" id="statOnline">7</div><div class="stat-mini-label">Talent Online</div></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="card-title">⚡ Perlu Ditangani</div><div class="card-link" onclick="switchPage('aktivitas')">Lihat semua</div></div>
+    <div id="notifList"></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="card-title">🎟️ Voucher Terbaru</div><div class="card-link" onclick="switchPage('voucher')">Buat voucher</div></div>
+    <div id="voucherSnippet"></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="card-title">🟢 Talent Online</div><div class="card-link" onclick="openInner('kelolaPage')">Kelola</div></div>
+    <div id="talentSnippet"></div>
+  </div>
+</div>
+
+<!-- VOUCHER -->
+<div class="section-page active" id="pageVoucher">
+  <div class="voucher-section" style="padding-top:12px;">
+    <span class="input-label" style="margin-top:0;">Nomor WA Client</span>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <input class="input-field" id="vWA" type="number" placeholder="628xxx..." style="height:38px;font-size:12px;flex:1;" oninput="checkWABL()"/>
+      <button onclick="pasteWA()" style="height:38px;padding:0 12px;border-radius:11px;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">📋 Paste</button>
+    </div>
+    <span class="input-label">Nominal</span>
+    <div id="nominalGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;">
+      <div class="nominal-chip" onclick="selectNominal(this,10000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 10rb</div></div>
+      <div class="nominal-chip" onclick="selectNominal(this,20000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 20rb</div></div>
+      <div class="nominal-chip" onclick="selectNominal(this,30000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 30rb</div></div>
+      <div class="nominal-chip" onclick="selectNominal(this,40000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 40rb</div></div>
+      <div class="nominal-chip" onclick="selectNominal(this,50000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 50rb</div></div>
+      <div class="nominal-chip" onclick="selectNominal(this,60000)" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Rp 60rb</div></div>
+    </div>
+
+    <span class="input-label">Layanan</span>
+    <div id="layananGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;">
+      <div class="nominal-chip" onclick="selectLayanan(this,'Sleep Call')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Sleep Call</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Teman Call')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Teman Call</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Curhat Call')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Curhat Call</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Pacar Virtual')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Pacar Virtual</div></div>
+      <div class="nominal-chip" onclick="selectLayanan(this,'Mabar')" style="padding:7px 6px;"><div class="nominal-chip-val" style="font-size:11px;">Mabar</div></div>
+    </div>
+    <button id="btnBuatVoucher" class="btn-primary" style="margin-top:10px;height:40px;" onclick="buatVoucher()">✦ Buat Voucher</button>
+  </div>
+  <div class="divider-label"><span>HARI INI</span></div>
+  <div class="filter-row" style="padding-left:16px;padding-right:16px;">
+    <div class="filter-chip active" onclick="filterVoucherMain('semua',this)">Semua</div>
+    <div class="filter-chip" onclick="filterVoucherMain('aktif',this)">Aktif</div>
+
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="card-title">Voucher Dibuat</div><div style="display:flex;align-items:center;gap:8px;"><button onclick="simulasiOrderWebsite()" style="height:28px;padding:0 10px;border-radius:8px;background:#EAF3DE;border:0.5px solid #C0DD97;color:#3B6D11;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer;">+ Website</button><div class="card-link" onclick="openInner('riwayatVoucherPage')">Semua →</div></div></div>
+    <div id="voucherHariIni"></div>
+  </div>
+</div>
+
+<!-- LAPORAN -->
+<div class="section-page" id="pageLaporan">
+  <div class="filter-row">
+    <div class="filter-chip active" onclick="filterLaporan('semua',this)">Semua</div>
+    <div class="filter-chip" onclick="filterLaporan('laporan',this)">Laporan</div>
+    <div class="filter-chip" onclick="filterLaporan('refund',this)">Refund</div>
+    <div class="filter-chip" onclick="filterLaporan('ordermasalah',this)">Order Masalah</div>
+  </div>
+  <div id="laporanList"></div>
+</div>
+
+<!-- AKTIVITAS -->
+<div class="section-page" id="pageAktivitas">
+  <div class="filter-row">
+    <div class="filter-chip active" onclick="filterAktivitas('semua',this)">Semua</div>
+    <div class="filter-chip" onclick="filterAktivitas('voucher',this)">Voucher</div>
+    <div class="filter-chip" onclick="filterAktivitas('order',this)">Order</div>
+    <div class="filter-chip" onclick="filterAktivitas('blacklist',this)">Blacklist</div>
+  </div>
+  <div id="aktivitasList"></div>
+</div>
+
+<!-- CLIENT -->
+<div class="section-page" id="pageClient">
+  <div style="display:flex;gap:6px;padding:10px 16px 6px;overflow-x:auto;scrollbar-width:none;">
+    <div class="filter-chip active" onclick="filterClient('semua',this)">Semua</div>
+    <div class="filter-chip" onclick="filterClient('repeat',this)">Repeat</div>
+    <div class="filter-chip" onclick="filterClient('blacklist',this)">Blacklist</div>
+  </div>
+  <div style="padding:0 16px 8px;"><div style="display:flex;gap:6px;"><input id="blManualInput" class="input-field" type="number" placeholder="Masukkan nomor WA..." style="height:38px;font-size:12px;flex:1;" oninput="blManualInputCheck()"/><button onclick="blManualSubmit()" style="height:38px;padding:0 14px;border-radius:11px;background:#FAECE7;border:0.5px solid #F0997B;color:#993C1D;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">&#9940; Blacklist</button></div><div id="blManualIndicator" style="margin-top:4px;"></div></div><div id="clientPageList"></div>
+</div>
+
+<!-- TALENT -->
+<div class="section-page" id="pageTalent">
+  <div class="filter-row">
+    <div class="filter-chip active" onclick="filterTalentPage('semua',this)">Semua</div>
+    <div class="filter-chip" onclick="filterTalentPage('online',this)">Online</div>
+    <div class="filter-chip" onclick="filterTalentPage('offline',this)">Offline</div>
+    <div class="filter-chip" onclick="filterTalentPage('nonaktif',this)">Talent Dinonaktifkan</div>
+  </div>
+  <div id="talentPageList"></div>
+</div>
 
 </div>
 
+
+
+<!-- MODAL TALENT -->
+<div class="modal-overlay" id="talentModal" onclick="if(event.target===this)closeTalentModal()">
+  <div class="modal-sheet"><div id="talentModalContent"></div></div>
+</div>
+
 <script>
-let currentStep = 1;
-const totalSteps = 4;
-const choices = {};
-const scales = {};
+var talentChanges = {};
+const talents=[
+  {id:1,nama:'Vania',  av:'V',g:'w',status:'online', poin:82,order:42,layanan:'Sleep Call - Teman Call - Curhat Call'},
+  {id:2,nama:'Mirelle',av:'M',g:'w',status:'online', poin:76,order:28,layanan:'Teman Call - Pacar Virtual'},
+  {id:3,nama:'Sasha',  av:'S',g:'w',status:'online', poin:90,order:57,layanan:'Sleep Call - Pacar Virtual'},
+  {id:4,nama:'Bella',  av:'B',g:'w',status:'online', poin:85,order:34,layanan:'Sleep Call - Curhat Call'},
+  {id:5,nama:'Kiraa',  av:'K',g:'w',status:'online', poin:68,order:19,layanan:'Teman Call - Curhat Call'},
+  {id:6,nama:'Tasya',  av:'T',g:'w',status:'online', poin:71,order:22,layanan:'Pacar Virtual - Teman Call'},
+  {id:7,nama:'Rizky',  av:'R',g:'p',status:'online', poin:63,order:15,layanan:'Teman Call - Mabar'},
+  {id:8,nama:'Nadira', av:'N',g:'w',status:'offline',poin:55,order:18,layanan:'Curhat Call - Teman Call'},
+  {id:9,nama:'Luna',   av:'L',g:'w',status:'offline',poin:44,order:9, layanan:'Sleep Call - Teman Call'},
+  {id:10,nama:'Daffa', av:'D',g:'p',status:'offline',poin:38,order:7, layanan:'Teman Call - Mabar'},
+  {id:11,nama:'Arkan', av:'A',g:'p',status:'offline',poin:72,order:21,layanan:'Teman Call - Curhat Call'},
+];
+const laporanData=[
+  {id:1,type:'laporan',     client:'0812345xxxxx',talent:'Vania',  masalah:'Talent tidak sopan saat call',                waktu:'10:24 - Hari ini', status:'baru',   nominal:null},
+  {id:2,type:'refund',      client:'0821987xxxxx',talent:'Mirelle',masalah:'Voucher tidak bisa dipakai',                  waktu:'09:30 - Hari ini', status:'baru',   nominal:30000},
+  {id:3,type:'ordermasalah',client:'0852617xxxxx',talent:'Nadira', masalah:'Talent offline saat order masuk',             waktu:'08:44 - Hari ini', status:'baru',   nominal:null},
+  {id:4,type:'laporan',     client:'0899876xxxxx',talent:'Kiraa',  masalah:'Audio tidak jelas, kualitas buruk',           waktu:'22:15 - Kemarin',  status:'proses', nominal:null},
+  {id:5,type:'refund',      client:'0878123xxxxx',talent:'Luna',   masalah:'Client minta refund, talent cancel sepihak',  waktu:'20:33 - Kemarin',  status:'selesai',nominal:50000},
+];
+let voucherList=[
+  {kode:'SCP-A1B2C',wa:'081234512345',nominal:50000,jam:'10:24',used:true, src:'admin',  talent:'Vania',  layanan:'Sleep Call',  durasi:'60 menit'},
+  {kode:'SCP-X9Y8Z',wa:'082198765432',nominal:30000,jam:'09:51',used:false,src:'admin'},
+  {kode:'SCP-M3N4P',wa:'085261754085',nominal:20000,jam:'09:10',used:true, src:'admin',  talent:'Nadira', layanan:'Curhat Call', durasi:'40 menit'},
+  {kode:'SCP-Q7R8S',wa:'089987601234',nominal:50000,jam:'08:02',used:false,src:'admin'},
+  {kode:'SCP-W3B01',wa:'081398765001',nominal:30000,jam:'07:45',used:true, src:'website',talent:'Sasha',  layanan:'Teman Call',  durasi:'30 menit'},
+  {kode:'SCP-W3B02',wa:'085712345678',nominal:50000,jam:'07:20',used:false,src:'website'},
+];
+let selectedNominal=0;
+let selectedLayanan='';
+let talentFilterVal='semua';
+let voucherFilterVal='semua';
 
-// PROGRESS
-function updateProgress() {
-  const pct = (currentStep / totalSteps) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('navStep').textContent = currentStep + ' / ' + totalSteps;
-  for (let i = 1; i <= totalSteps; i++) {
-    const el = document.getElementById('pl' + i);
-    el.classList.toggle('active', i <= currentStep);
-  }
-  document.getElementById('btnBack').style.display = currentStep > 1 ? 'block' : 'none';
-  const btnNext = document.getElementById('btnNext');
-  btnNext.textContent = currentStep === totalSteps ? '✨ Kirim Pendaftaran' : 'Lanjut →';
+function updateClock(){
+  const now=new Date();
+  const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const el=document.getElementById('clockDisplay');
+  if(el)el.textContent=`${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} - ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+updateClock();setInterval(updateClock,60000);
+
+function switchPage(page){
+  ['voucher','aktivitas','client','talent'].forEach(p=>{
+    const pid='page'+p.charAt(0).toUpperCase()+p.slice(1);
+    const pEl=document.getElementById(pid); if(pEl) pEl.classList.toggle('active',p===page);
+    const tEl=document.getElementById('tab-'+p); if(tEl) tEl.classList.toggle('active',p===page);
+    const navEl=document.getElementById('nav-'+p); if(navEl) navEl.classList.toggle('active',p===page);
+  });
+  if(page==='laporan')renderLaporan();
+  if(page==='talent')renderTalentPage();
+  if(page==='voucher')renderVoucherHariIni();
+  if(page==='home')renderHome();
+  if(page==='aktivitas')renderAktivitas();
+  if(page==='client')renderClientPage();
 }
 
-// NAVIGATE
-function handleNext() {
-  if (!validateStep(currentStep)) return;
-  if (currentStep === totalSteps) {
-    submitForm();
-    return;
-  }
-  document.getElementById('step' + currentStep).classList.remove('active');
-  currentStep++;
-  document.getElementById('step' + currentStep).classList.add('active');
-  updateProgress();
-  window.scrollTo(0, 0);
+function avaBg(g){return g==='w'?'#FDE8F3':'#E8F0FE';}
+function avaColor(g){return g==='w'?'#9D1B6E':'#1B4FC4';}
+
+function renderHome(){
+  renderNotif();renderVoucherSnippet();renderTalentSnippet();
+  document.getElementById('statVoucher').textContent=voucherList.length;
+  const baru=laporanData.filter(l=>l.status==='baru').length;
+  document.getElementById('statPending').textContent=baru;
+  document.getElementById('statOnline').textContent=talents.filter(t=>t.status==='online').length;
 }
 
-function handleBack() {
-  if (currentStep === 1) {
-    window.history.back();
-    return;
-  }
-  document.getElementById('step' + currentStep).classList.remove('active');
-  currentStep--;
-  document.getElementById('step' + currentStep).classList.add('active');
-  updateProgress();
-  window.scrollTo(0, 0);
+function renderNotif(){
+  const el=document.getElementById('notifList');
+  const baru=laporanData.filter(l=>l.status==='baru');
+  if(!baru.length){el.innerHTML='<div style="padding:16px;text-align:center;font-size:11px;color:#B4B2A9;">Semua sudah ditangani &#10003;</div>';return;}
+  el.innerHTML=baru.map(l=>{
+    const icon=l.type==='laporan'?'&#128680;':l.type==='refund'?'↩️':'&#9888;️';
+    const bg=l.type==='laporan'?'#FAECE7':l.type==='refund'?'#FAEEDA':'#EEEDFE';
+    return `<div class="list-item" onclick="openDetailLaporan(${l.id})">
+      <div class="list-ava" style="background:${bg};font-size:16px;">${icon}</div>
+      <div class="list-main"><div class="list-name">${l.masalah}</div><div class="list-sub">${l.client} - Talent ${l.talent}</div></div>
+      <div style="text-align:right;flex-shrink:0;"><span class="badge badge-red">Baru</span><div class="list-time">${l.waktu.split('-')[1]?.trim()}</div></div>
+    </div>`;
+  }).join('');
 }
 
-// VALIDATE
-function validateStep(step) {
-  if (step === 1) {
-    const nama = document.getElementById('f_nama').value.trim();
-    const wa = document.getElementById('f_wa').value.trim();
-    const gender = document.getElementById('f_gender').value;
-    const usia = parseInt(document.getElementById('f_usia').value);
-    if (!nama) { showAlert('Nama samaran wajib diisi!'); return false; }
-    if (!wa) { showAlert('Nomor WA wajib diisi!'); return false; }
-    if (!gender) { showAlert('Jenis kelamin wajib dipilih!'); return false; }
-    if (!usia || usia < 18) { showAlert('Usia minimal 18 tahun!'); return false; }
+function renderVoucherSnippet(){
+  const el=document.getElementById('voucherSnippet');if(!el)return;
+  el.innerHTML=voucherList.slice(0,3).map(v=>`
+    <div class="voucher-item" style="align-items:flex-start;">
+      <div class="list-ava" style="background:${v.src==='website'?'#EAF3DE':'#EEEDFE'};font-size:14px;margin-top:2px;">&#127903;️</div>
+      <div class="list-main">
+        <div class="voucher-code-sm">${v.kode}</div>
+        <div class="list-sub">${v.wa} - Rp ${(v.nominal/1000).toFixed(0)}rb</div>
+        ${v.used && v.talent ? `<div style="font-size:9.5px;color:#534AB7;font-weight:700;margin-top:3px;background:#EEEDFE;border-radius:6px;padding:2px 7px;display:inline-block;">${v.talent} - ${v.layanan} - ${v.durasi}</div>` : ''}
+      </div>
+      <div style="text-align:right;flex-shrink:0;"><span class="badge ${v.used?'badge-gray':'badge-green'}">${v.used?'Terpakai':'Aktif'}</span><div class="list-time">${v.jam}</div></div>
+    </div>`).join('');
+}
+
+function renderTalentSnippet(){
+  const el=document.getElementById('talentSnippet');
+  const online=talents.filter(t=>t.status==='online').slice(0,4);
+  el.innerHTML=online.map(t=>`
+    <div class="list-item" onclick="openTalentModal(${t.id})">
+      <div class="list-ava" style="background:${avaBg(t.g)};color:${avaColor(t.g)};">${t.av}</div>
+      <div class="list-main"><div class="list-name">${t.nama}</div><div class="list-sub">Poin ${t.poin} - ${t.order} order</div></div>
+      <div style="text-align:right;flex-shrink:0;"><span class="badge badge-green">&bull; Online</span>${t.poin>=80?'<div style="font-size:9px;color:#854F0B;margin-top:2px;">&#11088; Top</div>':''}</div>
+    </div>`).join('');
+}
+
+function selectLayanan(el, layanan){
+  document.querySelectorAll('#layananGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedLayanan = layanan;
+}
+function selectNominalFromSelect(val){
+  selectedNominal = val ? parseInt(val) : 0;
+  // voucherResult removed
+}
+function selectNominal(el,nominal){
+  document.querySelectorAll('#nominalGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+  el.classList.add('selected');selectedNominal=nominal;
+  // voucherResult removed
+}
+
+function blManualInputCheck(){
+  var wa=document.getElementById("blManualInput").value.trim();
+  var el=document.getElementById("blManualIndicator");if(!el||!wa)return;
+  var exists=clientData.find(function(x){return x.wa===wa;});
+  var isbl=exists&&exists.blacklist;
+  el.innerHTML=isbl
+    ?"<div style=\"font-size:10px;color:#854F0B;background:#FAEEDA;border-radius:7px;padding:4px 8px;\">Nomor ini sudah ada di blacklist</div>"
+    :exists?"<div style=\"font-size:10px;color:#3B6D11;background:#EAF3DE;border-radius:7px;padding:4px 8px;\">Nomor ditemukan: "+exists.order+"x order</div>"
+    :"<div style=\"font-size:10px;color:#888780;background:#F1EFE8;border-radius:7px;padding:4px 8px;\">Nomor belum pernah order</div>";
+}
+function blManualSubmit(){
+  var wa=document.getElementById("blManualInput").value.trim();
+  if(!wa){showToast("Masukkan nomor WA dulu");return;}
+  var exists=clientData.find(function(x){return x.wa===wa;});
+  if(exists&&exists.blacklist){showToast("Nomor sudah diblacklist");return;}
+  if(exists){exists.blacklist=true;exists.alasan="Diblacklist manual oleh admin";if(!exists.blBy)exists.blBy=[];exists.blBy.unshift({siapa:'Admin',alasan:'Diblacklist manual',waktu:new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'})+' Hari ini'});}
+  else{var t=new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});clientData.unshift({wa:wa,order:0,total:0,terakhir:"-",repeat:false,blacklist:true,alasan:"Diblacklist manual oleh admin",blBy:[{siapa:'Admin',alasan:'Diblacklist manual',waktu:t+' Hari ini'}]});}
+  document.getElementById("blManualInput").value="";
+  document.getElementById("blManualIndicator").innerHTML="";
+  renderClientPage();
+  addLog("blacklist","BL","Admin","Blacklist client manual",wa);
+  showToast("Client "+wa+" diblacklist");
+}
+function checkWABL(){
+  var wa=document.getElementById("vWA").value.trim();
+  var el=document.getElementById("waBlIndicator");if(!el)return;
+  var bl=clientData.find(function(x){return x.wa===wa&&x.blacklist;});
+  el.innerHTML=bl?"<div style=\"padding:7px 10px;background:#FAECE7;border:0.5px solid #F0997B;border-radius:9px;font-size:11px;font-weight:700;color:#993C1D;margin-top:4px;\">&#9940; Client ini diblacklist admin &middot; "+bl.alasan+"</div>":"";
+}
+function showBlWarning(wa,alasan){
+  document.getElementById("blWarnWA").textContent=wa;
+  document.getElementById("blWarnAlasan").textContent=alasan||"Diblacklist oleh admin";
+  document.getElementById("blWarnModal").style.display="flex";
+}
+function pasteWA(){
+  navigator.clipboard.readText().then(function(text){
+    var nomor = text.replace(/\D/g,'');
+    if(nomor){
+      document.getElementById('vWA').value = nomor;
+      showToast('&#128203; Nomor ditempel: ' + nomor);
+    } else {
+      showToast('&#9888;️ Clipboard tidak berisi nomor');
+    }
+  }).catch(function(){
+    showToast('&#9888;️ Izinkan akses clipboard dulu');
+  });
+}
+function buatVoucher(){
+  const btn = document.getElementById('btnBuatVoucher');
+  if(btn.disabled) return;
+  const wa=document.getElementById('vWA').value.trim();
+  if(!wa){showToast('&#9888;️ Masukkan nomor WA client');return;}
+  var blCl=clientData.find(function(x){return x.wa===wa&&x.blacklist;});
+  if(blCl){showBlWarning(wa,blCl.alasan);return;}
+  if(!selectedNominal){showToast('&#9888;️ Pilih nominal voucher');return;}
+  if(!selectedLayanan){showToast('&#9888;️ Pilih layanan');return;}
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  btn.style.cursor = 'not-allowed';
+  btn.textContent = '&#10003; Voucher Dibuat';
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const kode='SCP-'+Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+  document.getElementById('vModalKode').textContent=kode;
+  document.getElementById('vModalSub').textContent=wa+' - Rp '+selectedNominal.toLocaleString('id')+' - '+selectedLayanan;
+  document.getElementById('voucherModal').style.display='flex';
+  
+  const jam=new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});
+  voucherList.unshift({kode,wa:wa,nominal:selectedNominal,jam,used:false,src:'admin',layananPesan:selectedLayanan,talent:null,layanan:null,durasi:null});
+  document.getElementById('statVoucher').textContent=voucherList.length;
+  renderVoucherHariIni();renderVoucherSnippet();
+  showToast('&#127903;️ Voucher berhasil dibuat!');
+  addLog('voucher','&#127903;️','Admin','Buat voucher',kode+' - Rp '+selectedNominal.toLocaleString('id')+' - '+wa);
+}
+
+function tutupVoucherModal(){
+  document.getElementById('voucherModal').style.display='none';
+  resetFormVoucher();
+}
+function resetFormVoucher(){
+  const btn = document.getElementById('btnBuatVoucher');
+  if(btn){
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    btn.innerHTML = '&#10022; Buat Voucher';
   }
-  if (step === 2) {
-    const selected = document.querySelectorAll('#layananTags .tag-item.selected');
-    if (selected.length === 0) { showAlert('Pilih minimal 1 layanan!'); return false; }
-    if (!scales['kom']) { showAlert('Nilai kemampuan komunikasi wajib diisi!'); return false; }
+  document.getElementById('vWA').value = '';
+  
+  selectedNominal = 0;
+  selectedLayanan = '';
+  document.querySelectorAll('#nominalGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+  document.querySelectorAll('#layananGrid .nominal-chip').forEach(el=>el.classList.remove('selected'));
+}
+function salinKode(){navigator.clipboard.writeText(document.getElementById('vModalKode').textContent).then(()=>showToast('&#128203; Kode disalin!'));}
+
+function kirimWA(){
+  const wa=document.getElementById('vWA').value.trim();
+  const kodeEl=document.getElementById('vModalKode'); const kode=kodeEl?kodeEl.textContent:'';
+  const msg=encodeURIComponent(`Halo! Berikut kode voucher SleepcallPay kamu &#127769;\n\n*${kode}*\nNominal: Rp ${selectedNominal.toLocaleString('id')}\n\nMasukkan kode ini saat order. Selamat menikmati!`);
+  window.open(`https://wa.me/${wa}?text=${msg}`,'_blank');
+}
+
+function renderVoucherHariIni(){
+  const el=document.getElementById('voucherHariIni');if(!el)return;
+  const activeFilter=document.querySelector('#pageVoucher .filter-chip.active');
+  const f=activeFilter?activeFilter.textContent.trim():'Semua';
+  const list=f==='Aktif'?voucherList.filter(v=>!v.used&&v.status!=='nonaktif'):voucherList;
+  if(!list.length){el.innerHTML='<div style="padding:14px;text-align:center;font-size:11px;color:#B4B2A9;">Tidak ada data</div>';return;}
+  el.innerHTML=list.slice(0,10).map(function(v){
+    var avaBg=v.src==='website'?'#EAF3DE':'#EEEDFE';
+    var srcLabel=v.src==='website'?'<span style="font-size:8px;font-weight:800;background:#EAF3DE;color:#3B6D11;border-radius:6px;padding:1px 5px;margin-left:4px;">Website</span>':'';
+    var talentInfo=v.used&&v.talent?'<div style="font-size:9.5px;color:#534AB7;font-weight:700;margin-top:3px;background:#EEEDFE;border-radius:6px;padding:2px 7px;display:inline-block;">'+v.talent+' - '+v.layanan+' - '+v.durasi+'</div>':'';
+    var badgeClass=v.status==='nonaktif'?'badge-yellow':v.status==='cancel'?'badge-red':v.used?'badge-gray':'badge-green';
+    var badgeLabel=v.status==='nonaktif'?'Nonaktif':v.status==='cancel'?'Cancel':v.used?'Terpakai':'Aktif';
+    return '<div class="voucher-item" style="align-items:flex-start;cursor:pointer;" onclick="onVoucherClick(\''+v.kode+'\')">'+ 
+      '<div class="list-ava" style="background:'+avaBg+';font-size:14px;margin-top:2px;">&#127903;️</div>'+
+      '<div class="list-main">'+
+        '<div style="display:flex;align-items:center;">'+
+          '<div class="voucher-code-sm">'+v.kode+'</div>'+srcLabel+
+        '</div>'+
+        '<div class="list-sub">'+v.wa+' - Rp '+(v.nominal/1000).toFixed(0)+'rb</div>'+
+        talentInfo+
+      '</div>'+
+      '<div style="text-align:right;flex-shrink:0;"><span class="badge '+badgeClass+'">'+badgeLabel+'</span><div class="list-time">'+v.jam+'</div></div>'+
+    '</div>';
+  }).join('');
+}
+
+function filterVoucherMain(f,el){
+  document.querySelectorAll('#pageVoucher .filter-chip').forEach(el=>el.classList.remove('active'));
+  el.classList.add('active');
+  const filtered=f==='aktif'?voucherList.filter(v=>!v.used):f==='terpakai'?voucherList.filter(v=>v.used):f==='website'?voucherList.filter(v=>v.src==='website'):voucherList;
+  const el2=document.getElementById('voucherHariIni');if(!el2)return;
+  el2.innerHTML=filtered.slice(0,10).map(v=>`
+    <div class="voucher-item">
+      <div class="list-ava" style="background:${v.src==='website'?'#EAF3DE':'#EEEDFE'};font-size:14px;">&#127903;️</div>
+      <div class="list-main">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div class="voucher-code-sm">${v.kode}</div>
+          ${v.src==='website'?'<span style="font-size:8px;font-weight:800;background:#EAF3DE;color:#3B6D11;border-radius:6px;padding:1px 5px;">Website</span>':''}
+        </div>
+        <div class="list-sub">${v.wa} - Rp ${(v.nominal/1000).toFixed(0)}rb</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;"><span class="badge ${v.used?'badge-gray':'badge-green'}">${v.used?'Terpakai':'Aktif'}</span><div class="list-time">${v.jam}</div></div>
+    </div>`).join('') || '<div style="padding:14px;text-align:center;font-size:11px;color:#B4B2A9;">Tidak ada data</div>';
+}
+function filterVoucher(f,el){
+  voucherFilterVal=f;
+  document.querySelectorAll('#riwayatVoucherPage .filter-chip').forEach(el=>el.classList.remove('active'));
+  el.classList.add('active');renderRiwayatVoucher();
+}
+
+function renderRiwayatVoucher(){
+  const all=[...voucherList,
+    {kode:'SCP-P9Q8R',wa:'087812345678',nominal:50000,jam:'22:15 Kemarin',used:true},
+    {kode:'SCP-D5E6F',wa:'089987601234',nominal:30000,jam:'20:33 Kemarin',used:true},
+    {kode:'SCP-G7H8I',wa:'082198765432',nominal:20000,jam:'18:11 Kemarin',used:false},
+  ];
+  const filtered=voucherFilterVal==='aktif'?all.filter(v=>!v.used):voucherFilterVal==='terpakai'?all.filter(v=>v.used):all;
+  const el=document.getElementById('riwayatVoucherList');
+  el.innerHTML=filtered.map(v=>`
+    <div class="voucher-item">
+      <div class="list-ava" style="background:#EEEDFE;font-size:14px;">&#127903;️</div>
+      <div class="list-main"><div class="voucher-code-sm">${v.kode}</div><div class="list-sub">${v.wa} - Rp ${(v.nominal/1000).toFixed(0)}rb</div></div>
+      <div style="text-align:right;flex-shrink:0;"><span class="badge ${v.used?'badge-gray':'badge-green'}">${v.used?'Terpakai':'Aktif'}</span><div class="list-time">${v.jam}</div></div>
+    </div>`).join('');
+}
+
+function filterLaporan(f,el){
+  document.querySelectorAll('#pageLaporan .filter-chip').forEach(el=>el.classList.remove('active'));
+  el.classList.add('active');renderLaporan(f);
+}
+
+function renderLaporan(filter='semua'){
+  const el=document.getElementById('laporanList');
+  const list=filter==='semua'?laporanData:laporanData.filter(l=>l.type===filter);
+  if(!list.length){el.innerHTML='<div style="padding:30px;text-align:center;font-size:11px;color:#B4B2A9;">Tidak ada laporan</div>';return;}
+  el.innerHTML=list.map(l=>{
+    const icon=l.type==='laporan'?'&#128680;':l.type==='refund'?'↩️':'&#9888;️';
+    const sb=l.status==='baru'?'badge-red':l.status==='proses'?'badge-yellow':'badge-gray';
+    const sl=l.status==='baru'?'Baru':l.status==='proses'?'Diproses':'Selesai';
+    return `<div class="laporan-card ${l.status==='baru'?'urgent':''}" onclick="openDetailLaporan(${l.id})">
+      <div class="laporan-head"><div><div style="font-size:16px;margin-bottom:4px;">${icon}</div><div class="laporan-title">${l.masalah}</div></div><span class="badge ${sb}">${sl}</span></div>
+      <div class="laporan-meta">${l.client} - Talent ${l.talent}</div>
+      ${l.nominal?`<div style="font-size:11px;font-weight:800;color:#27500A;margin-top:4px;">Rp ${l.nominal.toLocaleString('id')}</div>`:''}
+      <div style="font-size:9px;color:#B4B2A9;margin-top:4px;">${l.waktu}</div>
+    </div>`;
+  }).join('');
+}
+
+function openDetailLaporan(id){
+  const l=laporanData.find(x=>x.id===id);
+  const icon=l.type==='laporan'?'&#128680;':l.type==='refund'?'↩️':'&#9888;️';
+  const alertClass=l.status==='baru'?'danger':l.status==='proses'?'warning':'success';
+  document.getElementById('detailLaporanContent').innerHTML=`
+    <div class="alert ${alertClass}"><span class="alert-icon">${icon}</span><span class="alert-text"><b>${l.masalah}</b></span></div>
+    <div class="card" style="margin:0 0 12px;">
+      <div class="card-head"><div class="card-title">Detail</div></div>
+      <div style="padding:4px 14px 10px;">
+        <div class="detail-row"><div class="detail-label">Client</div><div class="detail-val">${l.client}</div></div>
+        <div class="detail-row"><div class="detail-label">Talent</div><div class="detail-val">${l.talent}</div></div>
+        <div class="detail-row"><div class="detail-label">Waktu</div><div class="detail-val">${l.waktu}</div></div>
+        ${l.nominal?`<div class="detail-row"><div class="detail-label">Nominal</div><div class="detail-val" style="color:#27500A;">Rp ${l.nominal.toLocaleString('id')}</div></div>`:''}
+        <div class="detail-row"><div class="detail-label">Status</div><div><span class="badge ${l.status==='baru'?'badge-red':l.status==='proses'?'badge-yellow':'badge-gray'}">${l.status==='baru'?'Baru':l.status==='proses'?'Diproses':'Selesai'}</span></div></div>
+      </div>
+    </div>
+    <span class="input-label">Catatan Penanganan</span>
+    <textarea class="textarea-field" placeholder="Tulis catatan penanganan..." style="margin-bottom:12px;"></textarea>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <button class="btn-sec" onclick="updateStatus(${l.id},'proses')">&#128260; Diproses</button>
+      <button class="btn-green" onclick="updateStatus(${l.id},'selesai')">&#10003; Selesai</button>
+    </div>
+    ${l.type==='refund'?`<button style="width:100%;height:42px;border-radius:12px;background:#FAECE7;border:0.5px solid #F0997B;color:#993C1D;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px;" onclick="showToast('↩️ Refund Rp ${l.nominal?.toLocaleString('id')} diproses')">↩️ Proses Refund</button>`:''}
+    ${l.type==='laporan'?`<button style="width:100%;height:42px;border-radius:12px;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;" onclick="showToast('&#128172; Membuka WA...');window.open('https://wa.me/6281234269016','_blank')">&#128172; Hubungi Client via WA</button>`:''}
+  `;
+  openInner('detailLaporanPage');
+}
+
+function updateStatus(id,status){
+  laporanData.find(x=>x.id===id).status=status;
+  showToast(status==='selesai'?'&#9989; Ditandai selesai':'&#128260; Sedang diproses');
+  closeInner('detailLaporanPage');
+  renderLaporan();renderHome();updateBadge();
+}
+
+function updateBadge(){
+  const count=laporanData.filter(l=>l.status==='baru').length;
+  ['navLaporanBadge','laporanCount'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.textContent=count;el.style.display=count>0?'inline':'none';
+  });
+  document.getElementById('notifDot').style.display=count>0?'block':'none';
+  document.getElementById('statPending').textContent=count;
+}
+
+function filterTalentPage(f,el){
+  talentFilterVal=f;
+  document.querySelectorAll('#pageTalent .filter-chip').forEach(el=>el.classList.remove('active'));
+  el.classList.add('active');renderTalentList('talentPageList');
+}
+function filterTalentInner(f,el){
+  talentFilterVal=f;
+  document.querySelectorAll('#kelolaPage .filter-chip').forEach(el=>el.classList.remove('active'));
+  el.classList.add('active');renderTalentList('talentInnerList');
+}
+function renderTalentPage(){renderTalentList('talentPageList');}
+
+function renderTalentList(cid){
+  const el=document.getElementById(cid);if(!el)return;
+  const list=talentFilterVal==='online'?talents.filter(t=>t.status==='online'):talentFilterVal==='offline'?talents.filter(t=>t.status==='offline'&&t.status!=='nonaktif'):talentFilterVal==='nonaktif'?talents.filter(t=>t.status==='nonaktif'):talents;
+  el.innerHTML=list.map(t=>`
+    <div class="talent-card" onclick="openTalentModal(${t.id})">
+      <div class="talent-ava" style="background:${avaBg(t.g)};color:${avaColor(t.g)};">
+        ${t.av}<div class="talent-dot ${t.status}"></div>
+      </div>
+      <div class="talent-info">
+        <div class="talent-name">${t.nama} ${t.poin>=80?'<span class="badge badge-yellow" style="font-size:8px;">&#11088; Top</span>':''}</div>
+        <div class="talent-meta">${t.layanan}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+          <div class="poin-bar-wrap"><div class="poin-bar" style="width:${t.poin}%;background:${t.poin>=80?'#A78BFA':t.poin>=50?'#639922':'#E24B4A'};"></div></div>
+          <span style="font-size:9px;color:#888780;">Poin ${t.poin}</span>
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <span class="badge ${t.status==='online'?'badge-green':t.status==='nonaktif'?'badge-red':'badge-gray'}">${t.status==='online'?'&bull; Online':t.status==='nonaktif'?'Nonaktif':'Offline'}</span>
+        <div style="font-size:10px;color:#888780;margin-top:4px;">${t.order} order</div>
+      </div>
+    </div>`).join('');
+}
+
+function talentTab(tab,id) {
+  ['tab-info','tab-rekening','tab-riwayat','tab-blacklist'].forEach(function(tb){
+    var el=document.getElementById(tb+'_'+id);
+    if(el) el.classList.toggle('active', tb==='tab-'+tab);
+  });
+  ['pane-info','pane-rekening','pane-riwayat','pane-blacklist'].forEach(function(pn){
+    var el=document.getElementById(pn+'_'+id);
+    if(el) el.style.display=pn==='pane-'+tab?'block':'none';
+  });
+}
+
+function openTalentModal(id){
+  const t=talents.find(x=>x.id===id);
+  const riwayatOrder = [
+    {wa:'081234512345',layanan:'Sleep Call',durasi:'60 mnt',nominal:'Rp 45rb',status:'selesai',jam:'10:24'},
+    {wa:'082198765432',layanan:'Teman Call',durasi:'30 mnt',nominal:'Rp 20rb',status:'selesai',jam:'09:51'},
+    {wa:'085261754085',layanan:'Curhat Call',durasi:'40 mnt',nominal:'Rp 20rb',status:'tolak',jam:'08:44'},
+    {wa:'089987601234',layanan:'Sleep Call',durasi:'60 mnt',nominal:'Rp 45rb',status:'selesai',jam:'22:15'},
+    {wa:'087812345678',layanan:'Teman Call',durasi:'30 mnt',nominal:'Rp 20rb',status:'timeout',jam:'20:33'},
+  ];
+  const blList = t.blClient || [];
+  document.getElementById('talentModalContent').innerHTML=`
+    <!-- HEADER -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;">
+      <div id="tab-info_${t.id}" class="filter-chip active" onclick="talentTab('info',${t.id})" style="flex-shrink:0;">Info</div>
+      <div id="tab-rekening_${t.id}" class="filter-chip" onclick="talentTab('rekening',${t.id})" style="flex-shrink:0;">Rekening</div>
+      <div id="tab-riwayat_${t.id}" class="filter-chip" onclick="talentTab('riwayat',${t.id})" style="flex-shrink:0;">Riwayat Order</div>
+      <div id="tab-blacklist_${t.id}" class="filter-chip" onclick="talentTab('blacklist',${t.id})" style="flex-shrink:0;">Blacklist (${blList.length})</div>
+      </div>
+      <button onclick="closeTalentModal()" style="width:28px;height:28px;border-radius:50%;background:#F0EEF8;border:0.5px solid #D3D1E8;color:#888780;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-left:8px;font-family:inherit;">&times;</button>
+    </div>
+
+    <!-- PANE INFO -->
+    <div id="pane-info_${t.id}">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <div style="width:48px;height:48px;border-radius:13px;background:${avaBg(t.g)};display:flex;align-items:center;justify-content:center;font-size:20px;font-family:'Instrument Serif',serif;font-style:italic;color:${avaColor(t.g)};flex-shrink:0;">${t.av}</div>
+      <div>
+        <div style="font-size:16px;font-weight:800;color:#2C2C2A;">${t.nama}</div>
+        <div style="display:flex;gap:5px;margin-top:4px;">
+          <span class="badge ${t.status==='online'?'badge-green':t.status==='nonaktif'?'badge-red':'badge-gray'}">${t.status==='online'?'&bull; Online':t.status==='nonaktif'?'Nonaktif':'Offline'}</span>
+          ${t.poin>=80?'<span class="badge badge-yellow">&#11088; Top</span>':''}
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;">
+      <div class="stat-mini"><div class="stat-mini-val" style="font-size:16px;">${t.poin}</div><div class="stat-mini-label">Poin</div></div>
+      <div class="stat-mini violet"><div class="stat-mini-val" style="font-size:16px;">${t.order}</div><div class="stat-mini-label">Order</div></div>
+      <div class="stat-mini gold"><div class="stat-mini-val" style="font-size:16px;">${Math.round(t.order*0.35)}</div><div class="stat-mini-label">Repeat</div></div>
+    </div>
+    <div class="poin-bar-wrap" style="max-width:100%;height:4px;margin-bottom:4px;"><div class="poin-bar" style="width:${t.poin}%;background:${t.poin>=80?'#A78BFA':t.poin>=50?'#639922':'#E24B4A'};"></div></div>
+    <div style="font-size:9px;color:#888780;margin-bottom:12px;">Poin Disiplin ${t.poin}/100</div>
+    <div style="font-size:10px;color:#888780;margin-bottom:12px;line-height:1.5;">${t.layanan}</div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;">
+      <button class="btn-sec" onclick="ubahPoin(${t.id},-1)">−1 Poin</button>
+      <button class="btn-sec" onclick="ubahPoin(${t.id},1)">+1 Poin</button>
+    </div>
+    <div style="height:0.5px;background:#F0EEF8;margin:10px 0;"></div>
+    <div id="warningText_${t.id}" style="display:none;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:10px;line-height:1.5;"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      ${t.status==='nonaktif'
+        ? `<button style="width:100%;height:38px;border-radius:11px;background:#EAF3DE;border:0.5px solid #C0DD97;color:#3B6D11;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;" id="aktifBtn_${t.id}" onclick="aktifkanTalent(${t.id})">&#10003; Aktifkan Kembali</button>`
+        : `<div style="display:flex;gap:6px;">
+          ${t.status==='online'
+            ? `<button style="flex:1;height:38px;border-radius:11px;background:#FEF2F2;border:0.5px solid #FCA5A5;color:#DC2626;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;" id="statusBtn_${t.id}" onclick="gantiStatus(${t.id},'offline')">&#9679; Set Offline</button>`
+            : `<button style="flex:1;height:38px;border-radius:11px;background:#EAF3DE;border:0.5px solid #C0DD97;color:#3B6D11;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;" id="statusBtn_${t.id}" onclick="gantiStatus(${t.id},'online')">&#9679; Set Online</button>`
+          }
+          <button style="flex:1;height:38px;border-radius:11px;background:#FAECE7;border:0.5px solid #F0997B;color:#993C1D;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;" id="nonaktifBtn_${t.id}" onclick="konfirmasiNonaktif(${t.id})">Nonaktifkan Talent</button>
+        </div>`
+      }
+      <button id="konfirmasiBtn_${t.id}" onclick="simpanPerubahan(${t.id})" style="display:block;width:100%;height:40px;border-radius:12px;border:none;background:linear-gradient(135deg,#A78BFA,#7C3AED);color:#fff;font-family:Instrument Serif,serif;font-style:italic;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,0.25);">&#10003; Simpan Perubahan</button>
+    </div>
+  `;
+  // Tambah penutup pane-info dan pane lain
+  var mc = document.getElementById('talentModalContent');
+  // Tambah pane rekening
+  var paneRek = document.createElement('div');
+  paneRek.id = 'pane-rekening_'+id;
+  paneRek.style.display = 'none';
+  paneRek.innerHTML = '<div class="section-label" style="padding:0 0 8px;">Rekening Pencairan</div>'
+    + '<div style="background:#F5F3FF;border:0.5px solid #E5E0F5;border-radius:13px;padding:12px 14px;margin-bottom:8px;">'
+    + '<div style="font-size:10px;color:#888780;margin-bottom:4px;">Bank / E-Wallet</div>'
+    + '<div style="font-size:14px;font-weight:800;color:#2C2C2A;">' + (t.rekening||'-') + '</div>'
+    + '<div style="font-size:10px;color:#888780;margin-top:6px;">Atas Nama</div>'
+    + '<div style="font-size:13px;font-weight:700;color:#2C2C2A;margin-top:2px;">' + (t.atasnama||'-') + '</div>'
+    + '</div>';
+  mc.appendChild(paneRek);
+  // Tambah pane riwayat
+  var paneRiw = document.createElement('div');
+  paneRiw.id = 'pane-riwayat_'+id;
+  paneRiw.style.display = 'none';
+  var riwHTML = '<div class="section-label" style="padding:0 0 8px;">5 Order Terakhir</div>';
+  var orders = [{wa:'081234512345',layanan:'Sleep Call',durasi:'60 mnt',nominal:'Rp 45rb',status:'selesai',jam:'10:24'},{wa:'082198765432',layanan:'Teman Call',durasi:'30 mnt',nominal:'Rp 20rb',status:'selesai',jam:'09:51'},{wa:'085261754085',layanan:'Curhat Call',durasi:'40 mnt',nominal:'Rp 20rb',status:'tolak',jam:'08:44'},{wa:'089987601234',layanan:'Sleep Call',durasi:'60 mnt',nominal:'Rp 45rb',status:'selesai',jam:'22:15'},{wa:'087812345678',layanan:'Teman Call',durasi:'30 mnt',nominal:'Rp 20rb',status:'timeout',jam:'20:33'}];
+  orders.forEach(function(o){
+    var sc = o.status==='selesai'?'badge-green':o.status==='tolak'?'badge-gray':'badge-red';
+    riwHTML += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid #F0EEF8;">'
+      + '<div style="flex:1;"><div style="font-size:11px;font-weight:700;color:#2C2C2A;">'+o.wa+'</div><div style="font-size:10px;color:#888780;margin-top:1px;">'+o.layanan+' &middot; '+o.durasi+'</div></div>'
+      + '<div style="text-align:right;"><div style="font-size:11px;font-weight:800;color:#27500A;">'+o.nominal+'</div><span class="badge '+sc+'" style="margin-top:2px;">'+o.status+'</span></div>'
+      + '<div style="font-size:9px;color:#B4B2A9;">'+o.jam+'</div>'
+      + '</div>';
+  });
+  paneRiw.innerHTML = riwHTML;
+  mc.appendChild(paneRiw);
+  // Tambah pane blacklist
+  var paneBl = document.createElement('div');
+  paneBl.id = 'pane-blacklist_'+id;
+  paneBl.style.display = 'none';
+  var blList2 = t.blClient || [];
+  var blHTML = '<div class="section-label" style="padding:0 0 8px;">Client Diblacklist ('+blList2.length+')</div>';
+  if(blList2.length===0){
+    blHTML += '<div style="text-align:center;padding:20px;font-size:11px;color:#B4B2A9;">Belum ada client yang diblacklist</div>';
+  } else {
+    blList2.forEach(function(wa){
+      blHTML += '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#FAECE7;border-radius:10px;margin-bottom:6px;">'
+        + '<div style="font-size:12px;font-weight:700;color:#993C1D;">'+wa+'</div>'
+        + '<span class="badge badge-red">&#9940; Diblacklist</span>'
+        + '</div>';
+    });
   }
-  if (step === 3) {
-    const tentang = document.getElementById('f_tentang').value.trim();
-    const motivasi = document.getElementById('f_motivasi').value.trim();
-    if (!tentang) { showAlert('Cerita tentang dirimu wajib diisi!'); return false; }
-    if (!motivasi) { showAlert('Motivasi mendaftar wajib diisi!'); return false; }
+  paneBl.innerHTML = blHTML;
+  mc.appendChild(paneBl);
+  // Tutup pane-info div
+  var infoPane = document.getElementById('pane-info_'+id);
+  if(infoPane) infoPane.style.display = 'block';
+
+  document.getElementById('talentModal').classList.add('open');
+}
+
+function updateKonfirmasiBtn(id){
+  var ch=talentChanges[id]||{};
+  var hasChange=Object.keys(ch).length>0;
+  var btn=document.getElementById("konfirmasiBtn_"+id);
+  if(btn){
+    btn.style.display=hasChange?"block":"none";
+    btn.style.background=hasChange?"linear-gradient(135deg,#A78BFA,#7C3AED)":"#F5F3FF";
   }
-  if (step === 4) {
-    if (!document.getElementById('agreeCheck').checked) {
-      showAlert('Centang pernyataan persetujuan terlebih dahulu!');
-      return false;
+}
+function simpanPerubahan(id){
+  var t=talents.find(x=>x.id===id);
+  var ch=talentChanges[id]||{};
+  if(ch.poin!==undefined) t.poin=ch.poin;
+  if(ch.status!==undefined){
+    var prevStatus=t.status;
+    t.status=ch.status;
+    if(ch.status==='nonaktif'){
+      var now=new Date();
+      var tgl=now.getDate()+' '+ ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'][now.getMonth()]+' '+now.getFullYear()+' · '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+      t.nonaktifInfo={oleh:'Admin', waktu:tgl, alasan:'Dinonaktifkan oleh admin'};
+    } else if(prevStatus==='nonaktif'){
+      t.nonaktifInfo=null;
     }
   }
-  return true;
+  // Log ke aktivitas
+  if(ch.poin!==undefined) addLog("order","ST","Admin","Ubah poin talent",t.nama+" · Poin jadi "+t.poin);
+  if(ch.status==="online") addLog("order","ST","Admin","Set talent online",t.nama);
+  if(ch.status==="offline"&&prevStatus!=="nonaktif") addLog("order","ST","Admin","Set talent offline",t.nama);
+  if(ch.status==="nonaktif") addLog("order","ST","Admin","Nonaktifkan talent",t.nama);
+  if(ch.status==="offline"&&prevStatus==="nonaktif") addLog("order","ST","Admin","Aktifkan kembali talent",t.nama);
+  if(ch.poin!==undefined) addLog("order","ST","Admin","Ubah poin talent",t.nama+" · Poin jadi "+t.poin);
+  if(ch.status==="online") addLog("order","ST","Admin","Set talent online",t.nama);
+  if(ch.status==="offline"&&prevStatus!=="nonaktif") addLog("order","ST","Admin","Set talent offline",t.nama);
+  if(ch.status==="nonaktif") addLog("order","ST","Admin","Nonaktifkan talent",t.nama);
+  if(ch.status==="offline"&&prevStatus==="nonaktif") addLog("order","ST","Admin","Aktifkan kembali talent",t.nama);
+  delete talentChanges[id];
+  showToast("Perubahan "+t.nama+" disimpan");
+  closeTalentModal();
+  renderTalentList("talentPageList");
+  renderTalentList("talentInnerList");
+  renderHome();
+}
+function closeTalentModal(){
+  // Reset staging saat tutup tanpa simpan
+  document.getElementById("talentModal").classList.remove("open");
+  talentChanges={};
 }
 
-function showAlert(msg) {
-  const el = document.getElementById('alertBox');
-  el.textContent = '⚠️ ' + msg;
-  el.style.display = 'block';
-  el.style.opacity = '1';
-  setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.style.display = 'none', 300); }, 3000);
-  window.scrollTo(0, 0);
+function ubahPoin(id,delta){
+  const t=talents.find(x=>x.id===id);
+  t.poin=Math.max(0,Math.min(100,t.poin+delta));
+  showToast(`${delta>0?'+':''}${delta} poin untuk ${t.nama}`);
+  openTalentModal(id);
+  renderTalentList('talentPageList');
+  renderTalentList('talentInnerList');
 }
 
-// SUBMIT
-function submitForm() {
-  document.getElementById('sucNama').textContent = document.getElementById('f_nama').value;
-  document.getElementById('sucWA').textContent = document.getElementById('f_wa').value;
-  document.getElementById('step4').classList.remove('active');
-  document.getElementById('bottomBar').style.display = 'none';
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('successPage').classList.add('show');
-  window.scrollTo(0, 0);
+function konfirmasiNonaktif(id){
+  if(!talentChanges[id]) talentChanges[id]={};
+  talentChanges[id].status="nonaktif";
+  var btn=document.getElementById("nonaktifBtn_"+id);
+  if(btn){btn.textContent="Batalkan";btn.onclick=function(){batalNonaktif(id);}}
+  var wt=document.getElementById("warningText_"+id);
+  if(wt){
+    wt.style.cssText="display:block;background:#FEF2F2;border:0.5px solid #FCA5A5;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:#DC2626;line-height:1.5;";
+    wt.innerHTML="&#9888; <b>Nonaktifkan Talent</b> — Talent tidak bisa login atau menerima order. Bisa diaktifkan kembali kapan saja.";
+  }
+  updateKonfirmasiBtn(id);
+}
+function batalNonaktif(id){
+  if(talentChanges[id]) delete talentChanges[id].status;
+  var btn=document.getElementById("nonaktifBtn_"+id);
+  if(btn){btn.textContent="Nonaktifkan Talent";btn.onclick=function(){konfirmasiNonaktif(id);}}
+  var wt=document.getElementById("warningText_"+id);
+  if(wt) wt.style.display="none";
+  updateKonfirmasiBtn(id);
+}
+function aktifkanTalent(id){
+  if(!talentChanges[id]) talentChanges[id]={};
+  talentChanges[id].status="offline";
+  var btn=document.getElementById("aktifBtn_"+id);
+  if(btn){btn.textContent="Batalkan Aktivasi";btn.onclick=function(){batalAktif(id);}}
+  updateKonfirmasiBtn(id);
+}
+function batalAktif(id){
+  if(talentChanges[id]) delete talentChanges[id].status;
+  var btn=document.getElementById("aktifBtn_"+id);
+  if(btn){btn.textContent="&#10003; Aktifkan Kembali";btn.onclick=function(){aktifkanTalent(id);}}
+  updateKonfirmasiBtn(id);
+}
+function gantiStatus(id,status){
+  if(!talentChanges[id]) talentChanges[id]={};
+  talentChanges[id].status=status;
+  var wt=document.getElementById("warningText_"+id);
+  if(wt){
+    wt.style.display="block";
+    if(status==="offline"){
+      wt.style.cssText="display:block;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:#854F0B;line-height:1.5;";
+      wt.innerHTML="&#9888; Talent akan di-set <b>Offline</b>. Tidak akan menerima order baru sampai online kembali.";
+    } else {
+      wt.style.cssText="display:block;background:#EAF3DE;border:0.5px solid #C0DD97;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:#3B6D11;line-height:1.5;";
+      wt.innerHTML="&#9989; Talent akan di-set <b>Online</b> dan siap menerima order.";
+    }
+  }
+  updateKonfirmasiBtn(id);
 }
 
-// CHOICE
-function setChoice(key, val) {
-  choices[key] = val;
-  const yaCls = key + 'Ya', tidakCls = key + 'Tidak';
-  const yaEl = document.getElementById(yaCls);
-  const tidakEl = document.getElementById(tidakCls);
-  if (!yaEl || !tidakEl) return;
-  yaEl.className = 'choice-card' + (val === 'ya' ? ' selected-yes' : '');
-  tidakEl.className = 'choice-card' + (val === 'tidak' ? ' selected-no' : '');
+function openInner(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='riwayatVoucherPage')renderRiwayatVoucher();
+  if(id==='kelolaPage')renderTalentList('talentInnerList');
+}
+function closeInner(id){document.getElementById(id).classList.remove('open');}
+
+function showToast(msg){
+  const old=document.getElementById('toast');if(old)old.remove();
+  const t=document.createElement('div');t.id='toast';t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#3C3489;color:#fff;font-size:12px;font-weight:700;padding:10px 18px;border-radius:20px;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(60,52,137,0.3);font-family:"Inter",sans-serif;';
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},2500);
 }
 
-// SCALE
-function setScale(key, btn, val) {
-  scales[key] = val;
-  const wrap = btn.parentElement;
-  wrap.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+const _wWAs=['085123456789','087198765432','081239876501','089912345678','082134567890'];
+const _noms=[10000,20000,30000,40000,50000,60000];
+const _ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function simulasiOrderWebsite(){
+  const wa=_wWAs[Math.floor(Math.random()*_wWAs.length)];
+  const nominal=_noms[Math.floor(Math.random()*_noms.length)];
+  const kode='SCP-'+Array.from({length:6},()=>_ch[Math.floor(Math.random()*_ch.length)]).join('');
+  const jam=new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});
+  voucherList.unshift({kode,wa:wa,nominal,jam,used:false,src:'website',talent:null,layanan:null,durasi:null});
+  document.getElementById('statVoucher').textContent=voucherList.length;
+  renderVoucherHariIni();renderVoucherSnippet();
+  showToast('&#127760; Order website masuk! '+kode);
+  addLog('voucher','WB','Client','Beli voucher via website',kode+' - Rp '+(nominal/1000).toFixed(0)+'rb');
+}
+// ===== DATA AKTIVITAS =====
+var aktivitasLog = [
+  {type:'voucher', icon:'&#127903;️', aktor:'Admin', aksi:'Buat voucher', detail:'SCP-A1B2C - Rp 50rb - 081234512345', waktu:'10:24', hari:'Hari ini'},
+  {type:'order',   icon:'&#9989;', aktor:'Vania',  aksi:'Terima order', detail:'081234512345 - Sleep Call - 60 mnt', waktu:'10:24', hari:'Hari ini', poin:'+2'},
+  {type:'voucher', icon:'&#127760;', aktor:'Client', aksi:'Beli voucher via website', detail:'SCP-W3B01 - Rp 30rb - 081398765001', waktu:'09:58', hari:'Hari ini'},
+  {type:'order',   icon:'&#9989;', aktor:'Sasha',  aksi:'Terima order', detail:'081398765001 - Teman Call - 30 mnt', waktu:'09:59', hari:'Hari ini', poin:'+2'},
+  {type:'voucher', icon:'&#127915;', aktor:'Client', aksi:'Gunakan voucher', detail:'SCP-W3B01 - Sasha - Teman Call', waktu:'10:00', hari:'Hari ini'},
+  {type:'order',   icon:'&#10005;',  aktor:'Mirelle', aksi:'Tolak order', detail:'082198765432 - Teman Call', waktu:'09:51', hari:'Hari ini'},
+  {type:'blacklist',icon:'&#9940;', aktor:'Vania', aksi:'Blacklist client', detail:'085261754085 - Alasan: Request aneh', waktu:'09:30', hari:'Hari ini'},
+  {type:'order',   icon:'&#9200;', aktor:'Nadira', aksi:'Timeout order', detail:'085261754085 - Curhat Call', waktu:'08:44', hari:'Hari ini', poin:'-10'},
+  {type:'voucher', icon:'&#127903;️', aktor:'Admin', aksi:'Buat voucher', detail:'SCP-M3N4P - Rp 20rb - 085261754085', waktu:'08:30', hari:'Hari ini'},
+  {type:'voucher', icon:'&#127915;', aktor:'Client', aksi:'Gunakan voucher', detail:'SCP-M3N4P - Nadira - Curhat Call', waktu:'08:45', hari:'Hari ini'},
+  {type:'blacklist',icon:'&#9940;', aktor:'Admin', aksi:'Blacklist client', detail:'085261754085 - Dilaporkan talent', waktu:'08:50', hari:'Hari ini'},
+  {type:'order',   icon:'&#9989;', aktor:'Bella',  aksi:'Terima order', detail:'089987601234 - Sleep Call - 60 mnt', waktu:'08:02', hari:'Hari ini', poin:'+2'},
+  {type:'blacklist',icon:'&#128275;', aktor:'Tasya', aksi:'Hapus blacklist', detail:'087812345678 - Dibuka kembali', waktu:'22:30', hari:'Kemarin'},
+  {type:'voucher', icon:'&#128683;', aktor:'Admin', aksi:'Nonaktifkan voucher', detail:'SCP-OLD01 - Permintaan client', waktu:'21:15', hari:'Kemarin'},
+  {type:'order',   icon:'&#10060;', aktor:'Admin', aksi:'Cancel order', detail:'SCP-OLD02 - Luna - Sleep Call - Gaji dikurangi', waktu:'20:33', hari:'Kemarin'},
+  {type:'blacklist',icon:'&#128275;', aktor:'Admin', aksi:'Hapus blacklist', detail:'081234500000 - Dibuka oleh admin', waktu:'19:10', hari:'Kemarin'},
+  {type:'order',   icon:'&#9989;', aktor:'Rizky',  aksi:'Terima order', detail:'087812345678 - Teman Call - 30 mnt', waktu:'18:44', hari:'Kemarin', poin:'+2'},
+  {type:'voucher', icon:'&#127760;', aktor:'Client', aksi:'Beli voucher via website', detail:'SCP-W3B02 - Rp 50rb - 085712345678', waktu:'18:00', hari:'Kemarin'},
+];
+
+var aktivitasFilter = 'semua';
+
+function filterAktivitas(f, el) {
+  aktivitasFilter = f;
+  document.querySelectorAll('#pageAktivitas .filter-chip').forEach(function(x){x.classList.remove('active');});
+  el.classList.add('active');
+  renderAktivitas();
 }
 
-// TAGS
-function toggleTag(el) {
-  el.classList.toggle('selected');
+function renderAktivitas() {
+  var el = document.getElementById('aktivitasList');
+  if (!el) return;
+  var list = aktivitasFilter === 'semua' ? aktivitasLog : aktivitasLog.filter(function(a){ return a.type === aktivitasFilter; });
+
+  // Group by hari
+  var groups = {};
+  list.forEach(function(a) {
+    if (!groups[a.hari]) groups[a.hari] = [];
+    groups[a.hari].push(a);
+  });
+
+  var adminList = ['Admin'];
+  var clientList = ['Client'];
+  function getAktorBg(a){ return a==='Admin' ? '#534AB7' : a==='Client' ? '#1D9E75' : '#D4537E'; }
+  function getAktorCol(a){ return '#fff'; }
+  function getAktorIcon(a){ return a==='Admin' ? 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' : a==='Client' ? 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' : 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z'; }
+
+  var html = '';
+  Object.keys(groups).forEach(function(hari) {
+    html += '<div style="display:flex;align-items:center;gap:8px;margin:10px 16px 6px;">'
+      + '<div style="flex:1;height:0.5px;background:#E5E0F5;"></div>'
+      + '<span style="font-size:9px;font-weight:700;color:#B4B2A9;letter-spacing:0.08em;white-space:nowrap;">' + hari.toUpperCase() + '</span>'
+      + '<div style="flex:1;height:0.5px;background:#E5E0F5;"></div>'
+      + '</div>';
+    groups[hari].forEach(function(a) {
+      var bg = getAktorBg(a.aktor);
+      var col = '#fff';
+      var aktorInit = a.aktor.charAt(0);
+      html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:0.5px solid #F5F3FF;">'
+        + '<div style="width:28px;height:28px;border-radius:50%;flex-shrink:0;background:' + getAktorBg(a.aktor) + ';display:flex;align-items:center;justify-content:center;margin-top:1px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="' + getAktorIcon(a.aktor) + '"/></svg></div>'
+        + '<div style="flex:1;min-width:0;">'
+          + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:2px;">'
+            + '<span style="font-size:10px;font-weight:800;background:' + bg + ';color:' + col + ';border-radius:6px;padding:1px 7px;">' + a.aktor + '</span>'
+            + '<span style="font-size:11px;font-weight:700;color:#2C2C2A;">' + a.aksi + '</span>'
+          + '</div>'
+          + '<div style="font-size:10px;color:#888780;line-height:1.4;">' + a.detail + '</div>'
+
+        + '</div>'
+        + '<div style="text-align:right;flex-shrink:0;margin-top:2px;"><div style="font-size:9px;color:#B4B2A9;">' + a.waktu + '</div>' + (a.poin ? '<div style="font-size:8.5px;font-weight:800;margin-top:2px;color:'+(a.poin.charAt(0)==='+' ? '#3B6D11' : '#993C1D')+';">' + a.poin + ' poin</div>' : '') + '</div>'
+        + '</div>';
+    });
+  });
+
+  el.innerHTML = html || '<div style="padding:30px;text-align:center;font-size:11px;color:#B4B2A9;">Tidak ada aktivitas</div>';
 }
 
-// FILE HANDLERS
-function handleFoto(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('fotoPreview').style.display = 'block';
-    document.getElementById('fotoImg').src = e.target.result;
-    document.getElementById('fotoName').textContent = file.name;
-  };
-  reader.readAsDataURL(file);
+// Fungsi untuk tambah log aktivitas dari aksi lain
+function addLog(type, icon, aktor, aksi, detail) {
+  var now = new Date();
+  var jam = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  aktivitasLog.unshift({type:type, icon:icon, aktor:aktor, aksi:aksi, detail:detail, waktu:jam, hari:'Hari ini'});
 }
 
-function handleAudio(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 10 * 1024 * 1024) { alert('File terlalu besar, maks 10MB'); return; }
-  document.getElementById('audioPreview').style.display = 'block';
-  document.getElementById('audioName').textContent = file.name;
-  document.getElementById('audioSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
-  document.getElementById('audioEl').src = URL.createObjectURL(file);
+// ===== DATA CLIENT =====
+var clientData = [
+  {wa:'081234512345', order:5, total:250000, terakhir:'Hari ini',  repeat:true,  blacklist:false, alasan:''},
+  {wa:'082198765432', order:4, total:160000, terakhir:'Hari ini',  repeat:true,  blacklist:false, alasan:''},
+  {wa:'085261754085', order:3, total:150000, terakhir:'Kemarin',   repeat:true,  blacklist:true,  alasan:'Request aneh', blBy:[{siapa:'Admin', alasan:'Dilaporkan 3 talent', waktu:'08:50 Hari ini'},{siapa:'Vania (Talent)', alasan:'Request aneh', waktu:'09:30 Hari ini'},{siapa:'Sasha (Talent)', alasan:'Bahasa kasar', waktu:'08:00 Kemarin'},{siapa:'Mirelle (Talent)', alasan:'Tidak sopan', waktu:'22:15 Kemarin'}]},
+  {wa:'089987601234', order:3, total:150000, terakhir:'11 Mei',    repeat:true,  blacklist:false, alasan:''},
+  {wa:'087812345678', order:2, total:100000, terakhir:'11 Mei',    repeat:true,  blacklist:false, alasan:''},
+  {wa:'081398765001', order:2, total:80000,  terakhir:'Kemarin',   repeat:true,  blacklist:false, alasan:''},
+  {wa:'085712345678', order:1, total:50000,  terakhir:'10 Mei',    repeat:false, blacklist:false, alasan:''},
+  {wa:'082387654321', order:1, total:20000,  terakhir:'10 Mei',    repeat:false, blacklist:false, alasan:''},
+];
+
+var clientFilter = 'semua';
+var clientClickCount = {};
+
+function filterClient(f, el) {
+  clientFilter = f;
+  document.querySelectorAll('#pageClient .filter-chip').forEach(function(x){x.classList.remove('active');});
+  el.classList.add('active');
+  renderClientPage();
 }
 
-function handleCV(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('cvPreview').style.display = 'block';
-  document.getElementById('cvName').textContent = file.name;
-  document.getElementById('cvSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+function renderClientPage() {
+  var el = document.getElementById('clientPageList'); if(!el) return;
+  var raw = clientFilter==='repeat' ? clientData.filter(function(x){return x.repeat && !x.blacklist;})
+           : clientFilter==='blacklist' ? clientData.filter(function(x){return x.blacklist;})
+           : clientData;
+  var urutan = {'Hari ini':0,'Kemarin':1,'11 Mei':2,'10 Mei':3,'-':99};
+  var list = raw.slice().sort(function(a,b){ return (urutan[a.terakhir]||50)-(urutan[b.terakhir]||50); });
+
+  el.innerHTML = list.map(function(cl) {
+    var isBlack = cl.blacklist;
+    return '<div class="talent-card" style="cursor:pointer;" onclick="onClientClick(\'' + cl.wa + '\')">'
+      + '<div class="talent-ava" style="background:' + (isBlack?'#FAECE7':'#E1F5EE') + ';color:' + (isBlack?'#993C1D':'#0F6E56') + ';font-size:14px;">'
+      + (isBlack ? '&#x26D4;' : '&#x1F464;')
+      + '</div>'
+      + '<div class="talent-info">'
+        + '<div class="talent-name">' + cl.wa
+          + (isBlack ? ' <span class="badge badge-red" style="font-size:8px;">Blacklist</span>' : '')
+          + (cl.repeat && !isBlack ? ' <span class="badge badge-purple" style="font-size:8px;">Repeat</span>' : '')
+        + '</div>'
+        + '<div class="talent-meta">' + cl.order + 'x order &middot; Rp ' + (cl.total/1000).toFixed(0) + 'rb &middot; Terakhir ' + cl.terakhir + '</div>'
+        + (function(){
+          if(!isBlack) return '';
+          var list = cl.blBy && cl.blBy.length ? cl.blBy : [{siapa:'Admin', alasan:cl.alasan||'-', waktu:'-'}];
+          var names = list.map(function(b){return b.siapa;}).join(', ');
+          var id = 'bldetail_'+cl.wa.replace(/\D/g,'');
+          var detail = list.map(function(b){
+            return '<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:0.5px solid rgba(240,153,123,0.2);">'
+              +'<div style="flex:1;"><div style="font-size:10px;font-weight:700;color:#993C1D;">'+b.siapa+'</div>'
+              +'<div style="font-size:9px;color:#C04A2A;margin-top:1px;">'+b.alasan+' &middot; '+b.waktu+'</div></div>'
+              +'</div>';
+          }).join('');
+          return '<div style="margin-top:5px;background:#FAECE7;border-radius:9px;overflow:hidden;">'
+            +'<div onclick="toggleBlDetail(\''+id+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:5px 9px;cursor:pointer;">'
+              +'<div style="font-size:10px;font-weight:700;color:#993C1D;">&#9940; '+list.length+' pihak &middot; '+names+'</div>'
+              +'<div id="'+id+'_arrow" style="font-size:10px;color:#993C1D;transition:transform 0.2s;">&#9660;</div>'
+            +'</div>'
+            +'<div id="'+id+'" style="display:none;padding:0 9px 8px;">'+detail+'</div>'
+          +'</div>';
+        })()
+      + '</div>'
+      + '</div>';
+  }).join('') || '<div style="padding:30px;text-align:center;font-size:11px;color:#B4B2A9;">Tidak ada data</div>';
 }
 
-function handleVideo(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('videoPreview').style.display = 'block';
-  document.getElementById('videoName').textContent = file.name;
-  document.getElementById('videoSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+function onClientClick(wa) {
+  var cl = clientData.find(function(x){return x.wa===wa;});
+  if (!cl) return;
+  if (!clientClickCount[wa]) clientClickCount[wa] = 0;
+  clientClickCount[wa]++;
+  if (clientClickCount[wa] >= 5) {
+    clientClickCount[wa] = 0;
+    showClientActionModal(wa);
+  } else {
+    var sisa = 5 - clientClickCount[wa];
+    showToast('Klik ' + sisa + 'x lagi untuk opsi');
+  }
 }
 
-updateProgress();
+function showClientActionModal(wa) {
+  var cl = clientData.find(function(x){return x.wa===wa;});
+  var content = document.getElementById('clientActionContent');
+  if (cl.blacklist) {
+    content.innerHTML =
+      '<div style="text-align:center;margin-bottom:14px;">'
+      + '<div style="font-size:28px;margin-bottom:6px;">&#x26D4;</div>'
+      + '<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#3C3489;margin-bottom:4px;">Hapus Blacklist?</div>'
+      + '<div style="font-size:12px;font-weight:700;color:#534AB7;">' + wa + '</div>'
+      + '</div>'
+      + '<div style="background:#EAF3DE;border:0.5px solid #C0DD97;border-radius:11px;padding:9px 12px;margin-bottom:14px;font-size:11px;color:#3B6D11;line-height:1.5;">Client akan bisa order lagi setelah blacklist dihapus.</div>'
+      + '<div style="display:flex;gap:8px;">'
+      + '<button onclick="closeClientModal()" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Batal</button>'
+      + '<button onclick="hapusBlacklistClient(\' + wa + \')" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #C0DD97;background:#EAF3DE;color:#3B6D11;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Hapus Blacklist</button>'
+      + '</div>';
+  } else {
+    content.innerHTML =
+      '<div style="text-align:center;margin-bottom:14px;">'
+      + '<div style="font-size:28px;margin-bottom:6px;">&#x1F464;</div>'
+      + '<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#3C3489;margin-bottom:4px;">Blacklist Client?</div>'
+      + '<div style="font-size:12px;font-weight:700;color:#534AB7;">' + wa + '</div>'
+      + '</div>'
+      + '<div class="input-label" style="margin-top:10px;">Alasan</div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;" id="clientBlReason">'
+      + ['Bahasa kasar','Request aneh','Tidak sopan','Lainnya'].map(function(r){
+          return '<div class="nominal-chip" onclick="selectClientReason(this)" style="padding:7px 8px;font-size:11px;">' + r + '</div>';
+        }).join('')
+      + '</div>'
+      + '<textarea id="clientBlNote" class="textarea-field" placeholder="Keterangan tambahan..." style="min-height:60px;font-size:12px;"></textarea>'
+      + '<div style="display:flex;gap:8px;margin-top:10px;">'
+      + '<button onclick="closeClientModal()" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Batal</button>'
+      + '<button onclick="blacklistClient(\' + wa + \')" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #F0997B;background:#FAECE7;color:#993C1D;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Blacklist</button>'
+      + '</div>';
+  }
+  document.getElementById('clientActionModal').style.display = 'flex';
+}
+
+var selectedClientReason = '';
+function selectClientReason(el) {
+  document.querySelectorAll('#clientBlReason .nominal-chip').forEach(function(x){x.classList.remove('selected');});
+  el.classList.add('selected');
+  selectedClientReason = el.textContent;
+}
+
+function blacklistClient(wa) {
+  var cl = clientData.find(function(x){return x.wa===wa;});
+  if(!cl){
+    var t=new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});
+    cl={wa:wa,order:0,total:0,terakhir:'-',repeat:false,blacklist:false,alasan:'',blBy:[]};
+    clientData.push(cl);
+  }
+  var note = document.getElementById('clientBlNote')?.value.trim() || '';
+  var alasan = selectedClientReason || note || 'Tanpa alasan';
+  cl.blacklist = true;
+  cl.alasan = alasan;
+  if(!cl.blBy) cl.blBy=[];
+  cl.blBy.unshift({siapa:'Admin', alasan:alasan, waktu:new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'})+' Hari ini'});
+  selectedClientReason = '';
+  closeClientModal();
+  renderClientPage();
+  addLog('blacklist', 'BL', 'Admin', 'Blacklist client', wa + ' &middot; ' + alasan);
+  showToast('Client ' + wa + ' diblacklist');
+}
+
+function hapusBlacklistClient(wa) {
+  var cl = clientData.find(function(x){return x.wa===wa;});
+  cl.blacklist = false; cl.alasan = '';
+  closeClientModal();
+  renderClientPage();
+  addLog('blacklist', 'BL', 'Admin', 'Hapus blacklist client', wa);
+  showToast('Blacklist ' + wa + ' dihapus');
+}
+
+function closeClientModal() {
+  document.getElementById('clientActionModal').style.display = 'none';
+}
+
+function toggleBlDetail(id){
+  var el=document.getElementById(id);
+  var arrow=document.getElementById(id+"_arrow");
+  if(!el)return;
+  var open=el.style.display!=="none";
+  el.style.display=open?"none":"block";
+  arrow.style.transform=open?"":"rotate(180deg)";
+}
+renderHome();renderVoucherHariIni();
 </script>
+
+  <!-- MODAL VOUCHER BERHASIL -->
+  <div id="voucherModal" style="display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:900;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;">
+    <div style="width:100%;max-width:280px;background:#fff;border-radius:24px;border:0.5px solid #E5E0F5;padding:24px 20px 28px;animation:slideUp 0.3s cubic-bezier(0.22,1,0.36,1);box-shadow:0 20px 60px rgba(60,52,137,0.2);">
+      <div style="width:36px;height:3px;background:#D3D1E8;border-radius:3px;margin:0 auto 16px;"></div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:36px;margin-bottom:8px;">🎟️</div>
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;color:#3C3489;margin-bottom:4px;">Voucher Dibuat!</div>
+        <div style="font-size:11px;color:#888780;" id="vModalSub">—</div>
+      </div>
+      <div style="background:#EEEDFE;border:1px dashed #AFA9EC;border-radius:14px;padding:16px;text-align:center;margin-bottom:14px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;color:#3C3489;letter-spacing:0.12em;" id="vModalKode">—</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button class="btn-sec" onclick="salinKode()" style="flex:1;">📋 Salin Kode</button>
+        <button class="btn-green" onclick="kirimWA()" style="flex:1;">💬 Kirim WA</button>
+      </div>
+      <button onclick="tutupVoucherModal()" style="width:100%;height:42px;border-radius:12px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">Buat Voucher Lain</button>
+    </div>
+  </div>
+
+  <div id="vam" style="display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:950;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;">
+    <div id="vamc" style="width:100%;max-width:280px;background:#fff;border-radius:20px;border:0.5px solid #E5E0F5;padding:20px 16px;box-shadow:0 20px 60px rgba(60,52,137,0.2);"></div>
+  </div>
+  <script>
+var vCC={};
+function onVoucherClick(kode){
+  var v=voucherList.find(function(x){return x.kode===kode;});
+  if(!v)return;
+  if(v.status==='nonaktif'){showToast('Voucher sudah dinonaktifkan');return;}
+  if(v.status==='cancel'){showToast('Order ini sudah dicancel');return;}
+  if(!v.used){
+    if(!vCC[kode])vCC[kode]=0;
+    vCC[kode]++;
+    if(vCC[kode]>=5){vCC[kode]=0;showVA(kode,'aktif');}
+    else{showToast('Klik '+(5-vCC[kode])+'x lagi untuk nonaktifkan');}
+  } else {
+    if(!vCC[kode])vCC[kode]=0;
+    vCC[kode]++;
+    if(vCC[kode]>=5){vCC[kode]=0;showVA(kode,'terpakai');}
+    else{showToast('Klik '+(5-vCC[kode])+'x lagi untuk opsi cancel');}
+  }
+}
+function showVA(kode,tipe){
+  var v=voucherList.find(function(x){return x.kode===kode;});
+  var el=document.getElementById('vamc');
+  if(tipe==='aktif'){
+    el.innerHTML='<div style="text-align:center;margin-bottom:14px;">'
+      +'<div style="font-size:28px;margin-bottom:6px;">&#127915;</div>'
+      +'<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#3C3489;margin-bottom:4px;">Nonaktifkan Voucher?</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:800;color:#534AB7;">'+kode+'</div>'
+      +'<div style="font-size:11px;color:#888780;margin-top:2px;">'+v.wa+' &middot; Rp '+(v.nominal/1000).toFixed(0)+'rb</div>'
+      +'</div>'
+      +'<div style="background:#FAEEDA;border:0.5px solid #FAC775;border-radius:11px;padding:9px 12px;margin-bottom:14px;font-size:11px;color:#854F0B;line-height:1.5;">Voucher tidak bisa digunakan lagi. Tidak ada pengurangan gaji talent.</div>'
+      +'<div style="display:flex;gap:8px;">'
+      +'<button onclick="closeVA()" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Batal</button>'
+      +'<button onclick="doNonaktif(\'' +kode+ '\')" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #FAC775;background:#FAEEDA;color:#854F0B;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Nonaktifkan</button>'
+      +'</div>';
+  } else {
+    var gaji=Math.round((v.nominal||0)*0.6).toLocaleString('id');
+    el.innerHTML='<div style="text-align:center;margin-bottom:14px;">'
+      +'<div style="font-size:28px;margin-bottom:6px;">&#9888;&#65039;</div>'
+      +'<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#3C3489;margin-bottom:4px;">Cancel Order?</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:800;color:#534AB7;">'+kode+'</div>'
+      +'<div style="font-size:11px;color:#888780;margin-top:2px;">'+(v.talent||'-')+' &middot; '+(v.layanan||'-')+'</div>'
+      +'</div>'
+      +'<div style="background:#FAECE7;border:0.5px solid #F0997B;border-radius:11px;padding:9px 12px;margin-bottom:14px;font-size:11px;color:#993C1D;line-height:1.5;">Voucher tetap tidak bisa digunakan. Gaji <b>'+(v.talent||'-')+'</b> berkurang <b>Rp '+gaji+'</b>. Status order jadi Cancel.</div>'
+      +'<div style="display:flex;gap:8px;">'
+      +'<button onclick="closeVA()" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #D3D1E8;background:#fff;color:#534AB7;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Batal</button>'
+      +'<button onclick="doCancel(\'' +kode+ '\')" style="flex:1;height:38px;border-radius:10px;border:0.5px solid #F0997B;background:#FAECE7;color:#993C1D;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">Cancel Order</button>'
+      +'</div>';
+  }
+  document.getElementById('vam').style.display='flex';
+}
+function closeVA(){document.getElementById('vam').style.display='none';}
+function doNonaktif(kode){
+  var v=voucherList.find(function(x){return x.kode===kode;});
+  if(v)v.status='nonaktif';
+  closeVA();renderVoucherHariIni();renderVoucherSnippet();
+  showToast('Voucher '+kode+' dinonaktifkan');
+  addLog('voucher','NV','Admin','Nonaktifkan voucher',kode);
+}
+function doCancel(kode){
+  var v=voucherList.find(function(x){return x.kode===kode;});
+  if(v)v.status='cancel';
+  closeVA();renderVoucherHariIni();renderVoucherSnippet();
+  showToast('Order dibatalkan - gaji talent dikurangi');
+  addLog('order','CO','Admin','Cancel order',kode+' - gaji talent dikurangi');
+}
+  </script>
+
+  <div id="clientActionModal" style="display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:950;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;">
+    <div id="clientActionContent" style="width:100%;max-width:290px;background:#fff;border-radius:20px;border:0.5px solid #E5E0F5;padding:20px 16px;box-shadow:0 20px 60px rgba(60,52,137,0.2);max-height:80vh;overflow-y:auto;"></div>
+  </div>
+<div id="blWarnModal" style="display:none;position:fixed;inset:0;background:rgba(60,52,137,0.25);z-index:960;backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;">
+  <div style="width:100%;max-width:280px;background:#fff;border-radius:20px;border:0.5px solid #F0997B;padding:20px 16px;box-shadow:0 20px 60px rgba(60,52,137,0.2);">
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-size:32px;margin-bottom:8px;">&#9940;</div>
+      <div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#3C3489;margin-bottom:4px;">Client Diblacklist</div>
+      <div style="font-size:12px;font-weight:700;color:#534AB7;" id="blWarnWA">-</div>
+    </div>
+    <div style="background:#FAECE7;border:0.5px solid #F0997B;border-radius:11px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#993C1D;line-height:1.6;">
+      Client ini diblacklist oleh admin dan <b>tidak bisa membeli voucher atau melakukan order</b>.<br>Alasan: <b id="blWarnAlasan">-</b>
+    </div>
+    <button onclick="document.getElementById('blWarnModal').style.display='none'" style="width:100%;height:40px;border-radius:11px;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">Mengerti</button>
+  </div>
+</div>
 </body>
 </html>
