@@ -762,22 +762,22 @@ function simulasiOrderWebsite(){
 // ===== DATA AKTIVITAS =====
 var aktivitasLog = [
   {type:'voucher', icon:'🎟️', aktor:'Admin', aksi:'Buat voucher', detail:'SCP-A1B2C · Rp 50rb · 081234512345', waktu:'10:24', hari:'Hari ini'},
-  {type:'order',   icon:'✅', aktor:'Vania',  aksi:'Terima order', detail:'081234512345 · Sleep Call · 60 mnt', waktu:'10:24', hari:'Hari ini'},
+  {type:'order',   icon:'✅', aktor:'Vania',  aksi:'Terima order', detail:'081234512345 · Sleep Call · 60 mnt', waktu:'10:24', hari:'Hari ini', poin:'+2'},
   {type:'voucher', icon:'🌐', aktor:'Client', aksi:'Beli voucher via website', detail:'SCP-W3B01 · Rp 30rb · 081398765001', waktu:'09:58', hari:'Hari ini'},
-  {type:'order',   icon:'✅', aktor:'Sasha',  aksi:'Terima order', detail:'081398765001 · Teman Call · 30 mnt', waktu:'09:59', hari:'Hari ini'},
+  {type:'order',   icon:'✅', aktor:'Sasha',  aksi:'Terima order', detail:'081398765001 · Teman Call · 30 mnt', waktu:'09:59', hari:'Hari ini', poin:'+2'},
   {type:'voucher', icon:'🎫', aktor:'Client', aksi:'Gunakan voucher', detail:'SCP-W3B01 · Sasha · Teman Call', waktu:'10:00', hari:'Hari ini'},
   {type:'order',   icon:'✕',  aktor:'Mirelle', aksi:'Tolak order', detail:'082198765432 · Teman Call', waktu:'09:51', hari:'Hari ini'},
   {type:'blacklist',icon:'⛔', aktor:'Vania', aksi:'Blacklist client', detail:'085261754085 · Alasan: Request aneh', waktu:'09:30', hari:'Hari ini'},
-  {type:'order',   icon:'⏰', aktor:'Nadira', aksi:'Timeout order', detail:'085261754085 · Curhat Call', waktu:'08:44', hari:'Hari ini'},
+  {type:'order',   icon:'⏰', aktor:'Nadira', aksi:'Timeout order', detail:'085261754085 · Curhat Call', waktu:'08:44', hari:'Hari ini', poin:'-10'},
   {type:'voucher', icon:'🎟️', aktor:'Admin', aksi:'Buat voucher', detail:'SCP-M3N4P · Rp 20rb · 085261754085', waktu:'08:30', hari:'Hari ini'},
   {type:'voucher', icon:'🎫', aktor:'Client', aksi:'Gunakan voucher', detail:'SCP-M3N4P · Nadira · Curhat Call', waktu:'08:45', hari:'Hari ini'},
   {type:'blacklist',icon:'⛔', aktor:'Admin', aksi:'Blacklist client', detail:'085261754085 · Dilaporkan talent', waktu:'08:50', hari:'Hari ini'},
-  {type:'order',   icon:'✅', aktor:'Bella',  aksi:'Terima order', detail:'089987601234 · Sleep Call · 60 mnt', waktu:'08:02', hari:'Hari ini'},
+  {type:'order',   icon:'✅', aktor:'Bella',  aksi:'Terima order', detail:'089987601234 · Sleep Call · 60 mnt', waktu:'08:02', hari:'Hari ini', poin:'+2'},
   {type:'blacklist',icon:'🔓', aktor:'Tasya', aksi:'Hapus blacklist', detail:'087812345678 · Dibuka kembali', waktu:'22:30', hari:'Kemarin'},
   {type:'voucher', icon:'🚫', aktor:'Admin', aksi:'Nonaktifkan voucher', detail:'SCP-OLD01 · Permintaan client', waktu:'21:15', hari:'Kemarin'},
   {type:'order',   icon:'❌', aktor:'Admin', aksi:'Cancel order', detail:'SCP-OLD02 · Luna · Sleep Call · Gaji dikurangi', waktu:'20:33', hari:'Kemarin'},
   {type:'blacklist',icon:'🔓', aktor:'Admin', aksi:'Hapus blacklist', detail:'081234500000 · Dibuka oleh admin', waktu:'19:10', hari:'Kemarin'},
-  {type:'order',   icon:'✅', aktor:'Rizky',  aksi:'Terima order', detail:'087812345678 · Teman Call · 30 mnt', waktu:'18:44', hari:'Kemarin'},
+  {type:'order',   icon:'✅', aktor:'Rizky',  aksi:'Terima order', detail:'087812345678 · Teman Call · 30 mnt', waktu:'18:44', hari:'Kemarin', poin:'+2'},
   {type:'voucher', icon:'🌐', aktor:'Client', aksi:'Beli voucher via website', detail:'SCP-W3B02 · Rp 50rb · 085712345678', waktu:'18:00', hari:'Kemarin'},
 ];
 
@@ -824,8 +824,9 @@ function renderAktivitas() {
             + '<span style="font-size:11px;font-weight:700;color:#2C2C2A;">' + a.aksi + '</span>'
           + '</div>'
           + '<div style="font-size:10px;color:#888780;line-height:1.4;">' + a.detail + '</div>'
+
         + '</div>'
-        + '<div style="font-size:9px;color:#B4B2A9;flex-shrink:0;margin-top:2px;">' + a.waktu + '</div>'
+        + '<div style="text-align:right;flex-shrink:0;margin-top:2px;"><div style="font-size:9px;color:#B4B2A9;">' + a.waktu + '</div>' + (a.poin ? '<div style="font-size:8.5px;font-weight:800;margin-top:2px;color:'+(a.poin.charAt(0)==='+' ? '#3B6D11' : '#993C1D')+';">' + a.poin + ' poin</div>' : '') + '</div>'
         + '</div>';
     });
   });
