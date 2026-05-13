@@ -2991,48 +2991,125 @@ function submitDaftarTalent() {
   document.getElementById('daftarTalentSuccess').style.display = 'flex';
 }
 
+// ============ AUDIO + MIX BACKSOUND (mirip talent.html) ============
+// URL backsound — nanti diganti dengan asset URL real
+const DT_BACKSOUND_URL = 'https://YOUR_BACKSOUND_URL_HERE.mp3';
+const DT_BACKSOUND_NAME = 'Backsound Default';
+
+let dtAudioBlob = null;
+let dtUseBacksound = true;
+let dtMixCtx = null;
+let dtMixPlaying = false;
+
 function handleDtAudio(input) {
   const file = input.files[0];
   if (!file) return;
   if (file.size > 10 * 1024 * 1024) { alert('File terlalu besar, maks 10MB'); return; }
 
-  const audioEl = document.getElementById('dtAudioEl');
-  const preview = document.getElementById('dtAudioPreview');
-
-  // Tampilkan preview container DULU sebelum set src (penting!)
-  preview.style.display = 'block';
+  dtAudioBlob = file;
   document.getElementById('dtAudioName').textContent = file.name;
-
-  // Hapus src lama (kalau ada) + clear blob URL lama
-  if (audioEl._oldBlobUrl) {
-    URL.revokeObjectURL(audioEl._oldBlobUrl);
-  }
-
-  // Buat blob URL baru dengan MIME type yang explicit
-  const blob = new Blob([file], { type: file.type || 'audio/mpeg' });
-  const url = URL.createObjectURL(blob);
-  audioEl._oldBlobUrl = url;
-
-  // Defensive error handler (untuk kasus blob URL diblokir sandbox)
-  audioEl.onerror = function() {
-    console.warn('[Audio] Preview gagal di-load (bisa terjadi di preview sandbox). File tetap tersimpan untuk submission.');
-  };
-
-  audioEl.src = url;
-  audioEl.load(); // Force browser reload audio metadata
+  document.getElementById('dtAudioPreview').style.display = 'block';
 }
 
 function hapusDtAudio() {
-  const audioEl = document.getElementById('dtAudioEl');
+  dtAudioBlob = null;
   document.getElementById('dtAudioInput').value = '';
   document.getElementById('dtAudioPreview').style.display = 'none';
-  if (audioEl._oldBlobUrl) {
-    URL.revokeObjectURL(audioEl._oldBlobUrl);
-    audioEl._oldBlobUrl = null;
-  }
-  audioEl.removeAttribute('src');
-  audioEl.load();
   document.getElementById('dtAudioName').textContent = '';
+  if (dtMixCtx) { dtMixCtx.close(); dtMixCtx = null; }
+  dtMixPlaying = false;
+  const btn = document.getElementById('dtPlayBtn');
+  if (btn) btn.innerHTML = '▶ Putar Preview (dengan backsound)';
+}
+
+function dtToggleBacksound() {
+  dtUseBacksound = !dtUseBacksound;
+  document.getElementById('dtBsTrack').style.background = dtUseBacksound ? '#4F46E5' : '#D1D5DB';
+  document.getElementById('dtBsThumb').style.transform = dtUseBacksound ? 'translateX(0)' : 'translateX(-17px)';
+  const btn = document.getElementById('dtPlayBtn');
+  if (btn && !dtMixPlaying) {
+    btn.innerHTML = dtUseBacksound
+      ? '▶ Putar Preview (dengan backsound)'
+      : '▶ Putar Preview (tanpa backsound)';
+  }
+}
+
+async function dtPlayMixPreview() {
+  const btn = document.getElementById('dtPlayBtn');
+
+  // Stop kalau sedang main
+  if (dtMixPlaying) {
+    if (dtMixCtx) { dtMixCtx.close(); dtMixCtx = null; }
+    dtMixPlaying = false;
+    btn.innerHTML = dtUseBacksound ? '▶ Putar Preview (dengan backsound)' : '▶ Putar Preview (tanpa backsound)';
+    btn.style.color = '#4F46E5';
+    btn.style.background = '#EEF2FF';
+    return;
+  }
+
+  if (!dtAudioBlob) { alert('Upload audio dulu'); return; }
+
+  try {
+    btn.innerHTML = '⏳ Memuat...';
+    dtMixCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Load suara pendaftar
+    const talentBuffer = await dtMixCtx.decodeAudioData(await dtAudioBlob.arrayBuffer());
+
+    // Load backsound (jika URL sudah diisi)
+    let backsoundBuffer = null;
+    if (dtUseBacksound && DT_BACKSOUND_URL !== 'https://YOUR_BACKSOUND_URL_HERE.mp3') {
+      try {
+        const resp = await fetch(DT_BACKSOUND_URL);
+        backsoundBuffer = await dtMixCtx.decodeAudioData(await resp.arrayBuffer());
+      } catch(e) {
+        console.warn('[Audio] Backsound tidak bisa dimuat');
+      }
+    }
+
+    // Play talent audio
+    const talentSource = dtMixCtx.createBufferSource();
+    talentSource.buffer = talentBuffer;
+    const talentGain = dtMixCtx.createGain();
+    talentGain.gain.value = 1.0;
+    talentSource.connect(talentGain);
+    talentGain.connect(dtMixCtx.destination);
+    talentSource.start(0);
+
+    // Play backsound (volume lebih rendah, looping)
+    let bsSource = null;
+    if (backsoundBuffer) {
+      bsSource = dtMixCtx.createBufferSource();
+      bsSource.buffer = backsoundBuffer;
+      bsSource.loop = true;
+      const bsGain = dtMixCtx.createGain();
+      bsGain.gain.value = 0.35;
+      bsSource.connect(bsGain);
+      bsGain.connect(dtMixCtx.destination);
+      bsSource.start(0);
+    }
+
+    dtMixPlaying = true;
+    btn.innerHTML = '⏹ Stop';
+    btn.style.color = '#B91C1C';
+    btn.style.background = '#FEF2F2';
+
+    talentSource.onended = () => {
+      if (bsSource) { try { bsSource.stop(); } catch(e){} }
+      dtMixPlaying = false;
+      btn.innerHTML = dtUseBacksound ? '▶ Putar Preview (dengan backsound)' : '▶ Putar Preview (tanpa backsound)';
+      btn.style.color = '#4F46E5';
+      btn.style.background = '#EEF2FF';
+    };
+
+  } catch(e) {
+    console.error('[Audio] Mix error:', e);
+    alert('Gagal memutar audio. Coba file lain.');
+    btn.innerHTML = dtUseBacksound ? '▶ Putar Preview (dengan backsound)' : '▶ Putar Preview (tanpa backsound)';
+    btn.style.color = '#4F46E5';
+    btn.style.background = '#EEF2FF';
+    dtMixPlaying = false;
+  }
 }
 
 function handleDtFoto(input) {
@@ -4215,12 +4292,25 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
               <!-- Audio Preview (saat sudah upload) -->
               <div id="dtAudioPreview" onclick="event.stopPropagation()" style="display:none;margin-top:10px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:12px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
                   <span style="font-size:11.5px;font-weight:700;color:#15803D;">Preview Sample</span>
                   <button onclick="event.stopPropagation();hapusDtAudio()" style="background:#FFFFFF;border:1px solid #E5E7EB;border-radius:50%;width:26px;height:26px;color:#6B7280;font-size:14px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
                 </div>
-                <div style="font-size:11.5px;color:#15803D;margin-bottom:8px;font-weight:600;display:flex;align-items:center;gap:6px;"><span>✓</span><span id="dtAudioName"></span></div>
-                <audio id="dtAudioEl" controls preload="metadata" style="width:100%;display:block;"></audio>
+                <div style="font-size:11.5px;color:#15803D;margin-bottom:10px;font-weight:600;display:flex;align-items:center;gap:6px;"><span>✓</span><span id="dtAudioName"></span></div>
+
+                <!-- Toggle Pakai Backsound -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:9px 12px;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;">
+                  <span style="font-size:12px;color:#374151;font-weight:500;">🎵 Pakai backsound</span>
+                  <div onclick="event.stopPropagation();dtToggleBacksound()" style="position:relative;width:38px;height:22px;cursor:pointer;">
+                    <div id="dtBsTrack" style="position:absolute;inset:0;border-radius:11px;background:#4F46E5;transition:background 0.3s;"></div>
+                    <div id="dtBsThumb" style="position:absolute;top:3px;left:17px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
+                  </div>
+                </div>
+
+                <!-- Tombol Play Preview Mix -->
+                <button onclick="event.stopPropagation();dtPlayMixPreview()" id="dtPlayBtn" style="width:100%;height:42px;border-radius:10px;background:#EEF2FF;border:1px solid #C7D2FE;color:#4F46E5;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;">
+                  ▶ Putar Preview (dengan backsound)
+                </button>
               </div>
 
               <!-- Backsound Info (readonly, ditentukan owner) -->
@@ -4232,17 +4322,13 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
           </div>
         </div>
 
-        <!-- ============ STEP 5: REVIEW ============ -->
+        <!-- ============ STEP 5: FINAL ============ -->
         <div class="wz-step" data-step="5" style="display:none;">
 
           <div class="wz-step-header">
             <div class="wz-step-counter" style="background:#F0FDF4;color:#15803D;">Langkah Terakhir</div>
-            <div class="wz-step-title">Review Pendaftaran</div>
-            <div class="wz-step-subtitle">Cek lagi sebelum kirim. Klik kembali kalau ada yang salah.</div>
-          </div>
-
-          <div id="dtReviewContent" class="wz-review-card">
-            <!-- Render via JS -->
+            <div class="wz-step-title">Hampir Selesai</div>
+            <div class="wz-step-subtitle">Cek lagi data kamu sebelum mengirim pendaftaran.</div>
           </div>
 
           <!-- Closing: Proses screening -->
@@ -4258,11 +4344,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
               </div>
               <div style="display:flex;align-items:start;gap:10px;">
                 <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">2</div>
-                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Kalau berkas <b>bagus & sesuai kriteria</b>, admin akan menghubungi via <b>WhatsApp</b> untuk tahap selanjutnya (interview).</div>
-              </div>
-              <div style="display:flex;align-items:start;gap:10px;">
-                <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">3</div>
-                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Pastikan <b>WhatsApp aktif</b> dan cek pesan secara berkala. Kalau tidak lolos, akan kami informasikan juga.</div>
+                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Kalau berkas <b>bagus & sesuai kriteria</b>, admin akan menghubungi via <b>WhatsApp</b> untuk tahap selanjutnya. Pastikan WhatsApp kamu <b>aktif</b>.</div>
               </div>
             </div>
           </div>
@@ -4276,7 +4358,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         <!-- ============ NAVIGATION BUTTONS ============ -->
         <div style="display:flex;gap:10px;margin-top:24px;">
           <button id="wzBackBtn" onclick="wzBack()" class="wz-btn-back">← Kembali</button>
-          <button id="wzNextBtn" onclick="wzNext()" class="wz-btn-next">Lanjut →</button>
+          <button id="wzNextBtn" onclick="wzNextHandler()" class="wz-btn-next">Lanjut →</button>
         </div>
       </div>
 
@@ -4957,18 +5039,24 @@ function wzShowStep(n) {
   const next = document.getElementById('wzNextBtn');
   if (n === wzMaxStep) {
     next.textContent = '✨ Kirim Pendaftaran';
-    next.onclick = submitDaftarTalent;
     next.classList.add('wz-btn-submit');
-    renderReview();
   } else {
     next.textContent = 'Lanjut →';
-    next.onclick = wzNext;
     next.classList.remove('wz-btn-submit');
   }
   // Scroll modal content to top
   const modal = document.getElementById('daftarTalentModal');
   if (modal) modal.scrollTop = 0;
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Router: kalau di step terakhir, submit. Kalau bukan, next.
+function wzNextHandler() {
+  if (wzStep === wzMaxStep) {
+    submitDaftarTalent();
+  } else {
+    wzNext();
+  }
 }
 
 function wzNext() {
@@ -5050,111 +5138,6 @@ function handleDtCV(input) {
 function hapusDtCV() {
   document.getElementById('dtCVInput').value = '';
   document.getElementById('dtCVPreview').style.display = 'none';
-}
-
-// ============ REVIEW RENDERER ============
-function renderReview() {
-  const layananEls = document.querySelectorAll('#dtLayanan .wz-pickcard.selected .wz-pickcard-label');
-  const layanan = Array.from(layananEls).map(e => e.textContent).join(', ') || '-';
-
-  // Hari (replaces dtJam chip)
-  const hariEls = document.querySelectorAll('#dtHari .wz-chip-sel');
-  const hari = Array.from(hariEls).map(e => e.textContent).join(', ') || '-';
-
-  // Jam (dari 24 chip grouped — collect hour values selected)
-  const jamEls = document.querySelectorAll('.wz-hour.wz-hour-sel');
-  const jamHours = Array.from(jamEls).map(e => parseInt(e.dataset.hour)).sort((a,b)=>a-b);
-  let jamRange = '-';
-  if (jamHours.length > 0) {
-    // Format: "00, 01, 02, ..." pad with 0
-    jamRange = jamHours.map(h => String(h).padStart(2,'0')).join(', ');
-    if (jamRange.length > 50) jamRange = jamRange.substring(0,50) + '…';
-  }
-
-  const sumberEl = document.querySelector('#dtSumber .wz-chip-sel');
-  const sumber = sumberEl ? sumberEl.textContent : '-';
-
-  // Pendidikan (chip selected)
-  const pendidikanEl = document.querySelector('#dtPendidikan .wz-chip-sel');
-  const pendidikan = pendidikanEl ? pendidikanEl.textContent : '-';
-
-  // Kesibukan (textarea bebas)
-  const kesibukanText = document.getElementById('dtKesibukan').value.trim();
-  const kesibukan = kesibukanText ? (kesibukanText.length > 50 ? kesibukanText.substring(0,50) + '…' : kesibukanText) : '-';
-
-  // Gender (toggle selected)
-  const genderEl = document.querySelector('.wz-toggle-opt.wz-toggle-sel');
-  const gender = genderEl ? genderEl.textContent.trim() : '-';
-
-  // Pernah pakai layanan
-  const pernahPakai = document.getElementById('dtPernahPakai').value;
-  const pernahPakaiStr = pernahPakai === 'ya' ? 'Pernah' : pernahPakai === 'tidak' ? 'Belum' : '-';
-
-  // Kepribadian label
-  const kepribadianNum = parseInt(document.getElementById('dtKepribadian').value);
-  let kepribadianLabel;
-  if (kepribadianNum <= 3) kepribadianLabel = kepribadianNum + '/10 🧘 Introvert';
-  else if (kepribadianNum <= 6) kepribadianLabel = kepribadianNum + '/10 Ambivert';
-  else kepribadianLabel = kepribadianNum + '/10 🎉 Extrovert';
-
-  const ig = document.getElementById('dtIG').value.trim();
-  const tiktok = document.getElementById('dtTiktok').value.trim();
-  let sosmed = [];
-  if (ig) sosmed.push('IG: @' + ig);
-  if (tiktok) sosmed.push('TT: @' + tiktok);
-  const sosmedStr = sosmed.length ? sosmed.join(' · ') : '-';
-
-  const bio = document.getElementById('dtBio').value.trim() || '-';
-
-  // Game
-  const mainGame = document.getElementById('dtMainGame').value;
-  const gameNama = document.getElementById('dtGameNama').value.trim();
-  const gameStr = mainGame === 'ya' ? (gameNama || 'Ya') : mainGame === 'tidak' ? 'Tidak main' : '-';
-
-  // Call habit
-  const seringCall = document.getElementById('dtSeringCall').value;
-  const callSiapa = document.getElementById('dtCallSiapa').value.trim();
-  const callStr = seringCall === 'ya' ? ('Ya' + (callSiapa ? ' · ' + callSiapa : '')) : seringCall === 'tidak' ? 'Tidak' : '-';
-
-  // Audio sample status
-  const audioFile = document.getElementById('dtAudioInput').files[0];
-  const audioStr = audioFile ? '✓ Sudah upload' : 'Belum upload';
-
-  const data = [
-    ['Nama', document.getElementById('dtNama').value || '-'],
-    ['WhatsApp', document.getElementById('dtWA').value || '-'],
-    ['Gender', gender],
-    ['Usia & Kota', (document.getElementById('dtUsia').value || '?') + ' th · ' + (document.getElementById('dtKota').value || '-')],
-    ['Pendidikan', pendidikan],
-    ['Kesibukan', kesibukan],
-    ['Tau dari', sumber],
-    ['Pernah pakai', pernahPakaiStr],
-    ['Sosmed', sosmedStr],
-    ['Hari kerja', hari],
-    ['Jam', jamRange],
-    ['Komunikasi', document.getElementById('dtKom').value + '/10'],
-    ['Pendengar', document.getElementById('dtListen').value + '/10'],
-    ['Merespons Curhat', document.getElementById('dtMeresp').value + '/10'],
-    ['Kepribadian', kepribadianLabel],
-    ['Sabar/Empati', document.getElementById('dtSabar').value + '/10'],
-    ['Ketegasan', document.getElementById('dtTegas').value + '/10'],
-    ['Sopan Santun', document.getElementById('dtSopan').value + '/10'],
-    ['Humoris', document.getElementById('dtHumor').value + '/10'],
-    ['Main game', gameStr],
-    ['Sering call', callStr],
-    ['Layanan', layanan],
-    ['Bio', bio.length > 60 ? bio.substring(0,60) + '…' : bio],
-    ['Sample Suara', audioStr]
-  ];
-
-  const html = data.map(([k, v]) => `
-    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;padding:11px 0;border-bottom:1px solid #F3F4F6;">
-      <span style="font-size:12.5px;color:#6B7280;flex-shrink:0;font-weight:500;">${k}</span>
-      <span style="font-size:13px;color:#0F172A;font-weight:600;text-align:right;">${v}</span>
-    </div>
-  `).join('');
-
-  document.getElementById('dtReviewContent').innerHTML = html;
 }
 
 // ============ INIT WIZARD ON OPEN ============
