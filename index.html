@@ -3540,7 +3540,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
       </div>
 
       <!-- ============ PROGRESS STEP DOTS (Light Premium) ============ -->
-      <div style="padding:24px 24px 8px;background:#FFFFFF;">
+      <div id="dtProgressContainer" style="padding:24px 24px 8px;background:#FFFFFF;">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;position:relative;">
           <!-- Background line -->
           <div style="position:absolute;top:14px;left:14px;right:14px;height:2px;background:#E5E7EB;border-radius:99px;"></div>
@@ -3571,43 +3571,125 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         </div>
       </div>
 
-      <!-- FORM CONTAINER -->
-      <div id="daftarTalentForm" style="padding:6px 20px 20px;">
+      <!-- ============ WELCOME SCREEN (Step 0) ============ -->
+      <div id="daftarTalentWelcome" style="padding:24px 24px 24px;">
 
-        <!-- ============ STEP 1: IDENTITAS ============ -->
+        <!-- Hero -->
+        <div style="text-align:center;margin-bottom:22px;">
+          <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px;box-shadow:0 8px 20px rgba(79,70,229,0.12);">👋</div>
+          <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;color:#0F172A;letter-spacing:-0.015em;line-height:1.15;margin-bottom:8px;">Sebelum Kamu Daftar</div>
+          <div style="font-size:13.5px;color:#6B7280;line-height:1.55;max-width:380px;margin:0 auto;">Yuk baca dulu info penting ini supaya kamu tau apa yang akan kamu jalani sebagai talent.</div>
+        </div>
+
+        <!-- Info Cards -->
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#F0FDF4;color:#15803D;">💰</div>
+            <div>
+              <div class="wz-info-title">Penghasilan · 60% per order</div>
+              <div class="wz-info-text">
+                <p style="margin:0 0 6px;">Talent akan menerima <b style="color:#15803D;">60% dari total nilai setiap order</b> yang berhasil diselesaikan.</p>
+                <p style="margin:0 0 6px;"><b style="color:#15803D;">Contoh perhitungan:</b> Sleep Call senilai Rp 50.000 → Talent menerima <b style="color:#15803D;">Rp 30.000</b>.</p>
+                <p style="margin:0;">Talent <b>tidak perlu mengeluarkan biaya</b> untuk promosi, pemasaran, pengelolaan sistem, administrasi, maupun operasional lainnya. Semua kebutuhan tersebut sepenuhnya ditangani oleh tim kami.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#FEF3C7;color:#B45309;">⏰</div>
+            <div>
+              <div class="wz-info-title">Jam Kerja Fleksibel</div>
+              <div class="wz-info-text">Atur sendiri jam available. Jam malam (22:00–02:00) adalah jam tersibuk dengan tarif lebih tinggi.</div>
+            </div>
+          </div>
+
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#EEF2FF;color:#4F46E5;">🎧</div>
+            <div>
+              <div class="wz-info-title">Layanan yang Tersedia</div>
+              <div class="wz-info-text">Sleep Call, Teman Call, Curhat Call, Pacar Virtual. Kamu pilih yang sesuai dengan kemampuan.</div>
+            </div>
+          </div>
+
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#FCE7F3;color:#BE185D;">🚫</div>
+            <div>
+              <div class="wz-info-title">Aturan Penting</div>
+              <div class="wz-info-text">DILARANG konten dewasa, video call, atau ketemuan offline. Pelanggaran = blokir permanen.</div>
+            </div>
+          </div>
+
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#E0F2FE;color:#0369A1;">📋</div>
+            <div>
+              <div class="wz-info-title">Syarat Dasar</div>
+              <div class="wz-info-text">Minimal usia 18 tahun, suara nyaman didengar, punya WA aktif, komitmen minimal 3 bulan.</div>
+            </div>
+          </div>
+
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#FEF2F2;color:#B91C1C;">📞</div>
+            <div>
+              <div class="wz-info-title">Proses Recruitment</div>
+              <div class="wz-info-text">Isi form (5 langkah) → Review admin (1–3 hari) → Interview via WA → Aktifkan akun.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- T&C check -->
+        <div style="background:#FAFBFC;border:1px solid #E5E7EB;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:start;margin-bottom:20px;">
+          <span style="font-size:16px;flex-shrink:0;">📜</span>
+          <div style="font-size:12.5px;color:#4B5563;line-height:1.6;">
+            Dengan melanjutkan, kamu setuju dengan <b style="color:#4F46E5;cursor:pointer;text-decoration:underline;" onclick="closeDaftarTalent();openDrawerPage('terms')">Syarat & Ketentuan</b> dan <b style="color:#4F46E5;cursor:pointer;text-decoration:underline;" onclick="closeDaftarTalent();openDrawerPage('privacy')">Kebijakan Privasi</b> kami.
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button onclick="startDaftarForm()" style="width:100%;height:54px;border:none;border-radius:14px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;background:linear-gradient(135deg,#6366F1,#4F46E5);color:#FFFFFF;box-shadow:0 6px 20px rgba(79,70,229,0.3);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 28px rgba(79,70,229,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 20px rgba(79,70,229,0.3)'">Saya Paham, Lanjut Daftar →</button>
+        <div style="text-align:center;font-size:11.5px;color:#9CA3AF;margin-top:12px;">5 langkah · Estimasi 5–10 menit</div>
+      </div>
+
+      <!-- FORM CONTAINER -->
+      <div id="daftarTalentForm" style="padding:8px 24px 24px;display:none;">
+
+        <!-- ============ STEP 1: SIAPA KAMU ============ -->
         <div class="wz-step" data-step="1" style="display:block;">
 
           <div class="wz-step-header">
-            <div class="wz-step-counter">Step 1 / 5</div>
-            <div class="wz-step-title">Identitas</div>
-            <div class="wz-step-subtitle">Data dasar untuk identifikasi. Semua aman & rahasia.</div>
+            <div class="wz-step-counter">Langkah 1 dari 5</div>
+            <div class="wz-step-title">Siapa Kamu?</div>
+            <div class="wz-step-subtitle">Data dasar & latar belakang singkat. Aman & rahasia.</div>
           </div>
 
+          <!-- Identitas Dasar -->
           <div class="wz-group">
-            <div class="wz-group-label">📇 Data Pribadi</div>
+            <div class="wz-group-label">Identitas</div>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
               <div class="wz-input-wrap">
-                <label class="wz-label">Nama Panggilan *</label>
-                <input id="dtNama" type="text" class="wz-input" placeholder="Mis: Vania"/>
+                <label class="wz-label">Nama Panggilan</label>
+                <input id="dtNama" type="text" class="wz-input" placeholder="Vania"/>
               </div>
               <div class="wz-input-wrap">
-                <label class="wz-label">WhatsApp *</label>
+                <label class="wz-label">WhatsApp</label>
                 <input id="dtWA" type="tel" class="wz-input" placeholder="08xxx"/>
               </div>
             </div>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-              <div class="wz-input-wrap">
-                <label class="wz-label">Gender *</label>
-                <select id="dtGender" class="wz-input wz-select">
-                  <option value="" style="background:#0D0A25;">Pilih</option>
-                  <option value="p" style="background:#0D0A25;">Perempuan</option>
-                  <option value="l" style="background:#0D0A25;">Laki-laki</option>
-                </select>
+            <!-- Gender — Toggle button -->
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Gender</label>
+              <div class="wz-toggle">
+                <div onclick="pickToggle(this,'dtGender','p')" class="wz-toggle-opt" data-val="p">👩 Perempuan</div>
+                <div onclick="pickToggle(this,'dtGender','l')" class="wz-toggle-opt" data-val="l">👨 Laki-laki</div>
               </div>
+              <input type="hidden" id="dtGender" value=""/>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:12px;">
               <div class="wz-input-wrap">
-                <label class="wz-label">Usia *</label>
+                <label class="wz-label">Usia</label>
                 <input id="dtUsia" type="number" class="wz-input" placeholder="20" min="18" max="50"/>
               </div>
               <div class="wz-input-wrap">
@@ -3617,48 +3699,98 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             </div>
           </div>
 
+          <!-- Latar Belakang — Card Grid -->
           <div class="wz-group">
-            <div class="wz-group-label">🎓 Latar Belakang</div>
+            <div class="wz-group-label">Latar Belakang</div>
 
-            <div class="wz-input-wrap" style="margin-bottom:12px;">
+            <!-- Pendidikan: chip horizontal -->
+            <div class="wz-input-wrap" style="margin-bottom:18px;">
               <label class="wz-label">Pendidikan Terakhir</label>
-              <select id="dtPendidikan" class="wz-input wz-select">
-                <option value="" style="background:#0D0A25;">Pilih pendidikan</option>
-                <option value="sma" style="background:#0D0A25;">SMA / Sederajat</option>
-                <option value="d3" style="background:#0D0A25;">D3 / Diploma</option>
-                <option value="s1" style="background:#0D0A25;">S1 / Sarjana</option>
-                <option value="s2" style="background:#0D0A25;">S2 / Magister</option>
-                <option value="lainnya" style="background:#0D0A25;">Lainnya</option>
-              </select>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtPendidikan">
+                <div onclick="pickChip(this,'dtPendidikanVal','sma')" class="wz-chip" data-val="sma">SMA</div>
+                <div onclick="pickChip(this,'dtPendidikanVal','d3')" class="wz-chip" data-val="d3">D3</div>
+                <div onclick="pickChip(this,'dtPendidikanVal','s1')" class="wz-chip" data-val="s1">S1</div>
+                <div onclick="pickChip(this,'dtPendidikanVal','s2')" class="wz-chip" data-val="s2">S2</div>
+                <div onclick="pickChip(this,'dtPendidikanVal','lainnya')" class="wz-chip" data-val="lainnya">Lainnya</div>
+              </div>
+              <input type="hidden" id="dtPendidikanVal" value=""/>
             </div>
 
+            <!-- Kesibukan: Card Grid 3-col -->
             <div class="wz-input-wrap">
               <label class="wz-label">Kesibukan Saat Ini</label>
-              <select id="dtKesibukan" class="wz-input wz-select">
-                <option value="" style="background:#0D0A25;">Pilih kesibukan</option>
-                <option value="kuliah" style="background:#0D0A25;">🎓 Kuliah</option>
-                <option value="kerja" style="background:#0D0A25;">💼 Bekerja (cari sampingan)</option>
-                <option value="freelance" style="background:#0D0A25;">🎨 Freelance</option>
-                <option value="ibu" style="background:#0D0A25;">👩 Ibu rumah tangga</option>
-                <option value="nganggur" style="background:#0D0A25;">🛋️ Belum bekerja</option>
-                <option value="lain" style="background:#0D0A25;">📦 Lainnya</option>
-              </select>
+              <div class="wz-mini-grid" id="dtKesibukan">
+                <div onclick="pickMiniCard(this,'dtKesibukanVal','kuliah')" class="wz-mini-card" data-val="kuliah">
+                  <div class="wz-mini-icon">🎓</div>
+                  <div class="wz-mini-label">Kuliah</div>
+                </div>
+                <div onclick="pickMiniCard(this,'dtKesibukanVal','kerja')" class="wz-mini-card" data-val="kerja">
+                  <div class="wz-mini-icon">💼</div>
+                  <div class="wz-mini-label">Bekerja</div>
+                </div>
+                <div onclick="pickMiniCard(this,'dtKesibukanVal','freelance')" class="wz-mini-card" data-val="freelance">
+                  <div class="wz-mini-icon">🎨</div>
+                  <div class="wz-mini-label">Freelance</div>
+                </div>
+                <div onclick="pickMiniCard(this,'dtKesibukanVal','ibu')" class="wz-mini-card" data-val="ibu">
+                  <div class="wz-mini-icon">👩</div>
+                  <div class="wz-mini-label">Ibu RT</div>
+                </div>
+                <div onclick="pickMiniCard(this,'dtKesibukanVal','nganggur')" class="wz-mini-card" data-val="nganggur">
+                  <div class="wz-mini-icon">🛋️</div>
+                  <div class="wz-mini-label">Free</div>
+                </div>
+                <div onclick="pickMiniCard(this,'dtKesibukanVal','lain')" class="wz-mini-card" data-val="lain">
+                  <div class="wz-mini-icon">📦</div>
+                  <div class="wz-mini-label">Lainnya</div>
+                </div>
+              </div>
+              <input type="hidden" id="dtKesibukanVal" value=""/>
             </div>
           </div>
 
-          <div class="wz-group">
-            <div class="wz-group-label">🔗 Sumber Info</div>
+          <!-- Sosmed & Sumber -->
+          <div class="wz-group" style="margin-bottom:0;">
+            <div class="wz-group-label">Online Presence <span class="wz-group-hint">(opsional)</span></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+              <div class="wz-input-wrap">
+                <label class="wz-label">Instagram</label>
+                <div style="position:relative;">
+                  <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;">📷</span>
+                  <input id="dtIG" type="text" class="wz-input" placeholder="username" style="padding-left:34px;"/>
+                </div>
+              </div>
+              <div class="wz-input-wrap">
+                <label class="wz-label">TikTok</label>
+                <div style="position:relative;">
+                  <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;">🎵</span>
+                  <input id="dtTiktok" type="text" class="wz-input" placeholder="username" style="padding-left:34px;"/>
+                </div>
+              </div>
+            </div>
+
             <div class="wz-input-wrap">
-              <label class="wz-label">Dari mana tau SleepcallPay? *</label>
+              <label class="wz-label">Tau SleepcallPay dari mana?</label>
               <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtSumber">
                 <div onclick="pickSumber(this)" class="wz-chip" data-val="tiktok">🎵 TikTok</div>
                 <div onclick="pickSumber(this)" class="wz-chip" data-val="instagram">📷 Instagram</div>
-                <div onclick="pickSumber(this)" class="wz-chip" data-val="twitter">🐦 Twitter/X</div>
-                <div onclick="pickSumber(this)" class="wz-chip" data-val="teman">👥 Dari teman</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="twitter">🐦 X/Twitter</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="teman">👥 Teman</div>
                 <div onclick="pickSumber(this)" class="wz-chip" data-val="google">🔍 Google</div>
                 <div onclick="pickSumber(this)" class="wz-chip" data-val="lain">📦 Lainnya</div>
               </div>
               <input type="hidden" id="dtSumberVal" value=""/>
+            </div>
+
+            <!-- Pernah Pakai Layanan -->
+            <div class="wz-input-wrap" style="margin-top:16px;">
+              <label class="wz-label">Pernah pakai layanan kami sebagai customer?</label>
+              <div style="display:flex;gap:10px;">
+                <div onclick="setYaTidak(this,'dtPernahPakai','ya')" class="wz-yn"><span style="font-size:14px;">✅</span> Pernah</div>
+                <div onclick="setYaTidak(this,'dtPernahPakai','tidak')" class="wz-yn"><span style="font-size:14px;">❌</span> Belum</div>
+              </div>
+              <input type="hidden" id="dtPernahPakai" value=""/>
             </div>
           </div>
         </div>
@@ -3667,60 +3799,52 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         <div class="wz-step" data-step="2" style="display:none;">
 
           <div class="wz-step-header">
-            <div class="wz-step-counter">Step 2 / 5</div>
-            <div class="wz-step-title">Kemampuan</div>
-            <div class="wz-step-subtitle">Apa yang bisa kamu tawarkan untuk customer.</div>
+            <div class="wz-step-counter">Langkah 2 dari 5</div>
+            <div class="wz-step-title">Jadwal & Kemampuan</div>
+            <div class="wz-step-subtitle">Jadwal kerja & penilaian diri sebagai talent.</div>
           </div>
 
+          <!-- Jam Available -->
           <div class="wz-group">
-            <div class="wz-group-label">🎧 Layanan & Jadwal</div>
+            <div class="wz-group-label">Jam Available</div>
 
-            <div style="margin-bottom:16px;">
-              <label class="wz-label">Layanan yang Dikuasai * <span class="wz-label-hint">(bisa &gt; 1)</span></label>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="dtLayanan">
-                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                  <div style="font-size:22px;">🌙</div>
-                  <div class="wz-pickcard-label">Sleep Call</div>
-                  <div class="wz-pickcard-desc">Temani sampai tidur</div>
-                </div>
-                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                  <div style="font-size:22px;">💬</div>
-                  <div class="wz-pickcard-label">Teman Call</div>
-                  <div class="wz-pickcard-desc">Ngobrol santai</div>
-                </div>
-                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                  <div style="font-size:22px;">🫂</div>
-                  <div class="wz-pickcard-label">Curhat Call</div>
-                  <div class="wz-pickcard-desc">Dengar keluh kesah</div>
-                </div>
-                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                  <div style="font-size:22px;">💕</div>
-                  <div class="wz-pickcard-label">Pacar Virtual</div>
-                  <div class="wz-pickcard-desc">Role-play sebagai pacar</div>
-                </div>
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Hari yang Bisa Kerja <span class="wz-label-hint">· bisa &gt; 1</span></label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtHari">
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sen</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sel</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Rab</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Kam</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Jum</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sab</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Min</div>
+              </div>
+              <div style="margin-top:8px;">
+                <span onclick="setAllDays()" style="font-size:11.5px;color:#4F46E5;font-weight:600;cursor:pointer;text-decoration:underline;">Pilih semua hari</span>
               </div>
             </div>
 
-            <div>
-              <label class="wz-label">Jam Available * <span class="wz-label-hint">(bisa &gt; 1)</span></label>
-              <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtJam">
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">☀️ Pagi (06–12)</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌤 Siang (12–18)</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌆 Sore (18–22)</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip wz-chip-sel">🌙 Malam (22–02)</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌌 Dini hari (02–06)</div>
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Jam Mulai – Jam Selesai</label>
+              <div class="wz-helper">Tulis range jam yang bisa kamu kerja. Contoh: 20:00–02:00</div>
+              <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;">
+                <input id="dtJamMulai" type="time" class="wz-input" value="20:00" style="text-align:center;font-variant-numeric:tabular-nums;"/>
+                <div style="font-size:18px;color:#9CA3AF;font-weight:600;">→</div>
+                <input id="dtJamSelesai" type="time" class="wz-input" value="02:00" style="text-align:center;font-variant-numeric:tabular-nums;"/>
               </div>
-              <div class="wz-tip">💡 Jam malam = jam tersibuk dengan order paling banyak</div>
+              <div class="wz-tip">💡 Jam malam (22:00–02:00) adalah jam tersibuk dengan tarif lebih tinggi</div>
             </div>
           </div>
 
-          <div class="wz-group">
-            <div class="wz-group-label">📊 Self-Assessment <span class="wz-group-hint">(geser slider)</span></div>
+          <!-- Self-Assessment (extended) -->
+          <div class="wz-group" style="margin-bottom:0;">
+            <div class="wz-group-label">Self-Assessment <span class="wz-group-hint">· geser slider sesuai kondisimu</span></div>
 
             <div class="wz-slider-card">
+
               <div class="wz-slider-row">
                 <div class="wz-slider-meta">
-                  <div class="wz-slider-name">💬 Kemampuan Komunikasi</div>
+                  <div class="wz-slider-name">💬 Komunikasi</div>
                   <div class="wz-slider-val" id="dtKomVal">7/10</div>
                 </div>
                 <input type="range" id="dtKom" min="1" max="10" value="7" oninput="document.getElementById('dtKomVal').textContent=this.value+'/10';" class="wz-range"/>
@@ -3731,7 +3855,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
               <div class="wz-slider-row">
                 <div class="wz-slider-meta">
-                  <div class="wz-slider-name">👂 Pendengar yang Baik?</div>
+                  <div class="wz-slider-name">👂 Pendengar</div>
                   <div class="wz-slider-val" id="dtListenVal">7/10</div>
                 </div>
                 <input type="range" id="dtListen" min="1" max="10" value="7" oninput="document.getElementById('dtListenVal').textContent=this.value+'/10';" class="wz-range"/>
@@ -3748,102 +3872,173 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                 <input type="range" id="dtKepribadian" min="1" max="10" value="5" oninput="document.getElementById('dtKepribadianVal').textContent=this.value+'/10';" class="wz-range"/>
                 <div class="wz-slider-ends"><span>🧘 Introvert</span><span>Ambivert</span><span>🎉 Extrovert</span></div>
               </div>
+
+              <div class="wz-slider-divider"></div>
+
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">🫂 Sabar & Empati</div>
+                  <div class="wz-slider-val" id="dtSabarVal">7/10</div>
+                </div>
+                <input type="range" id="dtSabar" min="1" max="10" value="7" oninput="document.getElementById('dtSabarVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>Pendek</span><span>Sangat sabar</span></div>
+              </div>
+
+              <div class="wz-slider-divider"></div>
+
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">💪 Ketegasan</div>
+                  <div class="wz-slider-val" id="dtTegasVal">6/10</div>
+                </div>
+                <input type="range" id="dtTegas" min="1" max="10" value="6" oninput="document.getElementById('dtTegasVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>Lembek</span><span>Tegas</span></div>
+              </div>
+
+              <div class="wz-slider-divider"></div>
+
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">🙏 Sopan Santun</div>
+                  <div class="wz-slider-val" id="dtSopanVal">8/10</div>
+                </div>
+                <input type="range" id="dtSopan" min="1" max="10" value="8" oninput="document.getElementById('dtSopanVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>Casual</span><span>Sangat sopan</span></div>
+              </div>
+
+              <div class="wz-slider-divider"></div>
+
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">😄 Humoris</div>
+                  <div class="wz-slider-val" id="dtHumorVal">6/10</div>
+                </div>
+                <input type="range" id="dtHumor" min="1" max="10" value="6" oninput="document.getElementById('dtHumorVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>Serius</span><span>Suka bercanda</span></div>
+              </div>
+
             </div>
           </div>
         </div>
 
-        <!-- ============ STEP 3: CERITA & KOMITMEN ============ -->
+        <!-- ============ STEP 3: CERITA & PRINSIP ============ -->
         <div class="wz-step" data-step="3" style="display:none;">
 
           <div class="wz-step-header">
-            <div class="wz-step-counter">Step 3 / 5</div>
-            <div class="wz-step-title">Cerita & Komitmen</div>
-            <div class="wz-step-subtitle">Jawab dengan jujur — bagian yang paling kami baca.</div>
+            <div class="wz-step-counter">Langkah 3 dari 5</div>
+            <div class="wz-step-title">Cerita & Prinsip</div>
+            <div class="wz-step-subtitle">Bagian terpenting — jawab dengan jujur dan natural.</div>
           </div>
 
           <div class="wz-group">
-            <div class="wz-group-label">📖 Cerita Personal</div>
+            <div class="wz-group-label">Tentang Kamu</div>
 
+            <!-- Gabungan: Tentang diri + Motivasi + Harapan -->
             <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Ceritakan tentang dirimu *</label>
-              <textarea id="dtTentang" class="wz-input wz-textarea" placeholder="Kepribadian, hobi, hal unik tentangmu..." maxlength="500" oninput="updateCount('dtTentang','dtTentangCount')"></textarea>
+              <label class="wz-label">Ceritakan dirimu & kenapa tertarik jadi talent</label>
+              <div class="wz-helper">Kepribadian, hobi, motivasi, dan harapanmu dari bergabung di sini.</div>
+              <textarea id="dtTentang" class="wz-input wz-textarea" placeholder="Hai, aku Vania, mahasiswa Psikologi yang suka ngobrol dan dengarkan orang. Aku tertarik jadi talent karena..." maxlength="500" oninput="updateCount('dtTentang','dtTentangCount')" style="height:110px;"></textarea>
               <div class="wz-counter"><span id="dtTentangCount">0</span>/500</div>
             </div>
 
+            <!-- Skenario test -->
             <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Kenapa tertarik jadi talent? *</label>
-              <textarea id="dtMotivasi" class="wz-input wz-textarea" placeholder="Motivasi & kelebihan yang membuatmu cocok jadi talent..."></textarea>
-            </div>
-
-            <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Bagaimana hadapi client yang susah? *</label>
-              <div class="wz-helper">Mis: client kasar, minta hal di luar aturan, atau cerita berat.</div>
+              <label class="wz-label">Bagaimana hadapi client yang susah?</label>
+              <div class="wz-helper">Misal: client kasar, minta hal di luar aturan, atau cerita berat yang menguras emosi.</div>
               <textarea id="dtHandling" class="wz-input wz-textarea" placeholder="Tulis caramu menghadapi situasi sulit..."></textarea>
             </div>
 
-            <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Pengalaman kerja / organisasi <span class="wz-label-hint">(opsional)</span></label>
-              <textarea id="dtPengalaman" class="wz-input wz-textarea" placeholder="Pernah kerja dimana? Pengalaman relevan?" style="height:60px;"></textarea>
-            </div>
-
+            <!-- Batasan -->
             <div class="wz-input-wrap">
-              <label class="wz-label">Harapan dari bergabung di sini?</label>
-              <textarea id="dtHarapan" class="wz-input wz-textarea" placeholder="Target income, pengalaman, atau hal yang ingin dicapai..." style="height:60px;"></textarea>
+              <label class="wz-label">Batasan yang tidak boleh dilanggar client</label>
+              <div class="wz-helper">Hal-hal yang membuatmu tidak nyaman atau yang harus dihindari client.</div>
+              <textarea id="dtBatasan" class="wz-input wz-textarea" placeholder="Contoh: tidak mau dimaki, tidak mau topik tertentu..." style="height:70px;"></textarea>
             </div>
           </div>
 
+          <!-- Gaya Hidup (baru) -->
           <div class="wz-group">
-            <div class="wz-group-label">⚙️ Preferensi & Latar</div>
+            <div class="wz-group-label">Gaya Hidup & Kebiasaan</div>
 
             <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Batasan yang Tidak Boleh Dilanggar Client *</label>
-              <textarea id="dtBatasan" class="wz-input wz-textarea" placeholder="Contoh: tidak mau dimaki, tidak mau topik tertentu, tidak mau ngomong jorok..." style="height:60px;"></textarea>
+              <label class="wz-label">Rutinitas Sehari-hari</label>
+              <div class="wz-helper">Ceritain biasanya sehari-hari ngapain aja? Bangun jam berapa, kegiatan, tidur jam berapa.</div>
+              <textarea id="dtRutinitas" class="wz-input wz-textarea" placeholder="Contoh: bangun jam 9, kuliah online sampai jam 14, sore santai di rumah, malam main game atau scroll TikTok, tidur jam 2..." style="height:80px;"></textarea>
             </div>
 
-            <div class="wz-input-wrap">
-              <label class="wz-label">Pernah Pakai Layanan Kami sebagai customer?</label>
-              <div style="display:flex;gap:8px;">
-                <div onclick="setYaTidak(this,'dtPernahPakai','ya')" class="wz-yn" data-name="dtPernahPakai" data-value="ya"><span style="font-size:14px;">✅</span> Pernah</div>
-                <div onclick="setYaTidak(this,'dtPernahPakai','tidak')" class="wz-yn" data-name="dtPernahPakai" data-value="tidak"><span style="font-size:14px;">❌</span> Belum</div>
+            <!-- Main Game -->
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Suka main game?</label>
+              <div style="display:flex;gap:10px;">
+                <div onclick="setYaTidak(this,'dtMainGame','ya');toggleGameDetail(true)" class="wz-yn"><span style="font-size:14px;">🎮</span> Ya</div>
+                <div onclick="setYaTidak(this,'dtMainGame','tidak');toggleGameDetail(false)" class="wz-yn"><span style="font-size:14px;">📵</span> Tidak</div>
               </div>
-              <input type="hidden" id="dtPernahPakai" value=""/>
+              <input type="hidden" id="dtMainGame" value=""/>
+
+              <div id="dtGameDetail" style="display:none;margin-top:12px;">
+                <label class="wz-label" style="font-size:12px;">Game apa yang dimainkan?</label>
+                <input id="dtGameNama" type="text" class="wz-input" placeholder="Contoh: Mobile Legends, Genshin Impact, Valorant..."/>
+              </div>
+            </div>
+
+            <!-- Sering Ngobrol via Call -->
+            <div class="wz-input-wrap">
+              <label class="wz-label">Sering ngobrol via telepon/call?</label>
+              <div style="display:flex;gap:10px;">
+                <div onclick="setYaTidak(this,'dtSeringCall','ya');toggleCallDetail(true)" class="wz-yn"><span style="font-size:14px;">📞</span> Ya</div>
+                <div onclick="setYaTidak(this,'dtSeringCall','tidak');toggleCallDetail(false)" class="wz-yn"><span style="font-size:14px;">🤐</span> Tidak</div>
+              </div>
+              <input type="hidden" id="dtSeringCall" value=""/>
+
+              <div id="dtCallDetail" style="display:none;margin-top:12px;">
+                <label class="wz-label" style="font-size:12px;">Biasanya ngobrol sama siapa?</label>
+                <input id="dtCallSiapa" type="text" class="wz-input" placeholder="Contoh: pacar, teman dekat, sahabat, keluarga..."/>
+              </div>
             </div>
           </div>
 
-          <div class="wz-group">
-            <div class="wz-group-label">🤝 Komitmen</div>
+          <!-- Komitmen check (digabung lebih simple) -->
+          <div class="wz-group" style="margin-bottom:0;">
+            <div class="wz-group-label">Komitmen Check</div>
 
             <div class="wz-input-wrap" style="margin-bottom:14px;">
               <label class="wz-label">Bersedia di-coaching / dibimbing?</label>
-              <div style="display:flex;gap:8px;">
-                <div onclick="setYaTidak(this,'dtCoaching','ya')" class="wz-yn" data-name="dtCoaching" data-value="ya"><span style="font-size:14px;">👍</span> Ya, mau belajar</div>
-                <div onclick="setYaTidak(this,'dtCoaching','tidak')" class="wz-yn" data-name="dtCoaching" data-value="tidak"><span style="font-size:14px;">🤔</span> Tidak perlu</div>
+              <div style="display:flex;gap:10px;">
+                <div onclick="setYaTidak(this,'dtCoaching','ya')" class="wz-yn"><span style="font-size:14px;">👍</span> Ya, mau belajar</div>
+                <div onclick="setYaTidak(this,'dtCoaching','tidak')" class="wz-yn"><span style="font-size:14px;">🤔</span> Tidak perlu</div>
               </div>
               <input type="hidden" id="dtCoaching" value=""/>
             </div>
 
-            <div class="wz-input-wrap">
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
               <label class="wz-label">Ada orang terdekat yang tahu kamu mendaftar?</label>
               <div class="wz-helper">Penting untuk komitmen jangka panjang & support system.</div>
-              <div style="display:flex;gap:8px;">
-                <div onclick="setYaTidak(this,'dtSupport','ya')" class="wz-yn" data-name="dtSupport" data-value="ya"><span style="font-size:14px;">💚</span> Ya, ada</div>
-                <div onclick="setYaTidak(this,'dtSupport','tidak')" class="wz-yn" data-name="dtSupport" data-value="tidak"><span style="font-size:14px;">🤐</span> Belum ada</div>
+              <div style="display:flex;gap:10px;">
+                <div onclick="setYaTidak(this,'dtSupport','ya')" class="wz-yn"><span style="font-size:14px;">💚</span> Ya, ada</div>
+                <div onclick="setYaTidak(this,'dtSupport','tidak')" class="wz-yn"><span style="font-size:14px;">🤐</span> Belum ada</div>
               </div>
               <input type="hidden" id="dtSupport" value=""/>
             </div>
-          </div>
 
-          <div class="wz-group">
-            <div class="wz-group-label">📱 Sosial Media <span class="wz-group-hint">(opsional)</span></div>
-            <div class="wz-helper" style="margin:-6px 0 10px;">Untuk cross-check & lihat aktivitasmu.</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-              <div style="position:relative;">
-                <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;">📷</span>
-                <input id="dtIG" type="text" class="wz-input" placeholder="IG username" style="padding-left:34px;"/>
+            <!-- Pengalaman + CV (kompak) -->
+            <div class="wz-input-wrap" style="margin-bottom:12px;">
+              <label class="wz-label">Pengalaman kerja / organisasi <span class="wz-label-hint">· opsional</span></label>
+              <textarea id="dtPengalaman" class="wz-input wz-textarea" placeholder="Pernah kerja dimana? Pengalaman relevan?" style="height:60px;"></textarea>
+            </div>
+
+            <div class="wz-input-wrap">
+              <input type="file" id="dtCVInput" accept=".pdf,.doc,.docx" onchange="handleDtCV(this)" style="display:none;"/>
+              <div onclick="document.getElementById('dtCVInput').click()" class="wz-upload" style="padding:12px 14px;">
+                <div class="wz-upload-icon" style="width:38px;height:38px;font-size:15px;">📄</div>
+                <div style="flex:1;">
+                  <div class="wz-upload-title" style="font-size:13px;">Upload CV (opsional)</div>
+                  <div class="wz-upload-sub">PDF/DOC · Maks 10MB · Nilai plus jika upload</div>
+                </div>
               </div>
-              <div style="position:relative;">
-                <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;">🎵</span>
-                <input id="dtTiktok" type="text" class="wz-input" placeholder="TikTok username" style="padding-left:34px;"/>
+              <div id="dtCVPreview" style="display:none;margin-top:8px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;padding:10px 12px;align-items:center;gap:10px;">
+                <span style="font-size:14px;color:#15803D;">✓</span>
+                <div style="flex:1;font-size:12px;color:#15803D;font-weight:600;" id="dtCVName"></div>
+                <span onclick="event.stopPropagation();hapusDtCV()" style="font-size:13px;color:#9CA3AF;cursor:pointer;">✕</span>
               </div>
             </div>
           </div>
@@ -3853,86 +4048,155 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         <div class="wz-step" data-step="4" style="display:none;">
 
           <div class="wz-step-header">
-            <div class="wz-step-counter">Step 4 / 5</div>
+            <div class="wz-step-counter">Langkah 4 dari 5</div>
             <div class="wz-step-title">Profil Publik</div>
-            <div class="wz-step-subtitle">Data ini yang akan dilihat customer di profilmu nanti.</div>
+            <div class="wz-step-subtitle">Yang akan tampil di profil & dilihat customer.</div>
           </div>
 
-          <div class="wz-banner-info">
-            <span style="font-size:18px;flex-shrink:0;">✨</span>
-            <div>Yang kamu isi di sini akan <b style="color:#FCD34D;">tampil di profilmu</b> setelah diterima. Customer akan lihat foto, baca bio, dan dengar suaramu sebelum order.</div>
-          </div>
-
+          <!-- Layanan Dikuasai (pindah dari Step 2) -->
           <div class="wz-group">
-            <div class="wz-group-label">🌟 Tampilan untuk Customer</div>
+            <div class="wz-group-label">Layanan Yang Akan Kamu Tawarkan</div>
+            <div class="wz-helper">Pilih layanan yang kamu kuasai. Akan ditampilkan di profilmu.</div>
 
-            <div style="margin-bottom:18px;">
-              <label class="wz-label" style="margin-bottom:10px;">Foto Profil * <span class="wz-label-hint">(akan tampil di profilmu)</span></label>
-              <input type="file" id="dtFotoInput" accept="image/*" onchange="handleDtFoto(this)" style="display:none;"/>
-
-              <div onclick="document.getElementById('dtFotoInput').click()" class="wz-photo-upload">
-                <div class="wz-photo-circle">
-                  <div class="wz-photo-placeholder">
-                    <div style="font-size:32px;">📸</div>
-                    <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:6px;font-weight:700;">Klik untuk pilih</div>
-                  </div>
-                  <img id="dtFotoImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;"/>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="dtLayanan">
+              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                <div style="font-size:22px;">🌙</div>
+                <div>
+                  <div class="wz-pickcard-label">Sleep Call</div>
+                  <div class="wz-pickcard-desc">Temani sampai tidur</div>
                 </div>
-                <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5;">JPG/PNG · Maks 10MB<br>Wajah jelas, kualitas bagus</div>
+              </div>
+              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                <div style="font-size:22px;">💬</div>
+                <div>
+                  <div class="wz-pickcard-label">Teman Call</div>
+                  <div class="wz-pickcard-desc">Ngobrol santai</div>
+                </div>
+              </div>
+              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                <div style="font-size:22px;">🫂</div>
+                <div>
+                  <div class="wz-pickcard-label">Curhat Call</div>
+                  <div class="wz-pickcard-desc">Dengar keluh kesah</div>
+                </div>
+              </div>
+              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                <div style="font-size:22px;">💕</div>
+                <div>
+                  <div class="wz-pickcard-label">Pacar Virtual</div>
+                  <div class="wz-pickcard-desc">Role-play sebagai pacar</div>
+                </div>
               </div>
             </div>
+          </div>
 
-            <div class="wz-input-wrap" style="margin-bottom:18px;">
-              <label class="wz-label">Bio Profil * <span class="wz-label-hint">(yang customer baca)</span></label>
-              <textarea id="dtBio" class="wz-input wz-textarea" placeholder="Tulis bio singkat & menarik. Contoh: 'Halo! Aku Vania, suka ngobrol santai dan dengarkan keluh kesah. Yuk ngobrol bareng~' " maxlength="200" oninput="updateCount('dtBio','dtBioCount')"></textarea>
-              <div class="wz-counter"><span id="dtBioCount">0</span>/200</div>
+          <!-- Foto Profil -->
+          <div class="wz-group">
+            <div class="wz-group-label">Foto Profil</div>
+            <input type="file" id="dtFotoInput" accept="image/*" onchange="handleDtFoto(this)" style="display:none;"/>
+            <div onclick="document.getElementById('dtFotoInput').click()" class="wz-photo-upload">
+              <div class="wz-photo-circle">
+                <div class="wz-photo-placeholder">
+                  <div style="font-size:30px;">📸</div>
+                  <div style="font-size:11px;color:#6B7280;margin-top:6px;font-weight:600;">Klik untuk pilih</div>
+                </div>
+                <img id="dtFotoImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:24px;"/>
+              </div>
+              <div style="font-size:12px;color:#6B7280;margin-top:12px;text-align:center;line-height:1.5;">JPG/PNG · Maks 10MB · Wajah jelas, kualitas bagus</div>
+            </div>
+          </div>
+
+          <!-- Bio -->
+          <div class="wz-group">
+            <div class="wz-group-label">Bio Profil</div>
+            <div class="wz-helper">Yang akan customer baca sebelum order. Singkat & menarik.</div>
+            <textarea id="dtBio" class="wz-input wz-textarea" placeholder="Hai! Aku Vania, suka ngobrol santai & dengarkan keluh kesah. Yuk ngobrol bareng~" maxlength="200" oninput="updateCount('dtBio','dtBioCount')"></textarea>
+            <div class="wz-counter"><span id="dtBioCount">0</span>/200</div>
+          </div>
+
+          <!-- Audio Perkenalan (2-step: pilih backsound + upload suara) -->
+          <div class="wz-group" style="margin-bottom:0;">
+            <div class="wz-group-label">Audio Perkenalan</div>
+            <div class="wz-helper">Audio profilmu yang customer dengar sebelum order. Ada 2 langkah:</div>
+
+            <!-- Step 1: Pilih Backsound dari Owner -->
+            <div style="margin-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <div style="width:22px;height:22px;border-radius:50%;background:#EEF2FF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;">1</div>
+                <div style="font-size:13px;font-weight:700;color:#0F172A;">Pilih Backsound</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;line-height:1.55;margin-bottom:10px;">Pilih music backsound dari koleksi kami. Akan dipakai di belakang suaramu.</div>
+
+              <div style="display:flex;flex-direction:column;gap:8px;" id="dtBacksound">
+                <div onclick="pickBacksound(this,'lofi')" class="wz-backsound-card" data-val="lofi">
+                  <div class="wz-bs-icon" style="background:#FCE7F3;">🎹</div>
+                  <div style="flex:1;">
+                    <div class="wz-bs-name">Lofi Chill</div>
+                    <div class="wz-bs-desc">Cocok untuk Sleep Call & Curhat</div>
+                  </div>
+                  <div class="wz-bs-play">▶</div>
+                </div>
+                <div onclick="pickBacksound(this,'romantic')" class="wz-backsound-card" data-val="romantic">
+                  <div class="wz-bs-icon" style="background:#FEE2E2;">💕</div>
+                  <div style="flex:1;">
+                    <div class="wz-bs-name">Romantic Soft</div>
+                    <div class="wz-bs-desc">Cocok untuk Pacar Virtual</div>
+                  </div>
+                  <div class="wz-bs-play">▶</div>
+                </div>
+                <div onclick="pickBacksound(this,'cheerful')" class="wz-backsound-card" data-val="cheerful">
+                  <div class="wz-bs-icon" style="background:#FEF3C7;">☀️</div>
+                  <div style="flex:1;">
+                    <div class="wz-bs-name">Cheerful Vibe</div>
+                    <div class="wz-bs-desc">Cocok untuk Teman Call</div>
+                  </div>
+                  <div class="wz-bs-play">▶</div>
+                </div>
+                <div onclick="pickBacksound(this,'piano')" class="wz-backsound-card" data-val="piano">
+                  <div class="wz-bs-icon" style="background:#DBEAFE;">🎼</div>
+                  <div style="flex:1;">
+                    <div class="wz-bs-name">Piano Calm</div>
+                    <div class="wz-bs-desc">Tenang & elegan</div>
+                  </div>
+                  <div class="wz-bs-play">▶</div>
+                </div>
+                <div onclick="pickBacksound(this,'rain')" class="wz-backsound-card" data-val="rain">
+                  <div class="wz-bs-icon" style="background:#E0F2FE;">🌧️</div>
+                  <div style="flex:1;">
+                    <div class="wz-bs-name">Rain & Wind</div>
+                    <div class="wz-bs-desc">ASMR alam, cocok Sleep Call</div>
+                  </div>
+                  <div class="wz-bs-play">▶</div>
+                </div>
+              </div>
+              <input type="hidden" id="dtBacksoundVal" value=""/>
             </div>
 
+            <!-- Step 2: Upload suara -->
             <div>
-              <label class="wz-label" style="margin-bottom:10px;">Audio Perkenalan + Backsound * <span class="wz-label-hint">(suaramu untuk profil)</span></label>
-              <div class="wz-banner-tip">
-                <span style="font-size:15px;flex-shrink:0;">🎵</span>
-                <div><b style="color:#FCD34D;">Tips:</b> Rekam perkenalan singkat (15-30 detik) dengan <b style="color:#FCD34D;">music backsound</b>. Suara akan diputar customer pas lihat profilmu.</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <div style="width:22px;height:22px;border-radius:50%;background:#EEF2FF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;">2</div>
+                <div style="font-size:13px;font-weight:700;color:#0F172A;">Upload Suara Perkenalan</div>
               </div>
+              <div style="font-size:12px;color:#6B7280;line-height:1.55;margin-bottom:10px;">Rekam perkenalan singkat (15–30 detik) tanpa backsound. Backsound akan kami tambahkan otomatis.</div>
               <input type="file" id="dtAudioInput" accept="audio/*" onchange="handleDtAudio(this)" style="display:none;"/>
               <div onclick="document.getElementById('dtAudioInput').click()" class="wz-upload">
                 <div class="wz-upload-icon">🎙️</div>
                 <div style="flex:1;">
-                  <div class="wz-upload-title">Upload Audio dengan Backsound</div>
-                  <div class="wz-upload-sub">MP3/WAV · Maks 10MB · Sudah ada music di belakang</div>
+                  <div class="wz-upload-title">Upload Suara</div>
+                  <div class="wz-upload-sub">MP3/WAV/M4A · Maks 10MB · Suara saja, tanpa backsound</div>
                 </div>
               </div>
-              <div id="dtAudioPreview" style="display:none;margin-top:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 12px;">
-                <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;" id="dtAudioName"></div>
+              <div id="dtAudioPreview" style="display:none;margin-top:10px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:12px;">
+                <div style="font-size:12px;font-weight:600;color:#15803D;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><span>✓</span><span id="dtAudioName"></span></div>
                 <audio id="dtAudioEl" controls style="width:100%;height:32px;"></audio>
               </div>
             </div>
-          </div>
 
-          <div class="wz-section-divider">
-            <span class="wz-divider-icon">🔒</span>
-            <div>
-              <div class="wz-divider-title">Verifikasi Internal</div>
-              <div class="wz-divider-sub">Hanya dilihat admin · Tidak tampil di profil publik</div>
-            </div>
-          </div>
-
-          <div class="wz-group" style="margin-bottom:0;">
-            <div>
-              <label class="wz-label" style="margin-bottom:8px;">CV / Resume <span class="wz-label-hint">(opsional, nilai plus)</span></label>
-              <input type="file" id="dtCVInput" accept=".pdf,.doc,.docx" onchange="handleDtCV(this)" style="display:none;"/>
-              <div onclick="document.getElementById('dtCVInput').click()" class="wz-upload">
-                <div class="wz-upload-icon">📄</div>
-                <div style="flex:1;">
-                  <div class="wz-upload-title">Pilih File</div>
-                  <div class="wz-upload-sub">PDF/DOC · Maks 10MB</div>
-                </div>
-              </div>
-              <div id="dtCVPreview" style="display:none;margin-top:8px;background:rgba(52,211,153,0.06);border:0.5px solid rgba(52,211,153,0.2);border-radius:12px;padding:10px 12px;align-items:center;gap:10px;">
-                <span style="font-size:14px;">✓</span>
-                <div style="flex:1;font-size:11px;color:#34D399;font-weight:700;" id="dtCVName"></div>
-                <span onclick="event.stopPropagation();hapusDtCV()" style="font-size:13px;color:rgba(255,255,255,0.3);cursor:pointer;">✕</span>
-              </div>
+            <!-- Info preview hasil -->
+            <div style="margin-top:14px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:10px;padding:11px 13px;display:flex;gap:10px;align-items:start;">
+              <span style="font-size:14px;flex-shrink:0;">✨</span>
+              <div style="font-size:11.5px;color:#3730A3;line-height:1.55;">Sistem akan otomatis menggabungkan suaramu dengan backsound yang dipilih saat profil aktif.</div>
             </div>
           </div>
         </div>
@@ -3941,23 +4205,45 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         <div class="wz-step" data-step="5" style="display:none;">
 
           <div class="wz-step-header">
-            <div class="wz-step-counter" style="background:#F0FDF4;color:#15803D;">Step 5 / 5 · Terakhir</div>
-            <div class="wz-step-title">Review</div>
-            <div class="wz-step-subtitle">Cek lagi sebelum kirim — kalau ada yang salah klik Kembali.</div>
+            <div class="wz-step-counter" style="background:#F0FDF4;color:#15803D;">Langkah Terakhir</div>
+            <div class="wz-step-title">Review Pendaftaran</div>
+            <div class="wz-step-subtitle">Cek lagi sebelum kirim. Klik kembali kalau ada yang salah.</div>
           </div>
 
           <div id="dtReviewContent" class="wz-review-card">
             <!-- Render via JS -->
           </div>
 
-          <div class="wz-banner-info" style="background:linear-gradient(135deg,rgba(252,211,77,0.08),rgba(245,158,11,0.04));">
+          <!-- Closing: Proses screening -->
+          <div style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:14px;padding:16px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span style="font-size:18px;">📬</span>
+              <div style="font-size:13px;font-weight:700;color:#3730A3;">Setelah Kirim, Apa Selanjutnya?</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:start;gap:10px;">
+                <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">1</div>
+                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Berkas akan <b>direview admin dalam 1–3 hari kerja</b>.</div>
+              </div>
+              <div style="display:flex;align-items:start;gap:10px;">
+                <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">2</div>
+                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Kalau berkas <b>bagus & sesuai kriteria</b>, admin akan menghubungi via <b>WhatsApp</b> untuk tahap selanjutnya (interview).</div>
+              </div>
+              <div style="display:flex;align-items:start;gap:10px;">
+                <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">3</div>
+                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Pastikan <b>WhatsApp aktif</b> dan cek pesan secara berkala. Kalau tidak lolos, akan kami informasikan juga.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wz-banner-info" style="margin-bottom:0;">
             <span style="font-size:14px;flex-shrink:0;">📜</span>
-            <div>Dengan mengirim pendaftaran, kamu setuju dengan <b style="color:#FCD34D;cursor:pointer;" onclick="closeDaftarTalent();openDrawerPage('terms')">Syarat & Ketentuan</b> kami.</div>
+            <div>Dengan mengirim, kamu setuju dengan <b style="cursor:pointer;text-decoration:underline;" onclick="closeDaftarTalent();openDrawerPage('terms')">Syarat & Ketentuan</b> kami.</div>
           </div>
         </div>
 
         <!-- ============ NAVIGATION BUTTONS ============ -->
-        <div style="display:flex;gap:10px;margin-top:22px;">
+        <div style="display:flex;gap:10px;margin-top:24px;">
           <button id="wzBackBtn" onclick="wzBack()" class="wz-btn-back">← Kembali</button>
           <button id="wzNextBtn" onclick="wzNext()" class="wz-btn-next">Lanjut →</button>
         </div>
@@ -4014,6 +4300,74 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
    PREMIUM LIGHT MODE WIZARD (R7)
    Inspired by Stripe, Notion, Airbnb, Apple
    =========================================================== */
+
+/* === BACKSOUND CARDS (Audio profil) === */
+.wz-backsound-card {
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:12px;padding:12px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:all 0.18s ease;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
+}
+.wz-backsound-card:hover {
+  border-color:#D1D5DB;
+  background:#FAFBFC;
+}
+.wz-backsound-card.wz-bs-sel {
+  background:linear-gradient(135deg,#EEF2FF,#F5F3FF);
+  border-color:#6366F1;
+  box-shadow:0 4px 12px rgba(79,70,229,0.12),0 0 0 1px rgba(99,102,241,0.2);
+}
+.wz-bs-icon {
+  width:42px;height:42px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.wz-bs-name {
+  font-size:13.5px;font-weight:600;color:#0F172A;letter-spacing:-0.005em;
+}
+.wz-bs-desc {
+  font-size:11.5px;color:#6B7280;margin-top:2px;line-height:1.4;
+}
+.wz-bs-play {
+  width:32px;height:32px;border-radius:50%;
+  background:#F3F4F6;border:1px solid #E5E7EB;
+  display:flex;align-items:center;justify-content:center;
+  color:#4B5563;font-size:11px;font-weight:700;
+  cursor:pointer;flex-shrink:0;transition:all 0.2s;
+}
+.wz-bs-play:hover {
+  background:#4F46E5;color:#FFFFFF;border-color:#4F46E5;
+}
+.wz-backsound-card.wz-bs-sel .wz-bs-play {
+  background:#4F46E5;color:#FFFFFF;border-color:#4F46E5;
+}
+
+/* === WELCOME INFO CARDS === */
+.wz-info-card {
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:14px;padding:14px;
+  display:flex;align-items:flex-start;gap:13px;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
+  transition:all 0.18s ease;
+}
+.wz-info-card:hover {
+  border-color:#D1D5DB;
+  box-shadow:0 4px 12px rgba(15,23,42,0.06);
+}
+.wz-info-icon {
+  width:42px;height:42px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.wz-info-title {
+  font-size:13.5px;font-weight:700;color:#0F172A;margin-bottom:3px;letter-spacing:-0.005em;
+}
+.wz-info-text {
+  font-size:12px;color:#6B7280;line-height:1.55;
+}
 
 /* === STEP DOTS (Light Premium Header Progress) === */
 .wz-step-dot {
@@ -4223,6 +4577,58 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
   color:#4F46E5;
   font-weight:600;
   box-shadow:0 2px 6px rgba(79,70,229,0.1);
+}
+
+/* === TOGGLE BUTTON GROUP (Gender) === */
+.wz-toggle {
+  display:flex;gap:8px;
+  background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:4px;
+}
+.wz-toggle-opt {
+  flex:1;height:42px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13.5px;font-weight:600;color:#6B7280;
+  cursor:pointer;transition:all 0.18s ease;
+}
+.wz-toggle-opt:hover { color:#0F172A; }
+.wz-toggle-opt.wz-toggle-sel {
+  background:#FFFFFF;
+  color:#4F46E5;
+  box-shadow:0 2px 8px rgba(15,23,42,0.08),0 0 0 1px rgba(99,102,241,0.2);
+}
+
+/* === MINI CARDS (Kesibukan grid) === */
+.wz-mini-grid {
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+}
+.wz-mini-card {
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:12px;padding:14px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;transition:all 0.18s ease;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
+}
+.wz-mini-card:hover {
+  border-color:#D1D5DB;
+  background:#FAFBFC;
+  transform:translateY(-1px);
+  box-shadow:0 4px 10px rgba(15,23,42,0.06);
+}
+.wz-mini-card.wz-mini-sel {
+  background:linear-gradient(135deg,#EEF2FF,#F5F3FF);
+  border-color:#6366F1;
+  box-shadow:0 4px 12px rgba(79,70,229,0.12),0 0 0 1px rgba(99,102,241,0.2);
+}
+.wz-mini-icon {
+  font-size:20px;line-height:1;
+}
+.wz-mini-label {
+  font-size:11.5px;font-weight:600;color:#0F172A;
+  text-align:center;letter-spacing:-0.005em;
+}
+.wz-mini-card.wz-mini-sel .wz-mini-label {
+  color:#4338CA;
 }
 
 /* === YES/NO BUTTONS === */
@@ -4525,10 +4931,55 @@ function setYaTidak(el, hiddenId, val) {
 }
 
 // ============ SUMBER INFO (single select chip) ============
+// ============ SUMBER INFO (single select chip) ============
 function pickSumber(el) {
   document.querySelectorAll('#dtSumber .wz-chip').forEach(c => c.classList.remove('wz-chip-sel'));
   el.classList.add('wz-chip-sel');
   document.getElementById('dtSumberVal').value = el.dataset.val;
+}
+
+// ============ TOGGLE BUTTON GROUP (Gender) ============
+function pickToggle(el, hiddenId, val) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.wz-toggle-opt').forEach(o => o.classList.remove('wz-toggle-sel'));
+  el.classList.add('wz-toggle-sel');
+  document.getElementById(hiddenId).value = val;
+}
+
+// ============ CHIP SINGLE SELECT (Pendidikan, dll) ============
+function pickChip(el, hiddenId, val) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.wz-chip').forEach(c => c.classList.remove('wz-chip-sel'));
+  el.classList.add('wz-chip-sel');
+  document.getElementById(hiddenId).value = val;
+}
+
+// ============ MINI CARD SINGLE SELECT (Kesibukan) ============
+function pickMiniCard(el, hiddenId, val) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.wz-mini-card').forEach(c => c.classList.remove('wz-mini-sel'));
+  el.classList.add('wz-mini-sel');
+  document.getElementById(hiddenId).value = val;
+}
+
+// ============ BACKSOUND PICK ============
+function pickBacksound(el, val) {
+  document.querySelectorAll('#dtBacksound .wz-backsound-card').forEach(c => c.classList.remove('wz-bs-sel'));
+  el.classList.add('wz-bs-sel');
+  document.getElementById('dtBacksoundVal').value = val;
+}
+
+// ============ SELECT ALL DAYS (Jam Available) ============
+function setAllDays() {
+  document.querySelectorAll('#dtHari .wz-chip').forEach(c => c.classList.add('wz-chip-sel'));
+}
+
+// ============ TOGGLE DETAIL FIELDS (Game & Call) ============
+function toggleGameDetail(show) {
+  document.getElementById('dtGameDetail').style.display = show ? 'block' : 'none';
+}
+function toggleCallDetail(show) {
+  document.getElementById('dtCallDetail').style.display = show ? 'block' : 'none';
 }
 
 // ============ CHAR COUNT ============
@@ -4554,14 +5005,38 @@ function hapusDtCV() {
 function renderReview() {
   const layananEls = document.querySelectorAll('#dtLayanan .wz-pickcard.selected .wz-pickcard-label');
   const layanan = Array.from(layananEls).map(e => e.textContent).join(', ') || '-';
-  const jamEls = document.querySelectorAll('#dtJam .wz-chip-sel');
-  const jam = Array.from(jamEls).map(e => e.textContent).join(', ') || '-';
+
+  // Hari (replaces dtJam chip)
+  const hariEls = document.querySelectorAll('#dtHari .wz-chip-sel');
+  const hari = Array.from(hariEls).map(e => e.textContent).join(', ') || '-';
+
+  // Jam range
+  const jamMulai = document.getElementById('dtJamMulai').value || '-';
+  const jamSelesai = document.getElementById('dtJamSelesai').value || '-';
+  const jamRange = jamMulai + ' – ' + jamSelesai;
+
   const sumberEl = document.querySelector('#dtSumber .wz-chip-sel');
   const sumber = sumberEl ? sumberEl.textContent : '-';
 
+  // Pendidikan (chip selected)
+  const pendidikanEl = document.querySelector('#dtPendidikan .wz-chip-sel');
+  const pendidikan = pendidikanEl ? pendidikanEl.textContent : '-';
+
+  // Kesibukan (mini card selected)
+  const kesibukanEl = document.querySelector('#dtKesibukan .wz-mini-sel .wz-mini-label');
+  const kesibukan = kesibukanEl ? kesibukanEl.textContent : '-';
+
+  // Gender (toggle selected)
+  const genderEl = document.querySelector('.wz-toggle-opt.wz-toggle-sel');
+  const gender = genderEl ? genderEl.textContent.trim() : '-';
+
+  // Pernah pakai layanan
+  const pernahPakai = document.getElementById('dtPernahPakai').value;
+  const pernahPakaiStr = pernahPakai === 'ya' ? 'Pernah' : pernahPakai === 'tidak' ? 'Belum' : '-';
+
   // Kepribadian label
   const kepribadianNum = parseInt(document.getElementById('dtKepribadian').value);
-  let kepribadianLabel = '5/10 Ambivert';
+  let kepribadianLabel;
   if (kepribadianNum <= 3) kepribadianLabel = kepribadianNum + '/10 🧘 Introvert';
   else if (kepribadianNum <= 6) kepribadianLabel = kepribadianNum + '/10 Ambivert';
   else kepribadianLabel = kepribadianNum + '/10 🎉 Extrovert';
@@ -4575,23 +5050,49 @@ function renderReview() {
 
   const bio = document.getElementById('dtBio').value.trim() || '-';
 
+  // Game
+  const mainGame = document.getElementById('dtMainGame').value;
+  const gameNama = document.getElementById('dtGameNama').value.trim();
+  const gameStr = mainGame === 'ya' ? (gameNama || 'Ya') : mainGame === 'tidak' ? 'Tidak main' : '-';
+
+  // Call habit
+  const seringCall = document.getElementById('dtSeringCall').value;
+  const callSiapa = document.getElementById('dtCallSiapa').value.trim();
+  const callStr = seringCall === 'ya' ? ('Ya' + (callSiapa ? ' · ' + callSiapa : '')) : seringCall === 'tidak' ? 'Tidak' : '-';
+
+  // Backsound
+  const backsoundVal = document.getElementById('dtBacksoundVal').value;
+  const backsoundMap = { lofi:'Lofi Chill', romantic:'Romantic Soft', cheerful:'Cheerful Vibe', piano:'Piano Calm', rain:'Rain & Wind' };
+  const backsoundStr = backsoundMap[backsoundVal] || '-';
+
   const data = [
-    ['👤 Nama', document.getElementById('dtNama').value || '-'],
-    ['📱 WhatsApp', document.getElementById('dtWA').value || '-'],
-    ['📍 Usia & Kota', (document.getElementById('dtUsia').value || '?') + ' th · ' + (document.getElementById('dtKota').value || '-')],
-    ['🎓 Pendidikan', document.getElementById('dtPendidikan').options[document.getElementById('dtPendidikan').selectedIndex]?.text || '-'],
-    ['🔗 Tau dari', sumber],
-    ['🎧 Layanan', layanan],
-    ['⏰ Jam Available', jam],
-    ['💬 Komunikasi', document.getElementById('dtKom').value + '/10'],
-    ['👂 Pendengar', document.getElementById('dtListen').value + '/10'],
-    ['✨ Kepribadian', kepribadianLabel],
-    ['📱 Sosmed', sosmedStr],
-    ['📝 Bio', bio.length > 60 ? bio.substring(0,60) + '...' : bio]
+    ['Nama', document.getElementById('dtNama').value || '-'],
+    ['WhatsApp', document.getElementById('dtWA').value || '-'],
+    ['Gender', gender],
+    ['Usia & Kota', (document.getElementById('dtUsia').value || '?') + ' th · ' + (document.getElementById('dtKota').value || '-')],
+    ['Pendidikan', pendidikan],
+    ['Kesibukan', kesibukan],
+    ['Tau dari', sumber],
+    ['Pernah pakai', pernahPakaiStr],
+    ['Sosmed', sosmedStr],
+    ['Hari kerja', hari],
+    ['Jam', jamRange],
+    ['Komunikasi', document.getElementById('dtKom').value + '/10'],
+    ['Pendengar', document.getElementById('dtListen').value + '/10'],
+    ['Kepribadian', kepribadianLabel],
+    ['Sabar/Empati', document.getElementById('dtSabar').value + '/10'],
+    ['Ketegasan', document.getElementById('dtTegas').value + '/10'],
+    ['Sopan Santun', document.getElementById('dtSopan').value + '/10'],
+    ['Humoris', document.getElementById('dtHumor').value + '/10'],
+    ['Main game', gameStr],
+    ['Sering call', callStr],
+    ['Layanan', layanan],
+    ['Bio', bio.length > 60 ? bio.substring(0,60) + '…' : bio],
+    ['Backsound', backsoundStr]
   ];
 
   const html = data.map(([k, v]) => `
-    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;padding:10px 0;border-bottom:1px solid #F3F4F6;">
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;padding:11px 0;border-bottom:1px solid #F3F4F6;">
       <span style="font-size:12.5px;color:#6B7280;flex-shrink:0;font-weight:500;">${k}</span>
       <span style="font-size:13px;color:#0F172A;font-weight:600;text-align:right;">${v}</span>
     </div>
@@ -4604,8 +5105,18 @@ function renderReview() {
 const _origOpenDaftar = openDaftarTalent;
 openDaftarTalent = function() {
   document.getElementById('daftarTalentModal').style.display = 'block';
-  document.getElementById('daftarTalentForm').style.display = 'block';
+  // Show welcome screen, hide form + progress + success
+  document.getElementById('daftarTalentWelcome').style.display = 'block';
+  document.getElementById('daftarTalentForm').style.display = 'none';
   document.getElementById('daftarTalentSuccess').style.display = 'none';
-  wzShowStep(1);
+  document.getElementById('dtProgressContainer').style.display = 'none';
 };
+
+// Trigger dari tombol "Saya Paham, Lanjut Daftar"
+function startDaftarForm() {
+  document.getElementById('daftarTalentWelcome').style.display = 'none';
+  document.getElementById('daftarTalentForm').style.display = 'block';
+  document.getElementById('dtProgressContainer').style.display = 'block';
+  wzShowStep(1);
+}
 </script>
