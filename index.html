@@ -81,6 +81,8 @@ body{font-family:'Inter',sans-serif;background:#DDD8EE;display:flex;justify-cont
 
 /* ===== LIST ITEM ===== */
 .list-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:0.5px solid #F5F3FF;cursor:pointer;transition:background 0.12s;}
+.list-item-static{cursor:default;}
+.list-item-static:active{background:transparent !important;}
 .list-item:last-child{border-bottom:none;}
 .list-item:active{background:#F8F7FF;}
 .list-ava{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;}
@@ -246,7 +248,6 @@ body{font-family:'Inter',sans-serif;background:#DDD8EE;display:flex;justify-cont
       <div class="nom-chip" onclick="pilihLayanan(this,'Teman Call')"><div class="nom-chip-val">Teman Call</div></div>
       <div class="nom-chip" onclick="pilihLayanan(this,'Curhat Call')"><div class="nom-chip-val">Curhat Call</div></div>
       <div class="nom-chip" onclick="pilihLayanan(this,'Pacar Virtual')"><div class="nom-chip-val">Pacar Virtual</div></div>
-      <div class="nom-chip" onclick="pilihLayanan(this,'Mabar')"><div class="nom-chip-val">Mabar</div></div>
     </div>
 
     <button class="btn-primary" style="margin-top:14px;" onclick="buatVoucher()">✦ Buat Voucher</button>
@@ -414,10 +415,10 @@ var talentData = [
   {id:4, nama:'Bella',  av:'B',g:'w',status:'online', poin:85,order:34,layanan:'Sleep Call · Curhat Call',              rekening:'DANA 082198765432',atasnama:'Bella Cantika',blClient:[],nonaktifInfo:null},
   {id:5, nama:'Kiraa',  av:'K',g:'w',status:'online', poin:68,order:19,layanan:'Teman Call · Curhat Call',              rekening:'OVO 085261754085',atasnama:'Kira Amelia',  blClient:['087812345678'],nonaktifInfo:null},
   {id:6, nama:'Tasya',  av:'T',g:'w',status:'online', poin:71,order:22,layanan:'Pacar Virtual · Teman Call',            rekening:'BNI 5544332211',atasnama:'Tasya Rahma',   blClient:[],nonaktifInfo:null},
-  {id:7, nama:'Rizky',  av:'R',g:'p',status:'online', poin:63,order:15,layanan:'Teman Call · Mabar',                   rekening:'BCA 9876543210',atasnama:'Rizky Fauzan',  blClient:[],nonaktifInfo:null},
+  {id:7, nama:'Rizky',  av:'R',g:'p',status:'online', poin:63,order:15,layanan:'Teman Call',                              rekening:'BCA 9876543210',atasnama:'Rizky Fauzan',  blClient:[],nonaktifInfo:null},
   {id:8, nama:'Nadira', av:'N',g:'w',status:'offline',poin:55,order:18,layanan:'Curhat Call · Teman Call',              rekening:'Mandiri 1122334455',atasnama:'Nadira Putri',blClient:['085261754085'],nonaktifInfo:null},
   {id:9, nama:'Luna',   av:'L',g:'w',status:'nonaktif',poin:44,order:9,layanan:'Sleep Call · Teman Call',              rekening:'BCA 1122334455',atasnama:'Luna Dewi',     blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'20 Mei · 21:15',alasan:'Melanggar aturan agency'}},
-  {id:10,nama:'Daffa',  av:'D',g:'p',status:'nonaktif',poin:38,order:7,layanan:'Teman Call · Mabar',                  rekening:'OVO 085712345678',atasnama:'Daffa Ramadhan',blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'18 Mei · 09:30',alasan:'Sering timeout order'}},
+  {id:10,nama:'Daffa',  av:'D',g:'p',status:'nonaktif',poin:38,order:7,layanan:'Teman Call',                             rekening:'OVO 085712345678',atasnama:'Daffa Ramadhan',blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'18 Mei · 09:30',alasan:'Sering timeout order'}},
   {id:11,nama:'Arkan',  av:'A',g:'p',status:'offline',poin:72,order:21,layanan:'Teman Call · Curhat Call',             rekening:'BRI 1029384756',atasnama:'Arkan Pratama', blClient:[],nonaktifInfo:null},
 ];
 
@@ -673,7 +674,7 @@ function voucherRow(v) {
   var talentInfo = v.status === 'terpakai' && v.talent
     ? '<div style="margin-top:3px;font-size:9.5px;font-weight:700;color:#534AB7;background:#EEEDFE;border-radius:6px;padding:2px 7px;display:inline-block;">' + v.talent + ' · ' + v.layanan + ' · ' + v.durasi + '</div>'
     : '';
-  return '<div class="list-item" onclick="onVoucherKlik(this.dataset.kode)" data-kode="'+v.kode+'" style="align-items:flex-start;">'
+  return '<div class="list-item list-item-static" style="align-items:flex-start;">'
     + '<div class="list-ava" style="background:#EEEDFE;color:#534AB7;margin-top:2px;">🎟️</div>'
     + '<div class="list-main">'
       + '<div style="display:flex;align-items:center;">'
@@ -689,8 +690,39 @@ function voucherRow(v) {
 function onVoucherKlik(kode) {
   var v = voucherList.find(function(x){ return x.kode === kode; });
   if (!v) return;
-  if (v.status === 'nonaktif' || v.status === 'cancel') { toast('Voucher ini sudah tidak aktif'); return; }
-  tampilVAksi(kode);
+  tampilVDetail(kode);
+}
+
+function tampilVDetail(kode) {
+  var v = voucherList.find(function(x){ return x.kode === kode; });
+  if (!v) return;
+  var statusLabel = v.status === 'aktif'   ? '<span class="badge badge-green">Aktif</span>'
+                  : v.status === 'terpakai' ? '<span class="badge badge-gray">Terpakai</span>'
+                  : v.status === 'nonaktif' ? '<span class="badge badge-yellow">Nonaktif</span>'
+                  : '<span class="badge badge-red">Cancel</span>';
+  var srcLabel = v.src === 'website' ? 'Website' : 'Admin';
+  var rowStyle = 'display:flex;justify-content:space-between;padding:4px 0;';
+  var labelStyle = 'color:#888780;';
+  var valStyle = 'color:#2E2875;font-weight:700;';
+  var html = '<div style="text-align:center;margin-bottom:14px;">'
+    + '<div style="font-size:26px;margin-bottom:6px;">🎟️</div>'
+    + '<div style="font-family:Instrument Serif,serif;font-style:italic;font-size:17px;color:#2E2875;margin-bottom:3px;">Detail Voucher</div>'
+    + '<div style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:#534AB7;">' + v.kode + '</div>'
+    + '</div>'
+    + '<div style="background:#F7F6FE;border:0.5px solid #DDD9F7;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:11px;">'
+      + '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Nomor WA</span><span style="'+valStyle+'">' + v.wa + '</span></div>'
+      + '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Nominal</span><span style="'+valStyle+'">Rp ' + (v.nominal/1000).toFixed(0) + 'rb</span></div>'
+      + '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Layanan</span><span style="'+valStyle+'">' + (v.layanan||'-') + '</span></div>'
+      + '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Status</span><span>' + statusLabel + '</span></div>'
+      + '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Sumber</span><span style="'+valStyle+'">' + srcLabel + '</span></div>'
+      + '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Jam buat</span><span style="'+valStyle+'">' + v.jam + '</span></div>'
+      + (v.status === 'terpakai' && v.talent ? '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Talent</span><span style="'+valStyle+'">' + v.talent + '</span></div>' : '')
+      + (v.status === 'terpakai' && v.durasi ? '<div style="'+rowStyle+'"><span style="'+labelStyle+'">Durasi</span><span style="'+valStyle+'">' + v.durasi + '</span></div>' : '')
+    + '</div>'
+    + '<div style="background:#FAEEDA;border:0.5px solid #FAC775;border-radius:10px;padding:9px 11px;font-size:10px;color:#854F0B;line-height:1.5;margin-bottom:12px;">ℹ️ Voucher tidak dapat diedit dari sisi admin. Untuk membatalkan atau menonaktifkan, lakukan melalui aplikasi <b>Client</b> atau <b>Talent</b>.</div>'
+    + '<button class="btn-sec" style="width:100%;" onclick="closeModal(\'vAksiModal\')">Mengerti</button>';
+  document.getElementById('vAksiContent').innerHTML = html;
+  showModal('vAksiModal');
 }
 
 function tampilVAksi(kode) {
