@@ -2995,10 +2995,44 @@ function handleDtAudio(input) {
   const file = input.files[0];
   if (!file) return;
   if (file.size > 10 * 1024 * 1024) { alert('File terlalu besar, maks 10MB'); return; }
-  const url = URL.createObjectURL(file);
+
+  const audioEl = document.getElementById('dtAudioEl');
+  const preview = document.getElementById('dtAudioPreview');
+
+  // Tampilkan preview container DULU sebelum set src (penting!)
+  preview.style.display = 'block';
   document.getElementById('dtAudioName').textContent = file.name;
-  document.getElementById('dtAudioPreview').style.display = 'block';
-  document.getElementById('dtAudioEl').src = url;
+
+  // Hapus src lama (kalau ada) + clear blob URL lama
+  if (audioEl._oldBlobUrl) {
+    URL.revokeObjectURL(audioEl._oldBlobUrl);
+  }
+
+  // Buat blob URL baru dengan MIME type yang explicit
+  const blob = new Blob([file], { type: file.type || 'audio/mpeg' });
+  const url = URL.createObjectURL(blob);
+  audioEl._oldBlobUrl = url;
+
+  // Defensive error handler (untuk kasus blob URL diblokir sandbox)
+  audioEl.onerror = function() {
+    console.warn('[Audio] Preview gagal di-load (bisa terjadi di preview sandbox). File tetap tersimpan untuk submission.');
+  };
+
+  audioEl.src = url;
+  audioEl.load(); // Force browser reload audio metadata
+}
+
+function hapusDtAudio() {
+  const audioEl = document.getElementById('dtAudioEl');
+  document.getElementById('dtAudioInput').value = '';
+  document.getElementById('dtAudioPreview').style.display = 'none';
+  if (audioEl._oldBlobUrl) {
+    URL.revokeObjectURL(audioEl._oldBlobUrl);
+    audioEl._oldBlobUrl = null;
+  }
+  audioEl.removeAttribute('src');
+  audioEl.load();
+  document.getElementById('dtAudioName').textContent = '';
 }
 
 function handleDtFoto(input) {
@@ -3675,11 +3709,11 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
               <div class="wz-input-wrap">
                 <label class="wz-label">Nama Panggilan</label>
-                <input id="dtNama" type="text" class="wz-input" placeholder="Vania"/>
+                <input id="dtNama" type="text" class="wz-input" placeholder="Tulis di sini..."/>
               </div>
               <div class="wz-input-wrap">
                 <label class="wz-label">WhatsApp</label>
-                <input id="dtWA" type="tel" class="wz-input" placeholder="08xxx"/>
+                <input id="dtWA" type="tel" class="wz-input" placeholder="Tulis nomor WA..."/>
               </div>
             </div>
 
@@ -3696,11 +3730,11 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:12px;">
               <div class="wz-input-wrap">
                 <label class="wz-label">Usia</label>
-                <input id="dtUsia" type="number" class="wz-input" placeholder="20" min="18" max="50"/>
+                <input id="dtUsia" type="number" class="wz-input" placeholder="Tulis usia..." min="18" max="50"/>
               </div>
               <div class="wz-input-wrap">
                 <label class="wz-label">Kota</label>
-                <input id="dtKota" type="text" class="wz-input" placeholder="Jakarta"/>
+                <input id="dtKota" type="text" class="wz-input" placeholder="Tulis kota..."/>
               </div>
             </div>
           </div>
@@ -3725,8 +3759,8 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <!-- Kesibukan: Textarea bebas -->
             <div class="wz-input-wrap">
               <label class="wz-label">Kesibukan Saat Ini</label>
-              <div class="wz-helper">Ceritakan apa kegiatan utama kamu sekarang. Misal: kuliah jurusan apa di mana, kerja di mana, atau kegiatan lainnya.</div>
-              <textarea id="dtKesibukan" class="wz-input wz-textarea" placeholder="Contoh: Aku mahasiswi semester 5 jurusan Psikologi di UI, sambil freelance jadi penulis konten..." style="height:80px;"></textarea>
+              <div class="wz-helper">Ceritakan apa kegiatan utama kamu sekarang.</div>
+              <textarea id="dtKesibukan" class="wz-input wz-textarea" placeholder="Tulis kegiatan utamamu di sini..." style="height:80px;"></textarea>
             </div>
           </div>
 
@@ -3790,15 +3824,15 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div class="wz-group-label">Jam Available</div>
 
             <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Hari yang Bisa Kerja <span class="wz-label-hint">· bisa &gt; 1</span></label>
+              <label class="wz-label">Hari apa saja kamu punya banyak waktu luang dan bersedia untuk ambil order?</label>
               <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtHari">
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sen</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sel</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Rab</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Kam</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Jum</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sab</div>
-                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Min</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Senin</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Selasa</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Rabu</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Kamis</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Jumat</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Sabtu</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">Minggu</div>
               </div>
               <div style="margin-top:8px;">
                 <span onclick="setAllDays()" style="font-size:11.5px;color:#4F46E5;font-weight:600;cursor:pointer;text-decoration:underline;">Pilih semua hari</span>
@@ -3889,7 +3923,6 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                   <div class="wz-slider-val" id="dtKomVal">7/10</div>
                 </div>
                 <input type="range" id="dtKom" min="1" max="10" value="7" oninput="document.getElementById('dtKomVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>Pendiam</span><span>Lancar</span></div>
               </div>
 
               <div class="wz-slider-divider"></div>
@@ -3900,18 +3933,26 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                   <div class="wz-slider-val" id="dtListenVal">7/10</div>
                 </div>
                 <input type="range" id="dtListen" min="1" max="10" value="7" oninput="document.getElementById('dtListenVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>Cuek</span><span>Empati tinggi</span></div>
               </div>
 
               <div class="wz-slider-divider"></div>
 
               <div class="wz-slider-row">
                 <div class="wz-slider-meta">
-                  <div class="wz-slider-name">✨ Kepribadian</div>
+                  <div class="wz-slider-name">💭 Kemampuan Merespons Curhat</div>
+                  <div class="wz-slider-val" id="dtMerespVal">7/10</div>
+                </div>
+                <input type="range" id="dtMeresp" min="1" max="10" value="7" oninput="document.getElementById('dtMerespVal').textContent=this.value+'/10';" class="wz-range"/>
+              </div>
+
+              <div class="wz-slider-divider"></div>
+
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">✨ Kepribadian <span style="color:#9CA3AF;font-weight:500;">(Introvert ↔ Extrovert)</span></div>
                   <div class="wz-slider-val" id="dtKepribadianVal">5/10</div>
                 </div>
                 <input type="range" id="dtKepribadian" min="1" max="10" value="5" oninput="document.getElementById('dtKepribadianVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>🧘 Introvert</span><span>Ambivert</span><span>🎉 Extrovert</span></div>
               </div>
 
               <div class="wz-slider-divider"></div>
@@ -3922,7 +3963,6 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                   <div class="wz-slider-val" id="dtSabarVal">7/10</div>
                 </div>
                 <input type="range" id="dtSabar" min="1" max="10" value="7" oninput="document.getElementById('dtSabarVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>Pendek</span><span>Sangat sabar</span></div>
               </div>
 
               <div class="wz-slider-divider"></div>
@@ -3933,7 +3973,6 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                   <div class="wz-slider-val" id="dtTegasVal">6/10</div>
                 </div>
                 <input type="range" id="dtTegas" min="1" max="10" value="6" oninput="document.getElementById('dtTegasVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>Lembek</span><span>Tegas</span></div>
               </div>
 
               <div class="wz-slider-divider"></div>
@@ -3944,7 +3983,6 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                   <div class="wz-slider-val" id="dtSopanVal">8/10</div>
                 </div>
                 <input type="range" id="dtSopan" min="1" max="10" value="8" oninput="document.getElementById('dtSopanVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>Casual</span><span>Sangat sopan</span></div>
               </div>
 
               <div class="wz-slider-divider"></div>
@@ -3955,7 +3993,6 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
                   <div class="wz-slider-val" id="dtHumorVal">6/10</div>
                 </div>
                 <input type="range" id="dtHumor" min="1" max="10" value="6" oninput="document.getElementById('dtHumorVal').textContent=this.value+'/10';" class="wz-range"/>
-                <div class="wz-slider-ends"><span>Serius</span><span>Suka bercanda</span></div>
               </div>
 
             </div>
@@ -3978,14 +4015,14 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div class="wz-input-wrap" style="margin-bottom:14px;">
               <label class="wz-label">Ceritakan dirimu & kenapa tertarik jadi talent</label>
               <div class="wz-helper">Kepribadian, hobi, motivasi, dan harapanmu dari bergabung di sini.</div>
-              <textarea id="dtTentang" class="wz-input wz-textarea" placeholder="Hai, aku Vania, mahasiswa Psikologi yang suka ngobrol dan dengarkan orang. Aku tertarik jadi talent karena..." maxlength="500" oninput="updateCount('dtTentang','dtTentangCount')" style="height:110px;"></textarea>
+              <textarea id="dtTentang" class="wz-input wz-textarea" placeholder="Tulis di sini..." maxlength="500" oninput="updateCount('dtTentang','dtTentangCount')" style="height:110px;"></textarea>
               <div class="wz-counter"><span id="dtTentangCount">0</span>/500</div>
             </div>
 
             <!-- Skenario test -->
             <div class="wz-input-wrap" style="margin-bottom:14px;">
               <label class="wz-label">Bagaimana hadapi client yang susah?</label>
-              <div class="wz-helper">Misal: client kasar, minta hal di luar aturan, atau cerita berat yang menguras emosi.</div>
+              <div class="wz-helper">Ceritakan caramu menghadapi client yang sulit atau menguras emosi.</div>
               <textarea id="dtHandling" class="wz-input wz-textarea" placeholder="Tulis caramu menghadapi situasi sulit..."></textarea>
             </div>
 
@@ -3993,7 +4030,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div class="wz-input-wrap">
               <label class="wz-label">Batasan yang tidak boleh dilanggar client</label>
               <div class="wz-helper">Hal-hal yang membuatmu tidak nyaman atau yang harus dihindari client.</div>
-              <textarea id="dtBatasan" class="wz-input wz-textarea" placeholder="Contoh: tidak mau dimaki, tidak mau topik tertentu..." style="height:70px;"></textarea>
+              <textarea id="dtBatasan" class="wz-input wz-textarea" placeholder="Tulis batasanmu di sini..." style="height:70px;"></textarea>
             </div>
           </div>
 
@@ -4004,7 +4041,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div class="wz-input-wrap" style="margin-bottom:14px;">
               <label class="wz-label">Rutinitas Sehari-hari</label>
               <div class="wz-helper">Ceritain biasanya sehari-hari ngapain aja? Bangun jam berapa, kegiatan, tidur jam berapa.</div>
-              <textarea id="dtRutinitas" class="wz-input wz-textarea" placeholder="Contoh: bangun jam 9, kuliah online sampai jam 14, sore santai di rumah, malam main game atau scroll TikTok, tidur jam 2..." style="height:80px;"></textarea>
+              <textarea id="dtRutinitas" class="wz-input wz-textarea" placeholder="Tulis rutinitas harianmu di sini..." style="height:80px;"></textarea>
             </div>
 
             <!-- Main Game -->
@@ -4018,7 +4055,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
               <div id="dtGameDetail" style="display:none;margin-top:12px;">
                 <label class="wz-label" style="font-size:12px;">Game apa yang dimainkan?</label>
-                <input id="dtGameNama" type="text" class="wz-input" placeholder="Contoh: Mobile Legends, Genshin Impact, Valorant..."/>
+                <input id="dtGameNama" type="text" class="wz-input" placeholder="Tulis nama game-nya..."/>
               </div>
             </div>
 
@@ -4033,7 +4070,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
               <div id="dtCallDetail" style="display:none;margin-top:12px;">
                 <label class="wz-label" style="font-size:12px;">Biasanya ngobrol sama siapa?</label>
-                <input id="dtCallSiapa" type="text" class="wz-input" placeholder="Contoh: pacar, teman dekat, sahabat, keluarga..."/>
+                <input id="dtCallSiapa" type="text" class="wz-input" placeholder="Tulis di sini..."/>
               </div>
             </div>
           </div>
@@ -4151,93 +4188,46 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
           <div class="wz-group">
             <div class="wz-group-label">Bio Profil</div>
             <div class="wz-helper">Yang akan customer baca sebelum order. Singkat & menarik.</div>
-            <textarea id="dtBio" class="wz-input wz-textarea" placeholder="Hai! Aku Vania, suka ngobrol santai & dengarkan keluh kesah. Yuk ngobrol bareng~" maxlength="200" oninput="updateCount('dtBio','dtBioCount')"></textarea>
+            <textarea id="dtBio" class="wz-input wz-textarea" placeholder="Tulis bio singkatmu di sini..." maxlength="200" oninput="updateCount('dtBio','dtBioCount')"></textarea>
             <div class="wz-counter"><span id="dtBioCount">0</span>/200</div>
           </div>
 
-          <!-- Audio Perkenalan (2-step: pilih backsound + upload suara) -->
+          <!-- Sample Suara (style mirip talent.html) -->
           <div class="wz-group" style="margin-bottom:0;">
-            <div class="wz-group-label">Audio Perkenalan</div>
-            <div class="wz-helper">Audio profilmu yang customer dengar sebelum order. Ada 2 langkah:</div>
+            <div class="wz-group-label">Sample Suara</div>
 
-            <!-- Step 1: Pilih Backsound dari Owner -->
-            <div style="margin-bottom:16px;">
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                <div style="width:22px;height:22px;border-radius:50%;background:#EEF2FF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;">1</div>
-                <div style="font-size:13px;font-weight:700;color:#0F172A;">Pilih Backsound</div>
-              </div>
-              <div style="font-size:12px;color:#6B7280;line-height:1.55;margin-bottom:10px;">Pilih music backsound dari koleksi kami. Akan dipakai di belakang suaramu.</div>
+            <div style="background:#FAFBFC;border:1px solid #E5E7EB;border-radius:14px;padding:14px 16px;">
 
-              <div style="display:flex;flex-direction:column;gap:8px;" id="dtBacksound">
-                <div onclick="pickBacksound(this,'lofi')" class="wz-backsound-card" data-val="lofi">
-                  <div class="wz-bs-icon" style="background:#FCE7F3;">🎹</div>
-                  <div style="flex:1;">
-                    <div class="wz-bs-name">Lofi Chill</div>
-                    <div class="wz-bs-desc">Cocok untuk Sleep Call & Curhat</div>
-                  </div>
-                  <div class="wz-bs-play">▶</div>
-                </div>
-                <div onclick="pickBacksound(this,'romantic')" class="wz-backsound-card" data-val="romantic">
-                  <div class="wz-bs-icon" style="background:#FEE2E2;">💕</div>
-                  <div style="flex:1;">
-                    <div class="wz-bs-name">Romantic Soft</div>
-                    <div class="wz-bs-desc">Cocok untuk Pacar Virtual</div>
-                  </div>
-                  <div class="wz-bs-play">▶</div>
-                </div>
-                <div onclick="pickBacksound(this,'cheerful')" class="wz-backsound-card" data-val="cheerful">
-                  <div class="wz-bs-icon" style="background:#FEF3C7;">☀️</div>
-                  <div style="flex:1;">
-                    <div class="wz-bs-name">Cheerful Vibe</div>
-                    <div class="wz-bs-desc">Cocok untuk Teman Call</div>
-                  </div>
-                  <div class="wz-bs-play">▶</div>
-                </div>
-                <div onclick="pickBacksound(this,'piano')" class="wz-backsound-card" data-val="piano">
-                  <div class="wz-bs-icon" style="background:#DBEAFE;">🎼</div>
-                  <div style="flex:1;">
-                    <div class="wz-bs-name">Piano Calm</div>
-                    <div class="wz-bs-desc">Tenang & elegan</div>
-                  </div>
-                  <div class="wz-bs-play">▶</div>
-                </div>
-                <div onclick="pickBacksound(this,'rain')" class="wz-backsound-card" data-val="rain">
-                  <div class="wz-bs-icon" style="background:#E0F2FE;">🌧️</div>
-                  <div style="flex:1;">
-                    <div class="wz-bs-name">Rain & Wind</div>
-                    <div class="wz-bs-desc">ASMR alam, cocok Sleep Call</div>
-                  </div>
-                  <div class="wz-bs-play">▶</div>
-                </div>
+              <!-- Banner penjelasan -->
+              <div style="font-size:12.5px;color:#4B5563;margin-bottom:12px;line-height:1.55;">
+                Upload rekaman suaramu (mp3/wav). Akan otomatis di-mix dengan backsound dan <b style="color:#0F172A;">muncul sebagai sample di halaman client jika kamu diterima sebagai talent</b>.
               </div>
-              <input type="hidden" id="dtBacksoundVal" value=""/>
-            </div>
 
-            <!-- Step 2: Upload suara -->
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                <div style="width:22px;height:22px;border-radius:50%;background:#EEF2FF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;">2</div>
-                <div style="font-size:13px;font-weight:700;color:#0F172A;">Upload Suara Perkenalan</div>
-              </div>
-              <div style="font-size:12px;color:#6B7280;line-height:1.55;margin-bottom:10px;">Rekam perkenalan singkat (15–30 detik) tanpa backsound. Backsound akan kami tambahkan otomatis.</div>
+              <!-- Upload Box -->
               <input type="file" id="dtAudioInput" accept="audio/*" onchange="handleDtAudio(this)" style="display:none;"/>
-              <div onclick="document.getElementById('dtAudioInput').click()" class="wz-upload">
-                <div class="wz-upload-icon">🎙️</div>
+              <div onclick="document.getElementById('dtAudioInput').click()" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.18s;box-shadow:0 1px 2px rgba(15,23,42,0.04);" onmouseover="this.style.borderColor='#A5B4FC';this.style.background='#F5F7FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='#FFFFFF'">
+                <span style="font-size:18px;">🎙️</span>
                 <div style="flex:1;">
-                  <div class="wz-upload-title">Upload Suara</div>
-                  <div class="wz-upload-sub">MP3/WAV/M4A · Maks 10MB · Suara saja, tanpa backsound</div>
+                  <div style="font-size:13.5px;font-weight:700;color:#0F172A;">Upload Audio Suara</div>
+                  <div style="font-size:11.5px;color:#6B7280;margin-top:2px;">Format mp3 atau wav, maks 10MB</div>
                 </div>
               </div>
-              <div id="dtAudioPreview" style="display:none;margin-top:10px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:12px;">
-                <div style="font-size:12px;font-weight:600;color:#15803D;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><span>✓</span><span id="dtAudioName"></span></div>
-                <audio id="dtAudioEl" controls style="width:100%;height:32px;"></audio>
-              </div>
-            </div>
 
-            <!-- Info preview hasil -->
-            <div style="margin-top:14px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:10px;padding:11px 13px;display:flex;gap:10px;align-items:start;">
-              <span style="font-size:14px;flex-shrink:0;">✨</span>
-              <div style="font-size:11.5px;color:#3730A3;line-height:1.55;">Sistem akan otomatis menggabungkan suaramu dengan backsound yang dipilih saat profil aktif.</div>
+              <!-- Audio Preview (saat sudah upload) -->
+              <div id="dtAudioPreview" onclick="event.stopPropagation()" style="display:none;margin-top:10px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:12px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                  <span style="font-size:11.5px;font-weight:700;color:#15803D;">Preview Sample</span>
+                  <button onclick="event.stopPropagation();hapusDtAudio()" style="background:#FFFFFF;border:1px solid #E5E7EB;border-radius:50%;width:26px;height:26px;color:#6B7280;font-size:14px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
+                </div>
+                <div style="font-size:11.5px;color:#15803D;margin-bottom:8px;font-weight:600;display:flex;align-items:center;gap:6px;"><span>✓</span><span id="dtAudioName"></span></div>
+                <audio id="dtAudioEl" controls preload="metadata" style="width:100%;display:block;"></audio>
+              </div>
+
+              <!-- Backsound Info (readonly, ditentukan owner) -->
+              <div style="margin-top:10px;padding:9px 12px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:10px;display:flex;align-items:center;gap:8px;">
+                <span style="font-size:14px;">🎵</span>
+                <span style="font-size:11.5px;color:#6B7280;">Backsound: <span style="color:#4F46E5;font-weight:600;">Backsound Default</span></span>
+              </div>
             </div>
           </div>
         </div>
@@ -5030,13 +5020,6 @@ function pickMiniCard(el, hiddenId, val) {
   document.getElementById(hiddenId).value = val;
 }
 
-// ============ BACKSOUND PICK ============
-function pickBacksound(el, val) {
-  document.querySelectorAll('#dtBacksound .wz-backsound-card').forEach(c => c.classList.remove('wz-bs-sel'));
-  el.classList.add('wz-bs-sel');
-  document.getElementById('dtBacksoundVal').value = val;
-}
-
 // ============ SELECT ALL DAYS (Jam Available) ============
 function setAllDays() {
   document.querySelectorAll('#dtHari .wz-chip').forEach(c => c.classList.add('wz-chip-sel'));
@@ -5133,10 +5116,9 @@ function renderReview() {
   const callSiapa = document.getElementById('dtCallSiapa').value.trim();
   const callStr = seringCall === 'ya' ? ('Ya' + (callSiapa ? ' · ' + callSiapa : '')) : seringCall === 'tidak' ? 'Tidak' : '-';
 
-  // Backsound
-  const backsoundVal = document.getElementById('dtBacksoundVal').value;
-  const backsoundMap = { lofi:'Lofi Chill', romantic:'Romantic Soft', cheerful:'Cheerful Vibe', piano:'Piano Calm', rain:'Rain & Wind' };
-  const backsoundStr = backsoundMap[backsoundVal] || '-';
+  // Audio sample status
+  const audioFile = document.getElementById('dtAudioInput').files[0];
+  const audioStr = audioFile ? '✓ Sudah upload' : 'Belum upload';
 
   const data = [
     ['Nama', document.getElementById('dtNama').value || '-'],
@@ -5152,6 +5134,7 @@ function renderReview() {
     ['Jam', jamRange],
     ['Komunikasi', document.getElementById('dtKom').value + '/10'],
     ['Pendengar', document.getElementById('dtListen').value + '/10'],
+    ['Merespons Curhat', document.getElementById('dtMeresp').value + '/10'],
     ['Kepribadian', kepribadianLabel],
     ['Sabar/Empati', document.getElementById('dtSabar').value + '/10'],
     ['Ketegasan', document.getElementById('dtTegas').value + '/10'],
@@ -5161,7 +5144,7 @@ function renderReview() {
     ['Sering call', callStr],
     ['Layanan', layanan],
     ['Bio', bio.length > 60 ? bio.substring(0,60) + '…' : bio],
-    ['Backsound', backsoundStr]
+    ['Sample Suara', audioStr]
   ];
 
   const html = data.map(([k, v]) => `
