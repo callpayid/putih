@@ -3520,346 +3520,445 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
 
 <!-- MODAL DAFTAR TALENT -->
-<div id="daftarTalentModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);overflow-y:auto;" onclick="if(event.target===this)closeDaftarTalent()">
-  <div style="min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:20px 16px 40px;">
-    <div style="width:100%;max-width:460px;background:linear-gradient(180deg,#0C0A1A 0%,#08071A 100%);border:0.5px solid rgba(252,211,77,0.12);border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.6);">
+<div id="daftarTalentModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(5,5,12,0.92);backdrop-filter:blur(20px);overflow-y:auto;" onclick="if(event.target===this)closeDaftarTalent()">
+  <!-- Subtle radial light untuk depth -->
+  <div style="position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(252,211,77,0.08) 0%,transparent 60%);pointer-events:none;"></div>
 
-      <!-- TOP BAR — HEADER + STEP DOTS -->
-      <div style="padding:18px 18px 0;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:16px;">✨</div>
-            <div>
-              <div style="font-size:9px;color:rgba(252,211,77,0.6);font-weight:800;letter-spacing:0.12em;text-transform:uppercase;line-height:1;">Recruitment 2025</div>
-              <div style="font-size:13px;font-weight:800;color:#fff;margin-top:2px;">Gabung Sebagai Talent</div>
-            </div>
+  <div style="min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 48px;position:relative;">
+    <div style="width:100%;max-width:480px;background:linear-gradient(180deg,#0A0915 0%,#06060E 100%);border:1px solid rgba(255,255,255,0.06);border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.02);">
+
+      <!-- ============ MODAL HEADER (Premium Minimal) ============ -->
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg,rgba(252,211,77,0.025),transparent);">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:10.5px;color:rgba(252,211,77,0.7);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px;">Recruitment 2025</div>
+            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:#fff;letter-spacing:-0.01em;">Gabung Sebagai Talent</div>
           </div>
-          <div onclick="closeDaftarTalent()" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.5);">✕</div>
+          <div onclick="closeDaftarTalent()" style="width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:rgba(255,255,255,0.5);transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.color='rgba(255,255,255,0.5)'">✕</div>
         </div>
+      </div>
 
-        <!-- PROGRESS BAR -->
-        <div style="margin-bottom:8px;">
-          <div style="height:5px;background:rgba(255,255,255,0.05);border-radius:99px;overflow:hidden;">
-            <div id="wzProgress" style="height:100%;width:25%;background:linear-gradient(90deg,#FCD34D,#F59E0B);border-radius:99px;transition:width 0.4s cubic-bezier(0.22,0.61,0.36,1);"></div>
+      <!-- ============ PROGRESS STEP DOTS (Premium) ============ -->
+      <div style="padding:22px 24px 4px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;position:relative;">
+          <!-- Background line -->
+          <div style="position:absolute;top:14px;left:14px;right:14px;height:2px;background:rgba(255,255,255,0.05);border-radius:99px;"></div>
+          <!-- Progress line (filled) -->
+          <div id="wzProgress" style="position:absolute;top:14px;left:14px;width:0%;height:2px;background:linear-gradient(90deg,#FCD34D,#F59E0B);border-radius:99px;transition:width 0.5s cubic-bezier(0.22,0.61,0.36,1);max-width:calc(100% - 28px);"></div>
+
+          <!-- Step Dots -->
+          <div class="wz-step-dot" data-step="1">
+            <div class="wz-dot">1</div>
+            <div class="wz-dot-label">Identitas</div>
           </div>
-          <div style="display:flex;justify-content:space-between;margin-top:8px;">
-            <div class="wz-step-label" data-step="1" style="font-size:9px;font-weight:800;color:#FCD34D;letter-spacing:0.06em;">① Profil</div>
-            <div class="wz-step-label" data-step="2" style="font-size:9px;font-weight:800;color:rgba(255,255,255,0.2);letter-spacing:0.06em;">② Skill</div>
-            <div class="wz-step-label" data-step="3" style="font-size:9px;font-weight:800;color:rgba(255,255,255,0.2);letter-spacing:0.06em;">③ Cerita</div>
-            <div class="wz-step-label" data-step="4" style="font-size:9px;font-weight:800;color:rgba(255,255,255,0.2);letter-spacing:0.06em;">④ Media</div>
-            <div class="wz-step-label" data-step="5" style="font-size:9px;font-weight:800;color:rgba(255,255,255,0.2);letter-spacing:0.06em;">⑤ Review</div>
+          <div class="wz-step-dot" data-step="2">
+            <div class="wz-dot">2</div>
+            <div class="wz-dot-label">Kemampuan</div>
+          </div>
+          <div class="wz-step-dot" data-step="3">
+            <div class="wz-dot">3</div>
+            <div class="wz-dot-label">Cerita</div>
+          </div>
+          <div class="wz-step-dot" data-step="4">
+            <div class="wz-dot">4</div>
+            <div class="wz-dot-label">Profil</div>
+          </div>
+          <div class="wz-step-dot" data-step="5">
+            <div class="wz-dot">5</div>
+            <div class="wz-dot-label">Review</div>
           </div>
         </div>
       </div>
 
       <!-- FORM CONTAINER -->
-      <div id="daftarTalentForm" style="padding:8px 18px 18px;">
+      <div id="daftarTalentForm" style="padding:6px 20px 20px;">
 
-        <!-- ============ STEP 1: PROFIL ============ -->
+        <!-- ============ STEP 1: IDENTITAS ============ -->
         <div class="wz-step" data-step="1" style="display:block;">
 
-          <div style="margin:14px 0 18px;">
-            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;">Tentang Kamu</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.55;">Data dasar untuk identifikasi. Semua aman & rahasia.</div>
+          <div class="wz-step-header">
+            <div class="wz-step-counter">Step 1 / 5</div>
+            <div class="wz-step-title">Identitas</div>
+            <div class="wz-step-subtitle">Data dasar untuk identifikasi. Semua aman & rahasia.</div>
           </div>
 
-          <!-- Identitas grid -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-            <div class="wz-input-wrap">
-              <label class="wz-label">Nama Panggilan *</label>
-              <input id="dtNama" type="text" class="wz-input" placeholder="Mis: Vania"/>
+          <div class="wz-group">
+            <div class="wz-group-label">📇 Data Pribadi</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+              <div class="wz-input-wrap">
+                <label class="wz-label">Nama Panggilan *</label>
+                <input id="dtNama" type="text" class="wz-input" placeholder="Mis: Vania"/>
+              </div>
+              <div class="wz-input-wrap">
+                <label class="wz-label">WhatsApp *</label>
+                <input id="dtWA" type="tel" class="wz-input" placeholder="08xxx"/>
+              </div>
             </div>
-            <div class="wz-input-wrap">
-              <label class="wz-label">WhatsApp *</label>
-              <input id="dtWA" type="tel" class="wz-input" placeholder="08xxx"/>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+              <div class="wz-input-wrap">
+                <label class="wz-label">Gender *</label>
+                <select id="dtGender" class="wz-input wz-select">
+                  <option value="" style="background:#0D0A25;">Pilih</option>
+                  <option value="p" style="background:#0D0A25;">Perempuan</option>
+                  <option value="l" style="background:#0D0A25;">Laki-laki</option>
+                </select>
+              </div>
+              <div class="wz-input-wrap">
+                <label class="wz-label">Usia *</label>
+                <input id="dtUsia" type="number" class="wz-input" placeholder="20" min="18" max="50"/>
+              </div>
+              <div class="wz-input-wrap">
+                <label class="wz-label">Kota</label>
+                <input id="dtKota" type="text" class="wz-input" placeholder="Jakarta"/>
+              </div>
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-            <div class="wz-input-wrap">
-              <label class="wz-label">Gender *</label>
-              <select id="dtGender" class="wz-input wz-select">
-                <option value="" style="background:#0D0A25;">Pilih</option>
-                <option value="p" style="background:#0D0A25;">Perempuan</option>
-                <option value="l" style="background:#0D0A25;">Laki-laki</option>
+          <div class="wz-group">
+            <div class="wz-group-label">🎓 Latar Belakang</div>
+
+            <div class="wz-input-wrap" style="margin-bottom:12px;">
+              <label class="wz-label">Pendidikan Terakhir</label>
+              <select id="dtPendidikan" class="wz-input wz-select">
+                <option value="" style="background:#0D0A25;">Pilih pendidikan</option>
+                <option value="sma" style="background:#0D0A25;">SMA / Sederajat</option>
+                <option value="d3" style="background:#0D0A25;">D3 / Diploma</option>
+                <option value="s1" style="background:#0D0A25;">S1 / Sarjana</option>
+                <option value="s2" style="background:#0D0A25;">S2 / Magister</option>
+                <option value="lainnya" style="background:#0D0A25;">Lainnya</option>
               </select>
             </div>
+
             <div class="wz-input-wrap">
-              <label class="wz-label">Usia *</label>
-              <input id="dtUsia" type="number" class="wz-input" placeholder="20" min="18" max="50"/>
+              <label class="wz-label">Kesibukan Saat Ini</label>
+              <select id="dtKesibukan" class="wz-input wz-select">
+                <option value="" style="background:#0D0A25;">Pilih kesibukan</option>
+                <option value="kuliah" style="background:#0D0A25;">🎓 Kuliah</option>
+                <option value="kerja" style="background:#0D0A25;">💼 Bekerja (cari sampingan)</option>
+                <option value="freelance" style="background:#0D0A25;">🎨 Freelance</option>
+                <option value="ibu" style="background:#0D0A25;">👩 Ibu rumah tangga</option>
+                <option value="nganggur" style="background:#0D0A25;">🛋️ Belum bekerja</option>
+                <option value="lain" style="background:#0D0A25;">📦 Lainnya</option>
+              </select>
             </div>
+          </div>
+
+          <div class="wz-group">
+            <div class="wz-group-label">🔗 Sumber Info</div>
             <div class="wz-input-wrap">
-              <label class="wz-label">Kota</label>
-              <input id="dtKota" type="text" class="wz-input" placeholder="Jakarta"/>
+              <label class="wz-label">Dari mana tau SleepcallPay? *</label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtSumber">
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="tiktok">🎵 TikTok</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="instagram">📷 Instagram</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="twitter">🐦 Twitter/X</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="teman">👥 Dari teman</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="google">🔍 Google</div>
+                <div onclick="pickSumber(this)" class="wz-chip" data-val="lain">📦 Lainnya</div>
+              </div>
+              <input type="hidden" id="dtSumberVal" value=""/>
             </div>
-          </div>
-
-          <div class="wz-input-wrap" style="margin-bottom:10px;">
-            <label class="wz-label">Pendidikan Terakhir</label>
-            <select id="dtPendidikan" class="wz-input wz-select">
-              <option value="" style="background:#0D0A25;">Pilih pendidikan</option>
-              <option value="sma" style="background:#0D0A25;">SMA / Sederajat</option>
-              <option value="d3" style="background:#0D0A25;">D3 / Diploma</option>
-              <option value="s1" style="background:#0D0A25;">S1 / Sarjana</option>
-              <option value="s2" style="background:#0D0A25;">S2 / Magister</option>
-              <option value="lainnya" style="background:#0D0A25;">Lainnya</option>
-            </select>
-          </div>
-
-          <div class="wz-input-wrap" style="margin-bottom:10px;">
-            <label class="wz-label">Kesibukan Saat Ini</label>
-            <select id="dtKesibukan" class="wz-input wz-select">
-              <option value="" style="background:#0D0A25;">Pilih kesibukan</option>
-              <option value="kuliah" style="background:#0D0A25;">🎓 Kuliah</option>
-              <option value="kerja" style="background:#0D0A25;">💼 Bekerja (cari sampingan)</option>
-              <option value="freelance" style="background:#0D0A25;">🎨 Freelance</option>
-              <option value="ibu" style="background:#0D0A25;">👩 Ibu rumah tangga</option>
-              <option value="nganggur" style="background:#0D0A25;">🛋️ Belum bekerja</option>
-              <option value="lain" style="background:#0D0A25;">📦 Lainnya</option>
-            </select>
-          </div>
-
-          <div class="wz-input-wrap">
-            <label class="wz-label">Pernah Pakai Layanan Kami?</label>
-            <div style="display:flex;gap:8px;">
-              <div onclick="setYaTidak(this,'dtPernahPakai','ya')" class="wz-yn" data-name="dtPernahPakai" data-value="ya"><span style="font-size:14px;">✅</span> Pernah</div>
-              <div onclick="setYaTidak(this,'dtPernahPakai','tidak')" class="wz-yn" data-name="dtPernahPakai" data-value="tidak"><span style="font-size:14px;">❌</span> Belum</div>
-            </div>
-            <input type="hidden" id="dtPernahPakai" value=""/>
           </div>
         </div>
 
-        <!-- ============ STEP 2: SKILL ============ -->
+        <!-- ============ STEP 2: KEMAMPUAN ============ -->
         <div class="wz-step" data-step="2" style="display:none;">
 
-          <div style="margin:14px 0 18px;">
-            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;">Keahlianmu</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.55;">Apa yang bisa kamu tawarkan untuk customer.</div>
+          <div class="wz-step-header">
+            <div class="wz-step-counter">Step 2 / 5</div>
+            <div class="wz-step-title">Kemampuan</div>
+            <div class="wz-step-subtitle">Apa yang bisa kamu tawarkan untuk customer.</div>
           </div>
 
-          <!-- Layanan -->
-          <div style="margin-bottom:18px;">
-            <label class="wz-label" style="margin-bottom:8px;">Layanan yang Dikuasai * <span style="text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);font-weight:500;">(bisa &gt; 1)</span></label>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="dtLayanan">
-              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                <div style="font-size:22px;">🌙</div>
-                <div class="wz-pickcard-label">Sleep Call</div>
-                <div class="wz-pickcard-desc">Temani sampai tidur</div>
+          <div class="wz-group">
+            <div class="wz-group-label">🎧 Layanan & Jadwal</div>
+
+            <div style="margin-bottom:16px;">
+              <label class="wz-label">Layanan yang Dikuasai * <span class="wz-label-hint">(bisa &gt; 1)</span></label>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="dtLayanan">
+                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                  <div style="font-size:22px;">🌙</div>
+                  <div class="wz-pickcard-label">Sleep Call</div>
+                  <div class="wz-pickcard-desc">Temani sampai tidur</div>
+                </div>
+                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                  <div style="font-size:22px;">💬</div>
+                  <div class="wz-pickcard-label">Teman Call</div>
+                  <div class="wz-pickcard-desc">Ngobrol santai</div>
+                </div>
+                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                  <div style="font-size:22px;">🫂</div>
+                  <div class="wz-pickcard-label">Curhat Call</div>
+                  <div class="wz-pickcard-desc">Dengar keluh kesah</div>
+                </div>
+                <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
+                  <div style="font-size:22px;">💕</div>
+                  <div class="wz-pickcard-label">Pacar Virtual</div>
+                  <div class="wz-pickcard-desc">Role-play sebagai pacar</div>
+                </div>
               </div>
-              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                <div style="font-size:22px;">💬</div>
-                <div class="wz-pickcard-label">Teman Call</div>
-                <div class="wz-pickcard-desc">Ngobrol santai</div>
+            </div>
+
+            <div>
+              <label class="wz-label">Jam Available * <span class="wz-label-hint">(bisa &gt; 1)</span></label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtJam">
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">☀️ Pagi (06–12)</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌤 Siang (12–18)</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌆 Sore (18–22)</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip wz-chip-sel">🌙 Malam (22–02)</div>
+                <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌌 Dini hari (02–06)</div>
               </div>
-              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                <div style="font-size:22px;">🫂</div>
-                <div class="wz-pickcard-label">Curhat Call</div>
-                <div class="wz-pickcard-desc">Dengar keluh kesah</div>
-              </div>
-              <div class="wz-pickcard" onclick="this.classList.toggle('selected')">
-                <div style="font-size:22px;">💕</div>
-                <div class="wz-pickcard-label">Pacar Virtual</div>
-                <div class="wz-pickcard-desc">Role-play sebagai pacar</div>
-              </div>
+              <div class="wz-tip">💡 Jam malam = jam tersibuk dengan order paling banyak</div>
             </div>
           </div>
 
-          <!-- Jam Available -->
-          <div style="margin-bottom:18px;">
-            <label class="wz-label" style="margin-bottom:8px;">Jam Available * <span style="text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);font-weight:500;">(bisa &gt; 1)</span></label>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;" id="dtJam">
-              <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">☀️ Pagi (06–12)</div>
-              <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌤 Siang (12–18)</div>
-              <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌆 Sore (18–22)</div>
-              <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip wz-chip-sel">🌙 Malam (22–02)</div>
-              <div onclick="this.classList.toggle('wz-chip-sel')" class="wz-chip">🌌 Dini hari (02–06)</div>
-            </div>
-            <div style="font-size:10px;color:rgba(252,211,77,0.5);margin-top:6px;">💡 Jam malam = jam tersibuk dengan order paling banyak</div>
-          </div>
+          <div class="wz-group">
+            <div class="wz-group-label">📊 Self-Assessment <span class="wz-group-hint">(geser slider)</span></div>
 
-          <!-- Rating Komunikasi -->
-          <div style="margin-bottom:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <label class="wz-label" style="margin:0;">Kemampuan Komunikasi *</label>
-              <div id="dtKomVal" style="font-size:11px;font-weight:800;color:#FCD34D;">7/10</div>
-            </div>
-            <input type="range" id="dtKom" min="1" max="10" value="7" oninput="document.getElementById('dtKomVal').textContent=this.value+'/10';" class="wz-range"/>
-            <div style="display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.25);margin-top:4px;"><span>Pendiam</span><span>Lancar</span></div>
-          </div>
+            <div class="wz-slider-card">
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">💬 Kemampuan Komunikasi</div>
+                  <div class="wz-slider-val" id="dtKomVal">7/10</div>
+                </div>
+                <input type="range" id="dtKom" min="1" max="10" value="7" oninput="document.getElementById('dtKomVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>Pendiam</span><span>Lancar</span></div>
+              </div>
 
-          <!-- Rating Pendengar -->
-          <div style="margin-bottom:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <label class="wz-label" style="margin:0;">Pendengar yang Baik?</label>
-              <div id="dtListenVal" style="font-size:11px;font-weight:800;color:#FCD34D;">7/10</div>
-            </div>
-            <input type="range" id="dtListen" min="1" max="10" value="7" oninput="document.getElementById('dtListenVal').textContent=this.value+'/10';" class="wz-range"/>
-            <div style="display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.25);margin-top:4px;"><span>Cuek</span><span>Empati tinggi</span></div>
-          </div>
+              <div class="wz-slider-divider"></div>
 
-          <!-- Batasan -->
-          <div class="wz-input-wrap">
-            <label class="wz-label">Batasan yang Tidak Boleh Dilanggar Client *</label>
-            <textarea id="dtBatasan" class="wz-input wz-textarea" placeholder="Contoh: tidak mau dimaki, tidak mau topik tertentu, tidak mau ngomong jorok..."></textarea>
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">👂 Pendengar yang Baik?</div>
+                  <div class="wz-slider-val" id="dtListenVal">7/10</div>
+                </div>
+                <input type="range" id="dtListen" min="1" max="10" value="7" oninput="document.getElementById('dtListenVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>Cuek</span><span>Empati tinggi</span></div>
+              </div>
+
+              <div class="wz-slider-divider"></div>
+
+              <div class="wz-slider-row">
+                <div class="wz-slider-meta">
+                  <div class="wz-slider-name">✨ Kepribadian</div>
+                  <div class="wz-slider-val" id="dtKepribadianVal">5/10</div>
+                </div>
+                <input type="range" id="dtKepribadian" min="1" max="10" value="5" oninput="document.getElementById('dtKepribadianVal').textContent=this.value+'/10';" class="wz-range"/>
+                <div class="wz-slider-ends"><span>🧘 Introvert</span><span>Ambivert</span><span>🎉 Extrovert</span></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- ============ STEP 3: CERITA ============ -->
+        <!-- ============ STEP 3: CERITA & KOMITMEN ============ -->
         <div class="wz-step" data-step="3" style="display:none;">
 
-          <div style="margin:14px 0 18px;">
-            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;">Ceritakan Tentangmu</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.55;">Jawab dengan jujur — ini bagian yang paling kami baca.</div>
+          <div class="wz-step-header">
+            <div class="wz-step-counter">Step 3 / 5</div>
+            <div class="wz-step-title">Cerita & Komitmen</div>
+            <div class="wz-step-subtitle">Jawab dengan jujur — bagian yang paling kami baca.</div>
           </div>
 
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Ceritakan tentang dirimu *</label>
-            <textarea id="dtTentang" class="wz-input wz-textarea" placeholder="Kepribadian, hobi, hal unik tentangmu..." maxlength="500" oninput="updateCount('dtTentang','dtTentangCount')"></textarea>
-            <div style="font-size:9.5px;color:rgba(255,255,255,0.3);text-align:right;margin-top:4px;"><span id="dtTentangCount">0</span>/500</div>
-          </div>
+          <div class="wz-group">
+            <div class="wz-group-label">📖 Cerita Personal</div>
 
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Kenapa tertarik jadi talent? *</label>
-            <textarea id="dtMotivasi" class="wz-input wz-textarea" placeholder="Motivasi & kelebihan yang membuatmu cocok jadi talent..."></textarea>
-          </div>
-
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Bagaimana hadapi client yang susah? *</label>
-            <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin:-2px 0 8px;line-height:1.5;">Mis: client kasar, minta hal di luar aturan, atau cerita berat yang menguras emosi.</div>
-            <textarea id="dtHandling" class="wz-input wz-textarea" placeholder="Tulis caramu menghadapi situasi sulit..."></textarea>
-          </div>
-
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Pengalaman kerja / organisasi (opsional)</label>
-            <textarea id="dtPengalaman" class="wz-input wz-textarea" placeholder="Pernah kerja dimana? Pengalaman relevan?" style="height:60px;"></textarea>
-          </div>
-
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Harapanmu dari bergabung di sini?</label>
-            <textarea id="dtHarapan" class="wz-input wz-textarea" placeholder="Target income, pengalaman, atau hal yang ingin dicapai..." style="height:60px;"></textarea>
-          </div>
-
-          <!-- Bersedia coaching -->
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Bersedia di-coaching / dibimbing?</label>
-            <div style="display:flex;gap:8px;">
-              <div onclick="setYaTidak(this,'dtCoaching','ya')" class="wz-yn" data-name="dtCoaching" data-value="ya"><span style="font-size:14px;">👍</span> Ya, mau belajar</div>
-              <div onclick="setYaTidak(this,'dtCoaching','tidak')" class="wz-yn" data-name="dtCoaching" data-value="tidak"><span style="font-size:14px;">🤔</span> Tidak perlu</div>
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Ceritakan tentang dirimu *</label>
+              <textarea id="dtTentang" class="wz-input wz-textarea" placeholder="Kepribadian, hobi, hal unik tentangmu..." maxlength="500" oninput="updateCount('dtTentang','dtTentangCount')"></textarea>
+              <div class="wz-counter"><span id="dtTentangCount">0</span>/500</div>
             </div>
-            <input type="hidden" id="dtCoaching" value=""/>
-          </div>
 
-          <!-- Orang terdekat tahu -->
-          <div class="wz-input-wrap" style="margin-bottom:14px;">
-            <label class="wz-label">Ada orang terdekat yang tahu kamu mendaftar?</label>
-            <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin:-2px 0 8px;line-height:1.5;">Penting untuk komitmen jangka panjang & support system.</div>
-            <div style="display:flex;gap:8px;">
-              <div onclick="setYaTidak(this,'dtSupport','ya')" class="wz-yn" data-name="dtSupport" data-value="ya"><span style="font-size:14px;">💚</span> Ya, ada</div>
-              <div onclick="setYaTidak(this,'dtSupport','tidak')" class="wz-yn" data-name="dtSupport" data-value="tidak"><span style="font-size:14px;">🤐</span> Belum ada</div>
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Kenapa tertarik jadi talent? *</label>
+              <textarea id="dtMotivasi" class="wz-input wz-textarea" placeholder="Motivasi & kelebihan yang membuatmu cocok jadi talent..."></textarea>
             </div>
-            <input type="hidden" id="dtSupport" value=""/>
+
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Bagaimana hadapi client yang susah? *</label>
+              <div class="wz-helper">Mis: client kasar, minta hal di luar aturan, atau cerita berat.</div>
+              <textarea id="dtHandling" class="wz-input wz-textarea" placeholder="Tulis caramu menghadapi situasi sulit..."></textarea>
+            </div>
+
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Pengalaman kerja / organisasi <span class="wz-label-hint">(opsional)</span></label>
+              <textarea id="dtPengalaman" class="wz-input wz-textarea" placeholder="Pernah kerja dimana? Pengalaman relevan?" style="height:60px;"></textarea>
+            </div>
+
+            <div class="wz-input-wrap">
+              <label class="wz-label">Harapan dari bergabung di sini?</label>
+              <textarea id="dtHarapan" class="wz-input wz-textarea" placeholder="Target income, pengalaman, atau hal yang ingin dicapai..." style="height:60px;"></textarea>
+            </div>
           </div>
 
-          <!-- IG -->
-          <div class="wz-input-wrap">
-            <label class="wz-label">Instagram <span style="text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);font-weight:500;">(opsional)</span></label>
-            <div style="position:relative;">
-              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:13px;color:rgba(255,255,255,0.3);">@</span>
-              <input id="dtIG" type="text" class="wz-input" placeholder="username" style="padding-left:28px;"/>
+          <div class="wz-group">
+            <div class="wz-group-label">⚙️ Preferensi & Latar</div>
+
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Batasan yang Tidak Boleh Dilanggar Client *</label>
+              <textarea id="dtBatasan" class="wz-input wz-textarea" placeholder="Contoh: tidak mau dimaki, tidak mau topik tertentu, tidak mau ngomong jorok..." style="height:60px;"></textarea>
+            </div>
+
+            <div class="wz-input-wrap">
+              <label class="wz-label">Pernah Pakai Layanan Kami sebagai customer?</label>
+              <div style="display:flex;gap:8px;">
+                <div onclick="setYaTidak(this,'dtPernahPakai','ya')" class="wz-yn" data-name="dtPernahPakai" data-value="ya"><span style="font-size:14px;">✅</span> Pernah</div>
+                <div onclick="setYaTidak(this,'dtPernahPakai','tidak')" class="wz-yn" data-name="dtPernahPakai" data-value="tidak"><span style="font-size:14px;">❌</span> Belum</div>
+              </div>
+              <input type="hidden" id="dtPernahPakai" value=""/>
+            </div>
+          </div>
+
+          <div class="wz-group">
+            <div class="wz-group-label">🤝 Komitmen</div>
+
+            <div class="wz-input-wrap" style="margin-bottom:14px;">
+              <label class="wz-label">Bersedia di-coaching / dibimbing?</label>
+              <div style="display:flex;gap:8px;">
+                <div onclick="setYaTidak(this,'dtCoaching','ya')" class="wz-yn" data-name="dtCoaching" data-value="ya"><span style="font-size:14px;">👍</span> Ya, mau belajar</div>
+                <div onclick="setYaTidak(this,'dtCoaching','tidak')" class="wz-yn" data-name="dtCoaching" data-value="tidak"><span style="font-size:14px;">🤔</span> Tidak perlu</div>
+              </div>
+              <input type="hidden" id="dtCoaching" value=""/>
+            </div>
+
+            <div class="wz-input-wrap">
+              <label class="wz-label">Ada orang terdekat yang tahu kamu mendaftar?</label>
+              <div class="wz-helper">Penting untuk komitmen jangka panjang & support system.</div>
+              <div style="display:flex;gap:8px;">
+                <div onclick="setYaTidak(this,'dtSupport','ya')" class="wz-yn" data-name="dtSupport" data-value="ya"><span style="font-size:14px;">💚</span> Ya, ada</div>
+                <div onclick="setYaTidak(this,'dtSupport','tidak')" class="wz-yn" data-name="dtSupport" data-value="tidak"><span style="font-size:14px;">🤐</span> Belum ada</div>
+              </div>
+              <input type="hidden" id="dtSupport" value=""/>
+            </div>
+          </div>
+
+          <div class="wz-group">
+            <div class="wz-group-label">📱 Sosial Media <span class="wz-group-hint">(opsional)</span></div>
+            <div class="wz-helper" style="margin:-6px 0 10px;">Untuk cross-check & lihat aktivitasmu.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div style="position:relative;">
+                <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;">📷</span>
+                <input id="dtIG" type="text" class="wz-input" placeholder="IG username" style="padding-left:34px;"/>
+              </div>
+              <div style="position:relative;">
+                <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;">🎵</span>
+                <input id="dtTiktok" type="text" class="wz-input" placeholder="TikTok username" style="padding-left:34px;"/>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- ============ STEP 4: MEDIA ============ -->
+        <!-- ============ STEP 4: PROFIL PUBLIK ============ -->
         <div class="wz-step" data-step="4" style="display:none;">
 
-          <div style="margin:14px 0 18px;">
-            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;">Upload Media</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.55;">Foto & sample suara wajib. CV opsional, tapi nilai plus.</div>
+          <div class="wz-step-header">
+            <div class="wz-step-counter">Step 4 / 5</div>
+            <div class="wz-step-title">Profil Publik</div>
+            <div class="wz-step-subtitle">Data ini yang akan dilihat customer di profilmu nanti.</div>
           </div>
 
-          <!-- Foto -->
-          <div style="margin-bottom:12px;">
-            <label class="wz-label" style="margin-bottom:8px;">Foto Diri * <span style="text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);font-weight:500;">(wajah terlihat jelas)</span></label>
-            <input type="file" id="dtFotoInput" accept="image/*" onchange="handleDtFoto(this)" style="display:none;"/>
-            <div onclick="document.getElementById('dtFotoInput').click()" class="wz-upload">
-              <div class="wz-upload-icon">📸</div>
-              <div style="flex:1;">
-                <div class="wz-upload-title">Pilih Foto</div>
-                <div class="wz-upload-sub">JPG/PNG · Maks 10MB</div>
+          <div class="wz-banner-info">
+            <span style="font-size:18px;flex-shrink:0;">✨</span>
+            <div>Yang kamu isi di sini akan <b style="color:#FCD34D;">tampil di profilmu</b> setelah diterima. Customer akan lihat foto, baca bio, dan dengar suaramu sebelum order.</div>
+          </div>
+
+          <div class="wz-group">
+            <div class="wz-group-label">🌟 Tampilan untuk Customer</div>
+
+            <div style="margin-bottom:18px;">
+              <label class="wz-label" style="margin-bottom:10px;">Foto Profil * <span class="wz-label-hint">(akan tampil di profilmu)</span></label>
+              <input type="file" id="dtFotoInput" accept="image/*" onchange="handleDtFoto(this)" style="display:none;"/>
+
+              <div onclick="document.getElementById('dtFotoInput').click()" class="wz-photo-upload">
+                <div class="wz-photo-circle">
+                  <div class="wz-photo-placeholder">
+                    <div style="font-size:32px;">📸</div>
+                    <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:6px;font-weight:700;">Klik untuk pilih</div>
+                  </div>
+                  <img id="dtFotoImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;"/>
+                </div>
+                <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5;">JPG/PNG · Maks 10MB<br>Wajah jelas, kualitas bagus</div>
               </div>
             </div>
-            <div id="dtFotoPreview" style="display:none;margin-top:8px;text-align:center;">
-              <img id="dtFotoImg" src="" style="width:100px;height:100px;border-radius:14px;object-fit:cover;border:2px solid rgba(252,211,77,0.4);"/>
-            </div>
-          </div>
 
-          <!-- Audio -->
-          <div style="margin-bottom:12px;">
-            <label class="wz-label" style="margin-bottom:8px;">Sample Suara * <span style="text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);font-weight:500;">(30 detik perkenalan)</span></label>
-            <input type="file" id="dtAudioInput" accept="audio/*" onchange="handleDtAudio(this)" style="display:none;"/>
-            <div onclick="document.getElementById('dtAudioInput').click()" class="wz-upload">
-              <div class="wz-upload-icon">🎙️</div>
-              <div style="flex:1;">
-                <div class="wz-upload-title">Upload Audio</div>
-                <div class="wz-upload-sub">MP3/WAV · Maks 10MB</div>
+            <div class="wz-input-wrap" style="margin-bottom:18px;">
+              <label class="wz-label">Bio Profil * <span class="wz-label-hint">(yang customer baca)</span></label>
+              <textarea id="dtBio" class="wz-input wz-textarea" placeholder="Tulis bio singkat & menarik. Contoh: 'Halo! Aku Vania, suka ngobrol santai dan dengarkan keluh kesah. Yuk ngobrol bareng~' " maxlength="200" oninput="updateCount('dtBio','dtBioCount')"></textarea>
+              <div class="wz-counter"><span id="dtBioCount">0</span>/200</div>
+            </div>
+
+            <div>
+              <label class="wz-label" style="margin-bottom:10px;">Audio Perkenalan + Backsound * <span class="wz-label-hint">(suaramu untuk profil)</span></label>
+              <div class="wz-banner-tip">
+                <span style="font-size:15px;flex-shrink:0;">🎵</span>
+                <div><b style="color:#FCD34D;">Tips:</b> Rekam perkenalan singkat (15-30 detik) dengan <b style="color:#FCD34D;">music backsound</b>. Suara akan diputar customer pas lihat profilmu.</div>
+              </div>
+              <input type="file" id="dtAudioInput" accept="audio/*" onchange="handleDtAudio(this)" style="display:none;"/>
+              <div onclick="document.getElementById('dtAudioInput').click()" class="wz-upload">
+                <div class="wz-upload-icon">🎙️</div>
+                <div style="flex:1;">
+                  <div class="wz-upload-title">Upload Audio dengan Backsound</div>
+                  <div class="wz-upload-sub">MP3/WAV · Maks 10MB · Sudah ada music di belakang</div>
+                </div>
+              </div>
+              <div id="dtAudioPreview" style="display:none;margin-top:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 12px;">
+                <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;" id="dtAudioName"></div>
+                <audio id="dtAudioEl" controls style="width:100%;height:32px;"></audio>
               </div>
             </div>
-            <div id="dtAudioPreview" style="display:none;margin-top:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 12px;">
-              <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;" id="dtAudioName"></div>
-              <audio id="dtAudioEl" controls style="width:100%;height:32px;"></audio>
+          </div>
+
+          <div class="wz-section-divider">
+            <span class="wz-divider-icon">🔒</span>
+            <div>
+              <div class="wz-divider-title">Verifikasi Internal</div>
+              <div class="wz-divider-sub">Hanya dilihat admin · Tidak tampil di profil publik</div>
             </div>
           </div>
 
-          <!-- CV -->
-          <div style="margin-bottom:12px;">
-            <label class="wz-label" style="margin-bottom:8px;">CV / Resume <span style="text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);font-weight:500;">(opsional, nilai plus)</span></label>
-            <input type="file" id="dtCVInput" accept=".pdf,.doc,.docx" onchange="handleDtCV(this)" style="display:none;"/>
-            <div onclick="document.getElementById('dtCVInput').click()" class="wz-upload">
-              <div class="wz-upload-icon">📄</div>
-              <div style="flex:1;">
-                <div class="wz-upload-title">Pilih File</div>
-                <div class="wz-upload-sub">PDF/DOC · Maks 10MB</div>
+          <div class="wz-group" style="margin-bottom:0;">
+            <div>
+              <label class="wz-label" style="margin-bottom:8px;">CV / Resume <span class="wz-label-hint">(opsional, nilai plus)</span></label>
+              <input type="file" id="dtCVInput" accept=".pdf,.doc,.docx" onchange="handleDtCV(this)" style="display:none;"/>
+              <div onclick="document.getElementById('dtCVInput').click()" class="wz-upload">
+                <div class="wz-upload-icon">📄</div>
+                <div style="flex:1;">
+                  <div class="wz-upload-title">Pilih File</div>
+                  <div class="wz-upload-sub">PDF/DOC · Maks 10MB</div>
+                </div>
+              </div>
+              <div id="dtCVPreview" style="display:none;margin-top:8px;background:rgba(52,211,153,0.06);border:0.5px solid rgba(52,211,153,0.2);border-radius:12px;padding:10px 12px;align-items:center;gap:10px;">
+                <span style="font-size:14px;">✓</span>
+                <div style="flex:1;font-size:11px;color:#34D399;font-weight:700;" id="dtCVName"></div>
+                <span onclick="event.stopPropagation();hapusDtCV()" style="font-size:13px;color:rgba(255,255,255,0.3);cursor:pointer;">✕</span>
               </div>
             </div>
-            <div id="dtCVPreview" style="display:none;margin-top:8px;background:rgba(52,211,153,0.06);border:0.5px solid rgba(52,211,153,0.2);border-radius:12px;padding:10px 12px;align-items:center;gap:10px;">
-              <span style="font-size:14px;">✓</span>
-              <div style="flex:1;font-size:11px;color:#34D399;font-weight:700;" id="dtCVName"></div>
-              <span onclick="event.stopPropagation();hapusDtCV()" style="font-size:13px;color:rgba(255,255,255,0.3);cursor:pointer;">✕</span>
-            </div>
-          </div>
-
-          <div style="background:rgba(252,211,77,0.04);border:0.5px solid rgba(252,211,77,0.15);border-radius:12px;padding:11px 12px;display:flex;gap:10px;align-items:start;">
-            <span style="font-size:14px;flex-shrink:0;">💡</span>
-            <div style="font-size:10.5px;color:rgba(255,255,255,0.55);line-height:1.55;">Upload semua media mempercepat proses review. Yang lengkap akan diprioritaskan oleh tim recruitment.</div>
           </div>
         </div>
 
         <!-- ============ STEP 5: REVIEW ============ -->
         <div class="wz-step" data-step="5" style="display:none;">
 
-          <div style="margin:14px 0 18px;">
-            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;">Review Pendaftaran</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.55;">Cek lagi data kamu sebelum kirim.</div>
+          <div class="wz-step-header">
+            <div class="wz-step-counter" style="color:#34D399;">Step 5 / 5 · Terakhir</div>
+            <div class="wz-step-title">Review</div>
+            <div class="wz-step-subtitle">Cek lagi sebelum kirim — kalau ada yang salah klik Kembali.</div>
           </div>
 
-          <div id="dtReviewContent" style="background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:14px;">
-            <!-- Review content akan di-render via JS -->
+          <div id="dtReviewContent" class="wz-review-card">
+            <!-- Render via JS -->
           </div>
 
-          <!-- DISCLAIMER -->
-          <div style="background:rgba(252,211,77,0.04);border:0.5px solid rgba(252,211,77,0.15);border-radius:12px;padding:11px 12px;margin-bottom:14px;display:flex;gap:10px;align-items:start;">
-            <span style="font-size:13px;flex-shrink:0;">📜</span>
-            <div style="font-size:10.5px;color:rgba(255,255,255,0.55);line-height:1.55;">
-              Dengan mengirim pendaftaran, kamu setuju dengan <b style="color:#FCD34D;cursor:pointer;" onclick="closeDaftarTalent();openDrawerPage('terms')">Syarat & Ketentuan</b> kami.
-            </div>
+          <div class="wz-banner-info" style="background:linear-gradient(135deg,rgba(252,211,77,0.08),rgba(245,158,11,0.04));">
+            <span style="font-size:14px;flex-shrink:0;">📜</span>
+            <div>Dengan mengirim pendaftaran, kamu setuju dengan <b style="color:#FCD34D;cursor:pointer;" onclick="closeDaftarTalent();openDrawerPage('terms')">Syarat & Ketentuan</b> kami.</div>
           </div>
         </div>
 
         <!-- ============ NAVIGATION BUTTONS ============ -->
-        <div style="display:flex;gap:8px;margin-top:18px;">
-          <button id="wzBackBtn" onclick="wzBack()" style="display:none;flex:1;height:46px;border-radius:14px;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">← Kembali</button>
-          <button id="wzNextBtn" onclick="wzNext()" style="flex:2;height:46px;border:none;border-radius:14px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;background:linear-gradient(135deg,#FFF5A0,#FCD34D,#F59E0B);color:#1a0a00;box-shadow:0 8px 24px rgba(252,211,77,0.25);">Lanjut →</button>
+        <div style="display:flex;gap:10px;margin-top:22px;">
+          <button id="wzBackBtn" onclick="wzBack()" class="wz-btn-back">← Kembali</button>
+          <button id="wzNextBtn" onclick="wzNext()" class="wz-btn-next">Lanjut →</button>
         </div>
       </div>
 
@@ -3901,78 +4000,427 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
   </div>
 </div>
 
+
 <style>
-.wz-label { font-size:10px;font-weight:800;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:block; }
+/* ========================================
+   PREMIUM WIZARD — CLEAN & MINIMAL (R6)
+   ======================================== */
+
+/* === STEP DOTS (Premium Header Progress) === */
+.wz-step-dot {
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  position:relative;z-index:1;
+}
+.wz-dot {
+  width:28px;height:28px;border-radius:50%;
+  background:#0A0915;
+  border:2px solid rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);
+  transition:all 0.3s cubic-bezier(0.22,0.61,0.36,1);
+  font-variant-numeric:tabular-nums;
+}
+.wz-step-dot.active .wz-dot {
+  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
+  border-color:#FCD34D;color:#1a0a00;
+  box-shadow:0 0 0 4px rgba(252,211,77,0.15);
+}
+.wz-step-dot.completed .wz-dot {
+  background:rgba(252,211,77,0.15);
+  border-color:rgba(252,211,77,0.5);color:#FCD34D;
+}
+.wz-step-dot.completed .wz-dot::after {
+  content:'✓';position:absolute;font-size:11px;
+}
+.wz-step-dot.completed .wz-dot { font-size:0; }
+.wz-dot-label {
+  font-size:9.5px;font-weight:500;color:rgba(255,255,255,0.3);
+  letter-spacing:0.04em;transition:color 0.3s;
+}
+.wz-step-dot.active .wz-dot-label,.wz-step-dot.completed .wz-dot-label {
+  color:#FCD34D;font-weight:600;
+}
+
+/* === LABELS === */
+.wz-label {
+  font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.85);
+  margin-bottom:8px;display:block;letter-spacing:0;text-transform:none;
+}
+.wz-label-hint {
+  color:rgba(255,255,255,0.35);font-weight:500;font-size:11px;margin-left:4px;
+}
+
+/* === INPUTS === */
 .wz-input-wrap { display:block; }
-.wz-input { width:100%;height:42px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:0 14px;font-family:inherit;font-size:13px;color:#fff;outline:none;transition:all 0.2s; }
-.wz-input:focus { border-color:rgba(252,211,77,0.4);background:rgba(252,211,77,0.04); }
+.wz-input {
+  width:100%;height:46px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:0 16px;
+  font-family:inherit;font-size:14px;color:#fff;
+  outline:none;transition:all 0.2s ease;
+}
+.wz-input:focus {
+  border-color:rgba(252,211,77,0.5);
+  background:rgba(252,211,77,0.025);
+  box-shadow:0 0 0 4px rgba(252,211,77,0.08);
+}
 .wz-input::placeholder { color:rgba(255,255,255,0.25); }
-.wz-select { appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23FCD34D' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px; }
-.wz-textarea { height:80px;padding:12px 14px;resize:none;line-height:1.6; }
+.wz-select {
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+  padding-right:38px;cursor:pointer;
+}
+.wz-textarea {
+  height:90px;padding:14px 16px;resize:none;line-height:1.6;
+}
 
+/* === HELPER & COUNTER === */
+.wz-helper {
+  font-size:12px;color:rgba(255,255,255,0.4);
+  margin:0 0 10px;line-height:1.55;
+}
+.wz-tip {
+  font-size:11.5px;color:rgba(252,211,77,0.6);
+  margin-top:10px;line-height:1.5;
+}
+.wz-counter {
+  font-size:11px;color:rgba(255,255,255,0.3);
+  text-align:right;margin-top:6px;font-variant-numeric:tabular-nums;
+}
+
+/* === STEP HEADER (minimal) === */
+.wz-step-header {
+  margin:8px 0 28px;
+  padding-bottom:0;
+}
+.wz-step-counter {
+  font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(252,211,77,0.65);margin-bottom:10px;
+  display:inline-block;
+}
+.wz-step-title {
+  font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:30px;font-weight:400;line-height:1.1;
+  color:#fff;margin-bottom:8px;letter-spacing:-0.01em;
+}
+.wz-step-subtitle {
+  font-size:13px;color:rgba(255,255,255,0.5);
+  line-height:1.55;font-weight:400;
+}
+
+/* === SUB-GROUP (flatter, less nested) === */
+.wz-group {
+  margin-bottom:28px;
+  padding:0;
+  background:transparent;
+  border:none;
+}
+.wz-group-label {
+  font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.wz-group-label::after {
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,rgba(255,255,255,0.08),transparent);
+}
+.wz-group-hint {
+  text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.3);
+  font-weight:500;font-size:11px;
+}
+
+/* === PICKCARD (layanan) — horizontal premium === */
 .wz-pickcard {
-  background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);
-  border-radius:14px;padding:14px 12px;cursor:pointer;transition:all 0.2s;
-  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px;cursor:pointer;
+  transition:all 0.2s ease;
+  display:flex;align-items:center;gap:12px;
+  position:relative;overflow:hidden;
 }
-.wz-pickcard:hover { background:rgba(255,255,255,0.06); }
+.wz-pickcard:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.12);
+  transform:translateY(-1px);
+}
 .wz-pickcard.selected {
-  background:linear-gradient(135deg,rgba(252,211,77,0.12),rgba(245,158,11,0.06));
-  border-color:rgba(252,211,77,0.4);
-  box-shadow:0 0 0 0.5px rgba(252,211,77,0.2);
+  background:linear-gradient(135deg,rgba(252,211,77,0.08),rgba(252,211,77,0.02));
+  border-color:rgba(252,211,77,0.45);
+  box-shadow:0 4px 20px rgba(252,211,77,0.08);
 }
-.wz-pickcard-label { font-size:13px;font-weight:800;color:#fff; }
-.wz-pickcard.selected .wz-pickcard-label { color:#FCD34D; }
-.wz-pickcard-desc { font-size:10px;color:rgba(255,255,255,0.4);line-height:1.4; }
+.wz-pickcard.selected::before {
+  content:'✓';position:absolute;top:10px;right:12px;
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
+  color:#1a0a00;font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+.wz-pickcard > div:first-child {
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(255,255,255,0.04);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.2s;
+}
+.wz-pickcard.selected > div:first-child {
+  background:rgba(252,211,77,0.12);
+}
+.wz-pickcard-label {
+  font-size:14px;font-weight:600;color:#fff;
+  margin-bottom:2px;
+}
+.wz-pickcard-desc {
+  font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.4;
+}
 
+/* === CHIPS === */
 .wz-chip {
-  font-size:11px;font-weight:700;padding:7px 13px;border-radius:999px;
-  background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);
-  color:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.2s;
+  font-size:12px;font-weight:500;padding:9px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.55);
+  cursor:pointer;transition:all 0.18s ease;
+  white-space:nowrap;
 }
-.wz-chip:hover { background:rgba(255,255,255,0.07); }
-.wz-chip-sel {
-  background:rgba(252,211,77,0.15);border-color:rgba(252,211,77,0.4);color:#FCD34D;
+.wz-chip:hover {
+  background:rgba(255,255,255,0.05);
+  color:rgba(255,255,255,0.8);
+  border-color:rgba(255,255,255,0.15);
+}
+.wz-chip-sel,.wz-chip.wz-chip-sel {
+  background:rgba(252,211,77,0.1);
+  border-color:rgba(252,211,77,0.4);
+  color:#FCD34D;
+  font-weight:600;
 }
 
+/* === YES/NO BUTTONS === */
 .wz-yn {
-  flex:1;height:42px;border-radius:12px;background:rgba(255,255,255,0.04);
-  border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;
-  justify-content:center;gap:6px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.45);
-  cursor:pointer;transition:all 0.2s;
+  flex:1;height:46px;border-radius:12px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,0.55);
+  cursor:pointer;transition:all 0.18s ease;
 }
-.wz-yn:hover { background:rgba(255,255,255,0.07); }
-.wz-yn.wz-yn-sel-yes { background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.4);color:#34D399; }
-.wz-yn.wz-yn-sel-tidak { background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.35);color:#F87171; }
+.wz-yn:hover {
+  background:rgba(255,255,255,0.04);color:#fff;
+}
+.wz-yn.wz-yn-sel-yes {
+  background:rgba(52,211,153,0.08);
+  border-color:rgba(52,211,153,0.4);
+  color:#34D399;font-weight:600;
+}
+.wz-yn.wz-yn-sel-tidak {
+  background:rgba(248,113,113,0.06);
+  border-color:rgba(248,113,113,0.35);
+  color:#F87171;font-weight:600;
+}
 
+/* === SLIDER CARD === */
+.wz-slider-card {
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  padding:18px;
+}
+.wz-slider-row { padding:6px 0; }
+.wz-slider-divider {
+  height:1px;background:rgba(255,255,255,0.05);margin:14px -18px;
+}
+.wz-slider-meta {
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
+}
+.wz-slider-name {
+  font-size:13px;font-weight:600;color:#fff;
+}
+.wz-slider-val {
+  font-size:12px;font-weight:700;color:#FCD34D;
+  background:rgba(252,211,77,0.1);
+  padding:4px 11px;border-radius:99px;
+  font-variant-numeric:tabular-nums;letter-spacing:0.02em;
+  border:1px solid rgba(252,211,77,0.2);
+}
+.wz-slider-ends {
+  display:flex;justify-content:space-between;
+  font-size:10.5px;color:rgba(255,255,255,0.35);
+  margin-top:10px;font-weight:500;
+}
+
+/* === RANGE SLIDER (premium) === */
 .wz-range {
-  width:100%;height:6px;border-radius:99px;
-  background:linear-gradient(90deg,rgba(252,211,77,0.4) 0%,rgba(252,211,77,0.4) calc(var(--val,70%)),rgba(255,255,255,0.08) calc(var(--val,70%)));
+  width:100%;height:4px;border-radius:99px;
+  background:rgba(255,255,255,0.08);
   appearance:none;outline:none;cursor:pointer;
 }
 .wz-range::-webkit-slider-thumb {
-  appearance:none;width:18px;height:18px;border-radius:50%;
-  background:linear-gradient(135deg,#FFF5A0,#FCD34D);cursor:pointer;
-  box-shadow:0 2px 8px rgba(252,211,77,0.4),0 0 0 0.5px rgba(0,0,0,0.2);
+  appearance:none;width:20px;height:20px;border-radius:50%;
+  background:#fff;cursor:pointer;
+  box-shadow:0 0 0 6px rgba(252,211,77,0.12),0 2px 8px rgba(0,0,0,0.4);
+  border:2px solid #FCD34D;
+  transition:all 0.15s;
+}
+.wz-range::-webkit-slider-thumb:hover {
+  box-shadow:0 0 0 8px rgba(252,211,77,0.18),0 2px 8px rgba(0,0,0,0.4);
 }
 .wz-range::-moz-range-thumb {
-  width:18px;height:18px;border-radius:50%;border:none;
-  background:linear-gradient(135deg,#FFF5A0,#FCD34D);cursor:pointer;
+  width:20px;height:20px;border-radius:50%;border:2px solid #FCD34D;
+  background:#fff;cursor:pointer;
+  box-shadow:0 0 0 6px rgba(252,211,77,0.12);
 }
 
+/* === UPLOAD AREAS === */
 .wz-upload {
-  background:rgba(255,255,255,0.04);border:0.5px dashed rgba(255,255,255,0.18);
-  border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;
-  cursor:pointer;transition:all 0.2s;
+  background:rgba(255,255,255,0.02);
+  border:1px dashed rgba(255,255,255,0.15);
+  border-radius:14px;padding:16px;
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;transition:all 0.2s ease;
 }
-.wz-upload:hover { background:rgba(252,211,77,0.04);border-color:rgba(252,211,77,0.3); }
-.wz-upload-icon { width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
-.wz-upload-title { font-size:12.5px;font-weight:700;color:rgba(255,255,255,0.7); }
-.wz-upload-sub { font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px; }
+.wz-upload:hover {
+  background:rgba(252,211,77,0.03);
+  border-color:rgba(252,211,77,0.35);
+}
+.wz-upload-icon {
+  width:42px;height:42px;border-radius:12px;
+  background:rgba(255,255,255,0.04);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  transition:all 0.2s;
+}
+.wz-upload:hover .wz-upload-icon {
+  background:rgba(252,211,77,0.1);
+}
+.wz-upload-title { font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85); }
+.wz-upload-sub { font-size:11.5px;color:rgba(255,255,255,0.4);margin-top:3px; }
 
-.wz-step { animation: wzFadeIn 0.3s ease-out; }
-@keyframes wzFadeIn { from { opacity:0;transform:translateY(8px); } to { opacity:1;transform:translateY(0); } }
+/* === PHOTO UPLOAD HERO === */
+.wz-photo-upload {
+  background:rgba(255,255,255,0.02);
+  border:1px dashed rgba(252,211,77,0.25);
+  border-radius:20px;
+  padding:32px 16px 24px;
+  display:flex;flex-direction:column;align-items:center;
+  cursor:pointer;transition:all 0.25s ease;
+  position:relative;overflow:hidden;
+}
+.wz-photo-upload:hover {
+  background:rgba(252,211,77,0.04);
+  border-color:rgba(252,211,77,0.5);
+}
+.wz-photo-circle {
+  width:120px;height:120px;border-radius:24px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  transition:all 0.25s;
+}
+.wz-photo-upload:hover .wz-photo-circle {
+  background:rgba(252,211,77,0.04);
+  border-color:rgba(252,211,77,0.3);
+}
+.wz-photo-circle img { border-radius:24px !important; }
+.wz-photo-placeholder { text-align:center; }
+
+/* === BANNERS === */
+.wz-banner-info {
+  background:linear-gradient(135deg,rgba(252,211,77,0.06),rgba(245,158,11,0.02));
+  border:1px solid rgba(252,211,77,0.18);
+  border-radius:14px;padding:14px 16px;margin-bottom:24px;
+  display:flex;gap:12px;align-items:start;
+  font-size:12.5px;color:rgba(255,255,255,0.7);line-height:1.55;
+}
+.wz-banner-tip {
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;padding:11px 13px;margin-bottom:12px;
+  display:flex;gap:10px;align-items:start;
+  font-size:11.5px;color:rgba(255,255,255,0.6);line-height:1.55;
+}
+
+/* === SECTION DIVIDER (Verifikasi Internal) === */
+.wz-section-divider {
+  margin:32px 0 18px;
+  padding:14px 16px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  display:flex;align-items:center;gap:13px;
+}
+.wz-divider-icon {
+  width:38px;height:38px;border-radius:11px;
+  background:rgba(255,255,255,0.04);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.wz-divider-title {
+  font-size:13px;font-weight:600;color:#fff;
+}
+.wz-divider-sub {
+  font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;
+}
+
+/* === REVIEW CARD === */
+.wz-review-card {
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  padding:8px 18px;
+  margin-bottom:18px;
+}
+
+/* === NAVIGATION BUTTONS === */
+.wz-btn-back {
+  flex:1;height:50px;border-radius:14px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.75);
+  font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
+  display:none;transition:all 0.2s;
+  letter-spacing:0.01em;
+}
+.wz-btn-back:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.2);
+  color:#fff;
+}
+.wz-btn-next {
+  flex:2;height:50px;border:none;border-radius:14px;
+  cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;
+  background:#fff;
+  color:#0A0A20;
+  transition:all 0.22s ease;
+  letter-spacing:0.01em;
+  box-shadow:0 4px 20px rgba(255,255,255,0.06);
+}
+.wz-btn-next:hover {
+  transform:translateY(-1px);
+  box-shadow:0 8px 28px rgba(255,255,255,0.12);
+}
+.wz-btn-next.wz-btn-submit {
+  height:56px;font-size:14.5px;font-weight:800;
+  background:linear-gradient(135deg,#FFF5A0 0%,#FCD34D 50%,#F59E0B 100%);
+  color:#1a0a00;
+  box-shadow:0 8px 32px rgba(252,211,77,0.4),0 0 0 1px rgba(252,211,77,0.3);
+}
+.wz-btn-next.wz-btn-submit:hover {
+  box-shadow:0 12px 40px rgba(252,211,77,0.5),0 0 0 1px rgba(252,211,77,0.5);
+}
+
+/* === STEP ANIMATION === */
+.wz-step {
+  animation: wzFadeIn 0.35s cubic-bezier(0.22,0.61,0.36,1);
+}
+@keyframes wzFadeIn {
+  from { opacity:0;transform:translateY(12px); }
+  to { opacity:1;transform:translateY(0); }
+}
 </style>
+
 
 <script>
 // ============ WIZARD STATE ============
@@ -3984,16 +4432,16 @@ function wzShowStep(n) {
   document.querySelectorAll('.wz-step').forEach(s => {
     s.style.display = parseInt(s.dataset.step) === n ? 'block' : 'none';
   });
-  // Update progress bar
-  document.getElementById('wzProgress').style.width = (n / wzMaxStep * 100) + '%';
-  // Update step labels
-  document.querySelectorAll('.wz-step-label').forEach(l => {
-    const step = parseInt(l.dataset.step);
-    if (step <= n) {
-      l.style.color = '#FCD34D';
-    } else {
-      l.style.color = 'rgba(255,255,255,0.2)';
-    }
+  // Update progress line (dari step 1 ke step n) — berdasar posisi dot
+  // Step 1 = 0%, Step 5 = 100%
+  const progressPct = ((n - 1) / (wzMaxStep - 1)) * 100;
+  document.getElementById('wzProgress').style.width = progressPct + '%';
+  // Update step dots: active = current, completed = sebelumnya
+  document.querySelectorAll('.wz-step-dot').forEach(d => {
+    const step = parseInt(d.dataset.step);
+    d.classList.remove('active', 'completed');
+    if (step === n) d.classList.add('active');
+    else if (step < n) d.classList.add('completed');
   });
   // Update buttons
   document.getElementById('wzBackBtn').style.display = n > 1 ? 'block' : 'none';
@@ -4001,14 +4449,17 @@ function wzShowStep(n) {
   if (n === wzMaxStep) {
     next.textContent = '✨ Kirim Pendaftaran';
     next.onclick = submitDaftarTalent;
+    next.classList.add('wz-btn-submit');
     renderReview();
   } else {
     next.textContent = 'Lanjut →';
     next.onclick = wzNext;
+    next.classList.remove('wz-btn-submit');
   }
-  // Scroll modal to top
+  // Scroll modal content to top
   const modal = document.getElementById('daftarTalentModal');
   if (modal) modal.scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function wzNext() {
@@ -4026,6 +4477,13 @@ function setYaTidak(el, hiddenId, val) {
   });
   el.classList.add(val === 'ya' ? 'wz-yn-sel-yes' : 'wz-yn-sel-tidak');
   document.getElementById(hiddenId).value = val;
+}
+
+// ============ SUMBER INFO (single select chip) ============
+function pickSumber(el) {
+  document.querySelectorAll('#dtSumber .wz-chip').forEach(c => c.classList.remove('wz-chip-sel'));
+  el.classList.add('wz-chip-sel');
+  document.getElementById('dtSumberVal').value = el.dataset.val;
 }
 
 // ============ CHAR COUNT ============
@@ -4053,16 +4511,38 @@ function renderReview() {
   const layanan = Array.from(layananEls).map(e => e.textContent).join(', ') || '-';
   const jamEls = document.querySelectorAll('#dtJam .wz-chip-sel');
   const jam = Array.from(jamEls).map(e => e.textContent).join(', ') || '-';
+  const sumberEl = document.querySelector('#dtSumber .wz-chip-sel');
+  const sumber = sumberEl ? sumberEl.textContent : '-';
+
+  // Kepribadian label
+  const kepribadianNum = parseInt(document.getElementById('dtKepribadian').value);
+  let kepribadianLabel = '5/10 Ambivert';
+  if (kepribadianNum <= 3) kepribadianLabel = kepribadianNum + '/10 🧘 Introvert';
+  else if (kepribadianNum <= 6) kepribadianLabel = kepribadianNum + '/10 Ambivert';
+  else kepribadianLabel = kepribadianNum + '/10 🎉 Extrovert';
+
+  const ig = document.getElementById('dtIG').value.trim();
+  const tiktok = document.getElementById('dtTiktok').value.trim();
+  let sosmed = [];
+  if (ig) sosmed.push('IG: @' + ig);
+  if (tiktok) sosmed.push('TT: @' + tiktok);
+  const sosmedStr = sosmed.length ? sosmed.join(' · ') : '-';
+
+  const bio = document.getElementById('dtBio').value.trim() || '-';
 
   const data = [
     ['👤 Nama', document.getElementById('dtNama').value || '-'],
     ['📱 WhatsApp', document.getElementById('dtWA').value || '-'],
     ['📍 Usia & Kota', (document.getElementById('dtUsia').value || '?') + ' th · ' + (document.getElementById('dtKota').value || '-')],
     ['🎓 Pendidikan', document.getElementById('dtPendidikan').options[document.getElementById('dtPendidikan').selectedIndex]?.text || '-'],
+    ['🔗 Tau dari', sumber],
     ['🎧 Layanan', layanan],
     ['⏰ Jam Available', jam],
-    ['💬 Skill Komunikasi', document.getElementById('dtKom').value + '/10'],
-    ['👂 Pendengar Baik', document.getElementById('dtListen').value + '/10']
+    ['💬 Komunikasi', document.getElementById('dtKom').value + '/10'],
+    ['👂 Pendengar', document.getElementById('dtListen').value + '/10'],
+    ['✨ Kepribadian', kepribadianLabel],
+    ['📱 Sosmed', sosmedStr],
+    ['📝 Bio', bio.length > 60 ? bio.substring(0,60) + '...' : bio]
   ];
 
   const html = data.map(([k, v]) => `
