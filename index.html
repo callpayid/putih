@@ -384,12 +384,41 @@ body{font-family:'Inter',sans-serif;background:#DDD8EE;display:flex;justify-cont
 // DATA
 // ============================================================
 var voucherList = [
-  {kode:'SCP-A1B2C',wa:'081234512345',nominal:50000,layanan:'Sleep Call', jam:'10:24',status:'terpakai',src:'admin', talent:'Vania',  durasi:'60 menit'},
-  {kode:'SCP-X9Y8Z',wa:'082198765432',nominal:30000,layanan:'Teman Call', jam:'09:51',status:'aktif',   src:'admin', talent:null,    durasi:null},
-  {kode:'SCP-M3N4P',wa:'085261754085',nominal:20000,layanan:'Curhat Call',jam:'09:10',status:'terpakai',src:'admin', talent:'Nadira', durasi:'40 menit'},
-  {kode:'SCP-Q7R8S',wa:'089987601234',nominal:50000,layanan:'Sleep Call', jam:'08:02',status:'aktif',   src:'admin', talent:null,    durasi:null},
-  {kode:'SCP-W3B01',wa:'081398765001',nominal:30000,layanan:'Teman Call', jam:'07:45',status:'terpakai',src:'website',talent:'Sasha',  durasi:'30 menit'},
-  {kode:'SCP-W3B02',wa:'085712345678',nominal:50000,layanan:'Pacar Virtual',jam:'07:20',status:'aktif', src:'website',talent:null,    durasi:null},
+  {kode:'SCP-K3M9X',wa:'081234567001',nominal:60000,layanan:'Sleep Call',   jam:'10:31',status:'aktif',   src:'website',talent:null,    durasi:null},
+  {kode:'SCP-A1B2C',wa:'081234512345',nominal:50000,layanan:'Sleep Call',   jam:'10:24',status:'terpakai',src:'admin',  talent:'Vania', durasi:'60 menit'},
+  {kode:'SCP-N5P7Q',wa:'082345678901',nominal:30000,layanan:'Teman Call',   jam:'10:15',status:'terpakai',src:'admin',  talent:'Sasha', durasi:'1 jam 30 mnt'},
+  {kode:'SCP-R8T2V',wa:'085678901234',nominal:20000,layanan:'Curhat Call',  jam:'10:08',status:'aktif',   src:'website',talent:null,    durasi:null},
+  {kode:'SCP-X9Y8Z',wa:'082198765432',nominal:30000,layanan:'Teman Call',   jam:'09:51',status:'aktif',   src:'admin',  talent:null,    durasi:null},
+  {kode:'SCP-H4J6K',wa:'087812340987',nominal:40000,layanan:'Pacar Virtual',jam:'09:42',status:'terpakai',src:'website',talent:'Bella', durasi:'2 jam'},
+  {kode:'SCP-L1M3N',wa:'089123456789',nominal:60000,layanan:'Sleep Call',   jam:'09:30',status:'cancel',  src:'admin',  talent:'Luna',  durasi:'3 jam'},
+  {kode:'SCP-D7F2G',wa:'081234509876',nominal:10000,layanan:'Curhat Call',  jam:'09:18',status:'aktif',   src:'website',talent:null,    durasi:null},
+  {kode:'SCP-M3N4P',wa:'085261754085',nominal:20000,layanan:'Curhat Call',  jam:'09:10',status:'terpakai',src:'admin',  talent:'Nadira',durasi:'40 menit'},
+  {kode:'SCP-B2C5D',wa:'082387654321',nominal:50000,layanan:'Teman Call',   jam:'08:55',status:'nonaktif',src:'admin',  talent:null,    durasi:null},
+  {kode:'SCP-V6W9X',wa:'085761234567',nominal:30000,layanan:'Sleep Call',   jam:'08:40',status:'terpakai',src:'website',talent:'Mirelle',durasi:'1 jam 30 mnt'},
+  {kode:'SCP-P4Q7R',wa:'089987612340',nominal:20000,layanan:'Pacar Virtual',jam:'08:22',status:'aktif',   src:'admin',  talent:null,    durasi:null},
+  {kode:'SCP-Q7R8S',wa:'089987601234',nominal:50000,layanan:'Sleep Call',   jam:'08:02',status:'aktif',   src:'admin',  talent:null,    durasi:null},
+  {kode:'SCP-T9U1W',wa:'081398760001',nominal:40000,layanan:'Teman Call',   jam:'07:50',status:'terpakai',src:'website',talent:'Kiraa', durasi:'2 jam'},
+  {kode:'SCP-W3B01',wa:'081398765001',nominal:30000,layanan:'Teman Call',   jam:'07:45',status:'terpakai',src:'website',talent:'Sasha', durasi:'30 menit'},
+  {kode:'SCP-F8G3H',wa:'085712398765',nominal:10000,layanan:'Curhat Call',  jam:'07:32',status:'aktif',   src:'website',talent:null,    durasi:null},
+  {kode:'SCP-W3B02',wa:'085712345678',nominal:50000,layanan:'Pacar Virtual',jam:'07:20',status:'aktif',   src:'website',talent:null,    durasi:null},
+  {kode:'SCP-J5K9L',wa:'082134567890',nominal:60000,layanan:'Sleep Call',   jam:'07:05',status:'terpakai',src:'admin',  talent:'Tasya', durasi:'3 jam'},
+  {kode:'SCP-S2T4U',wa:'089912345001',nominal:20000,layanan:'Teman Call',   jam:'06:50',status:'cancel',  src:'website',talent:'Arkan', durasi:'1 jam'},
+  {kode:'SCP-E6F8H',wa:'081234001234',nominal:30000,layanan:'Curhat Call',  jam:'01:30',status:'terpakai',src:'website',talent:'Vania', durasi:'1 jam'},
+  {kode:'SCP-Y3Z5A',wa:'085261098765',nominal:50000,layanan:'Pacar Virtual',jam:'00:45',status:'terpakai',src:'admin',  talent:'Bella', durasi:'2 jam 30 mnt'},
+  {kode:'SCP-C7D9F',wa:'087812000987',nominal:60000,layanan:'Sleep Call',   jam:'23:15',status:'terpakai',src:'website',talent:'Sasha', durasi:'3 jam'},
+  {kode:'SCP-G1H4J',wa:'082198001234',nominal:40000,layanan:'Teman Call',   jam:'22:48',status:'terpakai',src:'admin',  talent:'Kiraa', durasi:'2 jam'},
+  {kode:'SCP-K8L2M',wa:'089987456789',nominal:30000,layanan:'Curhat Call',  jam:'22:20',status:'nonaktif',src:'admin',  talent:null,    durasi:null},
+  {kode:'SCP-N6P3Q',wa:'081398012345',nominal:50000,layanan:'Sleep Call',   jam:'21:55',status:'terpakai',src:'website',talent:'Mirelle',durasi:'2 jam 30 mnt'},
+  {kode:'SCP-R4S8T',wa:'085712009876',nominal:20000,layanan:'Pacar Virtual',jam:'21:30',status:'cancel',  src:'admin',  talent:'Luna',  durasi:'1 jam'},
+  {kode:'SCP-U1V5W',wa:'082134098765',nominal:10000,layanan:'Curhat Call',  jam:'21:10',status:'terpakai',src:'website',talent:'Nadira',durasi:'20 menit'},
+  {kode:'SCP-X9Y2Z',wa:'089912008765',nominal:40000,layanan:'Teman Call',   jam:'20:42',status:'terpakai',src:'admin',  talent:'Rizky', durasi:'2 jam'},
+  {kode:'SCP-B5C7D',wa:'081234876543',nominal:60000,layanan:'Sleep Call',   jam:'20:15',status:'terpakai',src:'website',talent:'Vania', durasi:'3 jam'},
+  {kode:'SCP-E3F1G',wa:'085261876543',nominal:30000,layanan:'Pacar Virtual',jam:'19:50',status:'terpakai',src:'admin',  talent:'Tasya', durasi:'1 jam 30 mnt'},
+  {kode:'SCP-H8J4K',wa:'087812876543',nominal:20000,layanan:'Curhat Call',  jam:'19:25',status:'nonaktif',src:'website',talent:null,    durasi:null},
+  {kode:'SCP-L7M9N',wa:'082198876543',nominal:50000,layanan:'Teman Call',   jam:'19:00',status:'terpakai',src:'admin',  talent:'Mirelle',durasi:'2 jam 30 mnt'},
+  {kode:'SCP-P2Q6R',wa:'089987876543',nominal:10000,layanan:'Sleep Call',   jam:'18:40',status:'terpakai',src:'website',talent:'Sasha', durasi:'30 menit'},
+  {kode:'SCP-T5U8V',wa:'081398876543',nominal:40000,layanan:'Pacar Virtual',jam:'18:15',status:'terpakai',src:'admin',  talent:'Bella', durasi:'2 jam'},
+  {kode:'SCP-W1X3Y',wa:'085712876543',nominal:30000,layanan:'Curhat Call',  jam:'17:50',status:'cancel',  src:'website',talent:'Nadira',durasi:'1 jam'},
 ];
 
 var clientData = [
@@ -406,6 +435,34 @@ var clientData = [
   {wa:'081398765001',order:2,total:80000, terakhir:'Kemarin',  repeat:true, bl:false,  blBy:[]},
   {wa:'085712345678',order:1,total:50000, terakhir:'10 Mei',   repeat:false,bl:false,  blBy:[]},
   {wa:'082387654321',order:1,total:20000, terakhir:'10 Mei',   repeat:false,bl:false,  blBy:[]},
+  {wa:'081234567001',order:6,total:280000,terakhir:'Hari ini', repeat:true, bl:false,  blBy:[]},
+  {wa:'082345678901',order:5,total:220000,terakhir:'Hari ini', repeat:true, bl:false,  blBy:[]},
+  {wa:'085678901234',order:4,total:170000,terakhir:'Hari ini', repeat:true, bl:false,  blBy:[]},
+  {wa:'087812340987',order:3,total:120000,terakhir:'Hari ini', repeat:true, bl:false,  blBy:[]},
+  {wa:'089123456789',order:2,total:90000, terakhir:'Hari ini', repeat:true, bl:false,  blBy:[]},
+  {wa:'081234509876',order:1,total:10000, terakhir:'Hari ini', repeat:false,bl:false,  blBy:[]},
+  {wa:'082387654001',order:7,total:340000,terakhir:'Kemarin',  repeat:true, bl:false,  blBy:[]},
+  {wa:'085761234567',order:4,total:180000,terakhir:'Kemarin',  repeat:true, bl:false,  blBy:[]},
+  {wa:'089987612340',order:3,total:130000,terakhir:'Kemarin',  repeat:true, bl:false,  blBy:[]},
+  {wa:'081398760001',order:2,total:90000, terakhir:'Kemarin',  repeat:true, bl:false,  blBy:[]},
+  {wa:'085712398765',order:1,total:30000, terakhir:'Kemarin',  repeat:false,bl:false,  blBy:[]},
+  {wa:'082134567890',order:5,total:240000,terakhir:'11 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'089912345001',order:1,total:40000, terakhir:'11 Mei',   repeat:false,bl:true,   blBy:[
+    {siapa:'Admin',      alasan:'Penipuan voucher',     waktu:'15:30 11 Mei'},
+  ]},
+  {wa:'081234001234',order:3,total:120000,terakhir:'11 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'085261098765',order:2,total:80000, terakhir:'10 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'087812000987',order:4,total:200000,terakhir:'10 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'082198001234',order:1,total:50000, terakhir:'10 Mei',   repeat:false,bl:false,  blBy:[]},
+  {wa:'089987456789',order:2,total:70000, terakhir:'10 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'081398012345',order:3,total:140000,terakhir:'09 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'085712009876',order:1,total:20000, terakhir:'09 Mei',   repeat:false,bl:true,   blBy:[
+    {siapa:'Bella (Talent)', alasan:'Bahasa tidak sopan', waktu:'21:00 09 Mei'},
+  ]},
+  {wa:'082134098765',order:5,total:230000,terakhir:'09 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'089912008765',order:2,total:80000, terakhir:'08 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'081234876543',order:6,total:300000,terakhir:'08 Mei',   repeat:true, bl:false,  blBy:[]},
+  {wa:'085261876543',order:3,total:130000,terakhir:'07 Mei',   repeat:true, bl:false,  blBy:[]},
 ];
 
 var talentData = [
@@ -416,10 +473,49 @@ var talentData = [
   {id:5, nama:'Kiraa',  av:'K',g:'w',status:'online', poin:68,order:19,layanan:'Teman Call · Curhat Call',              rekening:'OVO 085261754085',atasnama:'Kira Amelia',  blClient:['087812345678'],nonaktifInfo:null},
   {id:6, nama:'Tasya',  av:'T',g:'w',status:'online', poin:71,order:22,layanan:'Pacar Virtual · Teman Call',            rekening:'BNI 5544332211',atasnama:'Tasya Rahma',   blClient:[],nonaktifInfo:null},
   {id:7, nama:'Rizky',  av:'R',g:'p',status:'online', poin:63,order:15,layanan:'Teman Call',                              rekening:'BCA 9876543210',atasnama:'Rizky Fauzan',  blClient:[],nonaktifInfo:null},
-  {id:8, nama:'Nadira', av:'N',g:'w',status:'offline',poin:55,order:18,layanan:'Curhat Call · Teman Call',              rekening:'Mandiri 1122334455',atasnama:'Nadira Putri',blClient:['085261754085'],nonaktifInfo:null},
-  {id:9, nama:'Luna',   av:'L',g:'w',status:'nonaktif',poin:44,order:9,layanan:'Sleep Call · Teman Call',              rekening:'BCA 1122334455',atasnama:'Luna Dewi',     blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'20 Mei · 21:15',alasan:'Melanggar aturan agency'}},
-  {id:10,nama:'Daffa',  av:'D',g:'p',status:'nonaktif',poin:38,order:7,layanan:'Teman Call',                             rekening:'OVO 085712345678',atasnama:'Daffa Ramadhan',blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'18 Mei · 09:30',alasan:'Sering timeout order'}},
-  {id:11,nama:'Arkan',  av:'A',g:'p',status:'offline',poin:72,order:21,layanan:'Teman Call · Curhat Call',             rekening:'BRI 1029384756',atasnama:'Arkan Pratama', blClient:[],nonaktifInfo:null},
+  {id:8, nama:'Aldi',   av:'A',g:'p',status:'online', poin:78,order:31,layanan:'Sleep Call · Curhat Call',              rekening:'BRI 4455667788',atasnama:'Aldi Pratama',  blClient:[],nonaktifInfo:null},
+  {id:9, nama:'Cinta',  av:'C',g:'w',status:'online', poin:88,order:46,layanan:'Pacar Virtual · Sleep Call',            rekening:'BCA 7788991122',atasnama:'Cinta Maharani',blClient:[],nonaktifInfo:null},
+  {id:10,nama:'Dewi',   av:'D',g:'w',status:'online', poin:75,order:24,layanan:'Curhat Call · Teman Call',              rekening:'Mandiri 3344556677',atasnama:'Dewi Anggraini',blClient:[],nonaktifInfo:null},
+  {id:11,nama:'Ezra',   av:'E',g:'p',status:'online', poin:69,order:18,layanan:'Teman Call · Sleep Call',               rekening:'BNI 9988776655',atasnama:'Ezra Wijaya',   blClient:[],nonaktifInfo:null},
+  {id:12,nama:'Fira',   av:'F',g:'w',status:'online', poin:81,order:29,layanan:'Sleep Call · Pacar Virtual',            rekening:'GoPay 081234509876',atasnama:'Fira Septiani',blClient:[],nonaktifInfo:null},
+  {id:13,nama:'Gilang', av:'G',g:'p',status:'online', poin:65,order:14,layanan:'Curhat Call',                            rekening:'BCA 1122334455',atasnama:'Gilang Saputra',blClient:[],nonaktifInfo:null},
+  {id:14,nama:'Nadira', av:'N',g:'w',status:'offline',poin:55,order:18,layanan:'Curhat Call · Teman Call',              rekening:'Mandiri 1122334455',atasnama:'Nadira Putri',blClient:['085261754085'],nonaktifInfo:null},
+  {id:15,nama:'Hani',   av:'H',g:'w',status:'offline',poin:72,order:23,layanan:'Sleep Call · Curhat Call',              rekening:'BCA 2233445566',atasnama:'Hani Lestari',  blClient:[],nonaktifInfo:null},
+  {id:16,nama:'Ilham',  av:'I',g:'p',status:'offline',poin:60,order:12,layanan:'Teman Call',                             rekening:'BRI 5566778899',atasnama:'Ilham Maulana', blClient:[],nonaktifInfo:null},
+  {id:17,nama:'Jasmine',av:'J',g:'w',status:'offline',poin:83,order:38,layanan:'Pacar Virtual · Curhat Call',            rekening:'DANA 087812345009',atasnama:'Jasmine Aulia',blClient:[],nonaktifInfo:null},
+  {id:18,nama:'Krisna', av:'K',g:'p',status:'offline',poin:58,order:11,layanan:'Sleep Call · Teman Call',                rekening:'OVO 082198761234',atasnama:'Krisna Adi',    blClient:[],nonaktifInfo:null},
+  {id:19,nama:'Lila',   av:'L',g:'w',status:'offline',poin:79,order:27,layanan:'Curhat Call · Pacar Virtual',           rekening:'BNI 6677889900',atasnama:'Lila Marlina',  blClient:[],nonaktifInfo:null},
+  {id:20,nama:'Arkan',  av:'A',g:'p',status:'offline',poin:72,order:21,layanan:'Teman Call · Curhat Call',             rekening:'BRI 1029384756',atasnama:'Arkan Pratama', blClient:[],nonaktifInfo:null},
+  {id:21,nama:'Mila',   av:'M',g:'w',status:'offline',poin:67,order:17,layanan:'Sleep Call',                              rekening:'BCA 3344556677',atasnama:'Mila Pertiwi',  blClient:[],nonaktifInfo:null},
+  {id:22,nama:'Nanda',  av:'N',g:'p',status:'offline',poin:54,order:9, layanan:'Teman Call · Curhat Call',              rekening:'GoPay 089987612340',atasnama:'Nanda Rizki', blClient:[],nonaktifInfo:null},
+  {id:23,nama:'Luna',   av:'L',g:'w',status:'nonaktif',poin:44,order:9,layanan:'Sleep Call · Teman Call',              rekening:'BCA 1122334455',atasnama:'Luna Dewi',     blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'20 Mei · 21:15',alasan:'Melanggar aturan agency'}},
+  {id:24,nama:'Daffa',  av:'D',g:'p',status:'nonaktif',poin:38,order:7,layanan:'Teman Call',                             rekening:'OVO 085712345678',atasnama:'Daffa Ramadhan',blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'18 Mei · 09:30',alasan:'Sering timeout order'}},
+  {id:25,nama:'Olivia', av:'O',g:'w',status:'nonaktif',poin:30,order:5,layanan:'Pacar Virtual',                          rekening:'BCA 4455667788',atasnama:'Olivia Tan',    blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'15 Mei · 14:20',alasan:'Banyak laporan client'}},
+  {id:26,nama:'Putri',  av:'P',g:'w',status:'online', poin:74,order:25,layanan:'Sleep Call · Teman Call',                rekening:'BCA 5566778899',atasnama:'Putri Ayu',    blClient:[],nonaktifInfo:null},
+  {id:27,nama:'Qori',   av:'Q',g:'w',status:'online', poin:62,order:13,layanan:'Curhat Call',                            rekening:'BRI 6677889900',atasnama:'Qori Aulia',   blClient:[],nonaktifInfo:null},
+  {id:28,nama:'Reza',   av:'R',g:'p',status:'online', poin:80,order:32,layanan:'Teman Call · Pacar Virtual',             rekening:'BNI 7788990011',atasnama:'Reza Ananda',  blClient:[],nonaktifInfo:null},
+  {id:29,nama:'Sinta',  av:'S',g:'w',status:'online', poin:86,order:40,layanan:'Sleep Call · Curhat Call · Pacar Virtual',rekening:'DANA 081234567890',atasnama:'Sinta Maharani',blClient:[],nonaktifInfo:null},
+  {id:30,nama:'Tegar',  av:'T',g:'p',status:'online', poin:66,order:16,layanan:'Sleep Call',                              rekening:'GoPay 082345678901',atasnama:'Tegar Surya',blClient:[],nonaktifInfo:null},
+  {id:31,nama:'Ulfa',   av:'U',g:'w',status:'online', poin:77,order:26,layanan:'Pacar Virtual · Curhat Call',             rekening:'BCA 8899001122',atasnama:'Ulfa Nuraini', blClient:[],nonaktifInfo:null},
+  {id:32,nama:'Vico',   av:'V',g:'p',status:'online', poin:70,order:20,layanan:'Teman Call · Sleep Call',                rekening:'BRI 9900112233',atasnama:'Vico Pratama', blClient:[],nonaktifInfo:null},
+  {id:33,nama:'Winda',  av:'W',g:'w',status:'online', poin:84,order:36,layanan:'Sleep Call · Pacar Virtual',             rekening:'OVO 085678901234',atasnama:'Winda Lestari',blClient:[],nonaktifInfo:null},
+  {id:34,nama:'Xena',   av:'X',g:'w',status:'online', poin:73,order:24,layanan:'Curhat Call · Teman Call',               rekening:'BNI 0011223344',atasnama:'Xena Putri',   blClient:[],nonaktifInfo:null},
+  {id:35,nama:'Yoga',   av:'Y',g:'p',status:'online', poin:68,order:18,layanan:'Teman Call',                              rekening:'BCA 1122334456',atasnama:'Yoga Adi',     blClient:[],nonaktifInfo:null},
+  {id:36,nama:'Zahra',  av:'Z',g:'w',status:'online', poin:91,order:52,layanan:'Sleep Call · Curhat Call',               rekening:'Mandiri 2233445567',atasnama:'Zahra Salma',blClient:[],nonaktifInfo:null},
+  {id:37,nama:'Adit',   av:'A',g:'p',status:'offline',poin:64,order:14,layanan:'Sleep Call · Teman Call',                rekening:'DANA 087812345678',atasnama:'Adit Wijaya', blClient:[],nonaktifInfo:null},
+  {id:38,nama:'Bunga',  av:'B',g:'w',status:'offline',poin:76,order:23,layanan:'Pacar Virtual',                           rekening:'BCA 3344556678',atasnama:'Bunga Citra',  blClient:[],nonaktifInfo:null},
+  {id:39,nama:'Cahya',  av:'C',g:'p',status:'offline',poin:58,order:11,layanan:'Curhat Call · Teman Call',               rekening:'BRI 4455667789',atasnama:'Cahya Putra',  blClient:[],nonaktifInfo:null},
+  {id:40,nama:'Diana',  av:'D',g:'w',status:'offline',poin:82,order:33,layanan:'Sleep Call · Pacar Virtual',             rekening:'OVO 089987612345',atasnama:'Diana Sari',  blClient:[],nonaktifInfo:null},
+  {id:41,nama:'Endra',  av:'E',g:'p',status:'offline',poin:55,order:8, layanan:'Teman Call',                              rekening:'BCA 5566778890',atasnama:'Endra Yusuf',  blClient:[],nonaktifInfo:null},
+  {id:42,nama:'Fitri',  av:'F',g:'w',status:'offline',poin:71,order:19,layanan:'Curhat Call · Pacar Virtual',             rekening:'GoPay 082134567890',atasnama:'Fitri Handayani',blClient:[],nonaktifInfo:null},
+  {id:43,nama:'Galih',  av:'G',g:'p',status:'offline',poin:48,order:7, layanan:'Sleep Call',                              rekening:'BNI 6677889901',atasnama:'Galih Rahman', blClient:[],nonaktifInfo:null},
+  {id:44,nama:'Hesti',  av:'H',g:'w',status:'offline',poin:85,order:38,layanan:'Sleep Call · Curhat Call · Pacar Virtual',rekening:'BCA 7788990012',atasnama:'Hesti Wulandari',blClient:[],nonaktifInfo:null},
+  {id:45,nama:'Indra',  av:'I',g:'p',status:'offline',poin:62,order:13,layanan:'Teman Call · Sleep Call',                rekening:'Mandiri 8899001123',atasnama:'Indra Maulana',blClient:[],nonaktifInfo:null},
+  {id:46,nama:'Junita', av:'J',g:'w',status:'offline',poin:79,order:28,layanan:'Pacar Virtual · Curhat Call',             rekening:'BCA 9900112234',atasnama:'Junita Ramadhani',blClient:[],nonaktifInfo:null},
+  {id:47,nama:'Kevin',  av:'K',g:'p',status:'offline',poin:67,order:17,layanan:'Teman Call',                              rekening:'BRI 0011223345',atasnama:'Kevin Pradana',blClient:[],nonaktifInfo:null},
+  {id:48,nama:'Lala',   av:'L',g:'w',status:'offline',poin:88,order:44,layanan:'Sleep Call · Pacar Virtual',             rekening:'DANA 081234509878',atasnama:'Lala Andriani',blClient:[],nonaktifInfo:null},
+  {id:49,nama:'Maya',   av:'M',g:'w',status:'nonaktif',poin:25,order:3,layanan:'Curhat Call',                             rekening:'BCA 1122334457',atasnama:'Maya Kartika',  blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'12 Mei · 10:15',alasan:'Tidak aktif lebih dari 30 hari'}},
+  {id:50,nama:'Naufal', av:'N',g:'p',status:'nonaktif',poin:35,order:4,layanan:'Sleep Call · Teman Call',                rekening:'BRI 2233445568',atasnama:'Naufal Hakim', blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'10 Mei · 18:00',alasan:'Pelanggaran ringan berulang'}},
 ];
 
 var aktivitasLog = [
@@ -655,6 +751,18 @@ function filterVoucher(f, el) {
   vFilter = f;
   document.querySelectorAll('#voucherFilterChips .chip').forEach(function(c){ c.classList.remove('active'); });
   el.classList.add('active');
+  resetVoucherShown();
+  renderVoucher();
+}
+
+var voucherShown = 15;
+
+function resetVoucherShown() {
+  voucherShown = 15;
+}
+
+function loadMoreVoucher() {
+  voucherShown += 30;
   renderVoucher();
 }
 
@@ -662,7 +770,20 @@ function renderVoucher() {
   var list = vFilter === 'aktif' ? voucherList.filter(function(v){ return v.status === 'aktif'; }) : voucherList;
   var el   = document.getElementById('voucherList');
   if (!el) return;
-  el.innerHTML = list.slice(0,8).map(voucherRow).join('') || emptyState('Tidak ada voucher');
+  if (list.length === 0) {
+    el.innerHTML = emptyState('Tidak ada voucher');
+    return;
+  }
+  var shown = Math.min(voucherShown, list.length);
+  var sisa  = list.length - shown;
+  var rows  = list.slice(0, shown).map(voucherRow).join('');
+  var btn   = '';
+  if (sisa > 0) {
+    btn = '<div onclick="loadMoreVoucher()" style="padding:14px;text-align:center;font-size:12px;font-weight:700;color:#534AB7;cursor:pointer;letter-spacing:0.02em;">Lihat semua →</div>';
+  } else if (list.length > 15) {
+    btn = '<div style="padding:10px 14px;text-align:center;font-size:10px;color:#B0ADCC;font-weight:600;">✓ Semua ' + list.length + ' voucher ditampilkan</div>';
+  }
+  el.innerHTML = rows + btn;
 }
 
 function voucherRow(v) {
@@ -842,6 +963,7 @@ function filterClient(f, el) {
   clientFilter = f;
   document.querySelectorAll('#clientChips .chip').forEach(function(c){ c.classList.remove('active'); });
   el.classList.add('active');
+  resetClientShown();
   renderClient();
 }
 
@@ -883,15 +1005,32 @@ function blacklistManual() {
   toast('⛔ ' + wa + ' diblacklist');
 }
 
+var clientShown = 20;
+function resetClientShown() { clientShown = 20; }
+function loadMoreClient() { clientShown += 30; renderClient(); }
+
 function renderClient() {
-  var urutan = {'Hari ini':0,'Kemarin':1,'11 Mei':2,'10 Mei':3,'-':99};
+  var urutan = {'Hari ini':0,'Kemarin':1,'11 Mei':2,'10 Mei':3,'09 Mei':4,'08 Mei':5,'07 Mei':6,'-':99};
   var all  = clientData.slice().sort(function(a,b){ return (urutan[a.terakhir]||50)-(urutan[b.terakhir]||50); });
   var list = clientFilter === 'repeat'    ? all.filter(function(c){ return c.repeat && !c.bl; })
            : clientFilter === 'blacklist' ? all.filter(function(c){ return c.bl; })
            : all;
   var el = document.getElementById('clientList');
   if (!el) return;
-  el.innerHTML = list.map(clientRow).join('') || emptyState('Tidak ada data');
+  if (list.length === 0) {
+    el.innerHTML = emptyState('Tidak ada data');
+    return;
+  }
+  var shown = Math.min(clientShown, list.length);
+  var sisa  = list.length - shown;
+  var rows  = list.slice(0, shown).map(clientRow).join('');
+  var btn   = '';
+  if (sisa > 0) {
+    btn = '<div onclick="loadMoreClient()" style="padding:14px;text-align:center;font-size:12px;font-weight:700;color:#534AB7;cursor:pointer;letter-spacing:0.02em;">Lihat semua →</div>';
+  } else if (list.length > 20) {
+    btn = '<div style="padding:10px 14px;text-align:center;font-size:10px;color:#B0ADCC;font-weight:600;">✓ Semua ' + list.length + ' client ditampilkan</div>';
+  }
+  el.innerHTML = rows + btn;
 }
 
 function clientRow(cl) {
@@ -1071,8 +1210,13 @@ function filterTalent(f, el) {
   talentFilter = f;
   document.querySelectorAll('#talentChips .chip').forEach(function(c){ c.classList.remove('active'); });
   el.classList.add('active');
+  resetTalentShown();
   renderTalent();
 }
+
+var talentShown = 20;
+function resetTalentShown() { talentShown = 20; }
+function loadMoreTalent() { talentShown += 30; renderTalent(); }
 
 function renderTalent() {
   var list = talentFilter === 'online'  ? talentData.filter(function(t){ return t.status === 'online'; })
@@ -1081,7 +1225,20 @@ function renderTalent() {
            : talentData;
   var el = document.getElementById('talentList');
   if (!el) return;
-  el.innerHTML = list.map(talentRow).join('') || emptyState('Tidak ada talent');
+  if (list.length === 0) {
+    el.innerHTML = emptyState('Tidak ada talent');
+    return;
+  }
+  var shown = Math.min(talentShown, list.length);
+  var sisa  = list.length - shown;
+  var rows  = list.slice(0, shown).map(talentRow).join('');
+  var btn   = '';
+  if (sisa > 0) {
+    btn = '<div onclick="loadMoreTalent()" style="padding:14px;text-align:center;font-size:12px;font-weight:700;color:#534AB7;cursor:pointer;letter-spacing:0.02em;">Lihat semua →</div>';
+  } else if (list.length > 20) {
+    btn = '<div style="padding:10px 14px;text-align:center;font-size:10px;color:#B0ADCC;font-weight:600;">✓ Semua ' + list.length + ' talent ditampilkan</div>';
+  }
+  el.innerHTML = rows + btn;
 }
 
 function talentRow(t) {
