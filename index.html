@@ -3584,6 +3584,16 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         <!-- Info Cards -->
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
 
+          <!-- 1. SELF-CHECK: Kriteria Talent (PALING ATAS) -->
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#F0F9FF;color:#0284C7;">✨</div>
+            <div>
+              <div class="wz-info-title">Kriteria Talent yang Dicari</div>
+              <div class="wz-info-text">Kami mencari talent yang <b style="color:#0284C7;">memiliki cukup waktu luang</b>, <b style="color:#0284C7;">terbiasa berkomunikasi via telepon</b>, serta memiliki <b style="color:#0284C7;">karakter yang hangat dan menyenangkan</b> saat diajak ngobrol.</div>
+            </div>
+          </div>
+
+          <!-- 2. HOOK: Penghasilan -->
           <div class="wz-info-card">
             <div class="wz-info-icon" style="background:#F0FDF4;color:#15803D;">💰</div>
             <div>
@@ -3591,35 +3601,12 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
               <div class="wz-info-text">
                 <p style="margin:0 0 6px;">Talent akan menerima <b style="color:#15803D;">60% dari total nilai setiap order</b> yang berhasil diselesaikan.</p>
                 <p style="margin:0 0 6px;"><b style="color:#15803D;">Contoh perhitungan:</b> Sleep Call senilai Rp 50.000 → Talent menerima <b style="color:#15803D;">Rp 30.000</b>.</p>
-                <p style="margin:0;">Talent <b>tidak perlu mengeluarkan biaya</b> untuk promosi, pemasaran, pengelolaan sistem, administrasi, maupun operasional lainnya. Semua kebutuhan tersebut sepenuhnya ditangani oleh tim kami.</p>
+                <p style="margin:0;">Talent <b>tidak perlu mengurus</b> promosi, sistem, maupun operasional. Semua ditangani oleh tim kami.</p>
               </div>
             </div>
           </div>
 
-          <div class="wz-info-card">
-            <div class="wz-info-icon" style="background:#FEF3C7;color:#B45309;">⏰</div>
-            <div>
-              <div class="wz-info-title">Jam Kerja Fleksibel</div>
-              <div class="wz-info-text">Atur sendiri jam available. Jam malam (22:00–02:00) adalah jam tersibuk dengan tarif lebih tinggi.</div>
-            </div>
-          </div>
-
-          <div class="wz-info-card">
-            <div class="wz-info-icon" style="background:#EEF2FF;color:#4F46E5;">🎧</div>
-            <div>
-              <div class="wz-info-title">Layanan yang Tersedia</div>
-              <div class="wz-info-text">Sleep Call, Teman Call, Curhat Call, Pacar Virtual. Kamu pilih yang sesuai dengan kemampuan.</div>
-            </div>
-          </div>
-
-          <div class="wz-info-card">
-            <div class="wz-info-icon" style="background:#FCE7F3;color:#BE185D;">🚫</div>
-            <div>
-              <div class="wz-info-title">Aturan Penting</div>
-              <div class="wz-info-text">DILARANG konten dewasa, video call, atau ketemuan offline. Pelanggaran = blokir permanen.</div>
-            </div>
-          </div>
-
+          <!-- 3. SELF-CHECK: Syarat Dasar -->
           <div class="wz-info-card">
             <div class="wz-info-icon" style="background:#E0F2FE;color:#0369A1;">📋</div>
             <div>
@@ -3628,11 +3615,30 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             </div>
           </div>
 
+          <!-- 4. DETAIL: Layanan Tersedia -->
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#EEF2FF;color:#4F46E5;">🎧</div>
+            <div>
+              <div class="wz-info-title">Layanan yang Tersedia</div>
+              <div class="wz-info-text">Sleep Call, Teman Call, Curhat Call, Pacar Virtual. Kamu pilih yang sesuai dengan kemampuan.</div>
+            </div>
+          </div>
+
+          <!-- 5. DETAIL: Jam Kerja -->
+          <div class="wz-info-card">
+            <div class="wz-info-icon" style="background:#FEF3C7;color:#B45309;">⏰</div>
+            <div>
+              <div class="wz-info-title">Jam Kerja Fleksibel</div>
+              <div class="wz-info-text">Atur sendiri jam available. Jam malam (22:00–02:00) adalah jam tersibuk dengan order paling banyak.</div>
+            </div>
+          </div>
+
+          <!-- 6. ACTION: Proses Recruitment -->
           <div class="wz-info-card">
             <div class="wz-info-icon" style="background:#FEF2F2;color:#B91C1C;">📞</div>
             <div>
               <div class="wz-info-title">Proses Recruitment</div>
-              <div class="wz-info-text">Isi form (5 langkah) → Review admin (1–3 hari) → Interview via WA → Aktifkan akun.</div>
+              <div class="wz-info-text">Isi form (5 langkah) → Review admin → Interview via WA → Aktifkan akun. Setiap pendaftaran diproses secara bertahap, waktu review dapat bervariasi tergantung jumlah pendaftar dan hasil seleksi.</div>
             </div>
           </div>
         </div>
@@ -3716,36 +3722,11 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
               <input type="hidden" id="dtPendidikanVal" value=""/>
             </div>
 
-            <!-- Kesibukan: Card Grid 3-col -->
+            <!-- Kesibukan: Textarea bebas -->
             <div class="wz-input-wrap">
               <label class="wz-label">Kesibukan Saat Ini</label>
-              <div class="wz-mini-grid" id="dtKesibukan">
-                <div onclick="pickMiniCard(this,'dtKesibukanVal','kuliah')" class="wz-mini-card" data-val="kuliah">
-                  <div class="wz-mini-icon">🎓</div>
-                  <div class="wz-mini-label">Kuliah</div>
-                </div>
-                <div onclick="pickMiniCard(this,'dtKesibukanVal','kerja')" class="wz-mini-card" data-val="kerja">
-                  <div class="wz-mini-icon">💼</div>
-                  <div class="wz-mini-label">Bekerja</div>
-                </div>
-                <div onclick="pickMiniCard(this,'dtKesibukanVal','freelance')" class="wz-mini-card" data-val="freelance">
-                  <div class="wz-mini-icon">🎨</div>
-                  <div class="wz-mini-label">Freelance</div>
-                </div>
-                <div onclick="pickMiniCard(this,'dtKesibukanVal','ibu')" class="wz-mini-card" data-val="ibu">
-                  <div class="wz-mini-icon">👩</div>
-                  <div class="wz-mini-label">Ibu RT</div>
-                </div>
-                <div onclick="pickMiniCard(this,'dtKesibukanVal','nganggur')" class="wz-mini-card" data-val="nganggur">
-                  <div class="wz-mini-icon">🛋️</div>
-                  <div class="wz-mini-label">Free</div>
-                </div>
-                <div onclick="pickMiniCard(this,'dtKesibukanVal','lain')" class="wz-mini-card" data-val="lain">
-                  <div class="wz-mini-icon">📦</div>
-                  <div class="wz-mini-label">Lainnya</div>
-                </div>
-              </div>
-              <input type="hidden" id="dtKesibukanVal" value=""/>
+              <div class="wz-helper">Ceritakan apa kegiatan utama kamu sekarang. Misal: kuliah jurusan apa di mana, kerja di mana, atau kegiatan lainnya.</div>
+              <textarea id="dtKesibukan" class="wz-input wz-textarea" placeholder="Contoh: Aku mahasiswi semester 5 jurusan Psikologi di UI, sambil freelance jadi penulis konten..." style="height:80px;"></textarea>
             </div>
           </div>
 
@@ -3825,14 +3806,74 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             </div>
 
             <div class="wz-input-wrap" style="margin-bottom:14px;">
-              <label class="wz-label">Jam Mulai – Jam Selesai</label>
-              <div class="wz-helper">Tulis range jam yang bisa kamu kerja. Contoh: 20:00–02:00</div>
-              <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;">
-                <input id="dtJamMulai" type="time" class="wz-input" value="20:00" style="text-align:center;font-variant-numeric:tabular-nums;"/>
-                <div style="font-size:18px;color:#9CA3AF;font-weight:600;">→</div>
-                <input id="dtJamSelesai" type="time" class="wz-input" value="02:00" style="text-align:center;font-variant-numeric:tabular-nums;"/>
+              <label class="wz-label">Jam yang Bisa Kerja <span class="wz-label-hint">· bisa pilih banyak</span></label>
+              <div class="wz-helper">Pilih jam kerja yang dapat Anda jalani secara konsisten. Ketuk waktu untuk memilih.</div>
+
+              <!-- Dini hari -->
+              <div style="margin-bottom:14px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span style="font-size:13px;">🌌</span>
+                  <div style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:0.04em;">Dini Hari</div>
+                </div>
+                <div class="wz-hour-grid" id="dtJamDinihari">
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="0">00</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="1">01</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="2">02</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="3">03</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="4">04</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="5">05</div>
+                </div>
               </div>
-              <div class="wz-tip">💡 Jam malam (22:00–02:00) adalah jam tersibuk dengan tarif lebih tinggi</div>
+
+              <!-- Pagi -->
+              <div style="margin-bottom:14px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span style="font-size:13px;">☀️</span>
+                  <div style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:0.04em;">Pagi</div>
+                </div>
+                <div class="wz-hour-grid" id="dtJamPagi">
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="6">06</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="7">07</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="8">08</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="9">09</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="10">10</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="11">11</div>
+                </div>
+              </div>
+
+              <!-- Siang & Sore -->
+              <div style="margin-bottom:14px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span style="font-size:13px;">🌤</span>
+                  <div style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:0.04em;">Siang & Sore</div>
+                </div>
+                <div class="wz-hour-grid" id="dtJamSiang">
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="12">12</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="13">13</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="14">14</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="15">15</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="16">16</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="17">17</div>
+                </div>
+              </div>
+
+              <!-- Malam -->
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span style="font-size:13px;">🌙</span>
+                  <div style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:0.04em;">Malam</div>
+                </div>
+                <div class="wz-hour-grid" id="dtJamMalam">
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="18">18</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="19">19</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="20">20</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="21">21</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="22">22</div>
+                  <div onclick="this.classList.toggle('wz-hour-sel')" class="wz-hour" data-hour="23">23</div>
+                </div>
+              </div>
+
+              <div class="wz-tip">💡 Jam malam (22:00–02:00) adalah jam tersibuk dengan order paling banyak</div>
             </div>
           </div>
 
@@ -4223,7 +4264,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
             <div style="display:flex;flex-direction:column;gap:10px;">
               <div style="display:flex;align-items:start;gap:10px;">
                 <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">1</div>
-                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Berkas akan <b>direview admin dalam 1–3 hari kerja</b>.</div>
+                <div style="font-size:12px;color:#3730A3;line-height:1.55;">Setiap pendaftaran diproses secara bertahap. <b>Waktu review dapat bervariasi</b> tergantung jumlah pendaftar dan hasil seleksi.</div>
               </div>
               <div style="display:flex;align-items:start;gap:10px;">
                 <div style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #C7D2FE;">2</div>
@@ -4273,7 +4314,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
           <div style="display:flex;align-items:start;gap:12px;margin-bottom:14px;">
             <div style="width:24px;height:24px;border-radius:50%;background:#EEF2FF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #A5B4FC;">2</div>
             <div style="flex:1;">
-              <div style="font-size:13px;font-weight:600;color:#0F172A;margin-bottom:2px;">Review Admin <span style="color:#4F46E5;font-weight:500;font-size:12px;">(1–3 hari)</span></div>
+              <div style="font-size:13px;font-weight:600;color:#0F172A;margin-bottom:2px;">Review Admin <span style="color:#4F46E5;font-weight:500;font-size:12px;">(waktu menunggu bervariasi)</span></div>
               <div style="font-size:12px;color:#6B7280;line-height:1.5;">Kalau lolos screening, admin akan WA untuk interview</div>
             </div>
           </div>
@@ -4300,6 +4341,33 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
    PREMIUM LIGHT MODE WIZARD (R7)
    Inspired by Stripe, Notion, Airbnb, Apple
    =========================================================== */
+
+/* === HOUR PICKER (Jam available 24 chip) === */
+.wz-hour-grid {
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+}
+.wz-hour {
+  height:38px;border-radius:10px;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:600;color:#4B5563;
+  cursor:pointer;transition:all 0.15s ease;
+  font-variant-numeric:tabular-nums;letter-spacing:0.02em;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
+}
+.wz-hour:hover {
+  background:#F9FAFB;
+  color:#0F172A;
+  border-color:#D1D5DB;
+}
+.wz-hour.wz-hour-sel {
+  background:linear-gradient(135deg,#EEF2FF,#F5F3FF);
+  border-color:#6366F1;
+  color:#4F46E5;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(79,70,229,0.12),inset 0 0 0 1px rgba(99,102,241,0.15);
+}
 
 /* === BACKSOUND CARDS (Audio profil) === */
 .wz-backsound-card {
@@ -5010,10 +5078,15 @@ function renderReview() {
   const hariEls = document.querySelectorAll('#dtHari .wz-chip-sel');
   const hari = Array.from(hariEls).map(e => e.textContent).join(', ') || '-';
 
-  // Jam range
-  const jamMulai = document.getElementById('dtJamMulai').value || '-';
-  const jamSelesai = document.getElementById('dtJamSelesai').value || '-';
-  const jamRange = jamMulai + ' – ' + jamSelesai;
+  // Jam (dari 24 chip grouped — collect hour values selected)
+  const jamEls = document.querySelectorAll('.wz-hour.wz-hour-sel');
+  const jamHours = Array.from(jamEls).map(e => parseInt(e.dataset.hour)).sort((a,b)=>a-b);
+  let jamRange = '-';
+  if (jamHours.length > 0) {
+    // Format: "00, 01, 02, ..." pad with 0
+    jamRange = jamHours.map(h => String(h).padStart(2,'0')).join(', ');
+    if (jamRange.length > 50) jamRange = jamRange.substring(0,50) + '…';
+  }
 
   const sumberEl = document.querySelector('#dtSumber .wz-chip-sel');
   const sumber = sumberEl ? sumberEl.textContent : '-';
@@ -5022,9 +5095,9 @@ function renderReview() {
   const pendidikanEl = document.querySelector('#dtPendidikan .wz-chip-sel');
   const pendidikan = pendidikanEl ? pendidikanEl.textContent : '-';
 
-  // Kesibukan (mini card selected)
-  const kesibukanEl = document.querySelector('#dtKesibukan .wz-mini-sel .wz-mini-label');
-  const kesibukan = kesibukanEl ? kesibukanEl.textContent : '-';
+  // Kesibukan (textarea bebas)
+  const kesibukanText = document.getElementById('dtKesibukan').value.trim();
+  const kesibukan = kesibukanText ? (kesibukanText.length > 50 ? kesibukanText.substring(0,50) + '…' : kesibukanText) : '-';
 
   // Gender (toggle selected)
   const genderEl = document.querySelector('.wz-toggle-opt.wz-toggle-sel');
