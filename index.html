@@ -3520,31 +3520,32 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
 
 <!-- MODAL DAFTAR TALENT -->
-<div id="daftarTalentModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(5,5,12,0.92);backdrop-filter:blur(20px);overflow-y:auto;" onclick="if(event.target===this)closeDaftarTalent()">
-  <!-- Subtle radial light untuk depth -->
-  <div style="position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(252,211,77,0.08) 0%,transparent 60%);pointer-events:none;"></div>
+<div id="daftarTalentModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,0.55);backdrop-filter:blur(8px);overflow-y:auto;" onclick="if(event.target===this)closeDaftarTalent()">
 
   <div style="min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 48px;position:relative;">
-    <div style="width:100%;max-width:480px;background:linear-gradient(180deg,#0A0915 0%,#06060E 100%);border:1px solid rgba(255,255,255,0.06);border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.02);">
+    <div style="width:100%;max-width:520px;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:20px;overflow:hidden;box-shadow:0 24px 80px rgba(15,23,42,0.18),0 4px 12px rgba(15,23,42,0.06);">
 
-      <!-- ============ MODAL HEADER (Premium Minimal) ============ -->
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg,rgba(252,211,77,0.025),transparent);">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
+      <!-- ============ MODAL HEADER (Light Premium) ============ -->
+      <div style="padding:22px 24px;border-bottom:1px solid #F3F4F6;background:linear-gradient(180deg,#FAFBFC,#FFFFFF);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
           <div>
-            <div style="font-size:10.5px;color:rgba(252,211,77,0.7);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px;">Recruitment 2025</div>
-            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:#fff;letter-spacing:-0.01em;">Gabung Sebagai Talent</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#4F46E5;box-shadow:0 0 0 3px rgba(79,70,229,0.15);"></div>
+              <div style="font-size:10.5px;color:#4F46E5;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;">Recruitment 2025</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#0F172A;letter-spacing:-0.015em;line-height:1.2;">Gabung Sebagai Talent</div>
           </div>
-          <div onclick="closeDaftarTalent()" style="width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:rgba(255,255,255,0.5);transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.color='rgba(255,255,255,0.5)'">✕</div>
+          <div onclick="closeDaftarTalent()" style="width:36px;height:36px;border-radius:10px;background:#F9FAFB;border:1px solid #E5E7EB;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:#6B7280;transition:all 0.2s;" onmouseover="this.style.background='#F3F4F6';this.style.color='#0F172A'" onmouseout="this.style.background='#F9FAFB';this.style.color='#6B7280'">✕</div>
         </div>
       </div>
 
-      <!-- ============ PROGRESS STEP DOTS (Premium) ============ -->
-      <div style="padding:22px 24px 4px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;position:relative;">
+      <!-- ============ PROGRESS STEP DOTS (Light Premium) ============ -->
+      <div style="padding:24px 24px 8px;background:#FFFFFF;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;position:relative;">
           <!-- Background line -->
-          <div style="position:absolute;top:14px;left:14px;right:14px;height:2px;background:rgba(255,255,255,0.05);border-radius:99px;"></div>
+          <div style="position:absolute;top:14px;left:14px;right:14px;height:2px;background:#E5E7EB;border-radius:99px;"></div>
           <!-- Progress line (filled) -->
-          <div id="wzProgress" style="position:absolute;top:14px;left:14px;width:0%;height:2px;background:linear-gradient(90deg,#FCD34D,#F59E0B);border-radius:99px;transition:width 0.5s cubic-bezier(0.22,0.61,0.36,1);max-width:calc(100% - 28px);"></div>
+          <div id="wzProgress" style="position:absolute;top:14px;left:14px;width:0%;height:2px;background:linear-gradient(90deg,#6366F1,#4F46E5);border-radius:99px;transition:width 0.5s cubic-bezier(0.22,0.61,0.36,1);max-width:calc(100% - 28px);"></div>
 
           <!-- Step Dots -->
           <div class="wz-step-dot" data-step="1">
@@ -3940,7 +3941,7 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
         <div class="wz-step" data-step="5" style="display:none;">
 
           <div class="wz-step-header">
-            <div class="wz-step-counter" style="color:#34D399;">Step 5 / 5 · Terakhir</div>
+            <div class="wz-step-counter" style="background:#F0FDF4;color:#15803D;">Step 5 / 5 · Terakhir</div>
             <div class="wz-step-title">Review</div>
             <div class="wz-step-subtitle">Cek lagi sebelum kirim — kalau ada yang salah klik Kembali.</div>
           </div>
@@ -3963,37 +3964,44 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
       </div>
 
       <!-- ============ SUCCESS STATE ============ -->
-      <div id="daftarTalentSuccess" style="display:none;padding:36px 24px 28px;flex-direction:column;align-items:center;text-align:center;">
-        <div style="font-size:54px;margin-bottom:12px;">✨</div>
-        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;background:linear-gradient(135deg,#FFF5A0,#FCD34D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;">Pendaftaran Terkirim!</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:20px;">Terima kasih sudah mendaftar.<br>Cek WhatsApp kamu untuk update selanjutnya.</div>
+      <div id="daftarTalentSuccess" style="display:none;padding:40px 28px 32px;flex-direction:column;align-items:center;text-align:center;">
+        <!-- Success Icon -->
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 8px 24px rgba(79,70,229,0.15);">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#6366F1,#4F46E5);display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:22px;font-weight:800;box-shadow:0 4px 12px rgba(79,70,229,0.3);">✓</div>
+        </div>
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;color:#0F172A;margin-bottom:8px;letter-spacing:-0.015em;">Pendaftaran Terkirim</div>
+        <div style="font-size:14px;color:#6B7280;line-height:1.6;margin-bottom:24px;max-width:340px;">Terima kasih sudah mendaftar.<br>Cek WhatsApp kamu untuk update selanjutnya.</div>
 
-        <div style="width:100%;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;margin-bottom:18px;text-align:left;">
-          <div style="font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px;">Langkah Selanjutnya</div>
-          <div style="display:flex;align-items:start;gap:10px;margin-bottom:10px;">
-            <div style="width:20px;height:20px;border-radius:50%;background:rgba(52,211,153,0.15);color:#34D399;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✓</div>
+        <!-- Timeline Card -->
+        <div style="width:100%;background:#FAFBFC;border:1px solid #E5E7EB;border-radius:14px;padding:16px;margin-bottom:22px;text-align:left;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#6B7280;margin-bottom:14px;">Langkah Selanjutnya</div>
+
+          <div style="display:flex;align-items:start;gap:12px;margin-bottom:14px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#DCFCE7;color:#15803D;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #86EFAC;">✓</div>
             <div style="flex:1;">
-              <div style="font-size:11.5px;font-weight:700;color:#fff;margin-bottom:2px;">Form Terkirim</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.5;">Berkas masuk ke admin untuk direview</div>
+              <div style="font-size:13px;font-weight:600;color:#0F172A;margin-bottom:2px;">Form Terkirim</div>
+              <div style="font-size:12px;color:#6B7280;line-height:1.5;">Berkas masuk ke admin untuk direview</div>
             </div>
           </div>
-          <div style="display:flex;align-items:start;gap:10px;margin-bottom:10px;">
-            <div style="width:20px;height:20px;border-radius:50%;background:rgba(252,211,77,0.15);color:#FCD34D;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+
+          <div style="display:flex;align-items:start;gap:12px;margin-bottom:14px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#EEF2FF;color:#4F46E5;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #A5B4FC;">2</div>
             <div style="flex:1;">
-              <div style="font-size:11.5px;font-weight:700;color:#fff;margin-bottom:2px;">Review Admin <span style="color:rgba(252,211,77,0.5);font-weight:500;">(1–3 hari)</span></div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.5;">Kalau lolos screening, admin akan WA untuk interview</div>
+              <div style="font-size:13px;font-weight:600;color:#0F172A;margin-bottom:2px;">Review Admin <span style="color:#4F46E5;font-weight:500;font-size:12px;">(1–3 hari)</span></div>
+              <div style="font-size:12px;color:#6B7280;line-height:1.5;">Kalau lolos screening, admin akan WA untuk interview</div>
             </div>
           </div>
-          <div style="display:flex;align-items:start;gap:10px;">
-            <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+
+          <div style="display:flex;align-items:start;gap:12px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#F3F4F6;color:#9CA3AF;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #E5E7EB;">3</div>
             <div style="flex:1;">
-              <div style="font-size:11.5px;font-weight:700;color:#fff;margin-bottom:2px;">Interview & Mulai Kerja</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.5;">Setelah lolos, akun aktif & bisa terima order</div>
+              <div style="font-size:13px;font-weight:600;color:#0F172A;margin-bottom:2px;">Interview & Mulai Kerja</div>
+              <div style="font-size:12px;color:#6B7280;line-height:1.5;">Setelah lolos, akun aktif & bisa terima order</div>
             </div>
           </div>
         </div>
 
-        <button onclick="closeDaftarTalent()" style="height:44px;padding:0 32px;border:none;border-radius:14px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;background:linear-gradient(135deg,#FFF5A0,#FCD34D);color:#1a0a00;">Kembali ke Beranda</button>
+        <button onclick="closeDaftarTalent()" style="height:48px;padding:0 36px;border:none;border-radius:12px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;background:#0F172A;color:#FFFFFF;transition:all 0.2s;box-shadow:0 4px 12px rgba(15,23,42,0.15);" onmouseover="this.style.background='#1E293B';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#0F172A';this.style.transform='translateY(0)'">Kembali ke Beranda</button>
       </div>
 
     </div>
@@ -4002,116 +4010,129 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
 
 
 <style>
-/* ========================================
-   PREMIUM WIZARD — CLEAN & MINIMAL (R6)
-   ======================================== */
+/* ===========================================================
+   PREMIUM LIGHT MODE WIZARD (R7)
+   Inspired by Stripe, Notion, Airbnb, Apple
+   =========================================================== */
 
-/* === STEP DOTS (Premium Header Progress) === */
+/* === STEP DOTS (Light Premium Header Progress) === */
 .wz-step-dot {
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  position:relative;z-index:1;flex:1;
 }
 .wz-dot {
   width:28px;height:28px;border-radius:50%;
-  background:#0A0915;
-  border:2px solid rgba(255,255,255,0.12);
+  background:#FFFFFF;
+  border:2px solid #E5E7EB;
   display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);
+  font-size:11.5px;font-weight:700;color:#9CA3AF;
   transition:all 0.3s cubic-bezier(0.22,0.61,0.36,1);
   font-variant-numeric:tabular-nums;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
 }
 .wz-step-dot.active .wz-dot {
-  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
-  border-color:#FCD34D;color:#1a0a00;
-  box-shadow:0 0 0 4px rgba(252,211,77,0.15);
+  background:linear-gradient(135deg,#6366F1,#4F46E5);
+  border-color:#4F46E5;color:#FFFFFF;
+  box-shadow:0 0 0 4px rgba(99,102,241,0.15),0 4px 12px rgba(79,70,229,0.25);
+  transform:scale(1.08);
 }
 .wz-step-dot.completed .wz-dot {
-  background:rgba(252,211,77,0.15);
-  border-color:rgba(252,211,77,0.5);color:#FCD34D;
+  background:#EEF2FF;
+  border-color:#A5B4FC;color:#4F46E5;
 }
 .wz-step-dot.completed .wz-dot::after {
-  content:'✓';position:absolute;font-size:11px;
+  content:'✓';position:absolute;font-size:12px;font-weight:800;
 }
 .wz-step-dot.completed .wz-dot { font-size:0; }
 .wz-dot-label {
-  font-size:9.5px;font-weight:500;color:rgba(255,255,255,0.3);
-  letter-spacing:0.04em;transition:color 0.3s;
+  font-size:10px;font-weight:500;color:#9CA3AF;
+  letter-spacing:0.02em;transition:color 0.3s;
+  white-space:nowrap;
 }
-.wz-step-dot.active .wz-dot-label,.wz-step-dot.completed .wz-dot-label {
-  color:#FCD34D;font-weight:600;
+.wz-step-dot.active .wz-dot-label {
+  color:#4F46E5;font-weight:700;
+}
+.wz-step-dot.completed .wz-dot-label {
+  color:#6366F1;font-weight:600;
 }
 
 /* === LABELS === */
 .wz-label {
-  font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.85);
-  margin-bottom:8px;display:block;letter-spacing:0;text-transform:none;
+  font-size:13px;font-weight:600;color:#1F2937;
+  margin-bottom:8px;display:block;letter-spacing:-0.005em;text-transform:none;
 }
 .wz-label-hint {
-  color:rgba(255,255,255,0.35);font-weight:500;font-size:11px;margin-left:4px;
+  color:#9CA3AF;font-weight:500;font-size:12px;margin-left:4px;
 }
 
 /* === INPUTS === */
 .wz-input-wrap { display:block; }
 .wz-input {
   width:100%;height:46px;
-  background:rgba(255,255,255,0.025);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:12px;
-  padding:0 16px;
-  font-family:inherit;font-size:14px;color:#fff;
-  outline:none;transition:all 0.2s ease;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:10px;
+  padding:0 14px;
+  font-family:inherit;font-size:14px;color:#0F172A;
+  outline:none;transition:all 0.18s ease;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
+}
+.wz-input:hover {
+  border-color:#D1D5DB;
 }
 .wz-input:focus {
-  border-color:rgba(252,211,77,0.5);
-  background:rgba(252,211,77,0.025);
-  box-shadow:0 0 0 4px rgba(252,211,77,0.08);
+  border-color:#4F46E5;
+  box-shadow:0 0 0 4px rgba(79,70,229,0.1),0 1px 2px rgba(15,23,42,0.04);
 }
-.wz-input::placeholder { color:rgba(255,255,255,0.25); }
+.wz-input::placeholder { color:#9CA3AF; }
 .wz-select {
-  appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 16px center;
-  padding-right:38px;cursor:pointer;
+  appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:36px;
 }
 .wz-textarea {
-  height:90px;padding:14px 16px;resize:none;line-height:1.6;
+  height:92px;padding:13px 14px;resize:none;line-height:1.6;
 }
 
 /* === HELPER & COUNTER === */
 .wz-helper {
-  font-size:12px;color:rgba(255,255,255,0.4);
+  font-size:12.5px;color:#6B7280;
   margin:0 0 10px;line-height:1.55;
 }
 .wz-tip {
-  font-size:11.5px;color:rgba(252,211,77,0.6);
-  margin-top:10px;line-height:1.5;
+  font-size:12px;color:#4F46E5;
+  margin-top:10px;line-height:1.5;font-weight:500;
 }
 .wz-counter {
-  font-size:11px;color:rgba(255,255,255,0.3);
+  font-size:11.5px;color:#9CA3AF;
   text-align:right;margin-top:6px;font-variant-numeric:tabular-nums;
+  font-weight:500;
 }
 
-/* === STEP HEADER (minimal) === */
+/* === STEP HEADER === */
 .wz-step-header {
-  margin:8px 0 28px;
+  margin:14px 0 28px;
   padding-bottom:0;
 }
 .wz-step-counter {
-  font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;
-  color:rgba(252,211,77,0.65);margin-bottom:10px;
+  font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:#4F46E5;margin-bottom:10px;
   display:inline-block;
+  background:#EEF2FF;
+  padding:4px 10px;border-radius:99px;
 }
 .wz-step-title {
   font-family:'Instrument Serif',serif;font-style:italic;
-  font-size:30px;font-weight:400;line-height:1.1;
-  color:#fff;margin-bottom:8px;letter-spacing:-0.01em;
+  font-size:32px;font-weight:400;line-height:1.1;
+  color:#0F172A;margin-bottom:8px;letter-spacing:-0.015em;
 }
 .wz-step-subtitle {
-  font-size:13px;color:rgba(255,255,255,0.5);
+  font-size:14px;color:#6B7280;
   line-height:1.55;font-weight:400;
 }
 
-/* === SUB-GROUP (flatter, less nested) === */
+/* === SUB-GROUP (flat sections dengan label) === */
 .wz-group {
   margin-bottom:28px;
   padding:0;
@@ -4119,296 +4140,317 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
   border:none;
 }
 .wz-group-label {
-  font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
-  color:rgba(255,255,255,0.4);margin-bottom:14px;
-  display:flex;align-items:center;gap:8px;
+  font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:#6B7280;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
 }
 .wz-group-label::after {
   content:'';flex:1;height:1px;
-  background:linear-gradient(90deg,rgba(255,255,255,0.08),transparent);
+  background:#E5E7EB;
 }
 .wz-group-hint {
-  text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.3);
-  font-weight:500;font-size:11px;
+  text-transform:none;letter-spacing:0;color:#9CA3AF;
+  font-weight:500;font-size:11.5px;
 }
 
-/* === PICKCARD (layanan) — horizontal premium === */
+/* === PICKCARD (layanan) — Light & Premium === */
 .wz-pickcard {
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.06);
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
   border-radius:14px;padding:14px;cursor:pointer;
-  transition:all 0.2s ease;
+  transition:all 0.18s ease;
   display:flex;align-items:center;gap:12px;
   position:relative;overflow:hidden;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
 }
 .wz-pickcard:hover {
-  background:rgba(255,255,255,0.04);
-  border-color:rgba(255,255,255,0.12);
-  transform:translateY(-1px);
+  border-color:#D1D5DB;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(15,23,42,0.06),0 2px 4px rgba(15,23,42,0.04);
 }
 .wz-pickcard.selected {
-  background:linear-gradient(135deg,rgba(252,211,77,0.08),rgba(252,211,77,0.02));
-  border-color:rgba(252,211,77,0.45);
-  box-shadow:0 4px 20px rgba(252,211,77,0.08);
+  background:linear-gradient(135deg,#EEF2FF,#F5F3FF);
+  border-color:#6366F1;
+  box-shadow:0 4px 14px rgba(79,70,229,0.12),0 0 0 1px rgba(99,102,241,0.2);
 }
 .wz-pickcard.selected::before {
   content:'✓';position:absolute;top:10px;right:12px;
   width:22px;height:22px;border-radius:50%;
-  background:linear-gradient(135deg,#FFF5A0,#FCD34D);
-  color:#1a0a00;font-size:12px;font-weight:800;
+  background:linear-gradient(135deg,#6366F1,#4F46E5);
+  color:#FFFFFF;font-size:12px;font-weight:800;
   display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(79,70,229,0.3);
 }
 .wz-pickcard > div:first-child {
   width:44px;height:44px;border-radius:12px;
-  background:rgba(255,255,255,0.04);
+  background:#F9FAFB;
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:all 0.2s;
+  flex-shrink:0;transition:all 0.18s;
+  border:1px solid #F3F4F6;
 }
 .wz-pickcard.selected > div:first-child {
-  background:rgba(252,211,77,0.12);
+  background:rgba(99,102,241,0.1);
+  border-color:rgba(99,102,241,0.2);
 }
 .wz-pickcard-label {
-  font-size:14px;font-weight:600;color:#fff;
+  font-size:14px;font-weight:600;color:#0F172A;
   margin-bottom:2px;
 }
+.wz-pickcard.selected .wz-pickcard-label { color:#4338CA; }
 .wz-pickcard-desc {
-  font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.4;
+  font-size:12px;color:#6B7280;line-height:1.4;
 }
 
 /* === CHIPS === */
 .wz-chip {
-  font-size:12px;font-weight:500;padding:9px 14px;
+  font-size:12.5px;font-weight:500;padding:8px 14px;
   border-radius:999px;
-  background:rgba(255,255,255,0.025);
-  border:1px solid rgba(255,255,255,0.08);
-  color:rgba(255,255,255,0.55);
-  cursor:pointer;transition:all 0.18s ease;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  color:#4B5563;
+  cursor:pointer;transition:all 0.16s ease;
   white-space:nowrap;
+  box-shadow:0 1px 2px rgba(15,23,42,0.03);
 }
 .wz-chip:hover {
-  background:rgba(255,255,255,0.05);
-  color:rgba(255,255,255,0.8);
-  border-color:rgba(255,255,255,0.15);
+  background:#F9FAFB;
+  color:#0F172A;
+  border-color:#D1D5DB;
 }
 .wz-chip-sel,.wz-chip.wz-chip-sel {
-  background:rgba(252,211,77,0.1);
-  border-color:rgba(252,211,77,0.4);
-  color:#FCD34D;
+  background:linear-gradient(135deg,#EEF2FF,#F5F3FF);
+  border-color:#6366F1;
+  color:#4F46E5;
   font-weight:600;
+  box-shadow:0 2px 6px rgba(79,70,229,0.1);
 }
 
 /* === YES/NO BUTTONS === */
 .wz-yn {
-  flex:1;height:46px;border-radius:12px;
-  background:rgba(255,255,255,0.025);
-  border:1px solid rgba(255,255,255,0.08);
+  flex:1;height:46px;border-radius:10px;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:13px;font-weight:500;color:rgba(255,255,255,0.55);
-  cursor:pointer;transition:all 0.18s ease;
+  font-size:13.5px;font-weight:500;color:#4B5563;
+  cursor:pointer;transition:all 0.16s ease;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
 }
 .wz-yn:hover {
-  background:rgba(255,255,255,0.04);color:#fff;
+  background:#F9FAFB;color:#0F172A;border-color:#D1D5DB;
 }
 .wz-yn.wz-yn-sel-yes {
-  background:rgba(52,211,153,0.08);
-  border-color:rgba(52,211,153,0.4);
-  color:#34D399;font-weight:600;
+  background:#F0FDF4;
+  border-color:#22C55E;
+  color:#15803D;font-weight:700;
+  box-shadow:0 2px 6px rgba(34,197,94,0.1);
 }
 .wz-yn.wz-yn-sel-tidak {
-  background:rgba(248,113,113,0.06);
-  border-color:rgba(248,113,113,0.35);
-  color:#F87171;font-weight:600;
+  background:#FEF2F2;
+  border-color:#EF4444;
+  color:#B91C1C;font-weight:700;
+  box-shadow:0 2px 6px rgba(239,68,68,0.1);
 }
 
 /* === SLIDER CARD === */
 .wz-slider-card {
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:16px;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:14px;
   padding:18px;
+  box-shadow:0 1px 3px rgba(15,23,42,0.04);
 }
 .wz-slider-row { padding:6px 0; }
 .wz-slider-divider {
-  height:1px;background:rgba(255,255,255,0.05);margin:14px -18px;
+  height:1px;background:#F3F4F6;margin:14px -18px;
 }
 .wz-slider-meta {
   display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
 }
 .wz-slider-name {
-  font-size:13px;font-weight:600;color:#fff;
+  font-size:13.5px;font-weight:600;color:#0F172A;
 }
 .wz-slider-val {
-  font-size:12px;font-weight:700;color:#FCD34D;
-  background:rgba(252,211,77,0.1);
+  font-size:12px;font-weight:700;color:#4F46E5;
+  background:#EEF2FF;
   padding:4px 11px;border-radius:99px;
   font-variant-numeric:tabular-nums;letter-spacing:0.02em;
-  border:1px solid rgba(252,211,77,0.2);
+  border:1px solid #C7D2FE;
 }
 .wz-slider-ends {
   display:flex;justify-content:space-between;
-  font-size:10.5px;color:rgba(255,255,255,0.35);
+  font-size:11px;color:#9CA3AF;
   margin-top:10px;font-weight:500;
 }
 
-/* === RANGE SLIDER (premium) === */
+/* === RANGE SLIDER (Light Premium) === */
 .wz-range {
-  width:100%;height:4px;border-radius:99px;
-  background:rgba(255,255,255,0.08);
+  width:100%;height:6px;border-radius:99px;
+  background:#E5E7EB;
   appearance:none;outline:none;cursor:pointer;
 }
 .wz-range::-webkit-slider-thumb {
   appearance:none;width:20px;height:20px;border-radius:50%;
-  background:#fff;cursor:pointer;
-  box-shadow:0 0 0 6px rgba(252,211,77,0.12),0 2px 8px rgba(0,0,0,0.4);
-  border:2px solid #FCD34D;
+  background:#FFFFFF;cursor:pointer;
+  border:2px solid #4F46E5;
+  box-shadow:0 0 0 6px rgba(99,102,241,0.08),0 2px 6px rgba(15,23,42,0.15);
   transition:all 0.15s;
 }
 .wz-range::-webkit-slider-thumb:hover {
-  box-shadow:0 0 0 8px rgba(252,211,77,0.18),0 2px 8px rgba(0,0,0,0.4);
+  box-shadow:0 0 0 8px rgba(99,102,241,0.12),0 2px 8px rgba(15,23,42,0.2);
 }
 .wz-range::-moz-range-thumb {
-  width:20px;height:20px;border-radius:50%;border:2px solid #FCD34D;
-  background:#fff;cursor:pointer;
-  box-shadow:0 0 0 6px rgba(252,211,77,0.12);
+  width:20px;height:20px;border-radius:50%;border:2px solid #4F46E5;
+  background:#FFFFFF;cursor:pointer;
+  box-shadow:0 0 0 6px rgba(99,102,241,0.08);
 }
 
 /* === UPLOAD AREAS === */
 .wz-upload {
-  background:rgba(255,255,255,0.02);
-  border:1px dashed rgba(255,255,255,0.15);
-  border-radius:14px;padding:16px;
+  background:#FAFBFC;
+  border:1px dashed #D1D5DB;
+  border-radius:12px;padding:16px;
   display:flex;align-items:center;gap:14px;
   cursor:pointer;transition:all 0.2s ease;
 }
 .wz-upload:hover {
-  background:rgba(252,211,77,0.03);
-  border-color:rgba(252,211,77,0.35);
+  background:#F5F7FF;
+  border-color:#A5B4FC;
 }
 .wz-upload-icon {
-  width:42px;height:42px;border-radius:12px;
-  background:rgba(255,255,255,0.04);
+  width:44px;height:44px;border-radius:12px;
+  background:#FFFFFF;
   display:flex;align-items:center;justify-content:center;
   font-size:18px;flex-shrink:0;
+  border:1px solid #E5E7EB;
   transition:all 0.2s;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
 }
 .wz-upload:hover .wz-upload-icon {
-  background:rgba(252,211,77,0.1);
+  background:#EEF2FF;border-color:#A5B4FC;
 }
-.wz-upload-title { font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.85); }
-.wz-upload-sub { font-size:11.5px;color:rgba(255,255,255,0.4);margin-top:3px; }
+.wz-upload-title { font-size:14px;font-weight:600;color:#0F172A; }
+.wz-upload-sub { font-size:12px;color:#6B7280;margin-top:3px; }
 
 /* === PHOTO UPLOAD HERO === */
 .wz-photo-upload {
-  background:rgba(255,255,255,0.02);
-  border:1px dashed rgba(252,211,77,0.25);
-  border-radius:20px;
+  background:#FAFBFC;
+  border:1.5px dashed #A5B4FC;
+  border-radius:18px;
   padding:32px 16px 24px;
   display:flex;flex-direction:column;align-items:center;
   cursor:pointer;transition:all 0.25s ease;
   position:relative;overflow:hidden;
 }
 .wz-photo-upload:hover {
-  background:rgba(252,211,77,0.04);
-  border-color:rgba(252,211,77,0.5);
+  background:#F5F7FF;
+  border-color:#6366F1;
 }
 .wz-photo-circle {
   width:120px;height:120px;border-radius:24px;
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
   transition:all 0.25s;
+  box-shadow:0 4px 12px rgba(15,23,42,0.06);
 }
 .wz-photo-upload:hover .wz-photo-circle {
-  background:rgba(252,211,77,0.04);
-  border-color:rgba(252,211,77,0.3);
+  border-color:#A5B4FC;
+  box-shadow:0 6px 16px rgba(99,102,241,0.12);
 }
 .wz-photo-circle img { border-radius:24px !important; }
-.wz-photo-placeholder { text-align:center; }
+.wz-photo-placeholder { text-align:center;color:#6B7280; }
 
 /* === BANNERS === */
 .wz-banner-info {
-  background:linear-gradient(135deg,rgba(252,211,77,0.06),rgba(245,158,11,0.02));
-  border:1px solid rgba(252,211,77,0.18);
-  border-radius:14px;padding:14px 16px;margin-bottom:24px;
+  background:linear-gradient(135deg,#EEF2FF,#F5F3FF);
+  border:1px solid #C7D2FE;
+  border-radius:12px;padding:14px 16px;margin-bottom:24px;
   display:flex;gap:12px;align-items:start;
-  font-size:12.5px;color:rgba(255,255,255,0.7);line-height:1.55;
+  font-size:13px;color:#3730A3;line-height:1.55;
 }
+.wz-banner-info b { color:#4F46E5; }
 .wz-banner-tip {
-  background:rgba(255,255,255,0.025);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:12px;padding:11px 13px;margin-bottom:12px;
+  background:#F9FAFB;
+  border:1px solid #E5E7EB;
+  border-radius:10px;padding:11px 13px;margin-bottom:12px;
   display:flex;gap:10px;align-items:start;
-  font-size:11.5px;color:rgba(255,255,255,0.6);line-height:1.55;
+  font-size:12.5px;color:#4B5563;line-height:1.55;
 }
+.wz-banner-tip b { color:#4F46E5; }
 
 /* === SECTION DIVIDER (Verifikasi Internal) === */
 .wz-section-divider {
   margin:32px 0 18px;
   padding:14px 16px;
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:14px;
+  background:#F9FAFB;
+  border:1px solid #E5E7EB;
+  border-radius:12px;
   display:flex;align-items:center;gap:13px;
 }
 .wz-divider-icon {
   width:38px;height:38px;border-radius:11px;
-  background:rgba(255,255,255,0.04);
+  background:#FFFFFF;
   display:flex;align-items:center;justify-content:center;
   font-size:16px;flex-shrink:0;
+  border:1px solid #E5E7EB;
 }
 .wz-divider-title {
-  font-size:13px;font-weight:600;color:#fff;
+  font-size:13.5px;font-weight:600;color:#0F172A;
 }
 .wz-divider-sub {
-  font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;
+  font-size:11.5px;color:#6B7280;margin-top:2px;
 }
 
 /* === REVIEW CARD === */
 .wz-review-card {
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:16px;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:14px;
   padding:8px 18px;
   margin-bottom:18px;
+  box-shadow:0 1px 3px rgba(15,23,42,0.04);
 }
 
 /* === NAVIGATION BUTTONS === */
 .wz-btn-back {
-  flex:1;height:50px;border-radius:14px;
-  background:transparent;
-  border:1px solid rgba(255,255,255,0.12);
-  color:rgba(255,255,255,0.75);
-  font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
-  display:none;transition:all 0.2s;
-  letter-spacing:0.01em;
+  flex:1;height:50px;border-radius:12px;
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  color:#374151;
+  font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;
+  display:none;transition:all 0.18s;
+  letter-spacing:0;
+  box-shadow:0 1px 2px rgba(15,23,42,0.04);
 }
 .wz-btn-back:hover {
-  background:rgba(255,255,255,0.04);
-  border-color:rgba(255,255,255,0.2);
-  color:#fff;
+  background:#F9FAFB;
+  border-color:#D1D5DB;
+  color:#0F172A;
 }
 .wz-btn-next {
-  flex:2;height:50px;border:none;border-radius:14px;
-  cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;
-  background:#fff;
-  color:#0A0A20;
-  transition:all 0.22s ease;
-  letter-spacing:0.01em;
-  box-shadow:0 4px 20px rgba(255,255,255,0.06);
+  flex:2;height:50px;border:none;border-radius:12px;
+  cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;
+  background:#0F172A;
+  color:#FFFFFF;
+  transition:all 0.2s ease;
+  letter-spacing:0;
+  box-shadow:0 2px 8px rgba(15,23,42,0.15);
 }
 .wz-btn-next:hover {
+  background:#1E293B;
   transform:translateY(-1px);
-  box-shadow:0 8px 28px rgba(255,255,255,0.12);
+  box-shadow:0 4px 16px rgba(15,23,42,0.2);
 }
 .wz-btn-next.wz-btn-submit {
-  height:56px;font-size:14.5px;font-weight:800;
-  background:linear-gradient(135deg,#FFF5A0 0%,#FCD34D 50%,#F59E0B 100%);
-  color:#1a0a00;
-  box-shadow:0 8px 32px rgba(252,211,77,0.4),0 0 0 1px rgba(252,211,77,0.3);
+  height:56px;font-size:15px;font-weight:700;
+  background:linear-gradient(135deg,#6366F1 0%,#4F46E5 100%);
+  color:#FFFFFF;
+  box-shadow:0 6px 20px rgba(79,70,229,0.3),0 2px 8px rgba(79,70,229,0.2);
 }
 .wz-btn-next.wz-btn-submit:hover {
-  box-shadow:0 12px 40px rgba(252,211,77,0.5),0 0 0 1px rgba(252,211,77,0.5);
+  background:linear-gradient(135deg,#4F46E5 0%,#4338CA 100%);
+  box-shadow:0 8px 28px rgba(79,70,229,0.4),0 4px 12px rgba(79,70,229,0.25);
 }
 
 /* === STEP ANIMATION === */
@@ -4419,6 +4461,9 @@ document.querySelector('.hamburger').addEventListener('click', openDrawer);
   from { opacity:0;transform:translateY(12px); }
   to { opacity:1;transform:translateY(0); }
 }
+
+/* === SUCCESS STATE OVERRIDE === */
+#daftarTalentSuccess { color:#0F172A; }
 </style>
 
 
@@ -4546,9 +4591,9 @@ function renderReview() {
   ];
 
   const html = data.map(([k, v]) => `
-    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);">
-      <span style="font-size:11px;color:rgba(255,255,255,0.4);flex-shrink:0;">${k}</span>
-      <span style="font-size:11.5px;color:#fff;font-weight:700;text-align:right;">${v}</span>
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;padding:10px 0;border-bottom:1px solid #F3F4F6;">
+      <span style="font-size:12.5px;color:#6B7280;flex-shrink:0;font-weight:500;">${k}</span>
+      <span style="font-size:13px;color:#0F172A;font-weight:600;text-align:right;">${v}</span>
     </div>
   `).join('');
 
