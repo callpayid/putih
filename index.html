@@ -517,6 +517,96 @@ var talentData = [
   {id:50,nama:'Naufal', av:'N',g:'p',status:'nonaktif',poin:35,order:4,layanan:'Sleep Call · Teman Call',                rekening:'BRI 2233445568',atasnama:'Naufal Hakim', blClient:[],nonaktifInfo:{oleh:'Admin',waktu:'10 Mei · 18:00',alasan:'Pelanggaran ringan berulang'}},
 ];
 
+(function generateDummyData() {
+  var TARGET = 200;
+  var ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function pick(arr, i){ return arr[i % arr.length]; }
+  function pickRand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function randCode(){
+    var s = 'SCP-';
+    for (var i = 0; i < 5; i++) s += ch[Math.floor(Math.random()*ch.length)];
+    return s;
+  }
+  function randWA(i){
+    var pref = ['0812','0813','0821','0852','0856','0857','0859','0878','0888','0896','0899'];
+    var wa = pref[i % pref.length];
+    var n = (1000000 + (i * 13573) % 89999999).toString().padStart(8,'0');
+    return wa + n;
+  }
+  function randJam(i){
+    return pad((6 + (i*7) % 18)) + ':' + pad((i*11) % 60);
+  }
+
+  var lay = ['Sleep Call','Teman Call','Curhat Call','Pacar Virtual'];
+  var status = ['aktif','aktif','aktif','terpakai','terpakai','terpakai','nonaktif','cancel'];
+  var src = ['admin','admin','admin','website','website'];
+  var noms = [10000,20000,30000,40000,50000,60000];
+  var durasiMap = {10000:'30 menit',20000:'1 jam',30000:'1 jam 30 mnt',40000:'2 jam',50000:'2 jam 30 mnt',60000:'3 jam'};
+  var talentNames = ['Vania','Sasha','Mirelle','Bella','Kiraa','Tasya','Nadira','Cinta','Dewi','Fira','Aldi','Reza','Putri','Sinta','Winda','Zahra','Jasmine','Lila','Hesti','Diana'];
+
+  for (var i = voucherList.length; i < TARGET; i++) {
+    var nom = pick(noms, i);
+    var st  = pick(status, i);
+    var isTerpakai = st === 'terpakai';
+    voucherList.push({
+      kode: randCode(),
+      wa: randWA(i),
+      nominal: nom,
+      layanan: pick(lay, i),
+      jam: randJam(i),
+      status: st,
+      src: pick(src, i),
+      talent: isTerpakai ? pick(talentNames, i) : null,
+      durasi: isTerpakai ? durasiMap[nom] : null
+    });
+  }
+
+  var hari = ['Hari ini','Kemarin','11 Mei','10 Mei','09 Mei','08 Mei','07 Mei','06 Mei','05 Mei','04 Mei','03 Mei'];
+  for (var j = clientData.length; j < TARGET; j++) {
+    var order = 1 + (j % 7);
+    var total = order * (20000 + (j * 7000) % 40000);
+    clientData.push({
+      wa: randWA(j + 500),
+      order: order,
+      total: total,
+      terakhir: pick(hari, j),
+      repeat: order > 1,
+      bl: false,
+      blBy: []
+    });
+  }
+
+  var gendArr = ['w','w','w','p'];
+  var statTal = ['online','online','online','offline','offline','nonaktif'];
+  var firstW = ['Ayu','Sari','Indah','Putri','Maya','Lina','Cantika','Hesti','Bunga','Citra','Ratna','Wulan','Mega','Yuli','Risma','Dinda','Ananda','Karina','Nia','Salsa'];
+  var firstP = ['Adi','Bayu','Dimas','Eko','Faisal','Galih','Hadi','Iwan','Joko','Kemal','Lukman','Maulana','Nanda','Ovi','Putra','Qori','Rendy','Surya','Tegar','Umar'];
+  var lastNames = ['Pratama','Wijaya','Saputra','Andini','Maharani','Lestari','Permata','Anggraini','Ramadhan','Hakim','Wulandari','Putri','Sari','Cantika','Aulia','Dewi','Salma','Kartika','Anugrah','Mulia'];
+  var lay2 = ['Sleep Call · Teman Call','Curhat Call · Teman Call','Sleep Call · Curhat Call','Pacar Virtual · Curhat Call','Teman Call','Sleep Call · Pacar Virtual','Sleep Call · Curhat Call · Pacar Virtual','Curhat Call','Pacar Virtual','Teman Call · Curhat Call'];
+  var banks = ['BCA','BRI','BNI','Mandiri','DANA','OVO','GoPay'];
+  
+  for (var k = talentData.length; k < TARGET; k++) {
+    var g = pick(gendArr, k);
+    var nama = g === 'w' ? pick(firstW, k) : pick(firstP, k);
+    var st2 = pick(statTal, k);
+    var poin = st2 === 'nonaktif' ? 25 + (k % 25) : st2 === 'online' ? 60 + (k % 35) : 50 + (k % 30);
+    talentData.push({
+      id: k + 1,
+      nama: nama,
+      av: nama.charAt(0),
+      g: g,
+      status: st2,
+      poin: poin,
+      order: 5 + (k * 3) % 50,
+      layanan: pick(lay2, k),
+      rekening: pick(banks, k) + ' ' + (1000000000 + (k*98765) % 8999999999),
+      atasnama: nama + ' ' + pick(lastNames, k),
+      blClient: [],
+      nonaktifInfo: st2 === 'nonaktif' ? {oleh:'Admin', waktu:pick(hari, k) + ' · ' + randJam(k), alasan:'Pelanggaran aturan'} : null
+    });
+  }
+})();
+
 var aktivitasLog = [
   {type:'voucher',   aktor:'Admin',  aksi:'Buat voucher',            detail:'SCP-A1B2C · Rp 50rb · 081234512345',       waktu:'10:24',hari:'Hari ini', poin:null},
   {type:'order',     aktor:'Vania',  aksi:'Terima order',            detail:'081234512345 · Sleep Call · 60 mnt',       waktu:'10:24',hari:'Hari ini', poin:'+2'},
@@ -754,14 +844,14 @@ function filterVoucher(f, el) {
   renderVoucher();
 }
 
-var voucherShown = 15;
+var voucherShown = 10;
 
 function resetVoucherShown() {
-  voucherShown = 15;
+  voucherShown = 10;
 }
 
 function loadMoreVoucher() {
-  voucherShown += 30;
+  voucherShown += 20;
   renderVoucher();
 }
 
@@ -779,7 +869,7 @@ function renderVoucher() {
   var btn   = '';
   if (sisa > 0) {
     btn = '<div onclick="loadMoreVoucher()" style="padding:14px;text-align:center;font-size:12px;font-weight:700;color:#534AB7;cursor:pointer;letter-spacing:0.02em;">Lihat semua →</div>';
-  } else if (list.length > 15) {
+  } else if (list.length > 10) {
     btn = '<div style="padding:10px 14px;text-align:center;font-size:10px;color:#B0ADCC;font-weight:600;">✓ Semua ' + list.length + ' voucher ditampilkan</div>';
   }
   el.innerHTML = rows + btn;
@@ -1004,9 +1094,9 @@ function blacklistManual() {
   toast('⛔ ' + wa + ' diblacklist');
 }
 
-var clientShown = 20;
-function resetClientShown() { clientShown = 20; }
-function loadMoreClient() { clientShown += 30; renderClient(); }
+var clientShown = 10;
+function resetClientShown() { clientShown = 10; }
+function loadMoreClient() { clientShown += 20; renderClient(); }
 
 function renderClient() {
   var urutan = {'Hari ini':0,'Kemarin':1,'11 Mei':2,'10 Mei':3,'09 Mei':4,'08 Mei':5,'07 Mei':6,'-':99};
@@ -1026,7 +1116,7 @@ function renderClient() {
   var btn   = '';
   if (sisa > 0) {
     btn = '<div onclick="loadMoreClient()" style="padding:14px;text-align:center;font-size:12px;font-weight:700;color:#534AB7;cursor:pointer;letter-spacing:0.02em;">Lihat semua →</div>';
-  } else if (list.length > 20) {
+  } else if (list.length > 10) {
     btn = '<div style="padding:10px 14px;text-align:center;font-size:10px;color:#B0ADCC;font-weight:600;">✓ Semua ' + list.length + ' client ditampilkan</div>';
   }
   el.innerHTML = rows + btn;
@@ -1213,9 +1303,9 @@ function filterTalent(f, el) {
   renderTalent();
 }
 
-var talentShown = 20;
-function resetTalentShown() { talentShown = 20; }
-function loadMoreTalent() { talentShown += 30; renderTalent(); }
+var talentShown = 10;
+function resetTalentShown() { talentShown = 10; }
+function loadMoreTalent() { talentShown += 20; renderTalent(); }
 
 function renderTalent() {
   var list = talentFilter === 'online'  ? talentData.filter(function(t){ return t.status === 'online'; })
@@ -1234,7 +1324,7 @@ function renderTalent() {
   var btn   = '';
   if (sisa > 0) {
     btn = '<div onclick="loadMoreTalent()" style="padding:14px;text-align:center;font-size:12px;font-weight:700;color:#534AB7;cursor:pointer;letter-spacing:0.02em;">Lihat semua →</div>';
-  } else if (list.length > 20) {
+  } else if (list.length > 10) {
     btn = '<div style="padding:10px 14px;text-align:center;font-size:10px;color:#B0ADCC;font-weight:600;">✓ Semua ' + list.length + ' talent ditampilkan</div>';
   }
   el.innerHTML = rows + btn;
