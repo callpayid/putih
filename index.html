@@ -34,6 +34,8 @@ body{
 .tb-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#A78BFA,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .tb-brand{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;color:#2E2875;}
 .tb-pill{font-size:9px;font-weight:800;letter-spacing:0.08em;padding:3px 8px;border-radius:99px;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;}
+.tb-icon-btn{background:#fff;border:0.5px solid #D3D0E8;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:inherit;color:#534AB7;transition:all 0.15s;}
+.tb-icon-btn:active{background:#F5F3FF;}
 .tb-logout{background:#FEF2F2;border:0.5px solid #FCA5A5;border-radius:10px;width:34px;height:34px;color:#DC2626;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:inherit;}
 
 /* ============ NAVIGATION TABS ============ */
@@ -48,9 +50,26 @@ body{
 .page.active{display:block;}
 
 /* SECTION HEADER */
-.sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;padding:0 2px;}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;padding:0 2px;gap:10px;}
 .sec-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#1E1B3A;line-height:1.1;}
 .sec-sub{font-size:11px;color:#9B98C4;margin-top:3px;}
+.period-select{height:32px;border:0.5px solid #D3D0E8;background:#fff;border-radius:10px;padding:0 28px 0 10px;color:#534AB7;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23534AB7'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right 6px center;background-size:14px;}
+
+/* ALERT */
+.alert-card{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:10px;cursor:pointer;transition:all 0.15s;}
+.alert-card:active{transform:scale(0.99);}
+.alert-card.red{background:#FEF2F2;border:0.5px solid #FCA5A5;}
+.alert-card.yellow{background:#FAEEDA;border:0.5px solid #FAC775;}
+.alert-card.blue{background:#EEF2FF;border:0.5px solid #C7D2FE;}
+.alert-card.green{background:#EAF3DE;border:0.5px solid #C0DD97;}
+.alert-icon{font-size:18px;flex-shrink:0;line-height:1.2;}
+.alert-text{flex:1;font-size:12px;line-height:1.4;}
+.alert-text b{font-weight:800;}
+.alert-card.red .alert-text{color:#993C1D;}
+.alert-card.yellow .alert-text{color:#854F0B;}
+.alert-card.blue .alert-text{color:#3730A3;}
+.alert-card.green .alert-text{color:#3B6D11;}
+.alert-arrow{font-size:14px;opacity:0.6;flex-shrink:0;align-self:center;}
 
 /* CARDS */
 .card{background:#fff;border:0.5px solid #E0DCF5;border-radius:16px;padding:14px;margin-bottom:12px;}
@@ -76,6 +95,8 @@ body{
 .btn-danger:active{background:#FEE2E2;}
 .btn-success{background:#EAF3DE;border:0.5px solid #C0DD97;color:#3B6D11;}
 .btn-success:active{background:#DCF0C5;}
+.btn-warning{background:#FAEEDA;border:0.5px solid #FAC775;color:#854F0B;}
+.btn-warning:active{background:#FAE4C5;}
 .btn-sm{padding:7px 12px;font-size:11px;}
 .btn-full{width:100%;}
 
@@ -104,14 +125,84 @@ body{
 .donut-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
 /* ============ PENDAFTAR LIST ============ */
-.pend-card{background:#fff;border:0.5px solid #E0DCF5;border-radius:14px;padding:14px;margin-bottom:10px;}
-.pend-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.pend-av{width:42px;height:42px;border-radius:50%;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0;}
-.pend-name{font-size:14px;font-weight:700;color:#1E1B3A;}
-.pend-meta{font-size:11px;color:#888780;margin-top:2px;}
+.pend-card{background:#fff;border:0.5px solid #E0DCF5;border-radius:18px;overflow:hidden;display:flex;min-height:130px;margin-bottom:10px;}
+
+/* AVATAR BESAR DI KIRI (mirip talent-card client) */
+.pend-av-big{
+  width:120px;flex-shrink:0;position:relative;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Instrument Serif',serif;font-style:italic;font-size:48px;color:#fff;
+  overflow:hidden;
+}
+.pend-av-big img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.pend-av-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(46,40,117,0);transition:background 0.2s;
+}
+.pend-av-big:hover .pend-av-overlay,
+.pend-av-big.playing .pend-av-overlay{background:rgba(46,40,117,0.45);}
+.pend-av-play{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.95);
+  border:1px solid #fff;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(0.8);
+  transition:opacity 0.18s,transform 0.18s;
+}
+.pend-av-big:hover .pend-av-play,
+.pend-av-big.playing .pend-av-play{opacity:1;transform:scale(1);}
+.pend-av-play svg{width:14px;height:14px;fill:#534AB7;margin-left:2px;}
+.pend-av-big.playing .pend-av-play{background:#FCD34D;border-color:#F59E0B;}
+.pend-av-big.playing .pend-av-play svg{display:none;}
+.pend-av-eq{display:none;align-items:flex-end;gap:3px;height:14px;}
+.pend-av-eq span{width:2.5px;height:100%;background:#1E1B3A;border-radius:1.5px;transform-origin:bottom center;animation:pendAvEq 0.9s ease-in-out infinite;}
+.pend-av-eq span:nth-child(1){animation-delay:0s;}
+.pend-av-eq span:nth-child(2){animation-delay:0.15s;}
+.pend-av-eq span:nth-child(3){animation-delay:0.3s;}
+.pend-av-eq span:nth-child(4){animation-delay:0.45s;}
+.pend-av-big.playing .pend-av-eq{display:inline-flex;}
+@keyframes pendAvEq{0%,100%{transform:scaleY(0.3);}50%{transform:scaleY(1);}}
+
+.pend-av-duration{
+  position:absolute;left:8px;bottom:8px;
+  font-family:'Inter',sans-serif;font-size:9.5px;font-weight:700;color:#fff;
+  background:rgba(46,40,117,0.85);
+  padding:3px 8px 3px 4px;border-radius:999px;
+  display:inline-flex;align-items:center;gap:3px;letter-spacing:-0.01em;
+}
+.pend-av-duration::before{
+  content:"";width:10px;height:10px;background:#FCD34D;border-radius:50%;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><polygon points='3,2 10,6 3,10' fill='black'/></svg>") center/7px no-repeat;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><polygon points='3,2 10,6 3,10' fill='black'/></svg>") center/7px no-repeat;
+}
+.pend-av-big.playing .pend-av-duration::before{
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/7px no-repeat;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><rect x='3' y='2.5' width='2' height='7' fill='black'/><rect x='7' y='2.5' width='2' height='7' fill='black'/></svg>") center/7px no-repeat;
+}
+
+/* BARU badge corner */
+.pend-new-corner{
+  position:absolute;top:8px;right:8px;
+  background:#DC2626;color:#fff;border-radius:6px;
+  padding:2px 6px;font-size:8.5px;font-weight:800;letter-spacing:1px;
+  z-index:2;
+}
+
+/* INFO area */
+.pend-info{flex:1;padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
+.pend-info-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:4px;}
+.pend-name{font-size:14px;font-weight:800;color:#1E1B3A;line-height:1.2;}
+.pend-gender-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;letter-spacing:0.05em;flex-shrink:0;}
+.pend-gender-badge.w{background:#FCE7F3;color:#9D174D;}
+.pend-gender-badge.p{background:#DBEAFE;color:#1E3A8A;}
+.pend-meta-row{font-size:10.5px;color:#888780;margin-bottom:6px;}
+.pend-services{font-size:10.5px;color:#534AB7;font-weight:600;margin-bottom:8px;line-height:1.4;}
+.pend-actions-row{display:flex;gap:6px;margin-top:auto;}
+.pend-actions-row .btn{flex:1;padding:7px 8px;font-size:10.5px;}
+
 .pend-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
 .pend-tag{background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;padding:3px 9px;border-radius:11px;font-size:10px;font-weight:700;}
-.pend-actions{display:flex;gap:8px;margin-top:8px;}
 
 /* ============ PRICELIST EDITOR ============ */
 .pl-service{background:#fff;border:0.5px solid #E0DCF5;border-radius:14px;padding:12px;margin-bottom:10px;}
@@ -216,7 +307,14 @@ body{
       <div class="tb-brand">SleepcallPay</div>
       <div class="tb-pill">OWNER</div>
     </div>
-    <button class="tb-logout" onclick="doLogout()" title="Logout">⏻</button>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <button class="tb-icon-btn" onclick="switchPage('pendaftar')" title="Notifikasi" style="position:relative;">
+        🔔
+        <span id="bellBadge" style="position:absolute;top:-2px;right:-2px;background:#DC2626;color:#fff;border-radius:9px;min-width:16px;height:16px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;display:none;"></span>
+      </button>
+      <button class="tb-icon-btn" onclick="openOwnerProfile()" title="Akun Saya">👤</button>
+      <button class="tb-logout" onclick="doLogout()" title="Logout">⏻</button>
+    </div>
   </div>
 
   <!-- NAVIGATION -->
@@ -236,31 +334,40 @@ body{
     <div class="sec-head">
       <div>
         <div class="sec-title">Dashboard</div>
-        <div class="sec-sub">Overview bisnis bulan ini</div>
+        <div class="sec-sub" id="dashSub">Overview bisnis bulan ini</div>
       </div>
+      <select class="period-select" id="dashPeriod" onchange="changePeriod(this.value)">
+        <option value="month">Bulan Ini</option>
+        <option value="week">Minggu Ini</option>
+        <option value="today">Hari Ini</option>
+        <option value="all">All Time</option>
+      </select>
     </div>
+
+    <!-- ALERT BANNER -->
+    <div id="alertSection"></div>
 
     <!-- KPI CARDS -->
     <div class="stat-grid">
       <div class="stat-box">
         <div class="stat-label">💰 Revenue</div>
-        <div class="stat-value" style="color:#534AB7;">Rp 24,8jt</div>
-        <div class="stat-delta up">▲ 12.5% dari bulan lalu</div>
+        <div class="stat-value" style="color:#534AB7;" id="kpiRevenue">Rp 24,8jt</div>
+        <div class="stat-delta up" id="kpiRevenueDelta">▲ 12.5% dari bulan lalu</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">🎟️ Voucher Terjual</div>
-        <div class="stat-value">847</div>
-        <div class="stat-delta up">▲ 8.2%</div>
+        <div class="stat-value" id="kpiVoucher">847</div>
+        <div class="stat-delta up" id="kpiVoucherDelta">▲ 8.2%</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">👥 Talent Aktif</div>
-        <div class="stat-value">52</div>
-        <div class="stat-delta up">▲ 5</div>
+        <div class="stat-value" id="kpiTalent">52</div>
+        <div class="stat-delta up" id="kpiTalentDelta">▲ 5</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">📞 Client Aktif</div>
-        <div class="stat-value">312</div>
-        <div class="stat-delta up">▲ 18.4%</div>
+        <div class="stat-value" id="kpiClient">312</div>
+        <div class="stat-delta up" id="kpiClientDelta">▲ 18.4%</div>
       </div>
     </div>
 
@@ -311,10 +418,33 @@ body{
       </div>
     </div>
 
-    <div style="display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;">
-      <button class="doc-tab active" data-filter="all" onclick="filterPendaftar('all')">Semua</button>
-      <button class="doc-tab" data-filter="new" onclick="filterPendaftar('new')">Baru</button>
-      <button class="doc-tab" data-filter="reviewed" onclick="filterPendaftar('reviewed')">Sudah Dilihat</button>
+    <!-- SEARCH BAR -->
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input class="field-input" id="pendaftarSearch" placeholder="🔍 Cari nama..." oninput="renderPendaftar()" style="padding:9px 12px;font-size:12.5px;"/>
+    </div>
+
+    <!-- FILTER GENDER -->
+    <div style="display:flex;gap:6px;margin-bottom:10px;">
+      <button class="doc-tab active" data-gender="all" onclick="filterGender('all')">👥 Semua</button>
+      <button class="doc-tab" data-gender="w" onclick="filterGender('w')">👩 Perempuan</button>
+      <button class="doc-tab" data-gender="p" onclick="filterGender('p')">👨 Laki-laki</button>
+    </div>
+
+    <!-- FILTER STATUS -->
+    <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;">
+      <button class="doc-tab active" data-filter="new" onclick="filterPendaftar('new')">🔴 Belum Direview</button>
+      <button class="doc-tab" data-filter="reviewed" onclick="filterPendaftar('reviewed')">👁️ Sudah Dilihat</button>
+      <button class="doc-tab" data-filter="interview" onclick="filterPendaftar('interview')">📞 Lolos Tahap</button>
+    </div>
+
+    <!-- SORT URUTAN -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+      <span style="font-size:10.5px;color:#9B98C4;font-weight:600;letter-spacing:0.05em;">Urutkan:</span>
+      <div style="display:flex;gap:5px;flex:1;">
+        <button class="doc-tab active" data-sort="newest" onclick="changeSort('newest')">⬇ Terbaru</button>
+        <button class="doc-tab" data-sort="oldest" onclick="changeSort('oldest')">⬆ Terlama</button>
+        <button class="doc-tab" data-sort="name" onclick="changeSort('name')">A-Z</button>
+      </div>
     </div>
 
     <div id="pendaftarList"></div>
@@ -350,6 +480,12 @@ body{
 
     <!-- PRICELIST EDITOR -->
     <div id="pricelistEditor"></div>
+
+    <!-- PREVIEW TABLE BAGI HASIL -->
+    <div class="card">
+      <div class="card-title">📊 Preview Bagi Hasil Talent (Per Voucher)</div>
+      <div id="previewBagi" style="font-size:11px;"></div>
+    </div>
 
     <div class="field-hint" style="text-align:center;margin-top:14px;color:#854F0B;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:10px;padding:10px;">
       ⚠️ Perubahan akan langsung berlaku untuk voucher baru. Voucher yang sudah dibeli tetap pakai harga lama.
@@ -436,8 +572,17 @@ body{
       <button class="btn btn-primary btn-sm" onclick="saveSetting()">💾 Simpan</button>
     </div>
 
+    <!-- QUICK JUMP MENU -->
+    <div style="display:flex;gap:5px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;">
+      <button class="doc-tab active" onclick="scrollToSet('setKontak')">📱 Kontak</button>
+      <button class="doc-tab" onclick="scrollToSet('setEmail')">📧 Email</button>
+      <button class="doc-tab" onclick="scrollToSet('setBs')">🎵 Backsound</button>
+      <button class="doc-tab" onclick="scrollToSet('setAturan')">⏰ Aturan</button>
+      <button class="doc-tab" onclick="scrollToSet('setBrand')">🏢 Brand</button>
+    </div>
+
     <!-- WA ADMIN -->
-    <div class="card">
+    <div class="card" id="setKontak">
       <div class="card-title">📱 Kontak Admin</div>
       <div class="field">
         <div class="field-label">NOMOR WHATSAPP ADMIN</div>
@@ -451,7 +596,7 @@ body{
     </div>
 
     <!-- EMAIL -->
-    <div class="card">
+    <div class="card" id="setEmail">
       <div class="card-title">📧 Email Brand</div>
       <div class="field">
         <div class="field-label">EMAIL PRIVACY</div>
@@ -464,7 +609,7 @@ body{
     </div>
 
     <!-- BACKSOUND -->
-    <div class="card">
+    <div class="card" id="setBs">
       <div class="card-title">🎵 Backsound Default</div>
       <div class="field-hint" style="margin-bottom:10px;">Backsound ini di-mix ke sample suara talent di halaman client.</div>
       <div class="field">
@@ -483,7 +628,7 @@ body{
     </div>
 
     <!-- VOUCHER EXPIRY -->
-    <div class="card">
+    <div class="card" id="setAturan">
       <div class="card-title">⏰ Aturan Voucher</div>
       <div class="field">
         <div class="field-label">MASA BERLAKU VOUCHER</div>
@@ -500,7 +645,7 @@ body{
     </div>
 
     <!-- TENTANG -->
-    <div class="card">
+    <div class="card" id="setBrand">
       <div class="card-title">🏢 Tentang Brand</div>
       <div class="field">
         <div class="field-label">NAMA BRAND</div>
@@ -552,6 +697,108 @@ body{
     <div class="modal-actions">
       <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalAddAdmin')">Batal</button>
       <button class="btn btn-primary" style="flex:1;" onclick="confirmAddAdmin()">✓ Tambah Admin</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL APPROVE PENDAFTAR -->
+<div class="modal" id="modalApprove">
+  <div class="modal-card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <div style="width:48px;height:48px;border-radius:50%;background:#EAF3DE;color:#3B6D11;display:flex;align-items:center;justify-content:center;font-size:24px;">✓</div>
+      <div>
+        <div class="modal-title" style="margin:0;">Terima Talent Baru</div>
+        <div class="modal-sub" style="margin:2px 0 0;">Buat akun login untuk talent</div>
+      </div>
+    </div>
+
+    <!-- Talent Info -->
+    <div style="background:#F5F3FF;border:0.5px solid #E0DCF5;border-radius:12px;padding:12px;margin-bottom:14px;">
+      <div style="font-size:9px;font-weight:800;color:#B0ADCC;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Talent</div>
+      <div style="font-size:14px;font-weight:700;color:#1E1B3A;" id="apvNama">-</div>
+      <div style="font-size:11px;color:#888780;margin-top:2px;">📱 <span id="apvWA">-</span></div>
+      <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px;" id="apvLayanan"></div>
+    </div>
+
+    <!-- Email Login -->
+    <div class="field">
+      <div class="field-label">📧 EMAIL LOGIN</div>
+      <input class="field-input" id="apvEmail" placeholder="talent@sleepcallpay.id"/>
+      <div class="field-hint">Email ini yang dipakai talent untuk login. Bisa diubah sesuai kebutuhan.</div>
+    </div>
+
+    <!-- Password -->
+    <div class="field">
+      <div class="field-label">🔐 PASSWORD AUTO-GENERATE</div>
+      <div style="display:flex;gap:8px;align-items:stretch;">
+        <div style="flex:1;background:#F5F3FF;border:0.5px solid #AFA9EC;border-radius:11px;padding:11px 14px;font-family:'Courier New',monospace;font-size:16px;font-weight:800;color:#534AB7;letter-spacing:2px;text-align:center;" id="apvPassword">xxxx0000</div>
+        <button class="btn btn-secondary" style="padding:0 12px;" onclick="regeneratePassword()" title="Generate ulang">🔄</button>
+        <button class="btn btn-secondary" style="padding:0 12px;" onclick="copyPassword()" title="Copy">📋</button>
+      </div>
+      <div class="field-hint">8 karakter (4 huruf + 4 angka). Talent wajib ganti password setelah login pertama.</div>
+    </div>
+
+    <!-- Info -->
+    <div style="background:#EEF2FF;border:0.5px solid #C7D2FE;border-radius:11px;padding:10px 12px;margin-bottom:14px;display:flex;gap:8px;font-size:11px;color:#3730A3;line-height:1.5;">
+      <div style="font-size:14px;">💡</div>
+      <div>
+        Setelah klik <b>"Buat Akun & Kirim WA"</b>, sistem akan:<br/>
+        1. Buat akun talent dengan email & password ini<br/>
+        2. Buka WhatsApp dengan pesan login yang siap dikirim<br/>
+        3. Hapus data pendaftar dari list (sudah jadi talent aktif)
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalApprove')">Batal</button>
+      <button class="btn btn-primary" style="flex:1.4;" onclick="confirmApprove()">✓ Buat Akun & Kirim WA</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL OWNER PROFILE -->
+<div class="modal" id="modalOwnerProfile">
+  <div class="modal-card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <div style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#A78BFA,#6D28D9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;">👑</div>
+      <div>
+        <div class="modal-title" style="margin:0;">Akun Saya</div>
+        <div class="modal-sub" style="margin:2px 0 0;">Owner SleepcallPay</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">NAMA OWNER</div>
+      <input class="field-input" id="ownerName" value="Owner SleepcallPay"/>
+    </div>
+    <div class="field">
+      <div class="field-label">EMAIL LOGIN</div>
+      <input class="field-input" id="ownerEmail" value="owner@sleepcallpay.id"/>
+    </div>
+    <div class="field">
+      <div class="field-label">NOMOR WHATSAPP</div>
+      <input class="field-input" id="ownerWA" value="6281234269000"/>
+    </div>
+
+    <div style="height:0.5px;background:#E0DCF5;margin:14px 0 12px;"></div>
+    <div style="font-size:10px;font-weight:800;color:#B0ADCC;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px;">🔐 Ganti Password (opsional)</div>
+
+    <div class="field">
+      <div class="field-label">PASSWORD LAMA</div>
+      <input class="field-input" id="ownerOldPass" type="password" placeholder="••••••••"/>
+    </div>
+    <div class="field">
+      <div class="field-label">PASSWORD BARU</div>
+      <input class="field-input" id="ownerNewPass" type="password" placeholder="Min. 8 karakter"/>
+    </div>
+    <div class="field" style="margin-bottom:0;">
+      <div class="field-label">KONFIRMASI PASSWORD BARU</div>
+      <input class="field-input" id="ownerConfirmPass" type="password" placeholder="Ulangi password baru"/>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalOwnerProfile')">Batal</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveOwnerProfile()">💾 Simpan</button>
     </div>
   </div>
 </div>
@@ -619,9 +866,54 @@ function showToast(msg){
 // DASHBOARD
 // ============================================
 function initDashboard(){
+  renderAlerts();
   renderChart();
   renderDonut();
   renderTopTalent();
+}
+
+function renderAlerts(){
+  const newPendaftar = DEMO_PENDAFTAR.filter(p=>p.status==='new').length;
+  const interviewPendaftar = DEMO_PENDAFTAR.filter(p=>p.status==='interview').length;
+  let alerts = [];
+
+  if(newPendaftar > 0){
+    alerts.push({
+      type:'red',
+      icon:'🔔',
+      text:`<b>${newPendaftar} pendaftar baru</b> belum di-review`,
+      action:()=>{switchPage('pendaftar');filterPendaftar('new');}
+    });
+  }
+  if(interviewPendaftar > 0){
+    alerts.push({
+      type:'yellow',
+      icon:'📞',
+      text:`<b>${interviewPendaftar} pendaftar</b> menunggu hasil interview`,
+      action:()=>{switchPage('pendaftar');filterPendaftar('interview');}
+    });
+  }
+  alerts.push({
+    type:'blue',
+    icon:'📊',
+    text:`Revenue minggu ini <b>naik 12.5%</b> dari minggu lalu`,
+    action:null
+  });
+
+  document.getElementById('alertSection').innerHTML = alerts.map((a,i)=>{
+    return `<div class="alert-card ${a.type}" onclick="${a.action ? `(${a.action})()` : 'void(0)'}">
+      <div class="alert-icon">${a.icon}</div>
+      <div class="alert-text">${a.text}</div>
+      ${a.action ? '<div class="alert-arrow">›</div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function changePeriod(period){
+  const labels = {month:'bulan ini', week:'minggu ini', today:'hari ini', all:'all time'};
+  document.getElementById('dashSub').textContent = 'Overview bisnis ' + labels[period];
+  // demo: data tetap sama, di production fetch dari backend per periode
+  showToast('🔄 Data periode '+labels[period]+' dimuat');
 }
 
 function renderChart(){
@@ -726,16 +1018,135 @@ function renderTopTalent(){
 // PENDAFTAR BARU
 // ============================================
 const DEMO_PENDAFTAR = [
-  {id:1, nama:'Rina Kartika', umur:22, kota:'Jakarta', gender:'w', wa:'081234567890', tgl:'14 Mei 2026', jam:'09:32', layanan:['Sleep Call','Curhat Call'], reviewed:false, kesibukan:'Mahasiswi Tingkat 3 Psikologi UI', tau:'Instagram', pernah:'Belum pernah', sosmed:'@rinakkartika', hari:['Senin','Selasa','Rabu','Kamis','Jumat'], jam_kerja:'19:00-23:00', skills:{Komunikasi:8,Pendengar:9,'Merespons Curhat':9,Kepribadian:6,'Sabar/Empati':9,Ketegasan:6,'Sopan Santun':9,Humoris:7}, batasan:'Tidak menerima topik vulgar', bio:'Hai aku Rina, suka dengerin cerita dan kasih dukungan. Semangat untuk kamu!'},
-  {id:2, nama:'Adi Pramana', umur:25, kota:'Bandung', gender:'p', wa:'082198765432', tgl:'14 Mei 2026', jam:'08:15', layanan:['Teman Call','Sleep Call'], reviewed:false, kesibukan:'Freelance Designer', tau:'TikTok', pernah:'Pernah di platform lain (2 bulan)', sosmed:'@adipramana_', hari:['Sabtu','Minggu'], jam_kerja:'20:00-02:00', skills:{Komunikasi:9,Pendengar:7,'Merespons Curhat':6,Kepribadian:8,'Sabar/Empati':7,Ketegasan:7,'Sopan Santun':8,Humoris:9}, batasan:'-', bio:'Halo! Aku Adi, asik diajak ngobrol soal apa aja. Yuk temenin malammu!'},
-  {id:3, nama:'Sari Wulandari', umur:20, kota:'Surabaya', gender:'w', wa:'085671234567', tgl:'13 Mei 2026', jam:'21:45', layanan:['Curhat Call','Pacar Virtual'], reviewed:true, kesibukan:'Mahasiswi Sastra Inggris', tau:'Teman', pernah:'Belum pernah', sosmed:'@sarwul.id', hari:['Senin','Rabu','Jumat','Sabtu','Minggu'], jam_kerja:'21:00-01:00', skills:{Komunikasi:8,Pendengar:8,'Merespons Curhat':9,Kepribadian:7,'Sabar/Empati':9,Ketegasan:5,'Sopan Santun':9,Humoris:6}, batasan:'Tidak ada permintaan diluar batas wajar', bio:'Aku Sari, soft & caring. Cerita apa aja, aku dengerin.'},
-  {id:4, nama:'Galih Pratama', umur:23, kota:'Yogyakarta', gender:'p', wa:'089987654321', tgl:'13 Mei 2026', jam:'18:20', layanan:['Teman Call'], reviewed:false, kesibukan:'Karyawan Swasta', tau:'Iklan FB', pernah:'Belum pernah', sosmed:'-', hari:['Senin','Selasa','Rabu','Kamis','Jumat'], jam_kerja:'19:00-22:00', skills:{Komunikasi:7,Pendengar:7,'Merespons Curhat':6,Kepribadian:7,'Sabar/Empati':7,Ketegasan:7,'Sopan Santun':8,Humoris:8}, batasan:'-', bio:'Halo, aku Galih. Suka ngobrol topik bebas terutama soal film & musik.'},
+  {
+    id:1, nama:'Rina Kartika', umur:22, kota:'Jakarta', gender:'w', wa:'081234567890',
+    tgl:'14 Mei 2026', jam:'09:32',
+    pendidikan:'S1 (Mahasiswi aktif)',
+    kesibukan:'Saat ini saya mahasiswi tingkat 3 jurusan Psikologi di Universitas Indonesia. Selain kuliah, saya ambil pekerjaan part-time sebagai admin sosmed di sebuah brand fashion lokal, sekitar 4 jam per hari di pagi-siang. Sore-malam biasanya saya bebas, jadi saya pikir bisa jadi waktu yang pas untuk bantu jadi talent di SleepcallPay. Saya juga aktif di komunitas peer counseling kampus.',
+    instagram:'@rinakkartika',
+    tiktok:'@rinakartika22',
+    tau:'Instagram',
+    pernah:'Belum pernah pakai layanan ini sebagai customer, tapi pernah denger dari teman yang cerita pengalaman positif. Saya tertarik karena merasa cocok dengan misi platform ini untuk jadi teman ngobrol yang aman dan suportif.',
+    layanan:['Sleep Call','Curhat Call'],
+    hari:['Senin','Selasa','Rabu','Kamis','Jumat'],
+    jam_kerja:'19:00 - 23:00',
+    skills:{Komunikasi:8,Pendengar:9,'Merespons Curhat':9,Kepribadian:6,'Sabar/Empati':9,Ketegasan:6,'Sopan Santun':9,Humoris:7},
+    tentang:'Halo, perkenalkan saya Rina, 22 tahun, mahasiswi Psikologi UI. Sejak SMA saya udah suka banget dengerin cerita orang. Sahabat-sahabat saya bilang saya itu pendengar yang sabar dan bisa bikin orang nyaman cerita. Saya tertarik jadi talent di SleepcallPay karena dua alasan: pertama, ini selaras dengan apa yang saya pelajari dan ingin saya tekuni sebagai psikolog nanti. Kedua, saya butuh tambahan penghasilan untuk biaya kuliah dan kos tanpa harus bergantung 100% dari orangtua. Saya yakin saya bisa kasih nilai tambah untuk client yang butuh teman ngobrol di malam hari.',
+    handling:'Pertama-tama saya akan tetap tenang dan tidak ikut terbawa emosi. Saya dengarkan dulu sampai client selesai bercerita tanpa memotong. Setelah itu saya validasi dulu perasaannya, misalnya "wajar banget kalau kamu merasa kayak gitu". Baru setelah dia merasa didengar, saya kasih perspektif atau pertanyaan reflektif yang bisa bantu dia liat masalahnya dari sudut beda. Kalau client mulai kasar atau melampaui batas, saya tetap sopan tapi tegas mengarahkan obrolan kembali ke jalur yang sehat. Kalau memang gak bisa diarahkan, saya akan akhiri panggilan dengan baik.',
+    batasan:'Saya tidak menerima topik vulgar atau bermuatan seksual dalam bentuk apapun. Saya juga tidak mau dipanggil dengan sebutan "sayang", "pacar", atau panggilan mesra lain dengan nada genit, karena saya bukan jasa pacar virtual. Tidak menerima permintaan untuk video call atau pertemuan offline. Saya juga akan minta admin nge-block client yang menyebar informasi pribadi saya atau menghubungi saya di luar platform.',
+    rutinitas:'Pagi jam 7-12 saya kuliah online atau offline tergantung jadwal. Siang 13-17 saya kerja part-time admin sosmed dari rumah/kafe. Sore 17-19 biasanya saya istirahat, makan, mandi, journaling sebentar. Malam 19-23 ini waktu saya yang paling produktif untuk hal seperti baca jurnal, nonton drakor pelan-pelan, atau ngobrol sama teman. Tidur jam 23-30. Weekend lebih fleksibel, biasanya ketemu teman atau pulang ke rumah orangtua.',
+    main_game:'Tidak',
+    game_nama:'-',
+    sering_call:'Ya, sering',
+    call_siapa:'Saya sering call sahabat dekat saya (3 orang) terutama kalau salah satu dari kami lagi ada masalah. Juga rutin video call sama mama dan adik di kampung, biasanya 2-3 kali seminggu. Kalau lagi homesick atau ada keputusan besar yang perlu dipertimbangkan, biasanya saya call mama dulu.',
+    coaching:'Ya, sangat bersedia',
+    support:'Ya, sahabat dekat saya tahu. Awalnya saya cerita ke dia karena ragu, takut dianggap aneh, tapi dia mendukung penuh dan bilang kalau ini bisa jadi pengalaman bagus untuk karir psikologi saya nanti. Orangtua belum tahu, rencananya saya cerita setelah diterima dan stabil, karena saya tidak mau bikin mereka khawatir kalau ternyata tidak diterima.',
+    pengalaman:'Pernah jadi peer counselor di Pusat Konseling Mahasiswa UI selama 1 tahun (2024-2025). Tugas utama: handle curhat teman-teman tentang masalah akademik, keluarga, dan relationship. Setiap bulan ada supervisi dari psikolog kampus. Selain itu, pernah jadi volunteer di hotline mental health komunitas selama 6 bulan, total handle sekitar 80+ panggilan. Pengalaman ini bikin saya paham bagaimana mendengarkan tanpa judgment dan memberi respons yang membangun.',
+    bio:'Hai aku Rina, mahasiswi psikologi yang seneng dengerin cerita kamu. Cerita apa aja, aku siap menemani malammu dengan kehangatan dan tanpa judgment 💜',
+    foto:null, audio:true,
+    status:'new'
+  },
+  {
+    id:2, nama:'Adi Pramana', umur:25, kota:'Bandung', gender:'p', wa:'082198765432',
+    tgl:'14 Mei 2026', jam:'08:15',
+    pendidikan:'S1 (Lulus tahun 2023)',
+    kesibukan:'Saya freelance designer (grafis & UI/UX) dengan beberapa klien tetap di Jakarta dan Singapura. Kerja remote dari rumah, jadwal fleksibel banget. Biasanya kerja siang sampai sore (10:00-17:00), lalu off. Penghasilan freelance tidak stabil tergantung project, jadi pengen ada side income yang lebih predictable. Selain itu saya juga sedang belajar bikin konten YouTube tentang design tutorial.',
+    instagram:'@adipramana_',
+    tiktok:'-',
+    tau:'TikTok',
+    pernah:'Pernah jadi talent di platform serupa (sebut saja platform "X") sekitar 2 bulan di tahun 2024. Berhenti karena platform-nya tutup mendadak dan saldo saya hangus sekitar 800rb. Pengalaman itu bikin saya lebih hati-hati pilih platform. Saya milih SleepcallPay karena keliatan lebih profesional dari sistemnya.',
+    layanan:['Teman Call','Sleep Call'],
+    hari:['Sabtu','Minggu'],
+    jam_kerja:'20:00 - 02:00',
+    skills:{Komunikasi:9,Pendengar:7,'Merespons Curhat':6,Kepribadian:8,'Sabar/Empati':7,Ketegasan:7,'Sopan Santun':8,Humoris:9},
+    tentang:'Halo, saya Adi, 25 tahun, freelance designer dari Bandung. Suara saya sering dipuji teman-teman: "enak banget didenger, bikin tenang". Itu jadi salah satu motivasi saya daftar. Saya orangnya santai tapi profesional, suka diajak ngobrol topik random dari film, musik, sejarah, sampai filosofi hidup. Bisa juga jadi pendengar yang baik kalau client butuh. Tujuan utama saya stable side income untuk dukung idealisme saya di freelance design yang kadang gak menentu. Saya juga liat ini sebagai cara expand soft skill saya dalam komunikasi yang berguna untuk karir saya.',
+    handling:'Pengalaman 2 bulan di platform sebelumnya bantu saya baca situasi cepat. Kalau client bad mood atau pasif, saya gak maksa nanya ini-itu. Saya bisa kasih monolog ringan dulu, cerita random soal hari saya atau topik netral, biar dia merasa gak harus "perform". Pelan-pelan baru pancing dia ngobrol. Kalau client kasar, saya sekali kasih warning dengan tegas, kalau lanjut saya tutup panggilan tanpa drama dan lapor admin.',
+    batasan:'Tidak mau diminta janji ketemuan offline atau diminta nomor pribadi di luar platform. Tidak menerima permintaan rekam suara untuk hal yang vulgar atau menjurus. Saya juga akan menolak kalau client minta saya "berpura-pura sebagai pacar" karena saya tidak ambil layanan Pacar Virtual. Selain itu, saya pasang batasan untuk diskusi politik dan agama, karena topik ini gampang panas.',
+    rutinitas:'Senin-Jumat saya prioritas freelance design. Bangun 09:00, sarapan, cek email & client, mulai kerja sekitar 10:00 sampai 17:00. Sore biasanya olahraga ringan atau jalan-jalan keluar. Malam buat hobi: nge-game, edit konten YouTube, atau nonton series. Weekend (Sabtu-Minggu) saya skip kerja design dan fokus ke aktivitas santai - inilah waktu yang saya alokasikan untuk jadi talent malam-malam, karena pagi-siang weekend biasanya saya istirahat panjang dari layar.',
+    main_game:'Ya',
+    game_nama:'Valorant (Diamond rank), Mobile Legends (Mythic), kadang main story-based games di Steam seperti Hollow Knight, Stardew Valley',
+    sering_call:'Kadang-kadang',
+    call_siapa:'Sering call sama teman gaming waktu mabar online di malam hari. Selain itu rutin video call sama keluarga di Bandung walaupun jaraknya dekat, karena saya kos sendiri. Beberapa klien freelance juga prefer Zoom call buat brief project, jadi saya udah terbiasa ngobrol dengan orang baru via call.',
+    coaching:'Ya, bersedia. Justru saya berharap dapat coaching karena pengalaman saya di platform sebelumnya pasti ada gap dengan standar SleepcallPay.',
+    support:'Tidak, saya belum cerita ke siapa-siapa. Saya tipikal yang prefer establish dulu baru cerita kalau ada hasilnya. Kalau ditanya keluarga, saya cuma bilang ini "kerja part-time online" tanpa detail.',
+    pengalaman:'1) Talent di platform call serupa (2 bulan, 2024). 2) Freelance designer (3 tahun, 2023-sekarang) - dealing dengan banyak klien internasional, terbiasa komunikasi profesional. 3) Pernah jadi MC acara kampus & internship event - terbiasa speak di depan banyak orang. 4) Voice over project untuk YouTube channel teman.',
+    bio:'Halo! Aku Adi, 25 tahun, suara santai dan asik buat temenin malam atau hangout kamu. Topik bebas, mau cerita atau cuma butuh ditemani diam juga oke. Yuk!',
+    foto:null, audio:true,
+    status:'interview'
+  },
+  {
+    id:3, nama:'Sari Wulandari', umur:20, kota:'Surabaya', gender:'w', wa:'085671234567',
+    tgl:'13 Mei 2026', jam:'21:45',
+    pendidikan:'S1 (Mahasiswi aktif)',
+    kesibukan:'Saya mahasiswi semester 4 jurusan Sastra Inggris di Universitas Airlangga. Kuliah saya cuma 3 hari seminggu (Selasa, Kamis, Jumat) jadi banyak waktu luang. Saat ini saya tidak ada part-time karena ingin fokus ke akademik, tapi merasa butuh aktivitas produktif yang bisa hasilkan uang sendiri. IPK saya 3.78, jadi saya cukup yakin bisa balance antara kuliah dan kerja sebagai talent.',
+    instagram:'@sarwul.id',
+    tiktok:'@sariwul',
+    tau:'Teman',
+    pernah:'Belum pernah pakai layanan ini atau platform serupa sebagai customer.',
+    layanan:['Curhat Call','Pacar Virtual'],
+    hari:['Senin','Rabu','Jumat','Sabtu','Minggu'],
+    jam_kerja:'21:00 - 01:00',
+    skills:{Komunikasi:8,Pendengar:8,'Merespons Curhat':9,Kepribadian:7,'Sabar/Empati':9,Ketegasan:5,'Sopan Santun':9,Humoris:6},
+    tentang:'Hai, perkenalkan saya Sari, 20 tahun, mahasiswi Sastra Inggris di Unair. Banyak teman bilang saya itu orangnya soft, caring, dan suka dengerin orang cerita. Sejak SMP saya jadi tempat curhat sahabat-sahabat tentang masalah keluarga atau patah hati. Saya tertarik daftar di SleepcallPay karena pengen dapet penghasilan sendiri tanpa bebani orangtua yang udah biayain kuliah. Saya juga ingin belajar untuk lebih confident dan profesional dalam komunikasi, karena saya tahu skill ini akan bermanfaat untuk karir saya nanti di bidang penerjemahan atau penulisan kreatif. Saya pikir layanan curhat call dan pacar virtual cocok dengan kepribadian saya yang lembut.',
+    handling:'Saya percaya prinsipnya adalah kesabaran dan empati. Tidak semua client datang dalam mood yang baik. Kalau ada client yang awalnya dingin atau judes, saya tidak langsung balik dingin. Saya coba pahami mungkin mereka lagi capek atau ada masalah. Kalau gak bisa di-solve dengan ngobrol, saya pilih untuk tetap menemani aja dengan tenang - kadang orang butuh keberadaan, bukan solusi. Tapi saya tetap punya garis: kalau client mulai kasar, melecehkan, atau melampaui batas yang udah saya tetapkan, saya tegas tutup dan lapor admin.',
+    batasan:'Saya tidak menerima topik vulgar dalam bentuk apapun. Tidak menerima permintaan untuk "berperan" jadi karakter yang sexual atau ambigu. Karena saya ambil layanan Pacar Virtual, saya OK dipanggil sayang/cinta dalam konteks yang wholesome, tapi tidak menerima permintaan untuk dirty talk atau permintaan personal yang melanggar privasi (alamat, sekolah, dll). Saya juga tegas menolak kalau diajak ketemuan offline.',
+    rutinitas:'Hari kuliah (Selasa, Kamis, Jumat): kuliah pagi-siang 08:00-15:00, sore di kos belajar atau ngerjain tugas, malam santai. Hari libur (Senin, Rabu, Sabtu, Minggu): bebas, biasanya pergi sama teman kos atau di kosan baca novel. Setiap malam saya rutin journaling sebelum tidur (sekitar 23:00) dan biasanya tidur jam 24:00. Pagi bangun 07:00.',
+    main_game:'Tidak',
+    game_nama:'-',
+    sering_call:'Jarang',
+    call_siapa:'Cuma sama pacar saya yang sedang LDR di Jogja. Kami video call hampir setiap malam, biasanya 30 menit - 1 jam. Selain pacar, saya jarang banget call orang lain, lebih sering chat.',
+    coaching:'Ya, sangat bersedia. Saya newbie dan tahu banyak yang harus saya pelajari.',
+    support:'Ya, pacar saya tahu dan dia mendukung. Kami diskusi panjang sebelum saya akhirnya memutuskan daftar. Dia justru yang ngasih saran untuk ambil layanan Curhat & Pacar Virtual, karena dia tahu saya orangnya emang lembut dan caring. Dia percaya saya bisa profesional dalam memisahkan kerja dan personal.',
+    pengalaman:'Belum ada pengalaman kerja formal. Aktif di organisasi kampus sebagai Sekretaris HIMA Sastra Inggris (1 tahun). Pernah jadi MC kecil-kecilan untuk acara kampus. Aktif nulis di blog pribadi tentang review buku & film, sudah punya followers sekitar 2000 di blog dan IG combined. Pernah ikut volunteer literasi anak panti asuhan (1 semester).',
+    bio:'Aku Sari, 20 tahun, soft & caring. Cerita apa aja, aku temenin dengan kehangatan. Yuk ngobrol bareng aku ✨',
+    foto:null, audio:true,
+    status:'reviewed'
+  },
+  {
+    id:4, nama:'Galih Pratama', umur:23, kota:'Yogyakarta', gender:'p', wa:'089987654321',
+    tgl:'13 Mei 2026', jam:'18:20',
+    pendidikan:'D3 (Lulus tahun 2024)',
+    kesibukan:'Saya karyawan swasta di perusahaan logistik di Yogyakarta, posisi admin gudang. Sistem kerja shift: shift pagi (06:00-14:00) atau shift sore (14:00-22:00). Gaji UMR Jogja sekitar 2.3jt, pas-pasan banget buat hidup di Jogja dan sisihin uang. Itu kenapa saya cari side hustle. Saya pilih jadi talent karena modalnya cuma suara dan waktu, gak perlu investasi alat atau modal awal.',
+    instagram:'-',
+    tiktok:'-',
+    tau:'Iklan FB',
+    pernah:'Belum pernah pakai sebagai customer.',
+    layanan:['Teman Call'],
+    hari:['Senin','Selasa','Rabu','Kamis','Jumat'],
+    jam_kerja:'19:00 - 22:00',
+    skills:{Komunikasi:7,Pendengar:7,'Merespons Curhat':6,Kepribadian:7,'Sabar/Empati':7,Ketegasan:7,'Sopan Santun':8,Humoris:8},
+    tentang:'Halo, saya Galih, 23 tahun, dari Jogja. Saya orangnya santai, gak banyak drama, dan agak humoris. Sehari-hari saya kerja di gudang logistik sebagai admin. Tertarik jadi talent karena gaji UMR rasanya kurang banget di kota wisata kayak Jogja, jadi saya butuh tambahan penghasilan untuk bantu orangtua di kampung dan tabungan masa depan. Saya cuma daftar untuk layanan Teman Call karena saya ngerasa cocok jadi temen ngobrol santai yang gak ngambek-ngambek, tapi belum berani ambil layanan curhat karena saya gak begitu pandai kasih nasihat emosional.',
+    handling:'Saya lebih ke pendengar yang santai dan reaktif. Kalau client mau cerita panjang lebar, saya dengarkan dan kasih respons seperlunya - misalnya "wah serius?", "terus gimana?", biar dia ngerasa didengar. Kalau client mau diam aja sambil ditemani, saya OK juga. Untuk client yang complicated, saya akan jujur bilang "wah maaf, aku gak begitu paham buat masalah serius kayak gitu, mungkin kakak bisa coba curhat call sama talent yang lain yang lebih jago di area itu". Saya rasa lebih baik jujur daripada maksain.',
+    batasan:'Saya gak terima permintaan vulgar. Tapi sebenarnya saya cowok jadi kemungkinan client cewek ngajakin yang aneh-aneh kayaknya minim, tapi tetap saya pasang aturan ini. Saya juga gak mau diminta ngobrol berlama-lama melebihi durasi voucher tanpa booking baru. Selain itu standar lah, gak mau dimintain data pribadi atau diajak ketemuan offline.',
+    rutinitas:'Shift kerja 8 jam (pagi atau sore tergantung jadwal mingguan). Kalau shift pagi, malam saya free dari jam 16:00. Kalau shift sore, pagi-siang free. Off-shift biasanya istirahat di kos atau nongkrong di warung kopi sama teman-teman kerja. Kadang pulang kampung weekend (rumah orangtua di Wonosobo, 2 jam dari Jogja). Saya cuma ambil jam 19-22 sebagai talent karena selain itu saya kerja atau tidur.',
+    main_game:'Ya',
+    game_nama:'PES/eFootball (sering main bareng temen kost), Mobile Legends casual, FIFA versi pc lawas, kadang main GTA V',
+    sering_call:'Kadang-kadang',
+    call_siapa:'Sering call sama keluarga di kampung (papa, mama, adik) - biasanya seminggu 2-3 kali. Kalau sama teman kerja atau teman kos, lebih sering chat WA daripada call.',
+    coaching:'Ya, bersedia.',
+    support:'Tidak, saya belum cerita ke siapa-siapa. Mau kerjain dulu kalau diterima baru saya cerita ke teman dekat. Kalau keluarga, saya kayaknya bakal tetep nutup-nutupin karena khawatir orangtua mikirnya aneh.',
+    pengalaman:'1) Karyawan admin gudang (2024-sekarang, 1.5 tahun) - terbiasa komunikasi dengan supir, kurir, sales. 2) Pernah part-time sebagai resepsionis hotel kecil di Jogja waktu kuliah (8 bulan). 3) Pernah jualan online (drop ship) untuk tambah uang jajan waktu kuliah. 4) Aktif di organisasi UKM olahraga waktu D3.',
+    bio:'Halo, aku Galih dari Jogja. Suka ngobrol topik bebas terutama soal film, musik, dan bola. Yuk temenin sore atau malam santai kamu!',
+    foto:null, audio:true,
+    status:'new'
+  },
 ];
-let pendaftarFilter = 'all';
+let pendaftarFilter = 'new';
+let pendaftarGender = 'all';
+let pendaftarSort = 'newest';
 
 function initPendaftar(){
-  const newCount = DEMO_PENDAFTAR.filter(p => !p.reviewed).length;
-  document.getElementById('pendaftarBadge').textContent = newCount > 0 ? newCount : '';
+  const newCount = DEMO_PENDAFTAR.filter(p => p.status==='new').length;
+  const badge = document.getElementById('pendaftarBadge');
+  badge.textContent = newCount > 0 ? newCount : '';
+  // Bell badge di topbar
+  const bell = document.getElementById('bellBadge');
+  if(newCount > 0){
+    bell.textContent = newCount;
+    bell.style.display = 'flex';
+  } else {
+    bell.style.display = 'none';
+  }
   renderPendaftar();
 }
 
@@ -745,10 +1156,42 @@ function filterPendaftar(f){
   renderPendaftar();
 }
 
+function filterGender(g){
+  pendaftarGender = g;
+  document.querySelectorAll('.doc-tab[data-gender]').forEach(b=>b.classList.toggle('active', b.dataset.gender===g));
+  renderPendaftar();
+}
+
 function renderPendaftar(){
-  let filtered = DEMO_PENDAFTAR;
-  if(pendaftarFilter === 'new') filtered = filtered.filter(p=>!p.reviewed);
-  else if(pendaftarFilter === 'reviewed') filtered = filtered.filter(p=>p.reviewed);
+  let filtered = [...DEMO_PENDAFTAR];
+  if(pendaftarFilter === 'new') filtered = filtered.filter(p=>p.status==='new');
+  else if(pendaftarFilter === 'reviewed') filtered = filtered.filter(p=>p.status==='reviewed');
+  else if(pendaftarFilter === 'interview') filtered = filtered.filter(p=>p.status==='interview');
+
+  // Filter by gender
+  if(pendaftarGender === 'w') filtered = filtered.filter(p=>p.gender==='w');
+  else if(pendaftarGender === 'p') filtered = filtered.filter(p=>p.gender==='p');
+
+  // Search
+  const searchEl = document.getElementById('pendaftarSearch');
+  if(searchEl){
+    const q = searchEl.value.toLowerCase().trim();
+    if(q){
+      filtered = filtered.filter(p =>
+        p.nama.toLowerCase().includes(q) ||
+        p.kota.toLowerCase().includes(q) ||
+        p.wa.includes(q)
+      );
+    }
+  }
+
+  // Sort
+  const sortEl = document.getElementById('pendaftarSort');
+  if(sortEl){
+    const sortVal = sortEl.value;
+    if(sortVal === 'oldest') filtered.reverse();
+    else if(sortVal === 'name') filtered.sort((a,b)=>a.nama.localeCompare(b.nama));
+  }
 
   if(filtered.length === 0){
     document.getElementById('pendaftarList').innerHTML = `<div style="text-align:center;padding:40px 20px;color:#B0ADCC;font-size:13px;">📭 Tidak ada pendaftar di filter ini</div>`;
@@ -756,95 +1199,338 @@ function renderPendaftar(){
   }
 
   document.getElementById('pendaftarList').innerHTML = filtered.map(p=>{
-    const newBadge = !p.reviewed ? `<span style="background:#DC2626;color:#fff;border-radius:8px;padding:1px 7px;font-size:9px;font-weight:800;letter-spacing:1px;margin-left:6px;">BARU</span>` : '';
-    const genderIcon = p.gender === 'w' ? '👩' : '👨';
+    const isNew = p.status === 'new';
+    const isInterview = p.status === 'interview';
+    const genderBadge = p.gender === 'w' ? '♀' : '♂';
+    const genderClass = p.gender;
+    const avatarGradient = p.gender === 'w'
+      ? 'linear-gradient(135deg,#F9A8D4,#A78BFA)'
+      : 'linear-gradient(135deg,#A78BFA,#6D28D9)';
+
+    // Audio sample dummy (di production akan dari p.audio URL)
+    const audioId = `pendAudio_${p.id}`;
+    const avatarId = `pendAv_${p.id}`;
+    const sampleDuration = '0:24'; // dummy duration
+
     return `<div class="pend-card">
-      <div class="pend-head">
-        <div class="pend-av">${p.nama[0]}</div>
-        <div style="flex:1;">
-          <div class="pend-name">${p.nama}${newBadge}</div>
-          <div class="pend-meta">${genderIcon} ${p.umur}th · ${p.kota} · ${p.tgl} ${p.jam}</div>
+      <!-- AVATAR BESAR (klik untuk play audio) -->
+      <div class="pend-av-big" id="${avatarId}" style="background:${avatarGradient};" onclick="event.stopPropagation();togglePendAudio(${p.id})">
+        ${p.foto ? `<img src="${p.foto}" alt="${p.nama}"/>` : `<span style="position:relative;z-index:1;">${p.nama[0]}</span>`}
+        ${isNew ? `<div class="pend-new-corner">BARU</div>` : (isInterview ? `<div class="pend-new-corner" style="background:#F59E0B;">INTERVIEW</div>` : '')}
+        <div class="pend-av-overlay">
+          <div class="pend-av-play">
+            <svg viewBox="0 0 12 12"><polygon points="3,2 10,6 3,10"/></svg>
+            <div class="pend-av-eq"><span></span><span></span><span></span><span></span></div>
+          </div>
         </div>
+        <div class="pend-av-duration"><span class="pend-av-duration-text">${sampleDuration}</span></div>
       </div>
-      <div class="pend-tags">${p.layanan.map(l=>`<span class="pend-tag">${l}</span>`).join('')}</div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="openDetail(${p.id})">👁️ Detail</button>
-        <button class="btn btn-success btn-sm" onclick="approvePendaftar(${p.id})">✓ Terima</button>
-        <button class="btn btn-danger btn-sm" onclick="rejectPendaftar(${p.id})">✕ Tolak</button>
+
+      <!-- INFO -->
+      <div class="pend-info" onclick="openDetail(${p.id})">
+        <div class="pend-info-top">
+          <div style="min-width:0;">
+            <div class="pend-name">${p.nama}</div>
+            <div class="pend-meta-row"><span class="pend-gender-badge ${genderClass}">${genderBadge} ${p.umur}th</span> · ${p.kota}</div>
+          </div>
+        </div>
+        <div class="pend-services">${p.layanan.join(' · ')}</div>
+        <div class="pend-actions-row" onclick="event.stopPropagation();">
+          <button class="btn btn-secondary" onclick="openDetail(${p.id})">👁️ Detail</button>
+          ${isInterview
+            ? `<button class="btn btn-success" onclick="approvePendaftar(${p.id})">✓ Terima</button>
+               <button class="btn btn-danger" onclick="rejectPendaftar(${p.id})">✕ Tolak</button>`
+            : `<button class="btn btn-warning" onclick="moveToInterview(${p.id})">📞 Lolos Tahap</button>
+               <button class="btn btn-danger" onclick="rejectPendaftar(${p.id})">✕ Tolak</button>`
+          }
+        </div>
       </div>
     </div>`;
   }).join('');
 }
 
+// ============================================
+// AUDIO PLAY DI CARD PENDAFTAR (Web Audio synth - no URL needed)
+// Mirip pattern di client.html
+// ============================================
+let pendAudioCtx = null;
+let pendActiveId = null;
+let pendActiveStop = null;
+let pendActiveTimer = null;
+
+function pendStrHash(s){
+  let h = 0;
+  for(let i=0; i<s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function pendFmt(sec){
+  return '0:' + String(Math.max(0, Math.ceil(sec))).padStart(2, '0');
+}
+
+function pendEnsureCtx(){
+  if(!pendAudioCtx) pendAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(pendAudioCtx.state === 'suspended') pendAudioCtx.resume();
+  return pendAudioCtx;
+}
+
+// Synthesize soft pad + melodic sequence (placeholder voice sample)
+function pendPlaySynth(seed, durationSec){
+  const ctx = pendEnsureCtx();
+  const out = ctx.createGain();
+  out.gain.value = 0;
+  out.connect(ctx.destination);
+
+  const t0 = ctx.currentTime;
+  out.gain.linearRampToValueAtTime(0.18, t0 + 0.4);
+  out.gain.setValueAtTime(0.18, t0 + durationSec - 0.6);
+  out.gain.linearRampToValueAtTime(0, t0 + durationSec);
+
+  // Pentatonic notes
+  const scale = [220.00, 246.94, 277.18, 329.63, 369.99, 440.00, 493.88, 554.37];
+  const baseIdx = seed % scale.length;
+  const noteCount = 7;
+  const notes = [];
+  let idx = baseIdx;
+  for(let i=0; i<noteCount; i++){
+    idx = (idx + ((seed >> (i*2)) & 3) - 1 + scale.length) % scale.length;
+    notes.push(scale[idx]);
+  }
+
+  // Drone pad
+  const pad = ctx.createOscillator();
+  pad.type = 'sine';
+  pad.frequency.value = scale[baseIdx] / 2;
+  const padGain = ctx.createGain();
+  padGain.gain.value = 0.25;
+  pad.connect(padGain).connect(out);
+  pad.start(t0);
+  pad.stop(t0 + durationSec);
+
+  // Melody
+  const stepDur = (durationSec - 0.5) / noteCount;
+  notes.forEach((freq, i)=>{
+    const osc = ctx.createOscillator();
+    osc.type = (seed % 2) ? 'triangle' : 'sine';
+    osc.frequency.value = freq;
+    const g = ctx.createGain();
+    const start = t0 + 0.2 + i * stepDur;
+    const peak = start + 0.05;
+    const end = start + stepDur * 0.9;
+    g.gain.setValueAtTime(0, start);
+    g.gain.linearRampToValueAtTime(0.5, peak);
+    g.gain.exponentialRampToValueAtTime(0.001, end);
+    osc.connect(g).connect(out);
+    osc.start(start);
+    osc.stop(end + 0.05);
+  });
+
+  return function stop(){
+    try { out.gain.cancelScheduledValues(ctx.currentTime); } catch(e){}
+    try { out.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.15); } catch(e){}
+  };
+}
+
+function pendStopActive(){
+  if(pendActiveStop){ try { pendActiveStop(); } catch(e){} pendActiveStop = null; }
+  if(pendActiveTimer){ clearInterval(pendActiveTimer); pendActiveTimer = null; }
+  if(pendActiveId !== null){
+    const oldAv = document.getElementById(`pendAv_${pendActiveId}`);
+    if(oldAv){
+      oldAv.classList.remove('playing');
+      const dur = oldAv.querySelector('.pend-av-duration-text');
+      if(dur) dur.textContent = oldAv.dataset.duration || '0:14';
+    }
+    pendActiveId = null;
+  }
+}
+
+function togglePendAudio(id){
+  const avEl = document.getElementById(`pendAv_${id}`);
+  if(!avEl) return;
+
+  // Toggle off kalau lagi play
+  if(pendActiveId === id){
+    pendStopActive();
+    return;
+  }
+
+  // Stop yang lain dulu
+  pendStopActive();
+
+  const p = DEMO_PENDAFTAR.find(x=>x.id===id);
+  if(!p) return;
+  if(!p.audio){
+    showToast(`🎵 ${p.nama} belum upload sample suara`);
+    return;
+  }
+
+  // Setup seed & duration per pendaftar (deterministic - sama tiap kali play)
+  const seed = pendStrHash(p.nama);
+  const durSec = 8 + (seed % 11); // 8..18 sec
+  avEl.dataset.duration = pendFmt(durSec);
+
+  // Update duration label
+  const durEl = avEl.querySelector('.pend-av-duration-text');
+  if(durEl) durEl.textContent = pendFmt(durSec);
+
+  // Play
+  try {
+    avEl.classList.add('playing');
+    pendActiveId = id;
+    pendActiveStop = pendPlaySynth(seed, durSec);
+
+    const startedAt = Date.now();
+    pendActiveTimer = setInterval(()=>{
+      const remaining = durSec - (Date.now() - startedAt) / 1000;
+      if(remaining <= 0){ pendStopActive(); return; }
+      if(durEl) durEl.textContent = pendFmt(remaining);
+    }, 200);
+  } catch(err){
+    console.warn('Audio synth error:', err);
+    avEl.classList.remove('playing');
+    pendActiveId = null;
+    showToast('⚠️ Browser tidak support Web Audio API');
+  }
+}
+
+// Legacy compat (untuk audio element kalau perlu)
+function onPendAudioEnded(id){
+  pendStopActive();
+}
+
 function openDetail(id){
   const p = DEMO_PENDAFTAR.find(x=>x.id===id);
   if(!p) return;
-  p.reviewed = true; // tandai sudah dilihat
+  if(p.status === 'new') p.status = 'reviewed'; // tandai sudah dilihat
+
   const skillsHtml = Object.entries(p.skills).map(([k,v])=>{
-    const bar = '▓'.repeat(v) + '░'.repeat(10-v);
     return `<div class="detail-skill"><span>${k}</span><b>${v}/10</b></div><div style="background:#EEEDFE;height:5px;border-radius:3px;overflow:hidden;margin-bottom:8px;"><div style="width:${v*10}%;height:100%;background:linear-gradient(90deg,#A78BFA,#6D28D9);"></div></div>`;
   }).join('');
 
+  // Kepribadian khusus: label berbeda (Introvert ↔ Extrovert)
+  const kepribadianLabel = p.skills.Kepribadian <= 3 ? 'Introvert' : (p.skills.Kepribadian >= 8 ? 'Extrovert' : (p.skills.Kepribadian <= 6 ? 'Cenderung Introvert' : 'Cenderung Extrovert'));
+
+  // Status badge config
+  const statusBadge = p.status === 'new'
+    ? `<span style="display:inline-block;background:#FEF2F2;border:0.5px solid #FCA5A5;color:#DC2626;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">🔴 BARU</span>`
+    : p.status === 'reviewed'
+    ? `<span style="display:inline-block;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">👁️ SUDAH DILIHAT</span>`
+    : `<span style="display:inline-block;background:#FAEEDA;border:0.5px solid #FAC775;color:#854F0B;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">📞 LOLOS TAHAP · INTERVIEW</span>`;
+
   document.getElementById('detailContent').innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-      <div style="width:54px;height:54px;border-radius:50%;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;">${p.nama[0]}</div>
-      <div>
-        <div style="font-size:18px;font-weight:800;color:#1E1B3A;">${p.nama}</div>
-        <div style="font-size:11px;color:#888780;">${p.gender==='w'?'👩 Wanita':'👨 Pria'} · ${p.umur}th · ${p.kota}</div>
+
+    <!-- HEADER -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+      ${p.foto ? `<img src="${p.foto}" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #AFA9EC;"/>` : `<div style="width:64px;height:64px;border-radius:50%;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;border:2px solid #AFA9EC;">${p.nama[0]}</div>`}
+      <div style="flex:1;">
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#1E1B3A;line-height:1.1;">${p.nama}</div>
+        <div style="font-size:11px;color:#888780;margin-top:4px;">${p.gender==='w'?'👩 Wanita':'👨 Pria'} · ${p.umur}th · ${p.kota}</div>
+        <div style="font-size:10px;color:#B0ADCC;margin-top:2px;">Daftar: ${p.tgl} · ${p.jam}</div>
+        ${statusBadge}
       </div>
     </div>
 
+    <!-- STEP 1: IDENTITAS & KONTAK -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:14px 4px 6px;">1️⃣ Identitas & Kontak</div>
     <div class="detail-section">
       <div class="detail-grid">
         <div><div class="detail-label">WhatsApp</div><div class="detail-value">${p.wa}</div></div>
-        <div><div class="detail-label">Sosmed</div><div class="detail-value">${p.sosmed}</div></div>
+        <div><div class="detail-label">Pendidikan</div><div class="detail-value">${p.pendidikan}</div></div>
+        <div><div class="detail-label">Instagram</div><div class="detail-value">${p.instagram}</div></div>
+        <div><div class="detail-label">TikTok</div><div class="detail-value">${p.tiktok}</div></div>
         <div><div class="detail-label">Tau dari</div><div class="detail-value">${p.tau}</div></div>
-        <div><div class="detail-label">Pengalaman</div><div class="detail-value">${p.pernah}</div></div>
+        <div><div class="detail-label">Pernah pakai</div><div class="detail-value">${p.pernah}</div></div>
       </div>
     </div>
-
     <div class="detail-section">
-      <div class="detail-label">Kesibukan</div>
+      <div class="detail-label">Kesibukan Saat Ini</div>
       <div class="detail-value">${p.kesibukan}</div>
     </div>
 
+    <!-- STEP 2: JADWAL & LAYANAN -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:14px 4px 6px;">2️⃣ Jadwal & Layanan</div>
     <div class="detail-section">
       <div class="detail-label">Layanan Ditawarkan</div>
       <div class="pend-tags" style="margin:6px 0 0;">${p.layanan.map(l=>`<span class="pend-tag">${l}</span>`).join('')}</div>
     </div>
-
     <div class="detail-section">
-      <div class="detail-label">Jadwal Tersedia</div>
+      <div class="detail-label">Hari Tersedia</div>
       <div class="detail-value" style="margin-bottom:8px;">${p.hari.join(' · ')}</div>
       <div class="detail-label">Jam Kerja</div>
       <div class="detail-value">${p.jam_kerja}</div>
     </div>
 
+    <!-- STEP 3: SELF-ASSESSMENT -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:14px 4px 6px;">3️⃣ Self-Assessment</div>
     <div class="detail-section">
-      <div class="detail-label" style="margin-bottom:8px;">Self-Assessment</div>
       ${skillsHtml}
+      <div style="font-size:10.5px;color:#888780;margin-top:6px;font-style:italic;">Kepribadian: <b style="color:#534AB7;">${kepribadianLabel}</b> (skala 1=Introvert ↔ 10=Extrovert)</div>
     </div>
 
+    <!-- STEP 4: CERITA & PRINSIP -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:14px 4px 6px;">4️⃣ Cerita & Prinsip</div>
     <div class="detail-section">
-      <div class="detail-label">Batasan</div>
+      <div class="detail-label">Ceritakan Dirimu & Kenapa Tertarik</div>
+      <div class="detail-value">${p.tentang}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Cara Hadapi Client Susah</div>
+      <div class="detail-value">${p.handling}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Batasan Tidak Boleh Dilanggar</div>
       <div class="detail-value">${p.batasan}</div>
     </div>
-
     <div class="detail-section">
-      <div class="detail-label">Bio</div>
-      <div class="detail-value" style="font-style:italic;">"${p.bio}"</div>
+      <div class="detail-label">Rutinitas Sehari-hari</div>
+      <div class="detail-value">${p.rutinitas}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-grid">
+        <div><div class="detail-label">Main Game?</div><div class="detail-value">${p.main_game}</div></div>
+        <div><div class="detail-label">Game Apa</div><div class="detail-value">${p.game_nama}</div></div>
+        <div><div class="detail-label">Sering Call?</div><div class="detail-value">${p.sering_call}</div></div>
+        <div><div class="detail-label">Sama Siapa</div><div class="detail-value">${p.call_siapa}</div></div>
+        <div><div class="detail-label">Bersedia Coaching?</div><div class="detail-value">${p.coaching}</div></div>
+        <div><div class="detail-label">Orang Terdekat Tahu?</div><div class="detail-value">${p.support}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Pengalaman Kerja / Organisasi</div>
+      <div class="detail-value">${p.pengalaman}</div>
     </div>
 
+    <!-- STEP 5: PROFIL PUBLIK -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:14px 4px 6px;">5️⃣ Profil Publik (Yang Akan Tampil di Client)</div>
+    <div class="detail-section" style="background:#FAFBFC;border:1.5px dashed #A5B4FC;text-align:center;padding:24px 16px;">
+      <div class="detail-label" style="margin-bottom:14px;">Foto Profil</div>
+      ${p.foto
+        ? `<img src="${p.foto}" style="width:160px;height:160px;border-radius:28px;object-fit:cover;border:1px solid #E5E7EB;box-shadow:0 6px 20px rgba(99,102,241,0.12);"/>`
+        : `<div style="width:160px;height:160px;border-radius:28px;background:#fff;border:1px solid #E5E7EB;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 4px 12px rgba(15,23,42,0.06);">
+            <div style="font-size:48px;color:#C0BDD8;margin-bottom:6px;">👤</div>
+            <div style="font-size:10.5px;color:#9B98C4;font-style:italic;text-align:center;line-height:1.4;padding:0 12px;">Foto belum<br/>di-upload</div>
+          </div>`}
+      <div style="font-size:10.5px;color:#6B7280;margin-top:12px;font-style:italic;">${p.foto ? 'Foto akan tampil di card talent halaman client' : 'Pendaftar belum upload foto profil'}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Bio (Yang Akan Tampil di Card Talent)</div>
+      <div class="detail-value" style="font-style:italic;background:#fff;border:0.5px solid #E0DCF5;border-radius:10px;padding:10px 12px;margin-top:6px;">"${p.bio}"</div>
+    </div>
     <div class="detail-section" style="background:#EEEDFE;border-color:#AFA9EC;">
       <div class="detail-label" style="margin-bottom:8px;">🎵 Sample Suara</div>
       <audio controls style="width:100%;height:36px;"></audio>
-      <div style="font-size:10px;color:#7B78A8;margin-top:4px;font-style:italic;">Klik play untuk dengarkan sample suara pendaftar</div>
+      <div style="font-size:10px;color:#7B78A8;margin-top:4px;font-style:italic;">Klik play untuk dengarkan sample suara pendaftar (sudah di-mix dengan backsound)</div>
     </div>
 
-    <div style="display:flex;gap:8px;margin-top:14px;">
+    <!-- ACTIONS -->
+    <div style="display:flex;gap:8px;margin-top:16px;position:sticky;bottom:0;background:#fff;padding:12px 0 0;border-top:0.5px solid #E0DCF5;">
       <button class="btn btn-danger" style="flex:1;" onclick="rejectPendaftar(${p.id});closeDetail()">✕ Tolak</button>
       <button class="btn btn-secondary" onclick="window.open('https://wa.me/${p.wa}','_blank')">💬 WA</button>
-      <button class="btn btn-success" style="flex:1;" onclick="approvePendaftar(${p.id});closeDetail()">✓ Terima</button>
+      ${p.status === 'interview'
+        ? `<button class="btn btn-success" style="flex:1;" onclick="approvePendaftar(${p.id});closeDetail()">✓ Terima</button>`
+        : `<button class="btn btn-warning" style="flex:1;" onclick="moveToInterview(${p.id});closeDetail()">📞 Lolos Tahap</button>`
+      }
     </div>
   `;
   document.getElementById('detailDrawer').classList.add('show');
@@ -858,12 +1544,113 @@ function closeDetail(){
 function approvePendaftar(id){
   const p = DEMO_PENDAFTAR.find(x=>x.id===id);
   if(!p) return;
-  if(!confirm(`Terima ${p.nama} sebagai talent? Akun akan dibuatkan otomatis & login info dikirim via WhatsApp.`)) return;
-  const idx = DEMO_PENDAFTAR.findIndex(x=>x.id===id);
-  DEMO_PENDAFTAR.splice(idx, 1);
-  showToast(`✅ ${p.nama} diterima sebagai talent`);
-  initPendaftar();
+
+  // Generate suggested email & password
+  const suggestedEmail = p.nama.toLowerCase().replace(/\s+/g, '.').replace(/[^a-z.]/g, '') + '@sleepcallpay.id';
+  const password = generatePassword();
+
+  // Set state
+  approvalContext = { id: p.id, nama: p.nama, wa: p.wa, password: password };
+
+  // Populate modal
+  document.getElementById('apvNama').textContent = p.nama;
+  document.getElementById('apvWA').textContent = p.wa;
+  document.getElementById('apvLayanan').innerHTML = p.layanan.map(l=>`<span class="pend-tag">${l}</span>`).join('');
+  document.getElementById('apvEmail').value = suggestedEmail;
+  document.getElementById('apvPassword').textContent = password;
+
+  document.getElementById('modalApprove').classList.add('show');
 }
+
+function moveToInterview(id){
+  const p = DEMO_PENDAFTAR.find(x=>x.id===id);
+  if(!p) return;
+  if(p.status === 'interview'){
+    showToast(`ℹ️ ${p.nama} sudah di tahap interview`);
+    return;
+  }
+  if(!confirm(`Lolos ${p.nama} ke tahap interview?\n\nPendaftar akan dipindah ke kategori "Lolos Tahap" untuk proses interview lebih lanjut. Belum diterima sebagai talent.`)) return;
+  p.status = 'interview';
+
+  // Optional: kirim WA pemberitahuan
+  const waMsg = encodeURIComponent(
+    `Halo ${p.nama}! 👋\n\n` +
+    `Selamat! Pendaftaranmu sebagai talent SleepcallPay telah lolos tahap awal.\n\n` +
+    `Tim kami akan menghubungi kamu segera untuk proses interview lebih lanjut.\n\n` +
+    `Mohon ditunggu ya, dan pastikan WhatsApp ini aktif.\n\n` +
+    `Terima kasih!\n— Tim SleepcallPay`
+  );
+
+  if(confirm('Kirim notifikasi via WhatsApp ke pendaftar?')){
+    window.open(`https://wa.me/${p.wa}?text=${waMsg}`, '_blank');
+  }
+
+  showToast(`📞 ${p.nama} dipindah ke tahap interview`);
+  initPendaftar();
+  renderAlerts();
+}
+
+function generatePassword(){
+  // Generate password: 4 char + 4 digit, mudah diketik di HP
+  const chars = 'abcdefghjkmnpqrstuvwxyz'; // exclude i, o, l biar gak ambigu
+  const digits = '23456789'; // exclude 0, 1
+  let pw = '';
+  for(let i=0;i<4;i++) pw += chars[Math.floor(Math.random()*chars.length)];
+  for(let i=0;i<4;i++) pw += digits[Math.floor(Math.random()*digits.length)];
+  return pw;
+}
+
+function regeneratePassword(){
+  approvalContext.password = generatePassword();
+  document.getElementById('apvPassword').textContent = approvalContext.password;
+}
+
+function copyPassword(){
+  navigator.clipboard.writeText(approvalContext.password).then(()=>{
+    showToast('📋 Password tersalin ke clipboard');
+  }).catch(()=>{
+    showToast('📋 ' + approvalContext.password);
+  });
+}
+
+function confirmApprove(){
+  const ctx = approvalContext;
+  if(!ctx) return;
+
+  const email = document.getElementById('apvEmail').value.trim();
+  if(!email || !email.includes('@')){
+    showToast('⚠️ Email tidak valid');
+    return;
+  }
+
+  // Compose WA message
+  const waMsg = encodeURIComponent(
+    `Halo ${ctx.nama}! 🎉\n\n` +
+    `Selamat! Pendaftaranmu sebagai talent SleepcallPay telah DITERIMA.\n\n` +
+    `Berikut data login akunmu:\n` +
+    `📧 Email: ${email}\n` +
+    `🔐 Password: ${ctx.password}\n\n` +
+    `Silakan login di: https://sleepcallpay.id/talent\n\n` +
+    `⚠️ Ganti password setelah login pertama untuk keamanan.\n\n` +
+    `Welcome to the family! ✨`
+  );
+
+  // Send via WA (open WA web/app)
+  window.open(`https://wa.me/${ctx.wa}?text=${waMsg}`, '_blank');
+
+  // Remove from list
+  const idx = DEMO_PENDAFTAR.findIndex(x=>x.id===ctx.id);
+  if(idx >= 0) DEMO_PENDAFTAR.splice(idx, 1);
+
+  closeModal('modalApprove');
+  closeDetail();
+  showToast(`✅ ${ctx.nama} diterima! Login dikirim via WhatsApp.`);
+  initPendaftar();
+  renderAlerts();
+  approvalContext = null;
+}
+
+let approvalContext = null;
 
 function rejectPendaftar(id){
   const p = DEMO_PENDAFTAR.find(x=>x.id===id);
@@ -889,6 +1676,7 @@ const SERVICE_ICONS = {'Sleep Call':'🌙','Teman Call':'📞','Curhat Call':'�
 function initPricelist(){
   renderPricelistEditor();
   updateBagi();
+  renderPreviewBagi();
 }
 
 function renderPricelistEditor(){
@@ -917,6 +1705,27 @@ function updateBagi(){
   document.getElementById('bagiAgency').value = a;
   document.getElementById('contohTalent').textContent = `Rp ${(50000*t/100).toLocaleString('id-ID')}`;
   document.getElementById('contohAgency').textContent = `Rp ${(50000*a/100).toLocaleString('id-ID')}`;
+  renderPreviewBagi();
+}
+
+function renderPreviewBagi(){
+  const t = parseInt(document.getElementById('bagiTalent').value) || 60;
+  const vouchers = [10000,20000,30000,40000,50000,60000];
+  const rows = vouchers.map(v=>{
+    const talent = Math.round(v*t/100);
+    const agency = v - talent;
+    return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:8px 10px;border-radius:8px;background:#F5F3FF;margin-bottom:4px;">
+      <div style="font-weight:700;color:#1E1B3A;">Rp ${(v/1000)}rb</div>
+      <div style="color:#3B6D11;font-weight:700;">→ Rp ${talent.toLocaleString('id-ID')}</div>
+      <div style="color:#534AB7;font-weight:700;">→ Rp ${agency.toLocaleString('id-ID')}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('previewBagi').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:6px 10px;font-size:9px;font-weight:800;color:#B0ADCC;letter-spacing:0.1em;text-transform:uppercase;">
+      <div>Voucher</div><div>Talent</div><div>Agency</div>
+    </div>
+    ${rows}
+  `;
 }
 
 function savePricelist(){
@@ -1034,6 +1843,7 @@ function renderAdminList(){
       <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
         <span class="admin-status ${a.status}">${a.status==='active'?'AKTIF':'NONAKTIF'}</span>
         <div style="display:flex;gap:4px;">
+          <button class="btn btn-secondary" style="padding:4px 8px;font-size:10px;" onclick="resetAdminPass(${a.id})" title="Reset Password">🔑</button>
           <button class="btn btn-secondary" style="padding:4px 8px;font-size:10px;" onclick="toggleAdmin(${a.id})" title="Toggle status">${a.status==='active'?'⏸':'▶'}</button>
           <button class="btn btn-danger" style="padding:4px 8px;font-size:10px;" onclick="deleteAdmin(${a.id})" title="Hapus">🗑</button>
         </div>
@@ -1080,6 +1890,13 @@ function toggleAdmin(id){
   showToast(`✅ ${a.nama} ${a.status==='active'?'diaktifkan':'dinonaktifkan'}`);
 }
 
+function resetAdminPass(id){
+  const a = admins.find(x=>x.id===id);
+  if(!a) return;
+  if(!confirm(`Reset password untuk ${a.nama}?\n\nPassword baru akan dikirim via WhatsApp ke ${a.wa}. Admin harus login ulang dengan password baru.`)) return;
+  showToast(`✅ Password ${a.nama} di-reset. Password baru dikirim ke WA.`);
+}
+
 function deleteAdmin(id){
   const a = admins.find(x=>x.id===id);
   if(!a) return;
@@ -1096,6 +1913,18 @@ function saveSetting(){
   showToast('✅ Pengaturan global berhasil disimpan');
 }
 
+function scrollToSet(id){
+  const el = document.getElementById(id);
+  if(el){
+    const offset = 110; // topbar + navtabs
+    const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top, behavior:'smooth'});
+  }
+  // Update active state
+  document.querySelectorAll('#page-setting .doc-tab').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
 function uploadBs(){
   showToast('🚧 Upload backsound akan tersedia saat backend siap');
 }
@@ -1107,6 +1936,28 @@ function previewBs(){
     return;
   }
   showToast('▶ Preview audio...');
+}
+
+// ============================================
+// OWNER PROFILE
+// ============================================
+function openOwnerProfile(){
+  document.getElementById('modalOwnerProfile').classList.add('show');
+}
+
+function saveOwnerProfile(){
+  const oldPass = document.getElementById('ownerOldPass').value;
+  const newPass = document.getElementById('ownerNewPass').value;
+  const confirmPass = document.getElementById('ownerConfirmPass').value;
+  if(newPass && newPass !== confirmPass){
+    showToast('❌ Password baru tidak cocok');
+    return;
+  }
+  showToast('✅ Profil owner berhasil diupdate');
+  closeModal('modalOwnerProfile');
+  document.getElementById('ownerOldPass').value = '';
+  document.getElementById('ownerNewPass').value = '';
+  document.getElementById('ownerConfirmPass').value = '';
 }
 
 // ============================================
