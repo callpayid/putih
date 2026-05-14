@@ -684,24 +684,12 @@ body{
     </div>
 
     <!-- RIWAYAT HARIAN -->
-    <div class="card" style="overflow:hidden;">
+    <div class="card">
       <div class="card-title">📋 Riwayat Harian</div>
-      <div style="font-size:10.5px;color:#9B98C4;margin-bottom:10px;">Rekap penjualan dari hari ke hari</div>
+      <div style="font-size:10.5px;color:#9B98C4;margin-bottom:10px;">Rekap penjualan 60 hari terakhir</div>
 
-      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:0.5px solid #E0DCF5;">
-        <table style="width:100%;border-collapse:collapse;font-size:11.5px;min-width:480px;">
-          <thead>
-            <tr style="background:#F5F3FF;">
-              <th style="padding:9px 10px;text-align:left;font-size:9.5px;font-weight:800;color:#534AB7;letter-spacing:0.06em;text-transform:uppercase;border-bottom:0.5px solid #E0DCF5;position:sticky;left:0;background:#F5F3FF;z-index:2;">Tanggal</th>
-              <th style="padding:9px 10px;text-align:right;font-size:9.5px;font-weight:800;color:#534AB7;letter-spacing:0.06em;text-transform:uppercase;border-bottom:0.5px solid #E0DCF5;">💰 Uang</th>
-              <th style="padding:9px 10px;text-align:center;font-size:9.5px;font-weight:800;color:#534AB7;letter-spacing:0.06em;text-transform:uppercase;border-bottom:0.5px solid #E0DCF5;">🎟️ Voucher</th>
-              <th style="padding:9px 10px;text-align:center;font-size:9.5px;font-weight:800;color:#534AB7;letter-spacing:0.06em;text-transform:uppercase;border-bottom:0.5px solid #E0DCF5;">🆕 Baru</th>
-              <th style="padding:9px 10px;text-align:center;font-size:9.5px;font-weight:800;color:#534AB7;letter-spacing:0.06em;text-transform:uppercase;border-bottom:0.5px solid #E0DCF5;">🔄 Repeat</th>
-            </tr>
-          </thead>
-          <tbody id="statHistoryBody"></tbody>
-        </table>
-      </div>
+      <div id="statHistoryList"></div>
+      <div id="statHistoryLoadMore"></div>
     </div>
 
     <!-- REVENUE BULANAN (BAR CHART) -->
@@ -4624,7 +4612,22 @@ const STAT_HISTORY_HARIAN = [
   {tgl:'02 Apr 2026', dayName:'Kamis', uangMasuk:1027648, voucher:32, baru:4, repeat:28},
   {tgl:'01 Apr 2026', dayName:'Rabu', uangMasuk:776112, voucher:24, baru:8, repeat:16},
   {tgl:'31 Mar 2026', dayName:'Selasa', uangMasuk:549180, voucher:18, baru:10, repeat:8},
-  {tgl:'30 Mar 2026', dayName:'Senin', uangMasuk:845350, voucher:29, baru:4, repeat:25}
+  {tgl:'30 Mar 2026', dayName:'Senin', uangMasuk:845350, voucher:29, baru:4, repeat:25},
+  {tgl:'29 Mar 2026', dayName:'Minggu', uangMasuk:1301868, voucher:43, baru:12, repeat:31},
+  {tgl:'28 Mar 2026', dayName:'Sabtu', uangMasuk:989625, voucher:35, baru:10, repeat:25},
+  {tgl:'27 Mar 2026', dayName:'Jumat', uangMasuk:841950, voucher:30, baru:8, repeat:22},
+  {tgl:'26 Mar 2026', dayName:'Kamis', uangMasuk:856116, voucher:27, baru:7, repeat:20},
+  {tgl:'25 Mar 2026', dayName:'Rabu', uangMasuk:1058154, voucher:31, baru:6, repeat:25},
+  {tgl:'24 Mar 2026', dayName:'Selasa', uangMasuk:539771, voucher:19, baru:6, repeat:13},
+  {tgl:'23 Mar 2026', dayName:'Senin', uangMasuk:636489, voucher:21, baru:7, repeat:14},
+  {tgl:'22 Mar 2026', dayName:'Minggu', uangMasuk:1094496, voucher:39, baru:9, repeat:30},
+  {tgl:'21 Mar 2026', dayName:'Sabtu', uangMasuk:1391805, voucher:45, baru:13, repeat:32},
+  {tgl:'20 Mar 2026', dayName:'Jumat', uangMasuk:1021410, voucher:30, baru:4, repeat:26},
+  {tgl:'19 Mar 2026', dayName:'Kamis', uangMasuk:785538, voucher:26, baru:6, repeat:20},
+  {tgl:'18 Mar 2026', dayName:'Rabu', uangMasuk:915057, voucher:27, baru:8, repeat:19},
+  {tgl:'17 Mar 2026', dayName:'Selasa', uangMasuk:564786, voucher:18, baru:6, repeat:12},
+  {tgl:'16 Mar 2026', dayName:'Senin', uangMasuk:497200, voucher:16, baru:10, repeat:6},
+  {tgl:'15 Mar 2026', dayName:'Minggu', uangMasuk:1250600, voucher:40, baru:10, repeat:30}
 ];
 
 const STAT_DATA = {
@@ -4754,25 +4757,67 @@ function renderStatistik(){
   const crDelta = ((s.bulanIni.clientRepeat * hariBulan / hariBerjalan - s.bulanLalu.clientRepeat) / s.bulanLalu.clientRepeat * 100).toFixed(1);
   document.getElementById('statClientRepeatDelta').innerHTML = `Proyeksi: <span style="color:${crDelta>0?'#3B6D11':'#DC2626'};font-weight:700;">${crDelta>0?'▲':'▼'} ${Math.abs(crDelta)}%</span>`;
 
-  // RIWAYAT HARIAN - render tabel
-  document.getElementById('statHistoryBody').innerHTML = STAT_HISTORY_HARIAN.map((d, i)=>{
-    const isEven = i % 2 === 0;
-    const bg = isEven ? '#fff' : '#FAFAFA';
-    // Format uang singkat: 1.28jt atau 950rb
+  // RIWAYAT HARIAN
+  renderStatHistory();
+}
+
+let statHistoryShown = 10;
+
+function renderStatHistory(){
+  const total = STAT_HISTORY_HARIAN.length;
+  const sliced = STAT_HISTORY_HARIAN.slice(0, statHistoryShown);
+
+  document.getElementById('statHistoryList').innerHTML = sliced.map(d => {
+    // Format uang
     const uangStr = d.uangMasuk >= 1000000
       ? 'Rp ' + (d.uangMasuk/1000000).toFixed(2) + 'jt'
       : 'Rp ' + Math.round(d.uangMasuk/1000) + 'rb';
-    return `<tr style="background:${bg};">
-      <td style="padding:8px 10px;border-bottom:0.5px solid #F1EFFB;position:sticky;left:0;background:${bg};z-index:1;">
-        <div style="font-size:11.5px;font-weight:700;color:#1E1B3A;line-height:1.2;">${d.tgl}</div>
-        <div style="font-size:9.5px;color:#9B98C4;margin-top:1px;">${d.dayName}</div>
-      </td>
-      <td style="padding:8px 10px;border-bottom:0.5px solid #F1EFFB;text-align:right;font-size:11.5px;font-weight:800;color:#3B6D11;white-space:nowrap;">${uangStr}</td>
-      <td style="padding:8px 10px;border-bottom:0.5px solid #F1EFFB;text-align:center;font-size:11.5px;font-weight:700;color:#534AB7;">${d.voucher}</td>
-      <td style="padding:8px 10px;border-bottom:0.5px solid #F1EFFB;text-align:center;font-size:11.5px;font-weight:700;color:#F59E0B;">${d.baru}</td>
-      <td style="padding:8px 10px;border-bottom:0.5px solid #F1EFFB;text-align:center;font-size:11.5px;font-weight:700;color:#6D28D9;">${d.repeat}</td>
-    </tr>`;
+
+    return `<div style="background:#fff;border:0.5px solid #E0DCF5;border-radius:12px;padding:11px 13px;margin-bottom:7px;">
+      <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:8px;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12.5px;font-weight:800;color:#1E1B3A;">${d.tgl}</div>
+          <div style="font-size:10px;color:#9B98C4;margin-top:1px;">${d.dayName}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:14px;font-weight:900;color:#3B6D11;">${uangStr}</div>
+          <div style="font-size:9.5px;color:#888780;margin-top:1px;">uang masuk</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding-top:8px;border-top:0.5px solid #F1EFFB;">
+        <div style="text-align:center;">
+          <div style="font-size:13px;font-weight:800;color:#534AB7;">${d.voucher}</div>
+          <div style="font-size:9px;color:#9B98C4;font-weight:600;margin-top:1px;">🎟️ Voucher</div>
+        </div>
+        <div style="text-align:center;border-left:0.5px solid #F1EFFB;border-right:0.5px solid #F1EFFB;">
+          <div style="font-size:13px;font-weight:800;color:#F59E0B;">${d.baru}</div>
+          <div style="font-size:9px;color:#9B98C4;font-weight:600;margin-top:1px;">🆕 Baru</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:13px;font-weight:800;color:#6D28D9;">${d.repeat}</div>
+          <div style="font-size:9px;color:#9B98C4;font-weight:600;margin-top:1px;">🔄 Repeat</div>
+        </div>
+      </div>
+    </div>`;
   }).join('');
+
+  // Load more
+  const hasMore = total > statHistoryShown;
+  const loadMore = document.getElementById('statHistoryLoadMore');
+  if(hasMore){
+    loadMore.innerHTML = `<div style="padding:10px 4px 4px;"><button onclick="loadMoreStatHistory()" style="width:100%;padding:11px;border:0.5px dashed #C5C0F5;background:transparent;border-radius:12px;color:#534AB7;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Tampilkan lebih banyak <span style="color:#9B98C4;font-weight:500;">(${total - statHistoryShown} lagi)</span></button></div>`;
+  } else if(total > 10){
+    loadMore.innerHTML = `<div style="text-align:center;padding:10px 4px;color:#B0ADCC;font-size:11px;font-style:italic;">— Semua ${total} hari ditampilkan —</div>`;
+  } else {
+    loadMore.innerHTML = '';
+  }
+}
+
+function loadMoreStatHistory(){
+  if(statHistoryShown === 10) statHistoryShown = 30;
+  else if(statHistoryShown === 30) statHistoryShown = 50;
+  else statHistoryShown = 9999;
+  renderStatHistory();
 }
 
 // ============================================
