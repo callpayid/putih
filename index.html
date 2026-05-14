@@ -345,7 +345,6 @@ body{
         <div class="sec-title">Dashboard</div>
         <div class="sec-sub">Performa voucher & client</div>
       </div>
-      <button class="btn btn-secondary btn-sm" onclick="switchPage('keuangan')">💼 Keuangan</button>
     </div>
 
     <!-- HARI INI -->
@@ -380,6 +379,22 @@ body{
       <div id="statLayananBreakdown"></div>
     </div>
 
+    <!-- REVENUE CHART (multi-mode) -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap;">
+        <div class="card-title" style="margin:0;" id="revenueChartTitle">📊 Revenue 30 Hari Terakhir</div>
+        <div style="display:flex;gap:4px;background:#F5F3FF;border-radius:10px;padding:3px;">
+          <button id="btnRev30Hari" onclick="switchRevenueMode('30hari')" style="padding:6px 10px;border:none;background:#fff;color:#534AB7;font-size:10.5px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit;box-shadow:0 1px 2px rgba(83,74,183,0.1);">30 Hari</button>
+          <button id="btnRev12Bulan" onclick="switchRevenueMode('12bulan')" style="padding:6px 10px;border:none;background:transparent;color:#9B98C4;font-size:10.5px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit;">12 Bulan</button>
+          <button id="btnRevTahun" onclick="switchRevenueMode('tahun')" style="padding:6px 10px;border:none;background:transparent;color:#9B98C4;font-size:10.5px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit;">Tahun</button>
+        </div>
+      </div>
+      <div style="font-size:10.5px;color:#9B98C4;margin-bottom:10px;" id="revenueChartSubtitle">Total revenue Rp 0</div>
+
+      <div id="statRevenueBulanan" style="display:flex;align-items:flex-end;justify-content:space-between;gap:4px;height:160px;padding:14px 4px 4px;overflow-x:auto;scrollbar-width:none;"></div>
+      <div id="statBulanLabels" style="display:flex;justify-content:space-between;gap:4px;margin-top:6px;overflow-x:auto;scrollbar-width:none;"></div>
+    </div>
+
     <!-- RIWAYAT -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap;">
@@ -393,50 +408,6 @@ body{
 
       <div id="statHistoryList"></div>
       <div id="statHistoryLoadMore"></div>
-    </div>
-
-    <!-- REVENUE BULANAN (BAR CHART) -->
-    <div class="card">
-      <div class="card-title">📊 Revenue 6 Bulan Terakhir</div>
-      <div id="statRevenueBulanan" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;height:160px;padding:14px 4px 4px;"></div>
-      <div id="statBulanLabels" style="display:flex;justify-content:space-between;gap:8px;margin-top:6px;"></div>
-    </div>
-
-    <!-- BULAN INI VS BULAN LALU -->
-    <div class="card">
-      <div class="card-title">📅 Bulan Ini vs Bulan Lalu</div>
-
-      <div style="background:#F5F3FF;border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11.5px;color:#1E1B3A;font-weight:700;">💰 Total Revenue</div>
-        <div style="text-align:right;">
-          <div style="font-size:14px;font-weight:900;color:#1E1B3A;" id="statRevBulanIni">Rp 0</div>
-          <div style="font-size:9.5px;margin-top:1px;" id="statRevDelta">vs bulan lalu</div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:#1E1B3A;">🎟️ Total Voucher</div>
-        <div style="text-align:right;">
-          <div style="font-size:12.5px;font-weight:800;color:#534AB7;" id="statVoucherBulanIni">0</div>
-          <div style="font-size:9px;color:#888780;" id="statVoucherDeltaBulan">vs bulan lalu</div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:#1E1B3A;">🆕 Total Client Baru</div>
-        <div style="text-align:right;">
-          <div style="font-size:12.5px;font-weight:800;color:#F59E0B;" id="statClientBaruBulan">0</div>
-          <div style="font-size:9px;color:#888780;" id="statClientBaruDelta">vs bulan lalu</div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:#1E1B3A;">🔄 Total Client Repeat</div>
-        <div style="text-align:right;">
-          <div style="font-size:12.5px;font-weight:800;color:#6D28D9;" id="statClientRepeatBulan">0</div>
-          <div style="font-size:9px;color:#888780;" id="statClientRepeatDelta">vs bulan lalu</div>
-        </div>
-      </div>
     </div>
 
     <!-- INFO -->
@@ -463,8 +434,9 @@ body{
       </div>
       <select class="period-select" id="pendaftarSort" onchange="pendaftarShown=10;renderPendaftar()" style="height:auto;">
         <option value="newest">Terbaru</option>
-        <option value="oldest">Tertua</option>
+        <option value="oldest">Terlama</option>
         <option value="name">Nama A-Z</option>
+        <option value="nameDesc">Nama Z-A</option>
       </select>
     </div>
 
@@ -1108,6 +1080,44 @@ body{
     <div class="modal-actions">
       <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalCairkan')">← Kembali</button>
       <button class="btn btn-success" style="flex:1.3;" onclick="confirmTandaiCair()">✓ Tandai Cair</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETAIL CLIENT (Top 10 Talent yang Di-Order) -->
+<div class="modal" id="modalDetailClient">
+  <div class="modal-card" style="max-width:420px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <div style="width:44px;height:44px;border-radius:50%;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:22px;">👤</div>
+      <div style="flex:1;min-width:0;">
+        <div class="modal-title" style="margin:0;" id="dcClientWa">-</div>
+        <div class="modal-sub" style="margin:2px 0 0;" id="dcClientInfo">-</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;">
+      <div style="background:#F5F3FF;border-radius:10px;padding:8px;text-align:center;">
+        <div style="font-size:14px;font-weight:900;color:#534AB7;font-family:'Inter',sans-serif;" id="dcTotalVoucher">0</div>
+        <div style="font-size:9px;color:#9B98C4;margin-top:1px;font-weight:600;">Total Voucher</div>
+      </div>
+      <div style="background:#EAF3DE;border-radius:10px;padding:8px;text-align:center;">
+        <div style="font-size:14px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;" id="dcTotalSpending">Rp 0</div>
+        <div style="font-size:9px;color:#9B98C4;margin-top:1px;font-weight:600;">Total Spending</div>
+      </div>
+      <div style="background:#FEF3C7;border-radius:10px;padding:8px;text-align:center;">
+        <div style="font-size:14px;font-weight:900;color:#D97706;font-family:'Inter',sans-serif;" id="dcTotalTalent">0</div>
+        <div style="font-size:9px;color:#9B98C4;margin-top:1px;font-weight:600;">Total Talent</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:0 4px 6px;">🏆 Talent Favorit (Top 10)</div>
+
+    <div id="dcTalentList" style="max-height:380px;overflow-y:auto;margin-bottom:10px;"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalDetailClient')">Tutup</button>
+      <button class="btn btn-primary" style="flex:1.3;" id="dcWaBtn" onclick="">💬 Hubungi via WA</button>
     </div>
   </div>
 </div>
@@ -3144,6 +3154,7 @@ function renderPendaftar(){
     const sortVal = sortEl.value;
     if(sortVal === 'oldest') filtered.reverse();
     else if(sortVal === 'name') filtered.sort((a,b)=>a.nama.localeCompare(b.nama));
+    else if(sortVal === 'nameDesc') filtered.sort((a,b)=>b.nama.localeCompare(a.nama));
   }
 
   if(filtered.length === 0){
@@ -3170,11 +3181,12 @@ function renderPendaftar(){
     const avatarId = `pendAv_${p.id}`;
     const sampleDuration = '0:24'; // dummy duration
 
-    return `<div class="pend-card">
+    return `<div class="pend-card"${p.ragu?' style="border-color:#FAC775;background:#FFFCF5;"':''}>
       <!-- AVATAR BESAR (klik untuk play audio) -->
       <div class="pend-av-big" id="${avatarId}" style="background:${avatarGradient};" onclick="event.stopPropagation();togglePendAudio(${p.id})">
         ${p.foto ? `<img src="${p.foto}" alt="${p.nama}"/>` : `<span style="position:relative;z-index:1;">${p.nama[0]}</span>`}
         ${isNew ? `<div class="pend-new-corner">BARU</div>` : isQualified ? `<div class="pend-new-corner" style="background:#F59E0B;">LOLOS</div>` : isInterview ? `<div class="pend-new-corner" style="background:#6D28D9;">INTERVIEW</div>` : ''}
+        ${p.ragu ? `<div style="position:absolute;top:6px;left:6px;background:#FAC775;color:#854F0B;font-size:8.5px;font-weight:800;padding:2px 6px;border-radius:99px;letter-spacing:0.05em;">⚠️ RAGU</div>` : ''}
         <div class="pend-av-overlay">
           <div class="pend-av-play">
             <svg viewBox="0 0 12 12"><polygon points="3,2 10,6 3,10"/></svg>
@@ -3190,13 +3202,15 @@ function renderPendaftar(){
           <div style="min-width:0;">
             <div class="pend-name">${p.nama}</div>
             <div class="pend-meta-row"><span class="pend-gender-badge ${genderClass}">${genderBadge} ${p.umur}th</span> · ${p.kota}</div>
+            <div style="font-size:10px;color:#9B98C4;margin-top:3px;">📅 ${p.tgl} · ${p.jam}</div>
           </div>
         </div>
         <div class="pend-services">${p.layanan.join(' · ')}</div>
         <div class="pend-actions-row" onclick="event.stopPropagation();">
           <button class="btn btn-secondary" onclick="openDetail(${p.id})">👁️ Detail</button>
           ${isInterview
-            ? `<button class="btn btn-success" onclick="approvePendaftar(${p.id})">✓ Terima</button>
+            ? `<button class="${p.ragu?'btn btn-warning':'btn btn-secondary'}" onclick="toggleRaguPendaftar(${p.id})" title="${p.ragu?'Hapus tanda ragu':'Tandai ragu'}">${p.ragu?'⚠️ Ragu':'⚠️'}</button>
+               <button class="btn btn-success" onclick="approvePendaftar(${p.id})">✓ Terima</button>
                <button class="btn btn-danger" onclick="rejectPendaftar(${p.id})">✕ Tolak</button>`
             : isQualified
             ? `<button class="btn btn-primary" onclick="scheduleInterview(${p.id})">📆 Jadwalkan Interview</button>
@@ -3390,8 +3404,12 @@ function openDetail(id){
     : p.status === 'reviewed'
     ? `<span style="display:inline-block;background:#EEEDFE;border:0.5px solid #AFA9EC;color:#534AB7;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">👁️ SUDAH DILIHAT</span>`
     : p.status === 'qualified'
-    ? `<span style="display:inline-block;background:#FAEEDA;border:0.5px solid #FAC775;color:#854F0B;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">📞 LOLOS TAHAP · BELUM DIJADWAL</span>`
-    : `<span style="display:inline-block;background:#EDE9FE;border:0.5px solid #C4B5FD;color:#6D28D9;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">📆 INTERVIEW · SUDAH DIJADWAL</span>`;
+    ? `<span style="display:inline-block;background:#FAEEDA;border:0.5px solid #FAC775;color:#854F0B;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">📞 LOLOS TAHAP</span>`
+    : `<span style="display:inline-block;background:#EDE9FE;border:0.5px solid #C4B5FD;color:#6D28D9;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;">📆 INTERVIEW</span>`;
+
+  const raguBadge = p.ragu
+    ? `<span style="display:inline-block;background:#FAEEDA;border:0.5px solid #FAC775;color:#854F0B;padding:3px 9px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:0.08em;margin-top:6px;margin-left:5px;">⚠️ RAGU</span>`
+    : '';
 
   document.getElementById('detailContent').innerHTML = `
 
@@ -3402,7 +3420,7 @@ function openDetail(id){
         <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#1E1B3A;line-height:1.1;">${p.nama}</div>
         <div style="font-size:11px;color:#888780;margin-top:4px;">${p.gender==='w'?'👩 Wanita':'👨 Pria'} · ${p.umur}th · ${p.kota}</div>
         <div style="font-size:10px;color:#B0ADCC;margin-top:2px;">Daftar: ${p.tgl} · ${p.jam}</div>
-        ${statusBadge}
+        ${statusBadge}${raguBadge}
       </div>
     </div>
 
@@ -3504,7 +3522,8 @@ function openDetail(id){
       <button class="btn btn-danger" style="flex:1;" onclick="rejectPendaftar(${p.id});closeDetail()">✕ Tolak</button>
       <button class="btn btn-secondary" style="flex:0 0 auto;padding:9px 12px;" onclick="window.open('https://wa.me/${p.wa}','_blank')" title="WhatsApp">💬</button>
       ${p.status === 'interview'
-        ? `<button class="btn btn-success" style="flex:1;" onclick="approvePendaftar(${p.id});closeDetail()">✓ Terima</button>`
+        ? `<button class="${p.ragu?'btn btn-warning':'btn btn-secondary'}" style="flex:0 0 auto;padding:9px 12px;" onclick="toggleRaguPendaftar(${p.id});closeDetail()" title="${p.ragu?'Hapus tanda ragu':'Tandai ragu'}">${p.ragu?'⚠️ Ragu':'⚠️'}</button>
+           <button class="btn btn-success" style="flex:1;" onclick="approvePendaftar(${p.id});closeDetail()">✓ Terima</button>`
         : p.status === 'qualified'
         ? `<button class="btn btn-primary" style="flex:1;" onclick="scheduleInterview(${p.id});closeDetail()">📆 Jadwalkan</button>`
         : `<button class="btn btn-warning" style="flex:1;" onclick="moveToInterview(${p.id});closeDetail()">📞 Lolos Tahap</button>`
@@ -3613,31 +3632,27 @@ function scheduleInterview(id){
   }
 
   showConfirm({
-    title: 'Kirim Penjadwalan Interview?',
+    title: 'Pindah ke Tahap Interview?',
     iconBg: '#EDE9FE',
     iconText: '📆',
-    message: `Kirim pesan penjadwalan interview ke <b style="color:#1E1B3A;">${p.nama}</b> via WhatsApp?<br/><br/>Pendaftar akan dipindah ke kategori <b>Interview</b> dan WhatsApp akan terbuka dengan pesan otomatis.`,
-    okText: '📆 Ya, Kirim Jadwal',
+    message: `Pindah <b style="color:#1E1B3A;">${p.nama}</b> ke kategori <b>Interview</b>?<br/><br/>Pendaftar akan masuk daftar interview untuk dijadwalkan oleh admin.`,
+    okText: '📆 Ya, Pindahkan',
     okStyle: 'btn-primary',
     onConfirm: ()=>{
       p.status = 'interview';
       initPendaftar();
       renderAlerts();
-
-      const waMsg = encodeURIComponent(
-        `Halo ${p.nama}! 👋\n\n` +
-        `Terima kasih sudah mendaftar sebagai talent SleepcallPay. Berkas pendaftaranmu telah kami review dan kami ingin mengundang kamu untuk tahap interview.\n\n` +
-        `📆 Jadwal Interview:\n` +
-        `Hari/Tanggal: _______ (mohon konfirmasi waktu yang bisa)\n` +
-        `Durasi: ±15-20 menit\n` +
-        `Media: Voice call via WhatsApp\n\n` +
-        `Mohon balas pesan ini untuk konfirmasi ketersediaan waktu. Kami akan menyesuaikan dengan jadwal kamu.\n\n` +
-        `Terima kasih!\n— Tim SleepcallPay`
-      );
-      window.open(`https://wa.me/${p.wa}?text=${waMsg}`, '_blank');
-      showToast(`📆 ${p.nama} dipindah ke Interview & WA terkirim`);
+      showToast(`📆 ${p.nama} dipindah ke Interview`);
     }
   });
+}
+
+function toggleRaguPendaftar(id){
+  const p = DEMO_PENDAFTAR.find(x=>x.id===id);
+  if(!p) return;
+  p.ragu = !p.ragu;
+  initPendaftar();
+  showToast(p.ragu ? `⚠️ ${p.nama} ditandai ragu` : `✓ Tanda ragu ${p.nama} dihapus`);
 }
 
 function generatePassword(){
@@ -4578,6 +4593,375 @@ const DEMO_CLIENT = [
   {id:60, wa:'0822-6470-4782', totalVoucher:3, totalSpending:69357, lastOrder:'15 Apr 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Mar 2026'}
 ];
 
+const CLIENT_TALENT_ORDERS = {
+  1: [
+    {talentId:18, orderCount:10, spending:396550, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:46, orderCount:7, spending:159600, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:36, orderCount:4, spending:85512, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:9, orderCount:2, spending:98000, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:11, orderCount:1, spending:47569, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  2: [
+    {talentId:59, orderCount:1, spending:23986, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:21, orderCount:1, spending:38232, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+  ],
+  3: [
+    {talentId:54, orderCount:2, spending:94140, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:21, orderCount:2, spending:59090, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:11, orderCount:2, spending:57654, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:47, orderCount:2, spending:47502, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:19, orderCount:1, spending:22274, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  4: [
+    {talentId:21, orderCount:5, spending:220360, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:14, orderCount:3, spending:123009, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:35, orderCount:2, spending:98972, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:5, orderCount:2, spending:84176, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:44, orderCount:2, spending:93950, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:59, orderCount:1, spending:29142, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:43, orderCount:1, spending:34147, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+  ],
+  5: [
+    {talentId:43, orderCount:5, spending:120930, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:25, orderCount:5, spending:180310, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:16, orderCount:2, spending:99020, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:39, orderCount:1, spending:20453, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+  ],
+  6: [
+    {talentId:11, orderCount:1, spending:34629, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+  ],
+  7: [
+    {talentId:44, orderCount:14, spending:320040, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:51, orderCount:5, spending:197595, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+    {talentId:6, orderCount:1, spending:42271, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:43, orderCount:1, spending:43205, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:17, orderCount:1, spending:32149, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  8: [
+    {talentId:14, orderCount:9, spending:225801, lastOrder:'10 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:28, orderCount:6, spending:268902, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:46, orderCount:6, spending:129246, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:36, orderCount:4, spending:115432, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+  ],
+  9: [
+    {talentId:60, orderCount:1, spending:45193, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  10: [
+    {talentId:45, orderCount:4, spending:108800, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:29, orderCount:3, spending:141810, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:34, orderCount:2, spending:67044, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:19, orderCount:2, spending:77840, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:6, orderCount:1, spending:43912, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:36, orderCount:1, spending:28288, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:30, orderCount:1, spending:20484, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  11: [
+    {talentId:42, orderCount:2, spending:69620, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+  ],
+  12: [
+    {talentId:35, orderCount:9, spending:269010, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:51, orderCount:7, spending:158788, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:31, orderCount:3, spending:75642, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:56, orderCount:2, spending:71838, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:57, orderCount:1, spending:47113, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:4, orderCount:1, spending:26603, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+  ],
+  13: [
+    {talentId:18, orderCount:2, spending:58582, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:27, orderCount:2, spending:53050, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:43, orderCount:2, spending:60904, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:45, orderCount:1, spending:32498, lastOrder:'10 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:37, orderCount:1, spending:37714, lastOrder:'08 Mei 2026', favLayanan:'Pacar Virtual'},
+  ],
+  14: [
+    {talentId:33, orderCount:5, spending:148585, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:44, orderCount:3, spending:90978, lastOrder:'25 Mar 2026', favLayanan:'Pacar Virtual'},
+    {talentId:18, orderCount:3, spending:136083, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:38, orderCount:3, spending:89223, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:41, orderCount:2, spending:71098, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:26, orderCount:1, spending:28888, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:21, orderCount:1, spending:44297, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+  ],
+  15: [
+    {talentId:49, orderCount:1, spending:39035, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+  ],
+  16: [
+    {talentId:15, orderCount:4, spending:106368, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:29, orderCount:3, spending:122982, lastOrder:'25 Mar 2026', favLayanan:'Pacar Virtual'},
+    {talentId:14, orderCount:3, spending:109932, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:46, orderCount:1, spending:20853, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:49, orderCount:1, spending:21798, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:36, orderCount:1, spending:36871, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:4, orderCount:1, spending:31100, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+  ],
+  17: [
+    {talentId:19, orderCount:4, spending:112620, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:36, orderCount:2, spending:80674, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:57, orderCount:1, spending:46148, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:32, orderCount:1, spending:49197, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:9, orderCount:1, spending:22601, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:54, orderCount:1, spending:26560, lastOrder:'25 Mar 2026', favLayanan:'Pacar Virtual'},
+  ],
+  18: [
+    {talentId:12, orderCount:1, spending:25645, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  19: [
+    {talentId:58, orderCount:5, spending:118765, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:51, orderCount:4, spending:81812, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:40, orderCount:2, spending:84058, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+  ],
+  20: [
+    {talentId:8, orderCount:7, spending:175336, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:15, orderCount:6, spending:218592, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:14, orderCount:4, spending:151800, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:43, orderCount:1, spending:40007, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:34, orderCount:1, spending:30694, lastOrder:'10 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:41, orderCount:1, spending:39071, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:22, orderCount:1, spending:24845, lastOrder:'10 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:45, orderCount:1, spending:28312, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+  ],
+  21: [
+    {talentId:32, orderCount:8, spending:393080, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+    {talentId:30, orderCount:5, spending:230585, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:57, orderCount:4, spending:102964, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:49, orderCount:1, spending:41743, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:12, orderCount:1, spending:42071, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+  ],
+  22: [
+    {talentId:43, orderCount:7, spending:282219, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:52, orderCount:1, spending:23536, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:53, orderCount:1, spending:24389, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+  ],
+  23: [
+    {talentId:51, orderCount:3, spending:94788, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:21, orderCount:2, spending:59516, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:39, orderCount:1, spending:46900, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+  ],
+  24: [
+    {talentId:56, orderCount:9, spending:391113, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:15, orderCount:6, spending:144330, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:54, orderCount:2, spending:68862, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:35, orderCount:2, spending:73824, lastOrder:'25 Mar 2026', favLayanan:'Pacar Virtual'},
+    {talentId:37, orderCount:1, spending:43286, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:60, orderCount:1, spending:39684, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  25: [
+    {talentId:47, orderCount:1, spending:43424, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:44, orderCount:1, spending:36204, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+  ],
+  26: [
+    {talentId:24, orderCount:6, spending:142896, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:23, orderCount:3, spending:120012, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:39, orderCount:1, spending:26646, lastOrder:'10 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:53, orderCount:1, spending:49212, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:12, orderCount:1, spending:29613, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  27: [
+    {talentId:23, orderCount:5, spending:234415, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:34, orderCount:5, spending:180930, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:1, orderCount:2, spending:75754, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call'},
+  ],
+  28: [
+    {talentId:10, orderCount:3, spending:61914, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:52, orderCount:1, spending:30255, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:27, orderCount:1, spending:42835, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:32, orderCount:1, spending:38991, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  29: [
+    {talentId:35, orderCount:2, spending:43674, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:2, orderCount:1, spending:34330, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:27, orderCount:1, spending:27231, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+  ],
+  30: [
+    {talentId:18, orderCount:6, spending:127254, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:7, orderCount:6, spending:182028, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:55, orderCount:5, spending:113520, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:5, orderCount:1, spending:25074, lastOrder:'08 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:41, orderCount:1, spending:31927, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:50, orderCount:1, spending:37567, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  31: [
+    {talentId:25, orderCount:7, spending:335895, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:21, orderCount:6, spending:219780, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:49, orderCount:3, spending:136347, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:18, orderCount:2, spending:55332, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:15, orderCount:1, spending:43581, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:2, orderCount:1, spending:25596, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:42, orderCount:1, spending:43882, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call'},
+  ],
+  32: [
+    {talentId:10, orderCount:4, spending:142036, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:18, orderCount:3, spending:143637, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:50, orderCount:3, spending:127275, lastOrder:'25 Mar 2026', favLayanan:'Pacar Virtual'},
+    {talentId:49, orderCount:1, spending:46473, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:17, orderCount:1, spending:46433, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:20, orderCount:1, spending:34546, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+  ],
+  33: [
+    {talentId:37, orderCount:10, spending:430010, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:16, orderCount:6, spending:209322, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:44, orderCount:2, spending:71036, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:3, orderCount:1, spending:43181, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:1, orderCount:1, spending:28263, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+  ],
+  34: [
+    {talentId:50, orderCount:1, spending:37230, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:3, orderCount:1, spending:47584, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+  ],
+  35: [
+    {talentId:53, orderCount:5, spending:217965, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:52, orderCount:3, spending:114417, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:12, orderCount:3, spending:129150, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  36: [
+    {talentId:59, orderCount:3, spending:112305, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:2, orderCount:1, spending:36584, lastOrder:'08 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:21, orderCount:1, spending:40570, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  37: [
+    {talentId:55, orderCount:12, spending:452004, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:34, orderCount:6, spending:164088, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:1, orderCount:3, spending:144513, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:59, orderCount:2, spending:57532, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:7, orderCount:1, spending:30005, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+  ],
+  38: [
+    {talentId:36, orderCount:2, spending:48518, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:46, orderCount:2, spending:68862, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:45, orderCount:1, spending:31730, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:51, orderCount:1, spending:22603, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:39, orderCount:1, spending:26575, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:1, orderCount:1, spending:21550, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+  ],
+  39: [
+    {talentId:38, orderCount:6, spending:133692, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:55, orderCount:4, spending:82312, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:10, orderCount:3, spending:138102, lastOrder:'08 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:44, orderCount:3, spending:92595, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:31, orderCount:3, spending:100011, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:2, orderCount:3, spending:78747, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:21, orderCount:2, spending:46848, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  40: [
+    {talentId:31, orderCount:6, spending:134916, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:55, orderCount:1, spending:29621, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:17, orderCount:1, spending:39305, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:32, orderCount:1, spending:33481, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+  ],
+  41: [
+    {talentId:56, orderCount:4, spending:103972, lastOrder:'25 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:21, orderCount:4, spending:145696, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:50, orderCount:4, spending:167960, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:46, orderCount:1, spending:34283, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:15, orderCount:1, spending:26081, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:57, orderCount:1, spending:48170, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  42: [
+    {talentId:9, orderCount:2, spending:96140, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  43: [
+    {talentId:20, orderCount:11, spending:413589, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:55, orderCount:4, spending:193064, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+    {talentId:44, orderCount:3, spending:106113, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:47, orderCount:2, spending:86846, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:52, orderCount:1, spending:35421, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  44: [
+    {talentId:11, orderCount:1, spending:40200, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+    {talentId:45, orderCount:1, spending:47528, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  45: [
+    {talentId:34, orderCount:1, spending:48904, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+  ],
+  46: [
+    {talentId:11, orderCount:2, spending:74212, lastOrder:'08 Mei 2026', favLayanan:'Pacar Virtual'},
+  ],
+  47: [
+    {talentId:28, orderCount:8, spending:191000, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:54, orderCount:4, spending:104280, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:24, orderCount:3, spending:80103, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:37, orderCount:2, spending:51748, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:13, orderCount:2, spending:72680, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:32, orderCount:2, spending:43904, lastOrder:'08 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:23, orderCount:1, spending:22150, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:19, orderCount:1, spending:21138, lastOrder:'25 Mar 2026', favLayanan:'Sleep Call'},
+  ],
+  48: [
+    {talentId:3, orderCount:1, spending:40609, lastOrder:'08 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  49: [
+    {talentId:27, orderCount:4, spending:181020, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:9, orderCount:4, spending:137344, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:54, orderCount:2, spending:73242, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:33, orderCount:1, spending:29488, lastOrder:'25 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:18, orderCount:1, spending:27958, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:8, orderCount:1, spending:47290, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  50: [
+    {talentId:10, orderCount:7, spending:184835, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:26, orderCount:4, spending:143392, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:41, orderCount:4, spending:199840, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:29, orderCount:4, spending:125960, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:16, orderCount:3, spending:110079, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:48, orderCount:2, spending:85446, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:53, orderCount:1, spending:32432, lastOrder:'01 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  51: [
+    {talentId:39, orderCount:9, spending:281880, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call'},
+    {talentId:12, orderCount:6, spending:125574, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:38, orderCount:3, spending:145113, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call'},
+    {talentId:28, orderCount:3, spending:113718, lastOrder:'25 Mar 2026', favLayanan:'Curhat Call'},
+    {talentId:47, orderCount:2, spending:86014, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:10, orderCount:1, spending:32307, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+  ],
+  52: [
+    {talentId:10, orderCount:3, spending:104622, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:35, orderCount:1, spending:40889, lastOrder:'25 Mar 2026', favLayanan:'Pacar Virtual'},
+  ],
+  53: [
+    {talentId:12, orderCount:11, spending:499070, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:20, orderCount:9, spending:344583, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call'},
+    {talentId:2, orderCount:2, spending:60298, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:30, orderCount:1, spending:44794, lastOrder:'12 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:58, orderCount:1, spending:46264, lastOrder:'08 Mei 2026', favLayanan:'Teman Call'},
+    {talentId:13, orderCount:1, spending:42574, lastOrder:'10 Apr 2026', favLayanan:'Teman Call'},
+  ],
+  54: [
+    {talentId:36, orderCount:3, spending:95310, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:17, orderCount:1, spending:49681, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:38, orderCount:1, spending:30797, lastOrder:'08 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:49, orderCount:1, spending:30355, lastOrder:'01 Mei 2026', favLayanan:'Curhat Call'},
+  ],
+  55: [
+    {talentId:22, orderCount:1, spending:26875, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call'},
+  ],
+  56: [
+    {talentId:30, orderCount:5, spending:174385, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:45, orderCount:4, spending:199580, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:39, orderCount:1, spending:21540, lastOrder:'01 Mei 2026', favLayanan:'Sleep Call'},
+    {talentId:50, orderCount:1, spending:46477, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:6, orderCount:1, spending:32283, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual'},
+    {talentId:1, orderCount:1, spending:32551, lastOrder:'05 Apr 2026', favLayanan:'Teman Call'},
+    {talentId:31, orderCount:1, spending:37038, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+  57: [
+    {talentId:34, orderCount:2, spending:49826, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:56, orderCount:1, spending:32047, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual'},
+  ],
+  58: [
+    {talentId:38, orderCount:1, spending:42643, lastOrder:'08 Mei 2026', favLayanan:'Teman Call'},
+  ],
+  59: [
+    {talentId:33, orderCount:1, spending:27571, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual'},
+    {talentId:27, orderCount:1, spending:43112, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call'},
+  ],
+  60: [
+    {talentId:51, orderCount:2, spending:53142, lastOrder:'25 Mar 2026', favLayanan:'Teman Call'},
+    {talentId:15, orderCount:1, spending:38397, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call'},
+  ],
+};
+
+
 const DEMO_TALENT_PAYROLL = [
   {id:1, nama:'Anisa Rahmi', wa:'6285679217151', bank:'Mandiri', noRek:'2251444628', saldo:237000, orderBulanIni:21, statusPayroll:'active', tglAjukan:null},
   {id:2, nama:'Yasmin Aprilia', wa:'6281203522675', bank:'BRI', noRek:'9219479686', saldo:179000, orderBulanIni:16, statusPayroll:'active', tglAjukan:null},
@@ -4742,6 +5126,84 @@ function loadMoreClient(){
 }
 
 // Helper: parse tanggal client "14 Mei 2026" → Date
+function lihatDetailClient(clientId){
+  const client = DEMO_CLIENT.find(c => c.id === clientId);
+  if(!client) return;
+
+  const orders = CLIENT_TALENT_ORDERS[clientId] || [];
+
+  // Format WA tanpa dash untuk wa.me link
+  const waBare = client.wa.replace(/[-\s]/g, '');
+  // Tambah 62 di depan kalau mulai dari 08
+  const waFull = waBare.startsWith('08') ? '62' + waBare.substring(1) : waBare;
+
+  // Header
+  document.getElementById('dcClientWa').textContent = client.wa;
+  const statusBadge = client.status === 'repeat' ? '🔄 Client Repeat' : '🆕 Client Baru';
+  document.getElementById('dcClientInfo').textContent = `${statusBadge} · Join ${client.tglJoin}`;
+
+  // Summary stats
+  document.getElementById('dcTotalVoucher').textContent = client.totalVoucher;
+  const spendingStr = client.totalSpending >= 1000000
+    ? 'Rp ' + (client.totalSpending/1000000).toFixed(1) + 'jt'
+    : 'Rp ' + Math.round(client.totalSpending/1000) + 'rb';
+  document.getElementById('dcTotalSpending').textContent = spendingStr;
+  document.getElementById('dcTotalTalent').textContent = orders.length;
+
+  // Render talent list (top 10)
+  const top10 = orders.slice(0, 10);
+  const maxOrder = Math.max(...top10.map(o => o.orderCount), 1);
+
+  document.getElementById('dcTalentList').innerHTML = top10.map((o, idx) => {
+    const talent = DEMO_TALENT_PAYROLL.find(t => t.id === o.talentId);
+    if(!talent) return '';
+    const enrich = TALENT_ENRICH[talent.id] || {};
+    const isTop = !!talent.isTop;
+    const initial = talent.nama[0];
+    const barPct = (o.orderCount / maxOrder * 100).toFixed(0);
+    const spendingStr = o.spending >= 1000000
+      ? 'Rp ' + (o.spending/1000000).toFixed(2) + 'jt'
+      : 'Rp ' + Math.round(o.spending/1000) + 'rb';
+
+    // Medal untuk top 3
+    let rankBadge;
+    if(idx === 0) rankBadge = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥇</div>';
+    else if(idx === 1) rankBadge = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#E5E7EB,#94A3B8);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥈</div>';
+    else if(idx === 2) rankBadge = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FDE9D7,#92400E);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥉</div>';
+    else rankBadge = `<div style="width:24px;height:24px;border-radius:8px;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'Inter',sans-serif;">${idx+1}</div>`;
+
+    return `<div style="background:#fff;border:0.5px solid #E0DCF5;border-radius:10px;padding:9px 10px;margin-bottom:6px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+        ${rankBadge}
+        <div style="width:30px;height:30px;border-radius:50%;background:${isTop?'linear-gradient(135deg,#FCD34D,#D97706)':'linear-gradient(135deg,#A78BFA,#6D28D9)'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;flex-shrink:0;">${initial}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+            <div style="font-size:12px;font-weight:800;color:#1E1B3A;">${talent.nama}</div>
+            ${isTop ? `<span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:5px;padding:1px 5px;font-size:7.5px;font-weight:800;">🏆 TOP</span>` : ''}
+          </div>
+          <div style="font-size:9.5px;color:#888780;margin-top:1px;">Fav: ${o.favLayanan} · Terakhir: ${o.lastOrder}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:12px;font-weight:900;color:#534AB7;font-family:'Inter',sans-serif;">${o.orderCount} order</div>
+          <div style="font-size:9.5px;color:#3B6D11;font-weight:700;">${spendingStr}</div>
+        </div>
+      </div>
+      <div style="height:3px;background:#F1EFFB;border-radius:99px;overflow:hidden;">
+        <div style="height:100%;background:linear-gradient(90deg,#A78BFA,#6D28D9);width:${barPct}%;"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  if(orders.length === 0){
+    document.getElementById('dcTalentList').innerHTML = '<div style="text-align:center;padding:20px;color:#B0ADCC;font-size:12px;">Belum ada riwayat order</div>';
+  }
+
+  // WA button handler
+  document.getElementById('dcWaBtn').onclick = () => window.open(`https://wa.me/${waFull}`, '_blank');
+
+  document.getElementById('modalDetailClient').classList.add('show');
+}
+
 function parseClientDate(tglStr){
   const months = {'Jan':0,'Feb':1,'Mar':2,'Apr':3,'Mei':4,'Jun':5,'Jul':6,'Agu':7,'Sep':8,'Okt':9,'Nov':10,'Des':11};
   const m = tglStr.match(/(\d+)\s+(\w+)\s+(\d+)/);
@@ -4805,7 +5267,7 @@ function renderClient(){
       ? 'Rp ' + (c.totalSpending/1000000).toFixed(2) + 'jt'
       : 'Rp ' + Math.round(c.totalSpending/1000) + 'rb';
 
-    return `<div style="background:#fff;border:1px solid #D6CFEF;border-radius:12px;padding:11px 13px;margin-bottom:7px;">
+    return `<div onclick="lihatDetailClient(${c.id})" style="background:#fff;border:1px solid #D6CFEF;border-radius:12px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='#A78BFA';this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor='#D6CFEF';this.style.transform='translateY(0)'">
       <div style="display:flex;align-items:center;gap:10px;">
         ${avatar}
         <div style="flex:1;min-width:0;">
@@ -5471,6 +5933,66 @@ function simpanTransaksi(){
 // STATISTIK PENJUALAN
 // ============================================
 
+
+// 30 hari (daily)
+const STAT_REVENUE_30HARI = [
+  {label:'15 Apr', rev:1627000},
+  {label:'16 Apr', rev:1579000},
+  {label:'17 Apr', rev:1209000},
+  {label:'18 Apr', rev:2027000},
+  {label:'19 Apr', rev:1166000},
+  {label:'20 Apr', rev:1271000},
+  {label:'21 Apr', rev:1308000},
+  {label:'22 Apr', rev:1072000},
+  {label:'23 Apr', rev:2356000},
+  {label:'24 Apr', rev:977000},
+  {label:'25 Apr', rev:1314000},
+  {label:'26 Apr', rev:2293000},
+  {label:'27 Apr', rev:1584000},
+  {label:'28 Apr', rev:1887000},
+  {label:'29 Apr', rev:2201000},
+  {label:'30 Apr', rev:2234000},
+  {label:'1 Mei', rev:1903000},
+  {label:'2 Mei', rev:983000},
+  {label:'3 Mei', rev:2077000},
+  {label:'4 Mei', rev:1802000},
+  {label:'5 Mei', rev:1208000},
+  {label:'6 Mei', rev:1663000},
+  {label:'7 Mei', rev:2279000},
+  {label:'8 Mei', rev:2055000},
+  {label:'9 Mei', rev:2005000},
+  {label:'10 Mei', rev:1243000},
+  {label:'11 Mei', rev:2423000},
+  {label:'12 Mei', rev:2414000},
+  {label:'13 Mei', rev:1565000},
+  {label:'14 Mei', rev:2484000},
+];
+
+// 12 bulan
+const STAT_REVENUE_12BULAN = [
+  {label:'Jun 2025', rev:28000000},
+  {label:'Jul 2025', rev:32000000},
+  {label:'Agu 2025', rev:35000000},
+  {label:'Sep 2025', rev:38000000},
+  {label:'Okt 2025', rev:42000000},
+  {label:'Nov 2025', rev:48000000},
+  {label:'Des 2025', rev:45000000},
+  {label:'Jan 2026', rev:52000000},
+  {label:'Feb 2026', rev:58000000},
+  {label:'Mar 2026', rev:67000000},
+  {label:'Apr 2026', rev:62000000},
+  {label:'Mei 2026', rev:28500000},
+];
+
+// Tahunan
+const STAT_REVENUE_TAHUNAN = [
+  {label:'2022', rev:280000000},
+  {label:'2023', rev:420000000},
+  {label:'2024', rev:580000000},
+  {label:'2025', rev:680000000},
+  {label:'2026', rev:285000000},
+];
+
 const STAT_HISTORY_BULANAN = [
   {tgl:'Apr 2026', uangMasuk:62000000, voucher:1045, baru:285, repeat:760},
   {tgl:'Mar 2026', uangMasuk:67000000, voucher:1180, baru:320, repeat:860},
@@ -5616,68 +6138,109 @@ function renderStatistik(){
   document.getElementById('statVoucherDelta').textContent = (vouDelta > 0 ? '▲' : '▼') + ' ' + Math.abs(vouDelta) + '% dari kemarin';
   document.getElementById('statVoucherDelta').className = vouDelta > 0 ? 'stat-delta up' : 'stat-delta down';
 
-  // BREAKDOWN LAYANAN HARI INI
-  const totalVou = Object.values(s.hariIni.layanan).reduce((a,b)=>a+b, 0);
-  document.getElementById('statLayananBreakdown').innerHTML = Object.entries(s.hariIni.layanan).map(([nama, jumlah])=>{
-    const pct = totalVou > 0 ? (jumlah / totalVou * 100) : 0;
+  // BREAKDOWN LAYANAN HARI INI - compact grid
+  document.getElementById('statLayananBreakdown').innerHTML = `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">` + Object.entries(s.hariIni.layanan).map(([nama, jumlah])=>{
     const colorMap = {'Sleep Call':'#534AB7', 'Curhat Call':'#F59E0B', 'Teman Call':'#3B6D11', 'Pacar Virtual':'#DC2626'};
     const bgMap = {'Sleep Call':'#EEEDFE', 'Curhat Call':'#FAEEDA', 'Teman Call':'#EAF3DE', 'Pacar Virtual':'#FEF2F2'};
     const c = colorMap[nama] || '#534AB7';
     const bg = bgMap[nama] || '#EEEDFE';
-    return `<div style="position:relative;background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;overflow:hidden;">
-      <div style="position:absolute;left:0;top:0;bottom:0;width:${pct}%;background:${bg};"></div>
-      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;">
-        <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#1E1B3A;">
-          <span style="background:${c};color:#fff;border-radius:6px;padding:1px 7px;font-size:8.5px;font-weight:800;">${pct.toFixed(0)}%</span>
-          <span style="font-weight:600;">${nama}</span>
-        </div>
-        <div style="font-size:12.5px;font-weight:800;color:${c};">${jumlah} voucher</div>
-      </div>
+    // Singkat nama untuk muat di card kecil
+    const namaShort = nama.replace('Call', '').replace('Virtual', 'PV').trim();
+    return `<div style="background:${bg};border-radius:10px;padding:10px 6px;text-align:center;">
+      <div style="font-size:18px;font-weight:900;color:${c};font-family:'Inter',sans-serif;line-height:1.1;">${jumlah}</div>
+      <div style="font-size:10px;color:${c};font-weight:700;margin-top:4px;line-height:1.2;">${namaShort}</div>
     </div>`;
-  }).join('');
+  }).join('') + `</div>`;
 
-  // BAR CHART 6 BULAN
-  const maxRev = Math.max(...s.revenueBulanan.map(b=>b.value));
-  document.getElementById('statRevenueBulanan').innerHTML = s.revenueBulanan.map((b, i)=>{
-    const heightPct = (b.value / maxRev * 100);
-    const isCurrent = i === s.revenueBulanan.length - 1;
-    const color = isCurrent ? 'linear-gradient(180deg,#FCD34D,#F59E0B)' : 'linear-gradient(180deg,#A78BFA,#6D28D9)';
-    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
-      <div style="font-size:9px;color:#888780;font-weight:700;margin-bottom:3px;">${(b.value/1000000).toFixed(0)}jt</div>
-      <div style="width:100%;height:${heightPct}%;background:${color};border-radius:6px 6px 0 0;min-height:8px;${isCurrent ? 'opacity:0.85;border:1.5px dashed #F59E0B;' : ''}"></div>
-    </div>`;
-  }).join('');
-  document.getElementById('statBulanLabels').innerHTML = s.revenueBulanan.map((b, i)=>{
-    const isCurrent = i === s.revenueBulanan.length - 1;
-    return `<div style="flex:1;text-align:center;font-size:10px;font-weight:${isCurrent?'800':'600'};color:${isCurrent?'#F59E0B':'#9B98C4'};">${b.bulan}${isCurrent ? ' *' : ''}</div>`;
-  }).join('');
+  // REVENUE CHART (default 30 hari)
+  renderRevenueChart();
 
-  // BULAN INI VS BULAN LALU
-  document.getElementById('statRevBulanIni').textContent = formatRupiah(s.bulanIni.revenue);
-  document.getElementById('statVoucherBulanIni').textContent = s.bulanIni.voucher.toLocaleString('id-ID');
-  document.getElementById('statClientBaruBulan').textContent = s.bulanIni.clientBaru;
-  document.getElementById('statClientRepeatBulan').textContent = s.bulanIni.clientRepeat;
-
-  // Hitung progress bulan ini vs bulan lalu (proyeksi)
-  // Asumsi 14 Mei = hari ke-14 dari 31 hari
-  const hariBerjalan = 14;
-  const hariBulan = 31;
-  const proyeksiBulanIni = s.bulanIni.revenue / hariBerjalan * hariBulan;
-  const proyeksiDelta = ((proyeksiBulanIni - s.bulanLalu.revenue) / s.bulanLalu.revenue * 100).toFixed(1);
-  const revDelta = document.getElementById('statRevDelta');
-  revDelta.innerHTML = `Proyeksi: <b style="color:${proyeksiDelta > 0 ? '#3B6D11' : '#DC2626'};">${proyeksiDelta > 0 ? '▲' : '▼'} ${Math.abs(proyeksiDelta)}%</b> · ${hariBerjalan}/${hariBulan} hari`;
-
-  const vouDeltaBulan = ((s.bulanIni.voucher * hariBulan / hariBerjalan - s.bulanLalu.voucher) / s.bulanLalu.voucher * 100).toFixed(1);
-  document.getElementById('statVoucherDeltaBulan').innerHTML = `Proyeksi: <span style="color:${vouDeltaBulan>0?'#3B6D11':'#DC2626'};font-weight:700;">${vouDeltaBulan>0?'▲':'▼'} ${Math.abs(vouDeltaBulan)}%</span>`;
-
-  const cbDelta = ((s.bulanIni.clientBaru * hariBulan / hariBerjalan - s.bulanLalu.clientBaru) / s.bulanLalu.clientBaru * 100).toFixed(1);
-  document.getElementById('statClientBaruDelta').innerHTML = `Proyeksi: <span style="color:${cbDelta>0?'#3B6D11':'#DC2626'};font-weight:700;">${cbDelta>0?'▲':'▼'} ${Math.abs(cbDelta)}%</span>`;
-
-  const crDelta = ((s.bulanIni.clientRepeat * hariBulan / hariBerjalan - s.bulanLalu.clientRepeat) / s.bulanLalu.clientRepeat * 100).toFixed(1);
-  document.getElementById('statClientRepeatDelta').innerHTML = `Proyeksi: <span style="color:${crDelta>0?'#3B6D11':'#DC2626'};font-weight:700;">${crDelta>0?'▲':'▼'} ${Math.abs(crDelta)}%</span>`;
-
-  // RIWAYAT HARIAN
+  // RIWAYAT
   renderStatHistory();
+}
+
+// ============================================
+// REVENUE CHART (multi-mode)
+// ============================================
+let revenueMode = '30hari'; // '30hari' / '12bulan' / 'tahun'
+
+function switchRevenueMode(mode){
+  revenueMode = mode;
+
+  // Update toggle button style
+  ['30hari','12bulan','tahun'].forEach(m => {
+    const btn = document.getElementById('btnRev' + (m === '30hari' ? '30Hari' : m === '12bulan' ? '12Bulan' : 'Tahun'));
+    if(m === mode){
+      btn.style.background = '#fff';
+      btn.style.color = '#534AB7';
+      btn.style.boxShadow = '0 1px 2px rgba(83,74,183,0.1)';
+    } else {
+      btn.style.background = 'transparent';
+      btn.style.color = '#9B98C4';
+      btn.style.boxShadow = 'none';
+    }
+  });
+
+  renderRevenueChart();
+}
+
+function renderRevenueChart(){
+  let data, title, subtitle, showLabel = 'auto';
+
+  if(revenueMode === '30hari'){
+    data = STAT_REVENUE_30HARI;
+    title = '📊 Revenue 30 Hari Terakhir';
+  } else if(revenueMode === '12bulan'){
+    data = STAT_REVENUE_12BULAN;
+    title = '📊 Revenue 12 Bulan Terakhir';
+  } else {
+    data = STAT_REVENUE_TAHUNAN;
+    title = '📊 Revenue per Tahun';
+  }
+
+  const total = data.reduce((sum, d) => sum + d.rev, 0);
+  const totalStr = total >= 1000000000
+    ? 'Rp ' + (total/1000000000).toFixed(2) + 'M'
+    : total >= 1000000
+      ? 'Rp ' + (total/1000000).toFixed(1) + 'jt'
+      : 'Rp ' + (total/1000).toFixed(0) + 'rb';
+  subtitle = `Total revenue: ${totalStr}`;
+
+  document.getElementById('revenueChartTitle').textContent = title;
+  document.getElementById('revenueChartSubtitle').textContent = subtitle;
+
+  const maxRev = Math.max(...data.map(d => d.rev));
+  const isLong = data.length > 10; // 30 hari = pakai layout compact
+
+  // BARS
+  document.getElementById('statRevenueBulanan').innerHTML = data.map((d, i)=>{
+    const heightPct = (d.rev / maxRev * 100);
+    const isCurrent = i === data.length - 1;
+    const color = isCurrent ? 'linear-gradient(180deg,#FCD34D,#F59E0B)' : 'linear-gradient(180deg,#A78BFA,#6D28D9)';
+    const minW = isLong ? 'min-width:9px;' : '';
+    // Format value label di atas bar
+    let valStr = '';
+    if(!isLong){
+      valStr = d.rev >= 1000000000
+        ? (d.rev/1000000000).toFixed(1) + 'M'
+        : d.rev >= 1000000
+          ? (d.rev/1000000).toFixed(0) + 'jt'
+          : (d.rev/1000).toFixed(0) + 'rb';
+    }
+    return `<div style="flex:1;${minW}display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
+      ${valStr ? `<div style="font-size:9px;color:#888780;font-weight:700;margin-bottom:3px;">${valStr}</div>` : ''}
+      <div style="width:100%;height:${heightPct}%;background:${color};border-radius:4px 4px 0 0;min-height:6px;${isCurrent ? 'opacity:0.85;border:1.5px dashed #F59E0B;' : ''}" title="${d.label}: ${d.rev.toLocaleString('id-ID')}"></div>
+    </div>`;
+  }).join('');
+
+  // LABELS
+  // Untuk 30 hari: tampilkan label setiap 5 hari biar gak crowded
+  document.getElementById('statBulanLabels').innerHTML = data.map((d, i)=>{
+    const isCurrent = i === data.length - 1;
+    let showLabel = true;
+    if(isLong && i % 5 !== 0 && !isCurrent) showLabel = false;
+    return `<div style="flex:1;text-align:center;font-size:9px;font-weight:${isCurrent?'800':'600'};color:${isCurrent?'#F59E0B':'#9B98C4'};white-space:nowrap;overflow:hidden;">${showLabel ? d.label + (isCurrent ? ' *' : '') : ''}</div>`;
+  }).join('');
 }
 
 let statHistoryShown = 10;
