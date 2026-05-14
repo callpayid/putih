@@ -468,36 +468,39 @@ body{
         <div class="sec-sub" id="talentSub">Manajemen talent aktif</div>
       </div>
       <select class="period-select" id="talentBulan" onchange="changeTalentBulan(this.value)">
-        <option value="Mei 2026">Mei 2026</option>
-        <option value="Apr 2026">Apr 2026</option>
-        <option value="Mar 2026">Mar 2026</option>
-        <option value="Feb 2026">Feb 2026</option>
-        <option value="Jan 2026">Jan 2026</option>
-        <option value="Des 2025">Des 2025</option>
+        <option value="Mei 2026">📅 Mei 2026</option>
+        <option value="Apr 2026">📅 Apr 2026</option>
+        <option value="Mar 2026">📅 Mar 2026</option>
+        <option value="Feb 2026">📅 Feb 2026</option>
+        <option value="Jan 2026">📅 Jan 2026</option>
+        <option value="Des 2025">📅 Des 2025</option>
+        <option value="Nov 2025">📅 Nov 2025</option>
+        <option value="Okt 2025">📅 Okt 2025</option>
+        <option value="Sep 2025">📅 Sep 2025</option>
+        <option value="Agu 2025">📅 Agu 2025</option>
+        <option value="Jul 2025">📅 Jul 2025</option>
+        <option value="Jun 2025">📅 Jun 2025</option>
+        <option value="__all__">💎 Sejak Gabung</option>
       </select>
     </div>
-
-    <!-- RANKING PERFORMA -->
-    <div class="card">
-      <div class="card-title" id="rankingTitle">🏅 Ranking Performa Mei 2026</div>
-      <div id="rankingList"></div>
-    </div>
-
-    <!-- DIVIDER -->
-    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:8px 4px;">👥 Semua Talent</div>
 
     <!-- TAB FILTER -->
     <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;">
       <button class="doc-tab active" data-talent-filter="all" onclick="filterTalent('all')">Semua</button>
       <button class="doc-tab" data-talent-filter="online" onclick="filterTalent('online')">🟢 Online</button>
       <button class="doc-tab" data-talent-filter="offline" onclick="filterTalent('offline')">⚫ Offline</button>
-      <button class="doc-tab" data-talent-filter="cuti" onclick="filterTalent('cuti')">🌴 Cuti</button>
       <button class="doc-tab" data-talent-filter="top" onclick="filterTalent('top')">🏆 Top Talent</button>
+      <button class="doc-tab" data-talent-filter="nonaktif" onclick="filterTalent('nonaktif')">🔴 Non-Aktif</button>
     </div>
 
-    <!-- SEARCH -->
+    <!-- SEARCH + SORT -->
     <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <input class="field-input" id="talentSearch" placeholder="🔍 Cari nama talent..." oninput="talentShown=10;renderTalent()" style="padding:9px 12px;font-size:12.5px;"/>
+      <input class="field-input" id="talentSearch" placeholder="🔍 Cari nama talent..." oninput="talentShown=10;renderTalent()" style="flex:1;padding:9px 12px;font-size:12.5px;"/>
+      <select class="period-select" id="talentSort" onchange="talentShown=10;renderTalent()" style="height:auto;">
+        <option value="omset">💰 Omset</option>
+        <option value="call">📞 Call</option>
+        <option value="repeat">🔄 Repeat</option>
+      </select>
     </div>
 
     <!-- INFO COUNT -->
@@ -3983,6 +3986,69 @@ function saveKonten(){
 // ============================================
 // PENGGAJIAN (PAYROLL)
 // ============================================
+const TALENT_POIN_REPEAT = {
+  1: {poin:86, totalRepeat:39},
+  2: {poin:33, totalRepeat:18},
+  3: {poin:80, totalRepeat:33},
+  4: {poin:73, totalRepeat:41},
+  5: {poin:59, totalRepeat:36},
+  6: {poin:73, totalRepeat:6},
+  7: {poin:95, totalRepeat:15},
+  8: {poin:86, totalRepeat:31},
+  9: {poin:93, totalRepeat:43},
+  10: {poin:7, totalRepeat:28},
+  11: {poin:89, totalRepeat:24},
+  12: {poin:69, totalRepeat:9},
+  13: {poin:48, totalRepeat:22},
+  14: {poin:62, totalRepeat:14},
+  15: {poin:33, totalRepeat:22},
+  16: {poin:97, totalRepeat:28},
+  17: {poin:21, totalRepeat:16},
+  18: {poin:95, totalRepeat:18},
+  19: {poin:60, totalRepeat:38},
+  20: {poin:66, totalRepeat:41},
+  21: {poin:8, totalRepeat:17},
+  22: {poin:63, totalRepeat:10},
+  23: {poin:35, totalRepeat:40},
+  24: {poin:49, totalRepeat:18},
+  25: {poin:61, totalRepeat:23},
+  26: {poin:85, totalRepeat:31},
+  27: {poin:83, totalRepeat:10},
+  28: {poin:26, totalRepeat:39},
+  29: {poin:46, totalRepeat:13},
+  30: {poin:0, totalRepeat:11},
+  31: {poin:55, totalRepeat:24},
+  32: {poin:26, totalRepeat:20},
+  33: {poin:34, totalRepeat:40},
+  34: {poin:36, totalRepeat:29},
+  35: {poin:66, totalRepeat:14},
+  36: {poin:59, totalRepeat:21},
+  37: {poin:38, totalRepeat:44},
+  38: {poin:73, totalRepeat:8},
+  39: {poin:97, totalRepeat:14},
+  40: {poin:51, totalRepeat:34},
+  41: {poin:60, totalRepeat:24},
+  42: {poin:97, totalRepeat:4},
+  43: {poin:99, totalRepeat:45},
+  44: {poin:99, totalRepeat:42},
+  45: {poin:8, totalRepeat:5},
+  46: {poin:100, totalRepeat:15},
+  47: {poin:79, totalRepeat:7},
+  48: {poin:51, totalRepeat:17},
+  49: {poin:91, totalRepeat:12},
+  50: {poin:24, totalRepeat:41},
+  51: {poin:18, totalRepeat:40},
+  52: {poin:78, totalRepeat:8},
+  53: {poin:74, totalRepeat:22},
+  54: {poin:0, totalRepeat:19},
+  55: {poin:0, totalRepeat:5},
+  56: {poin:7, totalRepeat:39},
+  57: {poin:26, totalRepeat:31},
+  58: {poin:30, totalRepeat:19},
+  59: {poin:80, totalRepeat:30},
+  60: {poin:91, totalRepeat:15},
+};
+
 const TALENT_ENRICH = {
   1: {totalOrder:1004, joinDate:'15 Apr 2025', favLayanan:'Sleep Call', status:'online'},
   2: {totalOrder:285, joinDate:'03 Apr 2026', favLayanan:'Sleep Call', status:'online'},
@@ -4006,7 +4072,7 @@ const TALENT_ENRICH = {
   20: {totalOrder:600, joinDate:'03 Jan 2025', favLayanan:'Curhat Call', status:'online'},
   21: {totalOrder:718, joinDate:'18 Feb 2025', favLayanan:'Teman Call', status:'online'},
   22: {totalOrder:125, joinDate:'08 Jan 2026', favLayanan:'Curhat Call', status:'online'},
-  23: {totalOrder:165, joinDate:'18 Jan 2025', favLayanan:'Pacar Virtual', status:'cuti'},
+  23: {totalOrder:165, joinDate:'18 Jan 2025', favLayanan:'Pacar Virtual', status:'offline'},
   24: {totalOrder:464, joinDate:'05 Mei 2026', favLayanan:'Sleep Call', status:'offline'},
   25: {totalOrder:1050, joinDate:'28 Mei 2025', favLayanan:'Teman Call', status:'offline'},
   26: {totalOrder:1056, joinDate:'22 Mar 2025', favLayanan:'Sleep Call', status:'online'},
@@ -4033,7 +4099,7 @@ const TALENT_ENRICH = {
   47: {totalOrder:342, joinDate:'05 Apr 2026', favLayanan:'Curhat Call', status:'online'},
   48: {totalOrder:725, joinDate:'28 Mei 2025', favLayanan:'Teman Call', status:'offline'},
   49: {totalOrder:1083, joinDate:'18 Jan 2025', favLayanan:'Teman Call', status:'offline'},
-  50: {totalOrder:279, joinDate:'05 Mei 2025', favLayanan:'Curhat Call', status:'cuti'},
+  50: {totalOrder:279, joinDate:'05 Mei 2025', favLayanan:'Curhat Call', status:'offline'},
   51: {totalOrder:393, joinDate:'05 Apr 2026', favLayanan:'Sleep Call', status:'online'},
   52: {totalOrder:715, joinDate:'05 Mar 2026', favLayanan:'Sleep Call', status:'online'},
   53: {totalOrder:504, joinDate:'01 Feb 2026', favLayanan:'Sleep Call', status:'offline'},
@@ -4043,7 +4109,7 @@ const TALENT_ENRICH = {
   57: {totalOrder:225, joinDate:'28 Apr 2025', favLayanan:'Pacar Virtual', status:'offline'},
   58: {totalOrder:408, joinDate:'08 Apr 2025', favLayanan:'Pacar Virtual', status:'online'},
   59: {totalOrder:1104, joinDate:'12 Mei 2025', favLayanan:'Pacar Virtual', status:'online'},
-  60: {totalOrder:355, joinDate:'15 Jan 2026', favLayanan:'Pacar Virtual', status:'cuti'},
+  60: {totalOrder:355, joinDate:'15 Jan 2026', favLayanan:'Pacar Virtual', status:'offline'},
 };
 
 
@@ -4054,479 +4120,839 @@ const TALENT_PERF = {
     'Mar 2026': {call:48, customer:32, revenue:733152},
     'Feb 2026': {call:28, customer:21, revenue:377804},
     'Jan 2026': {call:37, customer:24, revenue:517038},
-    'Des 2025': {call:56, customer:36, revenue:870072}
+    'Des 2025': {call:56, customer:36, revenue:870072},
+    'Nov 2025': {call:66, customer:43, revenue:974160},
+    'Okt 2025': {call:54, customer:35, revenue:821556},
+    'Sep 2025': {call:62, customer:39, revenue:895280},
+    'Agu 2025': {call:20, customer:16, revenue:304480},
+    'Jul 2025': {call:61, customer:49, revenue:715103},
+    'Jun 2025': {call:28, customer:19, revenue:359968}
   },
   2: {
-    'Mei 2026': {call:10, customer:7, revenue:127140},
-    'Apr 2026': {call:22, customer:16, revenue:273328},
-    'Mar 2026': {call:40, customer:30, revenue:577600},
-    'Feb 2026': {call:12, customer:9, revenue:182688},
-    'Jan 2026': {call:36, customer:29, revenue:422028},
-    'Des 2025': {call:16, customer:11, revenue:205696}
-  },
-  3: {
     'Mei 2026': {call:7, customer:4, revenue:111769},
     'Apr 2026': {call:12, customer:8, revenue:190332},
     'Mar 2026': {call:28, customer:22, revenue:310688},
     'Feb 2026': {call:27, customer:22, revenue:370710},
     'Jan 2026': {call:11, customer:8, revenue:146938},
-    'Des 2025': {call:38, customer:31, revenue:449084}
+    'Des 2025': {call:38, customer:31, revenue:449084},
+    'Nov 2025': {call:37, customer:29, revenue:519998},
+    'Okt 2025': {call:29, customer:18, revenue:434797},
+    'Sep 2025': {call:40, customer:31, revenue:543640},
+    'Agu 2025': {call:42, customer:35, revenue:651798},
+    'Jul 2025': {call:9, customer:6, revenue:106875},
+    'Jun 2025': {call:27, customer:22, revenue:341091}
   },
-  4: {
-    'Mei 2026': {call:44, customer:35, revenue:676896},
-    'Apr 2026': {call:34, customer:22, revenue:408578},
-    'Mar 2026': {call:52, customer:42, revenue:637988},
-    'Feb 2026': {call:84, customer:64, revenue:1303596},
-    'Jan 2026': {call:24, customer:16, revenue:285000},
-    'Des 2025': {call:67, customer:56, revenue:846411}
-  },
-  5: {
+  3: {
     'Mei 2026': {call:44, customer:28, revenue:499884},
     'Apr 2026': {call:88, customer:64, revenue:1392688},
     'Mar 2026': {call:60, customer:42, revenue:671880},
     'Feb 2026': {call:85, customer:61, revenue:1234540},
     'Jan 2026': {call:105, customer:63, revenue:1275330},
-    'Des 2025': {call:49, customer:31, revenue:702513}
+    'Des 2025': {call:49, customer:31, revenue:702513},
+    'Nov 2025': {call:93, customer:77, revenue:1231041},
+    'Okt 2025': {call:30, customer:20, revenue:376140},
+    'Sep 2025': {call:42, customer:25, revenue:668850},
+    'Agu 2025': {call:96, customer:81, revenue:1153536},
+    'Jul 2025': {call:66, customer:54, revenue:805530},
+    'Jun 2025': {call:40, customer:33, revenue:459600}
+  },
+  4: {
+    'Mei 2026': {call:8, customer:6, revenue:126192},
+    'Apr 2026': {call:6, customer:5, revenue:89970},
+    'Mar 2026': {call:14, customer:11, revenue:166796},
+    'Feb 2026': {call:16, customer:11, revenue:183008},
+    'Jan 2026': {call:24, customer:19, revenue:361248},
+    'Des 2025': {call:17, customer:12, revenue:236793},
+    'Nov 2025': {call:12, customer:10, revenue:171912},
+    'Okt 2025': {call:10, customer:6, revenue:119960},
+    'Sep 2025': {call:13, customer:9, revenue:196521},
+    'Agu 2025': {call:14, customer:8, revenue:186452},
+    'Jul 2025': {call:18, customer:14, revenue:209574},
+    'Jun 2025': {call:26, customer:17, revenue:374894}
+  },
+  5: {
+    'Mei 2026': {call:8, customer:5, revenue:112864},
+    'Apr 2026': {call:17, customer:10, revenue:221476},
+    'Mar 2026': {call:20, customer:16, revenue:234620},
+    'Feb 2026': {call:28, customer:18, revenue:340312},
+    'Jan 2026': {call:13, customer:9, revenue:178659},
+    'Des 2025': {call:13, customer:10, revenue:148642},
+    'Nov 2025': {call:37, customer:30, revenue:480667},
+    'Okt 2025': {call:21, customer:16, revenue:310296},
+    'Sep 2025': {call:41, customer:32, revenue:519265},
+    'Agu 2025': {call:46, customer:32, revenue:684572},
+    'Jul 2025': {call:52, customer:43, revenue:686452},
+    'Jun 2025': {call:34, customer:24, revenue:499562}
   },
   6: {
-    'Mei 2026': {call:29, customer:23, revenue:340257},
-    'Apr 2026': {call:49, customer:36, revenue:626710},
-    'Mar 2026': {call:25, customer:20, revenue:303325},
-    'Feb 2026': {call:99, customer:62, revenue:1208295},
-    'Jan 2026': {call:40, customer:33, revenue:459600},
-    'Des 2025': {call:25, customer:18, revenue:299025}
+    'Mei 2026': {call:29, customer:24, revenue:389325},
+    'Apr 2026': {call:40, customer:27, revenue:487240},
+    'Mar 2026': {call:16, customer:11, revenue:212464},
+    'Feb 2026': {call:45, customer:31, revenue:659475},
+    'Jan 2026': {call:52, customer:37, revenue:625872},
+    'Des 2025': {call:25, customer:19, revenue:377550},
+    'Nov 2025': {call:60, customer:45, revenue:813600},
+    'Okt 2025': {call:44, customer:34, revenue:674256},
+    'Sep 2025': {call:22, customer:16, revenue:311938},
+    'Agu 2025': {call:27, customer:19, revenue:418824},
+    'Jul 2025': {call:46, customer:27, revenue:708216},
+    'Jun 2025': {call:21, customer:17, revenue:256893}
   },
   7: {
-    'Mei 2026': {call:8, customer:6, revenue:119960},
-    'Apr 2026': {call:44, customer:34, revenue:524216},
-    'Mar 2026': {call:48, customer:35, revenue:549024},
-    'Feb 2026': {call:74, customer:61, revenue:1113848},
-    'Jan 2026': {call:51, customer:38, revenue:710379},
-    'Des 2025': {call:38, customer:31, revenue:544388}
+    'Mei 2026': {call:7, customer:5, revenue:80164},
+    'Apr 2026': {call:42, customer:27, revenue:594594},
+    'Mar 2026': {call:48, customer:34, revenue:553872},
+    'Feb 2026': {call:48, customer:35, revenue:558720},
+    'Jan 2026': {call:12, customer:9, revenue:170280},
+    'Des 2025': {call:45, customer:31, revenue:588825},
+    'Nov 2025': {call:33, customer:26, revenue:506847},
+    'Okt 2025': {call:20, customer:15, revenue:296900},
+    'Sep 2025': {call:35, customer:26, revenue:497280},
+    'Agu 2025': {call:53, customer:36, revenue:602610},
+    'Jul 2025': {call:22, customer:13, revenue:304458},
+    'Jun 2025': {call:35, customer:23, revenue:491750}
   },
   8: {
-    'Mei 2026': {call:7, customer:4, revenue:93898},
-    'Apr 2026': {call:32, customer:23, revenue:438048},
-    'Mar 2026': {call:13, customer:10, revenue:197041},
-    'Feb 2026': {call:12, customer:7, revenue:162888},
-    'Jan 2026': {call:18, customer:12, revenue:238518},
-    'Des 2025': {call:13, customer:9, revenue:183404}
+    'Mei 2026': {call:10, customer:7, revenue:132430},
+    'Apr 2026': {call:18, customer:14, revenue:232596},
+    'Mar 2026': {call:62, customer:51, revenue:705994},
+    'Feb 2026': {call:68, customer:51, revenue:874480},
+    'Jan 2026': {call:50, customer:40, revenue:656050},
+    'Des 2025': {call:66, customer:48, revenue:996336},
+    'Nov 2025': {call:27, customer:16, revenue:405648},
+    'Okt 2025': {call:33, customer:23, revenue:468996},
+    'Sep 2025': {call:28, customer:23, revenue:325780},
+    'Agu 2025': {call:43, customer:33, revenue:638464},
+    'Jul 2025': {call:18, customer:14, revenue:281124},
+    'Jun 2025': {call:70, customer:50, revenue:1029350}
   },
   9: {
-    'Mei 2026': {call:3, customer:2, revenue:39084},
-    'Apr 2026': {call:10, customer:8, revenue:117310},
-    'Mar 2026': {call:14, customer:9, revenue:170156},
-    'Feb 2026': {call:6, customer:4, revenue:82458},
-    'Jan 2026': {call:6, customer:5, revenue:68604},
-    'Des 2025': {call:18, customer:14, revenue:233838}
+    'Mei 2026': {call:8, customer:6, revenue:102456},
+    'Apr 2026': {call:41, customer:32, revenue:468138},
+    'Mar 2026': {call:26, customer:21, revenue:340392},
+    'Feb 2026': {call:60, customer:47, revenue:672240},
+    'Jan 2026': {call:40, customer:30, revenue:477920},
+    'Des 2025': {call:26, customer:20, revenue:390572},
+    'Nov 2025': {call:42, customer:34, revenue:614880},
+    'Okt 2025': {call:43, customer:29, revenue:563644},
+    'Sep 2025': {call:27, customer:16, revenue:415233},
+    'Agu 2025': {call:59, customer:43, revenue:876386},
+    'Jul 2025': {call:54, customer:44, revenue:600696},
+    'Jun 2025': {call:52, customer:33, revenue:603512}
   },
   10: {
-    'Mei 2026': {call:17, customer:12, revenue:251192},
-    'Apr 2026': {call:31, customer:24, revenue:392615},
-    'Mar 2026': {call:34, customer:23, revenue:505988},
-    'Feb 2026': {call:39, customer:32, revenue:514839},
-    'Jan 2026': {call:25, customer:17, revenue:367325},
-    'Des 2025': {call:27, customer:21, revenue:362475}
+    'Mei 2026': {call:7, customer:5, revenue:83405},
+    'Apr 2026': {call:38, customer:25, revenue:481422},
+    'Mar 2026': {call:63, customer:52, revenue:912744},
+    'Feb 2026': {call:37, customer:26, revenue:576867},
+    'Jan 2026': {call:46, customer:28, revenue:596206},
+    'Des 2025': {call:37, customer:29, revenue:591260},
+    'Nov 2025': {call:40, customer:27, revenue:581560},
+    'Okt 2025': {call:67, customer:45, revenue:992002},
+    'Sep 2025': {call:41, customer:33, revenue:459159},
+    'Agu 2025': {call:56, customer:38, revenue:844424},
+    'Jul 2025': {call:21, customer:15, revenue:320145},
+    'Jun 2025': {call:33, customer:24, revenue:479985}
   },
   11: {
-    'Mei 2026': {call:17, customer:13, revenue:191335},
-    'Apr 2026': {call:40, customer:28, revenue:596640},
-    'Mar 2026': {call:38, customer:22, revenue:556890},
-    'Feb 2026': {call:52, customer:37, revenue:625872},
-    'Jan 2026': {call:25, customer:19, revenue:377550},
-    'Des 2025': {call:60, customer:45, revenue:813600}
+    'Mei 2026': {call:12, customer:9, revenue:168024},
+    'Apr 2026': {call:27, customer:18, revenue:427086},
+    'Mar 2026': {call:20, customer:15, revenue:314140},
+    'Feb 2026': {call:22, customer:16, revenue:276100},
+    'Jan 2026': {call:12, customer:8, revenue:164424},
+    'Des 2025': {call:8, customer:6, revenue:91656},
+    'Nov 2025': {call:10, customer:7, revenue:154780},
+    'Okt 2025': {call:13, customer:10, revenue:172939},
+    'Sep 2025': {call:23, customer:16, revenue:364987},
+    'Agu 2025': {call:23, customer:17, revenue:276253},
+    'Jul 2025': {call:11, customer:8, revenue:147664},
+    'Jun 2025': {call:26, customer:17, revenue:381342}
   },
   12: {
-    'Mei 2026': {call:26, customer:19, revenue:398424},
-    'Apr 2026': {call:22, customer:16, revenue:311938},
-    'Mar 2026': {call:27, customer:19, revenue:418824},
-    'Feb 2026': {call:46, customer:27, revenue:708216},
-    'Jan 2026': {call:21, customer:17, revenue:256893},
-    'Des 2025': {call:67, customer:46, revenue:767284}
+    'Mei 2026': {call:18, customer:13, revenue:212796},
+    'Apr 2026': {call:10, customer:8, revenue:153910},
+    'Mar 2026': {call:38, customer:23, revenue:591508},
+    'Feb 2026': {call:31, customer:22, revenue:481306},
+    'Jan 2026': {call:18, customer:15, revenue:242064},
+    'Des 2025': {call:9, customer:7, revenue:99234},
+    'Nov 2025': {call:27, customer:18, revenue:374166},
+    'Okt 2025': {call:25, customer:17, revenue:286175},
+    'Sep 2025': {call:9, customer:6, revenue:138510},
+    'Agu 2025': {call:31, customer:24, revenue:374511},
+    'Jul 2025': {call:21, customer:15, revenue:247086},
+    'Jun 2025': {call:24, customer:19, revenue:281544}
   },
   13: {
-    'Mei 2026': {call:16, customer:10, revenue:235280},
-    'Apr 2026': {call:39, customer:29, revenue:602940},
-    'Mar 2026': {call:76, customer:47, revenue:962312},
-    'Feb 2026': {call:46, customer:35, revenue:601910},
-    'Jan 2026': {call:50, customer:39, revenue:767950},
-    'Des 2025': {call:30, customer:23, revenue:445350}
+    'Mei 2026': {call:35, customer:24, revenue:465080},
+    'Apr 2026': {call:19, customer:13, revenue:250477},
+    'Mar 2026': {call:55, customer:33, revenue:875765},
+    'Feb 2026': {call:54, customer:38, revenue:630774},
+    'Jan 2026': {call:69, customer:56, revenue:1052250},
+    'Des 2025': {call:70, customer:44, revenue:1012270},
+    'Nov 2025': {call:72, customer:59, revenue:954432},
+    'Okt 2025': {call:81, customer:56, revenue:1120311},
+    'Sep 2025': {call:42, customer:25, revenue:541170},
+    'Agu 2025': {call:19, customer:14, revenue:257146},
+    'Jul 2025': {call:84, customer:61, revenue:1240428},
+    'Jun 2025': {call:75, customer:56, revenue:972975}
   },
   14: {
-    'Mei 2026': {call:23, customer:15, revenue:314548},
-    'Apr 2026': {call:29, customer:17, revenue:327903},
-    'Mar 2026': {call:56, customer:47, revenue:826728},
-    'Feb 2026': {call:35, customer:25, revenue:559790},
-    'Jan 2026': {call:19, customer:14, revenue:251617},
-    'Des 2025': {call:15, customer:11, revenue:193830}
+    'Mei 2026': {call:41, customer:25, revenue:485481},
+    'Apr 2026': {call:27, customer:18, revenue:350298},
+    'Mar 2026': {call:55, customer:39, revenue:805805},
+    'Feb 2026': {call:66, customer:44, revenue:881892},
+    'Jan 2026': {call:39, customer:29, revenue:536601},
+    'Des 2025': {call:40, customer:29, revenue:592880},
+    'Nov 2025': {call:76, customer:59, revenue:891860},
+    'Okt 2025': {call:49, customer:32, revenue:573349},
+    'Sep 2025': {call:103, customer:86, revenue:1393693},
+    'Agu 2025': {call:24, customer:18, revenue:295968},
+    'Jul 2025': {call:22, customer:18, revenue:289146},
+    'Jun 2025': {call:90, customer:58, revenue:1031850}
   },
   15: {
-    'Mei 2026': {call:28, customer:17, revenue:350280},
-    'Apr 2026': {call:76, customer:49, revenue:1105496},
-    'Mar 2026': {call:80, customer:51, revenue:1220960},
-    'Feb 2026': {call:80, customer:58, revenue:895680},
-    'Jan 2026': {call:19, customer:13, revenue:287280},
-    'Des 2025': {call:48, customer:30, revenue:694128}
+    'Mei 2026': {call:31, customer:21, revenue:380618},
+    'Apr 2026': {call:94, customer:63, revenue:1440362},
+    'Mar 2026': {call:103, customer:64, revenue:1593513},
+    'Feb 2026': {call:90, customer:75, revenue:1211580},
+    'Jan 2026': {call:61, customer:43, revenue:677222},
+    'Des 2025': {call:46, customer:30, revenue:641516},
+    'Nov 2025': {call:87, customer:69, revenue:967527},
+    'Okt 2025': {call:40, customer:26, revenue:603680},
+    'Sep 2025': {call:105, customer:65, revenue:1444695},
+    'Agu 2025': {call:100, customer:60, revenue:1361400},
+    'Jul 2025': {call:51, customer:43, revenue:790347},
+    'Jun 2025': {call:90, customer:63, revenue:1168470}
   },
   16: {
-    'Mei 2026': {call:38, customer:28, revenue:442130},
-    'Apr 2026': {call:54, customer:41, revenue:801792},
-    'Mar 2026': {call:22, customer:17, revenue:343596},
-    'Feb 2026': {call:88, customer:63, revenue:1294040},
-    'Jan 2026': {call:58, customer:35, revenue:913964},
-    'Des 2025': {call:43, customer:30, revenue:678884}
+    'Mei 2026': {call:5, customer:3, revenue:68440},
+    'Apr 2026': {call:24, customer:17, revenue:286032},
+    'Mar 2026': {call:11, customer:9, revenue:151415},
+    'Feb 2026': {call:26, customer:20, revenue:345228},
+    'Jan 2026': {call:26, customer:18, revenue:388258},
+    'Des 2025': {call:21, customer:14, revenue:305109},
+    'Nov 2025': {call:6, customer:4, revenue:76926},
+    'Okt 2025': {call:6, customer:3, revenue:85440},
+    'Sep 2025': {call:6, customer:3, revenue:94566},
+    'Agu 2025': {call:20, customer:12, revenue:243160},
+    'Jul 2025': {call:26, customer:20, revenue:370578},
+    'Jun 2025': {call:22, customer:15, revenue:277684}
   },
   17: {
-    'Mei 2026': {call:4, customer:3, revenue:52368},
-    'Apr 2026': {call:24, customer:18, revenue:268896},
-    'Mar 2026': {call:16, customer:12, revenue:191168},
-    'Feb 2026': {call:10, customer:8, revenue:150220},
-    'Jan 2026': {call:16, customer:13, revenue:234240},
-    'Des 2025': {call:17, customer:11, revenue:222836}
+    'Mei 2026': {call:23, customer:14, revenue:270549},
+    'Apr 2026': {call:39, customer:25, revenue:542724},
+    'Mar 2026': {call:34, customer:25, revenue:427108},
+    'Feb 2026': {call:25, customer:21, revenue:331425},
+    'Jan 2026': {call:22, customer:17, revenue:264308},
+    'Des 2025': {call:30, customer:22, revenue:398580},
+    'Nov 2025': {call:24, customer:17, revenue:277248},
+    'Okt 2025': {call:20, customer:12, revenue:232620},
+    'Sep 2025': {call:18, customer:15, revenue:206784},
+    'Agu 2025': {call:45, customer:28, revenue:618885},
+    'Jul 2025': {call:40, customer:27, revenue:590000},
+    'Jun 2025': {call:40, customer:32, revenue:541840}
   },
   18: {
-    'Mei 2026': {call:4, customer:3, revenue:61180},
-    'Apr 2026': {call:31, customer:22, revenue:426839},
-    'Mar 2026': {call:9, customer:6, revenue:104454},
-    'Feb 2026': {call:40, customer:32, revenue:446400},
-    'Jan 2026': {call:28, customer:23, revenue:390460},
-    'Des 2025': {call:19, customer:14, revenue:262428}
+    'Mei 2026': {call:7, customer:4, revenue:107310},
+    'Apr 2026': {call:23, customer:17, revenue:337962},
+    'Mar 2026': {call:22, customer:15, revenue:318802},
+    'Feb 2026': {call:25, customer:15, revenue:295450},
+    'Jan 2026': {call:24, customer:17, revenue:383424},
+    'Des 2025': {call:20, customer:12, revenue:232740},
+    'Nov 2025': {call:14, customer:9, revenue:161882},
+    'Okt 2025': {call:24, customer:14, revenue:314568},
+    'Sep 2025': {call:17, customer:12, revenue:216801},
+    'Agu 2025': {call:16, customer:10, revenue:237536},
+    'Jul 2025': {call:21, customer:16, revenue:291627},
+    'Jun 2025': {call:8, customer:4, revenue:97320}
   },
   19: {
-    'Mei 2026': {call:16, customer:11, revenue:249456},
-    'Apr 2026': {call:46, customer:28, revenue:596206},
-    'Mar 2026': {call:37, customer:29, revenue:591260},
-    'Feb 2026': {call:40, customer:27, revenue:581560},
-    'Jan 2026': {call:67, customer:45, revenue:992002},
-    'Des 2025': {call:41, customer:33, revenue:459159}
+    'Mei 2026': {call:17, customer:11, revenue:270776},
+    'Apr 2026': {call:24, customer:17, revenue:344976},
+    'Mar 2026': {call:28, customer:20, revenue:394940},
+    'Feb 2026': {call:25, customer:15, revenue:388350},
+    'Jan 2026': {call:32, customer:19, revenue:414272},
+    'Des 2025': {call:36, customer:26, revenue:411516},
+    'Nov 2025': {call:44, customer:29, revenue:667920},
+    'Okt 2025': {call:36, customer:29, revenue:552132},
+    'Sep 2025': {call:56, customer:46, revenue:825776},
+    'Agu 2025': {call:60, customer:42, revenue:681120},
+    'Jul 2025': {call:40, customer:30, revenue:463560},
+    'Jun 2025': {call:84, customer:56, revenue:1185156}
   },
   20: {
-    'Mei 2026': {call:26, customer:15, revenue:306072},
-    'Apr 2026': {call:72, customer:53, revenue:1097640},
-    'Mar 2026': {call:49, customer:36, revenue:712705},
-    'Feb 2026': {call:27, customer:22, revenue:378054},
-    'Jan 2026': {call:102, customer:68, revenue:1613436},
-    'Des 2025': {call:76, customer:58, revenue:1193732}
+    'Mei 2026': {call:18, customer:15, revenue:273150},
+    'Apr 2026': {call:49, customer:31, revenue:735147},
+    'Mar 2026': {call:36, customer:23, revenue:556416},
+    'Feb 2026': {call:48, customer:32, revenue:688800},
+    'Jan 2026': {call:49, customer:41, revenue:559678},
+    'Des 2025': {call:40, customer:29, revenue:638920},
+    'Nov 2025': {call:32, customer:23, revenue:410176},
+    'Okt 2025': {call:20, customer:13, revenue:271860},
+    'Sep 2025': {call:48, customer:40, revenue:656016},
+    'Agu 2025': {call:13, customer:7, revenue:144118},
+    'Jul 2025': {call:52, customer:42, revenue:754624},
+    'Jun 2025': {call:28, customer:20, revenue:366156}
   },
   21: {
-    'Mei 2026': {call:37, customer:25, revenue:479668},
-    'Apr 2026': {call:64, customer:44, revenue:876928},
-    'Mar 2026': {call:31, customer:24, revenue:355167},
-    'Feb 2026': {call:40, customer:29, revenue:619120},
-    'Jan 2026': {call:51, customer:42, revenue:678453},
-    'Des 2025': {call:87, customer:60, revenue:1380603}
+    'Mei 2026': {call:25, customer:15, revenue:297950},
+    'Apr 2026': {call:32, customer:20, revenue:420416},
+    'Mar 2026': {call:80, customer:56, revenue:1017520},
+    'Feb 2026': {call:49, customer:38, revenue:742399},
+    'Jan 2026': {call:36, customer:28, revenue:483336},
+    'Des 2025': {call:64, customer:52, revenue:806784},
+    'Nov 2025': {call:36, customer:30, revenue:435060},
+    'Okt 2025': {call:67, customer:51, revenue:992404},
+    'Sep 2025': {call:58, customer:39, revenue:844944},
+    'Agu 2025': {call:73, customer:56, revenue:860670},
+    'Jul 2025': {call:49, customer:31, revenue:649397},
+    'Jun 2025': {call:45, customer:37, revenue:508410}
   },
   22: {
-    'Mei 2026': {call:33, customer:20, revenue:396363},
-    'Apr 2026': {call:43, customer:31, revenue:577232},
-    'Mar 2026': {call:97, customer:65, revenue:1422699},
-    'Feb 2026': {call:105, customer:67, revenue:1629810},
-    'Jan 2026': {call:31, customer:25, revenue:486886},
-    'Des 2025': {call:73, customer:57, revenue:1136318}
+    'Mei 2026': {call:34, customer:20, revenue:523124},
+    'Apr 2026': {call:26, customer:17, revenue:372944},
+    'Mar 2026': {call:30, customer:19, revenue:429420},
+    'Feb 2026': {call:27, customer:20, revenue:349650},
+    'Jan 2026': {call:44, customer:26, revenue:551188},
+    'Des 2025': {call:30, customer:25, revenue:408660},
+    'Nov 2025': {call:56, customer:46, revenue:697200},
+    'Okt 2025': {call:58, customer:36, revenue:798080},
+    'Sep 2025': {call:21, customer:16, revenue:258342},
+    'Agu 2025': {call:32, customer:26, revenue:408320},
+    'Jul 2025': {call:64, customer:46, revenue:866304},
+    'Jun 2025': {call:36, customer:22, revenue:414540}
   },
   23: {
-    'Mei 2026': {call:24, customer:20, revenue:372624},
-    'Apr 2026': {call:37, customer:31, revenue:497576},
-    'Mar 2026': {call:18, customer:14, revenue:198468},
-    'Feb 2026': {call:54, customer:36, revenue:748332},
-    'Jan 2026': {call:51, customer:35, revenue:583797},
-    'Des 2025': {call:18, customer:13, revenue:277020}
+    'Mei 2026': {call:9, customer:6, revenue:124290},
+    'Apr 2026': {call:14, customer:9, revenue:170212},
+    'Mar 2026': {call:19, customer:11, revenue:242497},
+    'Feb 2026': {call:27, customer:17, revenue:359505},
+    'Jan 2026': {call:8, customer:5, revenue:122232},
+    'Des 2025': {call:26, customer:21, revenue:293020},
+    'Nov 2025': {call:24, customer:19, revenue:357840},
+    'Okt 2025': {call:18, customer:14, revenue:215262},
+    'Sep 2025': {call:12, customer:8, revenue:190068},
+    'Agu 2025': {call:14, customer:9, revenue:222278},
+    'Jul 2025': {call:23, customer:19, revenue:278783},
+    'Jun 2025': {call:6, customer:3, revenue:92250}
   },
   24: {
-    'Mei 2026': {call:34, customer:22, revenue:462298},
-    'Apr 2026': {call:64, customer:44, revenue:753024},
-    'Mar 2026': {call:48, customer:38, revenue:563088},
-    'Feb 2026': {call:61, customer:48, revenue:810568},
-    'Jan 2026': {call:19, customer:13, revenue:250477},
-    'Des 2025': {call:55, customer:33, revenue:875765}
+    'Mei 2026': {call:23, customer:17, revenue:327267},
+    'Apr 2026': {call:72, customer:43, revenue:1003032},
+    'Mar 2026': {call:102, customer:77, revenue:1302948},
+    'Feb 2026': {call:90, customer:69, revenue:1234080},
+    'Jan 2026': {call:61, customer:44, revenue:710833},
+    'Des 2025': {call:85, customer:54, revenue:968660},
+    'Nov 2025': {call:27, customer:18, revenue:398898},
+    'Okt 2025': {call:22, customer:17, revenue:283800},
+    'Sep 2025': {call:39, customer:27, revenue:433524},
+    'Agu 2025': {call:63, customer:48, revenue:783468},
+    'Jul 2025': {call:39, customer:31, revenue:531609},
+    'Jun 2025': {call:76, customer:62, revenue:946124}
   },
   25: {
-    'Mei 2026': {call:20, customer:13, revenue:305000},
-    'Apr 2026': {call:59, customer:37, revenue:853199},
-    'Mar 2026': {call:60, customer:49, revenue:795360},
-    'Feb 2026': {call:68, customer:47, revenue:940508},
-    'Jan 2026': {call:35, customer:21, revenue:450975},
-    'Des 2025': {call:16, customer:12, revenue:216544}
+    'Mei 2026': {call:14, customer:8, revenue:202426},
+    'Apr 2026': {call:63, customer:50, revenue:926037},
+    'Mar 2026': {call:17, customer:13, revenue:189448},
+    'Feb 2026': {call:36, customer:25, revenue:539604},
+    'Jan 2026': {call:65, customer:50, revenue:813735},
+    'Des 2025': {call:54, customer:43, revenue:625428},
+    'Nov 2025': {call:42, customer:29, revenue:664734},
+    'Okt 2025': {call:30, customer:22, revenue:380790},
+    'Sep 2025': {call:33, customer:20, revenue:525129},
+    'Agu 2025': {call:39, customer:29, revenue:605358},
+    'Jul 2025': {call:16, customer:13, revenue:219696},
+    'Jun 2025': {call:62, customer:42, revenue:778658}
   },
   26: {
-    'Mei 2026': {call:37, customer:26, revenue:585303},
-    'Apr 2026': {call:49, customer:32, revenue:583296},
-    'Mar 2026': {call:36, customer:27, revenue:426276},
-    'Feb 2026': {call:21, customer:14, revenue:272454},
-    'Jan 2026': {call:44, customer:31, revenue:644644},
-    'Des 2025': {call:52, customer:34, revenue:694824}
+    'Mei 2026': {call:23, customer:15, revenue:269836},
+    'Apr 2026': {call:44, customer:28, revenue:637780},
+    'Mar 2026': {call:82, customer:68, revenue:1211058},
+    'Feb 2026': {call:20, customer:15, revenue:237300},
+    'Jan 2026': {call:56, customer:44, revenue:729176},
+    'Des 2025': {call:19, customer:15, revenue:293341},
+    'Nov 2025': {call:72, customer:44, revenue:834264},
+    'Okt 2025': {call:80, customer:51, revenue:1018000},
+    'Sep 2025': {call:45, customer:33, revenue:560925},
+    'Agu 2025': {call:52, customer:43, revenue:646204},
+    'Jul 2025': {call:44, customer:34, revenue:537900},
+    'Jun 2025': {call:19, customer:15, revenue:277742}
   },
   27: {
-    'Mei 2026': {call:15, customer:11, revenue:206385},
-    'Apr 2026': {call:16, customer:11, revenue:237152},
-    'Mar 2026': {call:30, customer:23, revenue:352050},
-    'Feb 2026': {call:19, customer:12, revenue:222319},
-    'Jan 2026': {call:41, customer:34, revenue:554771},
-    'Des 2025': {call:9, customer:7, revenue:110988}
+    'Mei 2026': {call:11, customer:7, revenue:131131},
+    'Apr 2026': {call:82, customer:64, revenue:1002696},
+    'Mar 2026': {call:42, customer:34, revenue:649740},
+    'Feb 2026': {call:76, customer:54, revenue:883120},
+    'Jan 2026': {call:28, customer:23, revenue:337624},
+    'Des 2025': {call:28, customer:16, revenue:328552},
+    'Nov 2025': {call:73, customer:56, revenue:952358},
+    'Okt 2025': {call:44, customer:33, revenue:658372},
+    'Sep 2025': {call:25, customer:15, revenue:389425},
+    'Agu 2025': {call:61, customer:42, revenue:925858},
+    'Jul 2025': {call:56, customer:42, revenue:746704},
+    'Jun 2025': {call:51, customer:37, revenue:617100}
   },
   28: {
-    'Mei 2026': {call:3, customer:2, revenue:39429},
-    'Apr 2026': {call:24, customer:15, revenue:275160},
-    'Mar 2026': {call:24, customer:17, revenue:294672},
-    'Feb 2026': {call:25, customer:16, revenue:383075},
-    'Jan 2026': {call:27, customer:16, revenue:417717},
-    'Des 2025': {call:24, customer:20, revenue:323088}
+    'Mei 2026': {call:11, customer:7, revenue:123717},
+    'Apr 2026': {call:27, customer:20, revenue:418581},
+    'Mar 2026': {call:25, customer:15, revenue:346075},
+    'Feb 2026': {call:24, customer:15, revenue:348096},
+    'Jan 2026': {call:22, customer:15, revenue:245674},
+    'Des 2025': {call:33, customer:21, revenue:460086},
+    'Nov 2025': {call:24, customer:16, revenue:380568},
+    'Okt 2025': {call:39, customer:28, revenue:483093},
+    'Sep 2025': {call:24, customer:17, revenue:333624},
+    'Agu 2025': {call:24, customer:16, revenue:376224},
+    'Jul 2025': {call:34, customer:26, revenue:374748},
+    'Jun 2025': {call:21, customer:14, revenue:265566}
   },
   29: {
-    'Mei 2026': {call:19, customer:12, revenue:248235},
-    'Apr 2026': {call:32, customer:24, revenue:446272},
-    'Mar 2026': {call:58, customer:46, revenue:645018},
-    'Feb 2026': {call:27, customer:17, revenue:407484},
-    'Jan 2026': {call:70, customer:43, revenue:963130},
-    'Des 2025': {call:67, customer:40, revenue:912138}
+    'Mei 2026': {call:25, customer:19, revenue:343425},
+    'Apr 2026': {call:17, customer:10, revenue:227307},
+    'Mar 2026': {call:49, customer:33, revenue:649936},
+    'Feb 2026': {call:23, customer:14, revenue:333546},
+    'Jan 2026': {call:22, customer:14, revenue:313984},
+    'Des 2025': {call:63, customer:45, revenue:769419},
+    'Nov 2025': {call:24, customer:16, revenue:381792},
+    'Okt 2025': {call:34, customer:20, revenue:513162},
+    'Sep 2025': {call:39, customer:26, revenue:464178},
+    'Agu 2025': {call:18, customer:13, revenue:210024},
+    'Jul 2025': {call:70, customer:52, revenue:968520},
+    'Jun 2025': {call:41, customer:32, revenue:519798}
   },
   30: {
-    'Mei 2026': {call:16, customer:11, revenue:228720},
-    'Apr 2026': {call:36, customer:23, revenue:419328},
-    'Mar 2026': {call:26, customer:17, revenue:355888},
-    'Feb 2026': {call:49, customer:36, revenue:583982},
-    'Jan 2026': {call:22, customer:18, revenue:302830},
-    'Des 2025': {call:52, customer:41, revenue:690456}
+    'Mei 2026': {call:21, customer:12, revenue:262836},
+    'Apr 2026': {call:24, customer:17, revenue:305688},
+    'Mar 2026': {call:39, customer:31, revenue:611832},
+    'Feb 2026': {call:18, customer:14, revenue:244602},
+    'Jan 2026': {call:52, customer:36, revenue:831272},
+    'Des 2025': {call:24, customer:18, revenue:326184},
+    'Nov 2025': {call:25, customer:17, revenue:275500},
+    'Okt 2025': {call:32, customer:26, revenue:497632},
+    'Sep 2025': {call:15, customer:9, revenue:228240},
+    'Agu 2025': {call:39, customer:23, revenue:443976},
+    'Jul 2025': {call:21, customer:17, revenue:334950},
+    'Jun 2025': {call:54, customer:43, revenue:817992}
   },
   31: {
-    'Mei 2026': {call:26, customer:19, revenue:414102},
-    'Apr 2026': {call:40, customer:32, revenue:452040},
-    'Mar 2026': {call:46, customer:29, revenue:589766},
-    'Feb 2026': {call:19, customer:11, revenue:270560},
-    'Jan 2026': {call:20, customer:12, revenue:315220},
-    'Des 2025': {call:61, customer:36, revenue:741638}
+    'Mei 2026': {call:4, customer:3, revenue:58280},
+    'Apr 2026': {call:14, customer:9, revenue:159460},
+    'Mar 2026': {call:19, customer:15, revenue:224276},
+    'Feb 2026': {call:27, customer:17, revenue:357858},
+    'Jan 2026': {call:23, customer:19, revenue:366505},
+    'Des 2025': {call:11, customer:9, revenue:127039},
+    'Nov 2025': {call:12, customer:8, revenue:161724},
+    'Okt 2025': {call:22, customer:14, revenue:266860},
+    'Sep 2025': {call:24, customer:15, revenue:275088},
+    'Agu 2025': {call:9, customer:5, revenue:133173},
+    'Jul 2025': {call:10, customer:7, revenue:142340},
+    'Jun 2025': {call:6, customer:4, revenue:87936}
   },
   32: {
-    'Mei 2026': {call:7, customer:5, revenue:88354},
-    'Apr 2026': {call:12, customer:9, revenue:157476},
-    'Mar 2026': {call:8, customer:5, revenue:99512},
-    'Feb 2026': {call:28, customer:21, revenue:411544},
-    'Jan 2026': {call:22, customer:15, revenue:292336},
-    'Des 2025': {call:24, customer:19, revenue:318168}
+    'Mei 2026': {call:11, customer:8, revenue:146289},
+    'Apr 2026': {call:19, customer:13, revenue:275462},
+    'Mar 2026': {call:10, customer:6, revenue:159960},
+    'Feb 2026': {call:34, customer:26, revenue:458966},
+    'Jan 2026': {call:11, customer:7, revenue:147114},
+    'Des 2025': {call:9, customer:6, revenue:101025},
+    'Nov 2025': {call:10, customer:6, revenue:115170},
+    'Okt 2025': {call:31, customer:21, revenue:433845},
+    'Sep 2025': {call:14, customer:8, revenue:194838},
+    'Agu 2025': {call:9, customer:5, revenue:133893},
+    'Jul 2025': {call:39, customer:26, revenue:468390},
+    'Jun 2025': {call:31, customer:19, revenue:466581}
   },
   33: {
-    'Mei 2026': {call:18, customer:14, revenue:252234},
-    'Apr 2026': {call:29, customer:19, revenue:385294},
-    'Mar 2026': {call:18, customer:13, revenue:207936},
-    'Feb 2026': {call:15, customer:9, revenue:174465},
-    'Jan 2026': {call:13, customer:10, revenue:149344},
-    'Des 2025': {call:34, customer:21, revenue:467602}
+    'Mei 2026': {call:17, customer:11, revenue:267529},
+    'Apr 2026': {call:17, customer:10, revenue:246449},
+    'Mar 2026': {call:10, customer:6, revenue:140300},
+    'Feb 2026': {call:30, customer:19, revenue:380880},
+    'Jan 2026': {call:38, customer:25, revenue:512658},
+    'Des 2025': {call:19, customer:11, revenue:302005},
+    'Nov 2025': {call:30, customer:19, revenue:410910},
+    'Okt 2025': {call:34, customer:27, revenue:467874},
+    'Sep 2025': {call:39, customer:23, revenue:553449},
+    'Agu 2025': {call:13, customer:10, revenue:202956},
+    'Jul 2025': {call:39, customer:31, revenue:448500},
+    'Jun 2025': {call:34, customer:25, revenue:443360}
   },
   34: {
-    'Mei 2026': {call:19, customer:15, revenue:280250},
-    'Apr 2026': {call:60, customer:49, revenue:812760},
-    'Mar 2026': {call:21, customer:14, revenue:296982},
-    'Feb 2026': {call:57, customer:44, revenue:741741},
-    'Jan 2026': {call:51, customer:42, revenue:715632},
-    'Des 2025': {call:49, customer:34, revenue:540715}
+    'Mei 2026': {call:18, customer:11, revenue:221940},
+    'Apr 2026': {call:12, customer:9, revenue:191748},
+    'Mar 2026': {call:23, customer:15, revenue:268755},
+    'Feb 2026': {call:25, customer:17, revenue:365750},
+    'Jan 2026': {call:52, customer:40, revenue:782704},
+    'Des 2025': {call:12, customer:9, revenue:143388},
+    'Nov 2025': {call:50, customer:35, revenue:753700},
+    'Okt 2025': {call:50, customer:34, revenue:772950},
+    'Sep 2025': {call:16, customer:11, revenue:201024},
+    'Agu 2025': {call:31, customer:19, revenue:375069},
+    'Jul 2025': {call:21, customer:14, revenue:310737},
+    'Jun 2025': {call:24, customer:15, revenue:269088}
   },
   35: {
-    'Mei 2026': {call:14, customer:10, revenue:223664},
-    'Apr 2026': {call:76, customer:46, revenue:884412},
-    'Mar 2026': {call:55, customer:35, revenue:635965},
-    'Feb 2026': {call:91, customer:54, revenue:1192737},
-    'Jan 2026': {call:66, customer:46, revenue:841698},
-    'Des 2025': {call:61, customer:38, revenue:905606}
+    'Mei 2026': {call:24, customer:17, revenue:358632},
+    'Apr 2026': {call:46, customer:33, revenue:730618},
+    'Mar 2026': {call:40, customer:26, revenue:622200},
+    'Feb 2026': {call:40, customer:24, revenue:480160},
+    'Jan 2026': {call:48, customer:34, revenue:604224},
+    'Des 2025': {call:67, customer:42, revenue:842123},
+    'Nov 2025': {call:76, customer:61, revenue:998184},
+    'Okt 2025': {call:24, customer:16, revenue:380976},
+    'Sep 2025': {call:70, customer:43, revenue:1098020},
+    'Agu 2025': {call:49, customer:31, revenue:772191},
+    'Jul 2025': {call:55, customer:35, revenue:700205},
+    'Jun 2025': {call:46, customer:35, revenue:563546}
   },
   36: {
-    'Mei 2026': {call:33, customer:20, revenue:384681},
-    'Apr 2026': {call:22, customer:16, revenue:267630},
-    'Mar 2026': {call:79, customer:57, revenue:1142814},
-    'Feb 2026': {call:33, customer:24, revenue:502590},
-    'Jan 2026': {call:19, customer:15, revenue:273106},
-    'Des 2025': {call:28, customer:20, revenue:394940}
+    'Mei 2026': {call:22, customer:16, revenue:314930},
+    'Apr 2026': {call:41, customer:25, revenue:535747},
+    'Mar 2026': {call:48, customer:40, revenue:628848},
+    'Feb 2026': {call:48, customer:35, revenue:757680},
+    'Jan 2026': {call:32, customer:20, revenue:431808},
+    'Des 2025': {call:30, customer:20, revenue:340140},
+    'Nov 2025': {call:45, customer:38, revenue:609705},
+    'Okt 2025': {call:45, customer:33, revenue:709200},
+    'Sep 2025': {call:29, customer:20, revenue:355192},
+    'Agu 2025': {call:52, customer:41, revenue:712036},
+    'Jul 2025': {call:44, customer:30, revenue:631840},
+    'Jun 2025': {call:25, customer:18, revenue:321850}
   },
   37: {
-    'Mei 2026': {call:3, customer:1, revenue:46602},
-    'Apr 2026': {call:10, customer:6, revenue:129460},
-    'Mar 2026': {call:12, customer:8, revenue:137172},
-    'Feb 2026': {call:14, customer:9, revenue:212520},
-    'Jan 2026': {call:12, customer:9, revenue:184044},
-    'Des 2025': {call:18, customer:14, revenue:265428}
+    'Mei 2026': {call:5, customer:3, revenue:70070},
+    'Apr 2026': {call:21, customer:16, revenue:252336},
+    'Mar 2026': {call:25, customer:20, revenue:390475},
+    'Feb 2026': {call:19, customer:12, revenue:299155},
+    'Jan 2026': {call:10, customer:6, revenue:124450},
+    'Des 2025': {call:26, customer:18, revenue:334178},
+    'Nov 2025': {call:14, customer:9, revenue:202300},
+    'Okt 2025': {call:12, customer:8, revenue:174096},
+    'Sep 2025': {call:10, customer:8, revenue:134340},
+    'Agu 2025': {call:25, customer:16, revenue:388250},
+    'Jul 2025': {call:14, customer:9, revenue:167748},
+    'Jun 2025': {call:10, customer:7, revenue:118260}
   },
   38: {
-    'Mei 2026': {call:22, customer:18, revenue:298188},
-    'Apr 2026': {call:64, customer:54, revenue:862208},
-    'Mar 2026': {call:37, customer:25, revenue:501942},
-    'Feb 2026': {call:60, customer:50, revenue:910500},
-    'Jan 2026': {call:74, customer:47, revenue:1110222},
-    'Des 2025': {call:54, customer:35, revenue:834624}
+    'Mei 2026': {call:7, customer:4, revenue:92960},
+    'Apr 2026': {call:6, customer:3, revenue:87468},
+    'Mar 2026': {call:7, customer:5, revenue:111314},
+    'Feb 2026': {call:26, customer:19, revenue:336830},
+    'Jan 2026': {call:12, customer:7, revenue:156648},
+    'Des 2025': {call:8, customer:5, revenue:90288},
+    'Nov 2025': {call:15, customer:10, revenue:180570},
+    'Okt 2025': {call:10, customer:8, revenue:110950},
+    'Sep 2025': {call:8, customer:5, revenue:110504},
+    'Agu 2025': {call:25, customer:15, revenue:336050},
+    'Jul 2025': {call:28, customer:23, revenue:318136},
+    'Jun 2025': {call:10, customer:6, revenue:151790}
   },
   39: {
-    'Mei 2026': {call:22, customer:14, revenue:288794},
-    'Apr 2026': {call:27, customer:19, revenue:431271},
-    'Mar 2026': {call:60, customer:44, revenue:769080},
-    'Feb 2026': {call:37, customer:25, revenue:502941},
-    'Jan 2026': {call:91, customer:76, revenue:1243697},
-    'Des 2025': {call:25, customer:15, revenue:277150}
+    'Mei 2026': {call:17, customer:11, revenue:217209},
+    'Apr 2026': {call:18, customer:13, revenue:230670},
+    'Mar 2026': {call:30, customer:24, revenue:383370},
+    'Feb 2026': {call:27, customer:21, revenue:372924},
+    'Jan 2026': {call:80, customer:65, revenue:1099520},
+    'Des 2025': {call:19, customer:13, revenue:258476},
+    'Nov 2025': {call:42, customer:31, revenue:537096},
+    'Okt 2025': {call:78, customer:49, revenue:1042704},
+    'Sep 2025': {call:39, customer:26, revenue:621933},
+    'Agu 2025': {call:48, customer:30, revenue:648624},
+    'Jul 2025': {call:44, customer:35, revenue:555280},
+    'Jun 2025': {call:75, customer:48, revenue:964650}
   },
   40: {
-    'Mei 2026': {call:30, customer:24, revenue:413850},
-    'Apr 2026': {call:54, customer:34, revenue:706158},
-    'Mar 2026': {call:63, customer:45, revenue:750834},
-    'Feb 2026': {call:32, customer:20, revenue:420416},
-    'Jan 2026': {call:80, customer:56, revenue:1017520},
-    'Des 2025': {call:49, customer:38, revenue:742399}
+    'Mei 2026': {call:13, customer:11, revenue:196118},
+    'Apr 2026': {call:31, customer:20, revenue:395622},
+    'Mar 2026': {call:13, customer:9, revenue:198523},
+    'Feb 2026': {call:17, customer:11, revenue:196622},
+    'Jan 2026': {call:15, customer:9, revenue:199875},
+    'Des 2025': {call:27, customer:18, revenue:413262},
+    'Nov 2025': {call:22, customer:14, revenue:265584},
+    'Okt 2025': {call:21, customer:16, revenue:244524},
+    'Sep 2025': {call:26, customer:18, revenue:392496},
+    'Agu 2025': {call:26, customer:16, revenue:326846},
+    'Jul 2025': {call:14, customer:10, revenue:187306},
+    'Jun 2025': {call:21, customer:16, revenue:324639}
   },
   41: {
-    'Mei 2026': {call:16, customer:10, revenue:214816},
-    'Apr 2026': {call:32, customer:26, revenue:403392},
-    'Mar 2026': {call:18, customer:15, revenue:217530},
-    'Feb 2026': {call:33, customer:25, revenue:488796},
-    'Jan 2026': {call:29, customer:19, revenue:422472},
-    'Des 2025': {call:36, customer:27, revenue:424440}
+    'Mei 2026': {call:24, customer:14, revenue:351216},
+    'Apr 2026': {call:13, customer:9, revenue:175916},
+    'Mar 2026': {call:36, customer:28, revenue:544896},
+    'Feb 2026': {call:41, customer:26, revenue:499093},
+    'Jan 2026': {call:46, customer:38, revenue:663964},
+    'Des 2025': {call:24, customer:18, revenue:352560},
+    'Nov 2025': {call:40, customer:30, revenue:489480},
+    'Okt 2025': {call:31, customer:20, revenue:378572},
+    'Sep 2025': {call:22, customer:17, revenue:343772},
+    'Agu 2025': {call:22, customer:18, revenue:338580},
+    'Jul 2025': {call:15, customer:12, revenue:194580},
+    'Jun 2025': {call:12, customer:8, revenue:169824}
   },
   42: {
-    'Mei 2026': {call:10, customer:7, revenue:140240},
-    'Apr 2026': {call:68, customer:57, revenue:768264},
-    'Mar 2026': {call:48, customer:40, revenue:533904},
-    'Feb 2026': {call:22, customer:16, revenue:338492},
-    'Jan 2026': {call:22, customer:14, revenue:315568},
-    'Des 2025': {call:25, customer:16, revenue:357850}
+    'Mei 2026': {call:8, customer:5, revenue:126272},
+    'Apr 2026': {call:37, customer:22, revenue:582565},
+    'Mar 2026': {call:34, customer:22, revenue:466548},
+    'Feb 2026': {call:22, customer:13, revenue:344124},
+    'Jan 2026': {call:24, customer:19, revenue:304200},
+    'Des 2025': {call:36, customer:24, revenue:488304},
+    'Nov 2025': {call:27, customer:21, revenue:423063},
+    'Okt 2025': {call:27, customer:18, revenue:409725},
+    'Sep 2025': {call:25, customer:19, revenue:397450},
+    'Agu 2025': {call:41, customer:27, revenue:496674},
+    'Jul 2025': {call:31, customer:20, revenue:406534},
+    'Jun 2025': {call:41, customer:32, revenue:613360}
   },
   43: {
-    'Mei 2026': {call:14, customer:9, revenue:181300},
-    'Apr 2026': {call:22, customer:13, revenue:275594},
-    'Mar 2026': {call:15, customer:12, revenue:204330},
-    'Feb 2026': {call:28, customer:23, revenue:348600},
-    'Jan 2026': {call:29, customer:18, revenue:399040},
-    'Des 2025': {call:10, customer:7, revenue:123020}
+    'Mei 2026': {call:4, customer:3, revenue:57172},
+    'Apr 2026': {call:10, customer:8, revenue:152020},
+    'Mar 2026': {call:39, customer:28, revenue:555438},
+    'Feb 2026': {call:17, customer:13, revenue:203881},
+    'Jan 2026': {call:15, customer:12, revenue:189480},
+    'Des 2025': {call:30, customer:20, revenue:377250},
+    'Nov 2025': {call:21, customer:16, revenue:315924},
+    'Okt 2025': {call:27, customer:17, revenue:323109},
+    'Sep 2025': {call:25, customer:16, revenue:373825},
+    'Agu 2025': {call:40, customer:24, revenue:590600},
+    'Jul 2025': {call:25, customer:20, revenue:283300},
+    'Jun 2025': {call:28, customer:20, revenue:358540}
   },
   44: {
-    'Mei 2026': {call:18, customer:11, revenue:229680},
-    'Apr 2026': {call:32, customer:23, revenue:433152},
-    'Mar 2026': {call:18, customer:11, revenue:207270},
-    'Feb 2026': {call:13, customer:9, revenue:162019},
-    'Jan 2026': {call:35, customer:24, revenue:511490},
-    'Des 2025': {call:40, customer:25, revenue:478360}
+    'Mei 2026': {call:4, customer:2, revenue:56464},
+    'Apr 2026': {call:12, customer:7, revenue:183000},
+    'Mar 2026': {call:13, customer:9, revenue:178269},
+    'Feb 2026': {call:19, customer:12, revenue:221255},
+    'Jan 2026': {call:23, customer:18, revenue:349968},
+    'Des 2025': {call:9, customer:6, revenue:101898},
+    'Nov 2025': {call:15, customer:12, revenue:194655},
+    'Okt 2025': {call:27, customer:18, revenue:332127},
+    'Sep 2025': {call:16, customer:11, revenue:182704},
+    'Agu 2025': {call:18, customer:12, revenue:259056},
+    'Jul 2025': {call:22, customer:16, revenue:279928},
+    'Jun 2025': {call:26, customer:17, revenue:384124}
   },
   45: {
-    'Mei 2026': {call:12, customer:9, revenue:152304},
-    'Apr 2026': {call:33, customer:27, revenue:394614},
-    'Mar 2026': {call:26, customer:18, revenue:397254},
-    'Feb 2026': {call:66, customer:54, revenue:743820},
-    'Jan 2026': {call:62, customer:50, revenue:924420},
-    'Des 2025': {call:45, customer:36, revenue:538155}
+    'Mei 2026': {call:10, customer:7, revenue:139010},
+    'Apr 2026': {call:16, customer:10, revenue:185440},
+    'Mar 2026': {call:15, customer:11, revenue:191445},
+    'Feb 2026': {call:15, customer:11, revenue:177585},
+    'Jan 2026': {call:26, customer:15, revenue:345306},
+    'Des 2025': {call:12, customer:7, revenue:134568},
+    'Nov 2025': {call:15, customer:11, revenue:220275},
+    'Okt 2025': {call:18, customer:14, revenue:239940},
+    'Sep 2025': {call:28, customer:18, revenue:438088},
+    'Agu 2025': {call:18, customer:13, revenue:204984},
+    'Jul 2025': {call:20, customer:14, revenue:240560},
+    'Jun 2025': {call:10, customer:7, revenue:146350}
   },
   46: {
-    'Mei 2026': {call:12, customer:8, revenue:163416},
-    'Apr 2026': {call:28, customer:17, revenue:337848},
-    'Mar 2026': {call:18, customer:10, revenue:249588},
-    'Feb 2026': {call:39, customer:30, revenue:492219},
-    'Jan 2026': {call:45, customer:31, revenue:498195},
-    'Des 2025': {call:22, customer:15, revenue:281028}
+    'Mei 2026': {call:11, customer:8, revenue:124520},
+    'Apr 2026': {call:51, customer:38, revenue:697170},
+    'Mar 2026': {call:49, customer:29, revenue:744457},
+    'Feb 2026': {call:49, customer:40, revenue:780815},
+    'Jan 2026': {call:54, customer:36, revenue:694278},
+    'Des 2025': {call:36, customer:25, revenue:503028},
+    'Nov 2025': {call:55, customer:46, revenue:853710},
+    'Okt 2025': {call:24, customer:17, revenue:350760},
+    'Sep 2025': {call:32, customer:26, revenue:385376},
+    'Agu 2025': {call:17, customer:11, revenue:239377},
+    'Jul 2025': {call:31, customer:21, revenue:468782},
+    'Jun 2025': {call:20, customer:14, revenue:224660}
   },
   47: {
-    'Mei 2026': {call:39, customer:32, revenue:561717},
-    'Apr 2026': {call:69, customer:51, revenue:847251},
-    'Mar 2026': {call:72, customer:56, revenue:820728},
-    'Feb 2026': {call:48, customer:29, revenue:529296},
-    'Jan 2026': {call:94, customer:64, revenue:1212600},
-    'Des 2025': {call:39, customer:27, revenue:433524}
+    'Mei 2026': {call:14, customer:8, revenue:164514},
+    'Apr 2026': {call:105, customer:68, revenue:1485750},
+    'Mar 2026': {call:105, customer:67, revenue:1623300},
+    'Feb 2026': {call:75, customer:53, revenue:1127325},
+    'Jan 2026': {call:73, customer:53, revenue:1051930},
+    'Des 2025': {call:48, customer:39, revenue:540864},
+    'Nov 2025': {call:66, customer:45, revenue:992112},
+    'Okt 2025': {call:33, customer:21, revenue:417384},
+    'Sep 2025': {call:88, customer:60, revenue:1386264},
+    'Agu 2025': {call:46, customer:37, revenue:659732},
+    'Jul 2025': {call:75, customer:51, revenue:969450},
+    'Jun 2025': {call:39, customer:31, revenue:517101}
   },
   48: {
-    'Mei 2026': {call:25, customer:19, revenue:311700},
-    'Apr 2026': {call:68, customer:51, revenue:926908},
-    'Mar 2026': {call:51, customer:41, revenue:634899},
-    'Feb 2026': {call:40, customer:26, revenue:578360},
-    'Jan 2026': {call:63, customer:50, revenue:926037},
-    'Des 2025': {call:17, customer:13, revenue:189448}
+    'Mei 2026': {call:5, customer:3, revenue:75500},
+    'Apr 2026': {call:24, customer:18, revenue:348528},
+    'Mar 2026': {call:22, customer:14, revenue:265430},
+    'Feb 2026': {call:10, customer:6, revenue:135700},
+    'Jan 2026': {call:26, customer:21, revenue:411268},
+    'Des 2025': {call:18, customer:13, revenue:237132},
+    'Nov 2025': {call:6, customer:4, revenue:78168},
+    'Okt 2025': {call:26, customer:21, revenue:390936},
+    'Sep 2025': {call:16, customer:11, revenue:243712},
+    'Agu 2025': {call:17, customer:10, revenue:217855},
+    'Jul 2025': {call:13, customer:9, revenue:166491},
+    'Jun 2025': {call:9, customer:5, revenue:132687}
   },
   49: {
-    'Mei 2026': {call:15, customer:11, revenue:206730},
-    'Apr 2026': {call:20, customer:15, revenue:253160},
-    'Mar 2026': {call:15, customer:10, revenue:178005},
-    'Feb 2026': {call:56, customer:41, revenue:866656},
-    'Jan 2026': {call:50, customer:32, revenue:594300},
-    'Des 2025': {call:16, customer:13, revenue:225552}
+    'Mei 2026': {call:32, customer:21, revenue:359360},
+    'Apr 2026': {call:72, customer:52, revenue:904320},
+    'Mar 2026': {call:51, customer:31, revenue:723690},
+    'Feb 2026': {call:76, customer:63, revenue:1097136},
+    'Jan 2026': {call:24, customer:17, revenue:359664},
+    'Des 2025': {call:49, customer:36, revenue:702317},
+    'Nov 2025': {call:36, customer:22, revenue:561384},
+    'Okt 2025': {call:90, customer:61, revenue:1223190},
+    'Sep 2025': {call:46, customer:37, revenue:544686},
+    'Agu 2025': {call:81, customer:62, revenue:963252},
+    'Jul 2025': {call:31, customer:23, revenue:367226},
+    'Jun 2025': {call:94, customer:63, revenue:1202166}
   },
   50: {
-    'Mei 2026': {call:28, customer:20, revenue:384468},
-    'Apr 2026': {call:93, customer:64, revenue:1167987},
-    'Mar 2026': {call:103, customer:85, revenue:1502873},
-    'Feb 2026': {call:48, customer:31, revenue:668688},
-    'Jan 2026': {call:40, customer:27, revenue:579800},
-    'Des 2025': {call:103, customer:85, revenue:1521207}
+    'Mei 2026': {call:19, customer:13, revenue:267425},
+    'Apr 2026': {call:19, customer:14, revenue:237101},
+    'Mar 2026': {call:31, customer:23, revenue:452073},
+    'Feb 2026': {call:68, customer:46, revenue:1014560},
+    'Jan 2026': {call:63, customer:51, revenue:750267},
+    'Des 2025': {call:21, customer:14, revenue:270585},
+    'Nov 2025': {call:70, customer:42, revenue:803950},
+    'Okt 2025': {call:19, customer:11, revenue:301055},
+    'Sep 2025': {call:46, customer:38, revenue:685906},
+    'Agu 2025': {call:54, customer:45, revenue:678186},
+    'Jul 2025': {call:33, customer:23, revenue:445335},
+    'Jun 2025': {call:76, customer:56, revenue:1074944}
   },
   51: {
-    'Mei 2026': {call:11, customer:9, revenue:167244},
-    'Apr 2026': {call:26, customer:21, revenue:338546},
-    'Mar 2026': {call:6, customer:4, revenue:92634},
-    'Feb 2026': {call:24, customer:14, revenue:278088},
-    'Jan 2026': {call:26, customer:16, revenue:330850},
-    'Des 2025': {call:15, customer:11, revenue:186975}
+    'Mei 2026': {call:11, customer:7, revenue:164098},
+    'Apr 2026': {call:21, customer:16, revenue:257544},
+    'Mar 2026': {call:73, customer:47, revenue:859210},
+    'Feb 2026': {call:32, customer:22, revenue:354176},
+    'Jan 2026': {call:63, customer:52, revenue:889875},
+    'Des 2025': {call:75, customer:55, revenue:882750},
+    'Nov 2025': {call:75, customer:62, revenue:1070625},
+    'Okt 2025': {call:61, customer:37, revenue:807823},
+    'Sep 2025': {call:70, customer:54, revenue:969920},
+    'Agu 2025': {call:20, customer:15, revenue:280440},
+    'Jul 2025': {call:28, customer:17, revenue:381108},
+    'Jun 2025': {call:18, customer:15, revenue:211338}
   },
   52: {
-    'Mei 2026': {call:22, customer:14, revenue:268950},
-    'Apr 2026': {call:16, customer:13, revenue:233888},
-    'Mar 2026': {call:47, customer:29, revenue:619037},
-    'Feb 2026': {call:22, customer:17, revenue:295482},
-    'Jan 2026': {call:70, customer:44, revenue:1082900},
-    'Des 2025': {call:64, customer:45, revenue:743680}
+    'Mei 2026': {call:14, customer:9, revenue:202230},
+    'Apr 2026': {call:48, customer:36, revenue:710064},
+    'Mar 2026': {call:40, customer:33, revenue:446400},
+    'Feb 2026': {call:63, customer:48, revenue:868203},
+    'Jan 2026': {call:53, customer:38, revenue:631495},
+    'Des 2025': {call:64, customer:42, revenue:984000},
+    'Nov 2025': {call:53, customer:42, revenue:737813},
+    'Okt 2025': {call:37, customer:23, revenue:576904},
+    'Sep 2025': {call:69, customer:45, revenue:774525},
+    'Agu 2025': {call:47, customer:37, revenue:697010},
+    'Jul 2025': {call:32, customer:20, revenue:445248},
+    'Jun 2025': {call:67, customer:56, revenue:749931}
   },
   53: {
-    'Mei 2026': {call:12, customer:9, revenue:144696},
-    'Apr 2026': {call:14, customer:8, revenue:164276},
-    'Mar 2026': {call:36, customer:27, revenue:469656},
-    'Feb 2026': {call:22, customer:16, revenue:329186},
-    'Jan 2026': {call:12, customer:7, revenue:186924},
-    'Des 2025': {call:30, customer:20, revenue:455340}
+    'Mei 2026': {call:9, customer:6, revenue:120654},
+    'Apr 2026': {call:6, customer:4, revenue:78954},
+    'Mar 2026': {call:6, customer:3, revenue:85872},
+    'Feb 2026': {call:15, customer:9, revenue:192285},
+    'Jan 2026': {call:26, customer:17, revenue:341874},
+    'Des 2025': {call:13, customer:9, revenue:185172},
+    'Nov 2025': {call:6, customer:3, revenue:66750},
+    'Okt 2025': {call:7, customer:4, revenue:109228},
+    'Sep 2025': {call:6, customer:3, revenue:66312},
+    'Agu 2025': {call:17, customer:13, revenue:206431},
+    'Jul 2025': {call:21, customer:17, revenue:272874},
+    'Jun 2025': {call:22, customer:16, revenue:302302}
   },
   54: {
-    'Mei 2026': {call:29, customer:20, revenue:424821},
-    'Apr 2026': {call:60, customer:45, revenue:723420},
-    'Mar 2026': {call:51, customer:33, revenue:573597},
-    'Feb 2026': {call:54, customer:40, revenue:837162},
-    'Jan 2026': {call:51, customer:31, revenue:705993},
-    'Des 2025': {call:48, customer:31, revenue:696192}
+    'Mei 2026': {call:4, customer:2, revenue:50800},
+    'Apr 2026': {call:23, customer:15, revenue:346817},
+    'Mar 2026': {call:13, customer:9, revenue:183014},
+    'Feb 2026': {call:27, customer:16, revenue:303075},
+    'Jan 2026': {call:18, customer:15, revenue:248112},
+    'Des 2025': {call:20, customer:12, revenue:244060},
+    'Nov 2025': {call:7, customer:5, revenue:94150},
+    'Okt 2025': {call:22, customer:15, revenue:270028},
+    'Sep 2025': {call:12, customer:9, revenue:150612},
+    'Agu 2025': {call:12, customer:9, revenue:140724},
+    'Jul 2025': {call:28, customer:23, revenue:405720},
+    'Jun 2025': {call:15, customer:11, revenue:207330}
   },
   55: {
-    'Mei 2026': {call:15, customer:9, revenue:188205},
-    'Apr 2026': {call:41, customer:28, revenue:587161},
-    'Mar 2026': {call:50, customer:37, revenue:749000},
-    'Feb 2026': {call:52, customer:40, revenue:644124},
-    'Jan 2026': {call:32, customer:23, revenue:444832},
-    'Des 2025': {call:32, customer:21, revenue:501632}
+    'Mei 2026': {call:33, customer:22, revenue:449526},
+    'Apr 2026': {call:62, customer:39, revenue:804388},
+    'Mar 2026': {call:72, customer:51, revenue:882432},
+    'Feb 2026': {call:21, customer:14, revenue:297633},
+    'Jan 2026': {call:20, customer:15, revenue:258880},
+    'Des 2025': {call:31, customer:20, revenue:415307},
+    'Nov 2025': {call:45, customer:33, revenue:615735},
+    'Okt 2025': {call:36, customer:28, revenue:562680},
+    'Sep 2025': {call:34, customer:25, revenue:466480},
+    'Agu 2025': {call:84, customer:56, revenue:1218168},
+    'Jul 2025': {call:66, customer:45, revenue:800514},
+    'Jun 2025': {call:82, customer:49, revenue:1254272}
   },
   56: {
-    'Mei 2026': {call:38, customer:29, revenue:522842},
-    'Apr 2026': {call:63, customer:52, revenue:894411},
-    'Mar 2026': {call:85, customer:65, revenue:1167645},
-    'Feb 2026': {call:25, customer:15, revenue:334275},
-    'Jan 2026': {call:73, customer:50, revenue:968272},
-    'Des 2025': {call:34, customer:21, revenue:493068}
+    'Mei 2026': {call:23, customer:15, revenue:307418},
+    'Apr 2026': {call:12, customer:9, revenue:146304},
+    'Mar 2026': {call:51, customer:35, revenue:715173},
+    'Feb 2026': {call:21, customer:14, revenue:282345},
+    'Jan 2026': {call:32, customer:22, revenue:438112},
+    'Des 2025': {call:52, customer:38, revenue:653484},
+    'Nov 2025': {call:33, customer:21, revenue:387519},
+    'Okt 2025': {call:43, customer:26, revenue:646806},
+    'Sep 2025': {call:44, customer:28, revenue:641388},
+    'Agu 2025': {call:43, customer:28, revenue:535694},
+    'Jul 2025': {call:19, customer:11, revenue:278198},
+    'Jun 2025': {call:41, customer:30, revenue:451656}
   },
   57: {
-    'Mei 2026': {call:6, customer:4, revenue:85632},
-    'Apr 2026': {call:25, customer:17, revenue:305325},
-    'Mar 2026': {call:9, customer:6, revenue:143172},
-    'Feb 2026': {call:13, customer:7, revenue:196209},
-    'Jan 2026': {call:15, customer:10, revenue:178530},
-    'Des 2025': {call:7, customer:5, revenue:81676}
+    'Mei 2026': {call:8, customer:6, revenue:122176},
+    'Apr 2026': {call:58, customer:35, revenue:866636},
+    'Mar 2026': {call:35, customer:22, revenue:492975},
+    'Feb 2026': {call:69, customer:50, revenue:759000},
+    'Jan 2026': {call:48, customer:30, revenue:726624},
+    'Des 2025': {call:37, customer:25, revenue:500906},
+    'Nov 2025': {call:25, customer:16, revenue:373500},
+    'Okt 2025': {call:58, customer:36, revenue:847496},
+    'Sep 2025': {call:69, customer:53, revenue:1019268},
+    'Agu 2025': {call:39, customer:24, revenue:600132},
+    'Jul 2025': {call:37, customer:26, revenue:540200},
+    'Jun 2025': {call:59, customer:42, revenue:911668}
   },
   58: {
-    'Mei 2026': {call:14, customer:11, revenue:193704},
-    'Apr 2026': {call:49, customer:38, revenue:621222},
-    'Mar 2026': {call:40, customer:31, revenue:500640},
-    'Feb 2026': {call:37, customer:27, revenue:471269},
-    'Jan 2026': {call:58, customer:46, revenue:909904},
-    'Des 2025': {call:27, customer:21, revenue:366903}
+    'Mei 2026': {call:12, customer:7, revenue:180756},
+    'Apr 2026': {call:16, customer:11, revenue:227600},
+    'Mar 2026': {call:33, customer:27, revenue:487410},
+    'Feb 2026': {call:26, customer:20, revenue:389714},
+    'Jan 2026': {call:11, customer:8, revenue:144199},
+    'Des 2025': {call:33, customer:21, revenue:441837},
+    'Nov 2025': {call:9, customer:6, revenue:107946},
+    'Okt 2025': {call:27, customer:16, revenue:344790},
+    'Sep 2025': {call:19, customer:14, revenue:242706},
+    'Agu 2025': {call:18, customer:15, revenue:279594},
+    'Jul 2025': {call:37, customer:28, revenue:554704},
+    'Jun 2025': {call:15, customer:10, revenue:218265}
   },
   59: {
-    'Mei 2026': {call:23, customer:15, revenue:306958},
-    'Apr 2026': {call:59, customer:48, revenue:801869},
-    'Mar 2026': {call:32, customer:22, revenue:352640},
-    'Feb 2026': {call:40, customer:33, revenue:622040},
-    'Jan 2026': {call:19, customer:11, revenue:289104},
-    'Des 2025': {call:49, customer:29, revenue:557816}
+    'Mei 2026': {call:19, customer:16, revenue:261364},
+    'Apr 2026': {call:100, customer:70, revenue:1103100},
+    'Mar 2026': {call:72, customer:50, revenue:854136},
+    'Feb 2026': {call:70, customer:53, revenue:936040},
+    'Jan 2026': {call:70, customer:46, revenue:876610},
+    'Des 2025': {call:66, customer:39, revenue:1001814},
+    'Nov 2025': {call:64, customer:42, revenue:924480},
+    'Okt 2025': {call:64, customer:50, revenue:936640},
+    'Sep 2025': {call:36, customer:25, revenue:497952},
+    'Agu 2025': {call:70, customer:50, revenue:1072960},
+    'Jul 2025': {call:34, customer:27, revenue:422586},
+    'Jun 2025': {call:96, customer:62, revenue:1225536}
   },
   60: {
-    'Mei 2026': {call:18, customer:13, revenue:287100},
-    'Apr 2026': {call:40, customer:32, revenue:605920},
-    'Mar 2026': {call:10, customer:6, revenue:129440},
-    'Feb 2026': {call:25, customer:20, revenue:331050},
-    'Jan 2026': {call:31, customer:18, revenue:365924},
-    'Des 2025': {call:40, customer:25, revenue:530160}
+    'Mei 2026': {call:17, customer:14, revenue:262327},
+    'Apr 2026': {call:12, customer:7, revenue:185940},
+    'Mar 2026': {call:27, customer:19, revenue:301887},
+    'Feb 2026': {call:19, customer:14, revenue:287527},
+    'Jan 2026': {call:38, customer:29, revenue:448666},
+    'Des 2025': {call:15, customer:10, revenue:190605},
+    'Nov 2025': {call:39, customer:25, revenue:438243},
+    'Okt 2025': {call:27, customer:19, revenue:426978},
+    'Sep 2025': {call:27, customer:17, revenue:399006},
+    'Agu 2025': {call:27, customer:22, revenue:320031},
+    'Jul 2025': {call:16, customer:12, revenue:181008},
+    'Jun 2025': {call:34, customer:24, revenue:498134}
   },
 };
 
@@ -5331,38 +5757,61 @@ function loadMoreTalent(){
 }
 
 function renderTalent(){
-  // === RANKING SECTION ===
-  renderRanking();
-
   // === LIST SECTION ===
   const search = (document.getElementById('talentSearch')?.value || '').toLowerCase().trim();
 
   let list = DEMO_TALENT_PAYROLL.map(t => {
     const enrich = TALENT_ENRICH[t.id] || {};
-    const perf = (TALENT_PERF[t.id] || {})[talentBulan] || {call:0,customer:0,revenue:0};
-    return {...t, ...enrich, perf};
+    const allBulan = TALENT_PERF[t.id] || {};
+
+    // Perf sesuai periode terpilih
+    let perf;
+    if(talentBulan === '__all__'){
+      perf = Object.values(allBulan).reduce((sum, p) => ({
+        call: sum.call + (p.call || 0),
+        customer: sum.customer + (p.customer || 0),
+        revenue: sum.revenue + (p.revenue || 0)
+      }), {call:0, customer:0, revenue:0});
+    } else {
+      perf = allBulan[talentBulan] || {call:0,customer:0,revenue:0};
+    }
+
+    const pr = TALENT_POIN_REPEAT[t.id] || {poin:50, totalRepeat:0};
+    // Force offline kalau poin habis
+    let status = enrich.status;
+    if(pr.poin === 0 || t.forcedOff) status = 'offline';
+    return {...t, ...enrich, status, perf, poin:pr.poin, totalRepeat:pr.totalRepeat};
   });
 
-  if(talentFilter === 'online') list = list.filter(t => t.status === 'online');
-  else if(talentFilter === 'offline') list = list.filter(t => t.status === 'offline');
-  else if(talentFilter === 'cuti') list = list.filter(t => t.status === 'cuti');
-  else if(talentFilter === 'top') list = list.filter(t => t.isTop);
+  // Filter
+  const isNonAktifFn = (t) => t.poin === 0 || t.forcedOff;
+  if(talentFilter === 'online') list = list.filter(t => t.status === 'online' && !isNonAktifFn(t));
+  else if(talentFilter === 'offline') list = list.filter(t => t.status === 'offline' && !isNonAktifFn(t));
+  else if(talentFilter === 'top') list = list.filter(t => t.isTop && !isNonAktifFn(t));
+  else if(talentFilter === 'nonaktif') list = list.filter(t => isNonAktifFn(t));
+  else if(talentFilter === 'all') list = list.filter(t => !isNonAktifFn(t));
 
   if(search) list = list.filter(t => t.nama.toLowerCase().includes(search));
 
-  // Sort: online dulu, lalu call terbanyak periode ini
-  list.sort((a,b) => {
-    const aOnline = a.status === 'online' ? 0 : a.status === 'offline' ? 1 : 2;
-    const bOnline = b.status === 'online' ? 0 : b.status === 'offline' ? 1 : 2;
-    if(aOnline !== bOnline) return aOnline - bOnline;
-    return b.perf.call - a.perf.call;
-  });
+  // Sort berdasarkan periode terpilih
+  const sortMode = document.getElementById('talentSort')?.value || 'omset';
+  if(sortMode === 'call'){
+    list.sort((a,b) => b.perf.call - a.perf.call);
+  } else if(sortMode === 'repeat'){
+    list.sort((a,b) => b.totalRepeat - a.totalRepeat);
+  } else {
+    // omset (default) - sort by revenue periode terpilih
+    list.sort((a,b) => b.perf.revenue - a.perf.revenue);
+  }
 
   const total = list.length;
   document.getElementById('talentCountInfo').textContent = `Menampilkan ${Math.min(talentShown, total)} dari ${total} talent`;
 
   if(total === 0){
-    document.getElementById('talentList').innerHTML = `<div style="text-align:center;padding:40px 20px;color:#B0ADCC;font-size:13px;">📭 Tidak ada talent di filter ini</div>`;
+    const emptyMsg = talentFilter === 'nonaktif'
+      ? '🎉 Tidak ada talent non-aktif'
+      : '📭 Tidak ada talent di filter ini';
+    document.getElementById('talentList').innerHTML = `<div style="text-align:center;padding:40px 20px;color:#B0ADCC;font-size:13px;">${emptyMsg}</div>`;
     return;
   }
 
@@ -5370,42 +5819,65 @@ function renderTalent(){
 
   const cards = sliced.map(t => {
     const isTop = !!t.isTop;
+    const isNonAktif = t.poin === 0 || t.forcedOff;
     const initial = t.nama[0];
-    const statusColor = t.status === 'online' ? '#3B6D11' : t.status === 'offline' ? '#888780' : '#F59E0B';
-    const statusDot = t.status === 'online' ? '🟢' : t.status === 'offline' ? '⚫' : '🌴';
-    const statusLabel = t.status === 'online' ? 'Online' : t.status === 'offline' ? 'Offline' : 'Cuti';
 
-    const bgGradient = isTop
-      ? 'linear-gradient(135deg,#FCD34D,#D97706)'
-      : 'linear-gradient(135deg,#A78BFA,#6D28D9)';
+    // Poin warna
+    let poinColor, poinBg, poinLabel;
+    if(t.poin === 0){
+      poinColor = '#DC2626'; poinBg = '#FEF2F2'; poinLabel = 'Habis';
+    } else if(t.poin < 20){
+      poinColor = '#DC2626'; poinBg = '#FEF2F2'; poinLabel = 'Merah';
+    } else if(t.poin < 40){
+      poinColor = '#F59E0B'; poinBg = '#FAEEDA'; poinLabel = 'Kuning';
+    } else {
+      poinColor = '#3B6D11'; poinBg = '#EAF3DE'; poinLabel = 'Hijau';
+    }
 
-    return `<div style="background:#fff;border:1px solid ${isTop?'#FCD34D':'#D6CFEF'};border-radius:14px;padding:12px 14px;margin-bottom:8px;${isTop?'box-shadow:inset 0 0 0 1px #FEF3C7;':''}">
+    const statusColor = t.status === 'online' ? '#3B6D11' : '#888780';
+    const statusDot = t.status === 'online' ? '🟢' : '⚫';
+    const statusLabel = t.status === 'online' ? 'Online' : 'Offline';
+
+    const bgGradient = isNonAktif
+      ? 'linear-gradient(135deg,#E0DCF5,#94A3B8)'
+      : isTop
+        ? 'linear-gradient(135deg,#FCD34D,#D97706)'
+        : 'linear-gradient(135deg,#A78BFA,#6D28D9)';
+
+    const cardBorder = isNonAktif ? '#FCA5A5' : isTop ? '#FCD34D' : '#D6CFEF';
+    const cardBg = isNonAktif ? '#FFF8F8' : '#fff';
+    const cardShadow = isTop && !isNonAktif ? 'box-shadow:inset 0 0 0 1px #FEF3C7;' : '';
+
+    return `<div style="background:${cardBg};border:1px solid ${cardBorder};border-radius:14px;padding:12px 14px;margin-bottom:8px;${cardShadow}${isNonAktif?'opacity:0.85;':''}">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:44px;height:44px;border-radius:50%;background:${bgGradient};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;flex-shrink:0;position:relative;">${initial}${isTop ? '<div style="position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#FCD34D;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px;">🏆</div>' : ''}</div>
+        <div style="width:44px;height:44px;border-radius:50%;background:${bgGradient};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;flex-shrink:0;position:relative;${isNonAktif?'filter:grayscale(0.4);':''}">${initial}${isTop && !isNonAktif ? '<div style="position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#FCD34D;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px;">🏆</div>' : ''}</div>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <div style="font-size:13px;font-weight:800;color:#1E1B3A;">${t.nama}</div>
-            ${isTop ? `<span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:8px;padding:1px 6px;font-size:8.5px;font-weight:800;letter-spacing:0.5px;">🏆 TOP</span>` : ''}
+            ${isTop && !isNonAktif ? `<span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:8px;padding:1px 6px;font-size:8.5px;font-weight:800;letter-spacing:0.5px;">🏆 TOP</span>` : ''}
+            ${isNonAktif ? `<span style="background:#DC2626;color:#fff;border-radius:8px;padding:1px 6px;font-size:8.5px;font-weight:800;letter-spacing:0.5px;">🔴 NON-AKTIF</span>` : ''}
           </div>
-          <div style="display:flex;gap:8px;font-size:10px;color:#888780;margin-top:2px;flex-wrap:wrap;">
+          <div style="display:flex;gap:8px;font-size:10px;color:#888780;margin-top:2px;flex-wrap:wrap;align-items:center;">
             <span style="color:${statusColor};font-weight:700;">${statusDot} ${statusLabel}</span>
             <span>·</span>
-            <span><b style="color:#534AB7;">${t.perf.call}</b> call</span>
-            <span>·</span>
-            <span><b style="color:#3B6D11;">${t.perf.customer}</b> customer</span>
+            <span style="color:#DC2626;font-weight:700;">🔥 ${t.perf.call}</span>
+            <span style="color:#534AB7;font-weight:700;">🔄 ${t.totalRepeat}x</span>
+            <span style="background:${poinBg};color:${poinColor};border-radius:5px;padding:1px 6px;font-size:9.5px;font-weight:800;">⭐ ${t.poin}/100</span>
           </div>
           <div style="font-size:9.5px;color:#9B98C4;margin-top:2px;">Join ${t.joinDate} · Fav: ${t.favLayanan}</div>
         </div>
         <div style="text-align:right;flex-shrink:0;">
-          <div style="font-size:13px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;">Rp ${(t.perf.revenue/1000).toFixed(0)}rb</div>
-          <div style="font-size:9px;color:#888780;margin-top:1px;">${talentBulan}</div>
+          <div style="font-size:13px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;">${talentBulan === '__all__' ? formatOmsetShort(t.perf.revenue) : 'Rp ' + (t.perf.revenue/1000).toFixed(0) + 'rb'}</div>
+          <div style="font-size:9px;color:#888780;margin-top:1px;">${talentBulan === '__all__' ? 'Sejak gabung' : talentBulan}</div>
         </div>
       </div>
       <div style="display:flex;gap:6px;">
-        <button class="btn btn-secondary btn-sm" onclick="window.open('https://wa.me/${t.wa}','_blank')" title="WhatsApp" style="flex:0 0 auto;">💬 WA</button>
         <button onclick="toggleBadgeTop(${t.id})" title="${isTop?'Hapus badge TOP':'Beri badge TOP'}" style="flex:0 0 auto;padding:0 10px;border:0.5px solid ${isTop?'#FCD34D':'#D6CFEF'};background:${isTop?'#FEF3C7':'#fff'};border-radius:10px;cursor:pointer;font-size:13px;font-family:inherit;">🏆</button>
-        <button class="btn btn-secondary btn-sm" onclick="lihatDetailTalent(${t.id})" style="flex:1;">📋 Detail</button>
-        <button class="btn btn-danger btn-sm" onclick="banTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Banned/non-aktifkan">🚫</button>
+        <button class="btn btn-secondary btn-sm" onclick="resetPoinTalent(${t.id})" style="flex:1;">⭐ Set Poin</button>
+        ${isNonAktif
+          ? `<button class="btn btn-danger btn-sm" onclick="hapusTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Hapus permanen">🗑️</button>`
+          : `<button class="btn btn-danger btn-sm" onclick="nonAktifkanTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Non-aktifkan">🚫</button>`
+        }
       </div>
     </div>`;
   }).join('');
@@ -5418,78 +5890,58 @@ function renderTalent(){
   document.getElementById('talentList').innerHTML = cards + loadMore;
 }
 
-function renderRanking(){
-  // Ambil top 5 by call di bulan terpilih
-  const allTalent = DEMO_TALENT_PAYROLL.map(t => {
-    const enrich = TALENT_ENRICH[t.id] || {};
-    const perf = (TALENT_PERF[t.id] || {})[talentBulan] || {call:0,customer:0,revenue:0};
-    return {...t, ...enrich, perf};
-  });
-
-  const ranked = [...allTalent].sort((a,b) => b.perf.revenue - a.perf.revenue).slice(0, 5);
-  const maxRevenue = Math.max(...ranked.map(t => t.perf.revenue), 1);
-
-  // Title with bulan
-  document.getElementById('rankingTitle').textContent = `🏅 Ranking Performa ${talentBulan}`;
-
-  // Compare ke bulan sebelumnya
-  const bulanList = ['Mei 2026','Apr 2026','Mar 2026','Feb 2026','Jan 2026','Des 2025'];
-  const curIdx = bulanList.indexOf(talentBulan);
-  const prevBulan = curIdx >= 0 && curIdx < bulanList.length - 1 ? bulanList[curIdx + 1] : null;
-
-  document.getElementById('rankingList').innerHTML = ranked.map((t, idx) => {
-    const isTop = !!t.isTop;
-    const initial = t.nama[0];
-    const rankColors = ['#D97706','#94A3B8','#92400E','#534AB7','#534AB7'];
-    const rankBg = ['#FEF3C7','#F1F5F9','#FDE9D7','#EEEDFE','#EEEDFE'];
-
-    // Bar progress
-    const barPct = (t.perf.revenue / maxRevenue * 100).toFixed(0);
-
-    // Delta dari bulan sebelumnya
-    let deltaHtml = '';
-    if(prevBulan){
-      const prevPerf = (TALENT_PERF[t.id] || {})[prevBulan] || {revenue:0};
-      if(prevPerf.revenue > 0){
-        const delta = ((t.perf.revenue - prevPerf.revenue) / prevPerf.revenue * 100).toFixed(0);
-        if(delta > 0){
-          deltaHtml = `<span style="background:#EAF3DE;color:#3B6D11;border-radius:6px;padding:1px 6px;font-size:8.5px;font-weight:700;">↑ Naik ${delta}%</span>`;
-        } else if(delta < 0){
-          deltaHtml = `<span style="background:#FEF2F2;color:#DC2626;border-radius:6px;padding:1px 6px;font-size:8.5px;font-weight:700;">↓ Turun ${Math.abs(delta)}%</span>`;
-        }
-      }
-    }
-
-    return `<div style="background:#fff;border:1px solid #D6CFEF;border-radius:12px;padding:10px 12px;margin-bottom:6px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-        <div style="width:28px;height:28px;border-radius:8px;background:${rankBg[idx]};color:${rankColors[idx]};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;font-family:'Inter',sans-serif;">${idx+1}</div>
-        <div style="width:34px;height:34px;border-radius:50%;background:${isTop?'linear-gradient(135deg,#FCD34D,#D97706)':'linear-gradient(135deg,#A78BFA,#6D28D9)'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;flex-shrink:0;">${initial}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-            <div style="font-size:13px;font-weight:800;color:#1E1B3A;">${t.nama}</div>
-            ${isTop ? `<span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:6px;padding:1px 6px;font-size:8.5px;font-weight:800;">🏆 TOP</span>` : ''}
-          </div>
-          <div style="font-size:10px;color:#888780;margin-top:1px;"><b style="color:#534AB7;">${t.perf.call}</b> call · <b style="color:#3B6D11;">${t.perf.customer}</b> customer</div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;">
-          <div style="font-size:13px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;">Rp ${(t.perf.revenue/1000).toFixed(0)}rb</div>
-          ${deltaHtml ? `<div style="margin-top:2px;">${deltaHtml}</div>` : ''}
-        </div>
-      </div>
-      <div style="height:4px;background:#F1EFFB;border-radius:99px;overflow:hidden;">
-        <div style="height:100%;background:linear-gradient(90deg,#A78BFA,#6D28D9);width:${barPct}%;"></div>
-      </div>
-    </div>`;
-  }).join('');
-}
 
 function toggleBadgeTop(id){
   const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
   if(!t) return;
-  t.isTop = !t.isTop;
+
+  const willBeTop = !t.isTop;
+
+  showConfirm({
+    title: willBeTop ? 'Beri Badge TOP?' : 'Hapus Badge TOP?',
+    iconBg: willBeTop ? '#FEF3C7' : '#FEF2F2',
+    iconText: willBeTop ? '🏆' : '⚠️',
+    message: willBeTop
+      ? `Beri badge <b>🏆 TOP</b> ke <b>${t.nama}</b>?<br/><br/><span style="color:#854F0B;font-size:11px;">Top Talent mendapat bagi hasil lebih tinggi (lihat di Pricelist) dan ditampilkan dengan badge khusus di sistem.</span>`
+      : `Hapus badge <b>🏆 TOP</b> dari <b>${t.nama}</b>?<br/><br/><span style="color:#993C1D;font-size:11px;">Talent kembali ke bagi hasil regular.</span>`,
+    okText: willBeTop ? '🏆 Ya, Beri Badge' : '⚠️ Ya, Hapus',
+    okStyle: willBeTop ? 'btn-primary' : 'btn-warning',
+    onConfirm: ()=>{
+      t.isTop = willBeTop;
+      renderTalent();
+      if(typeof renderPayroll === 'function') renderPayroll();
+      showToast(t.isTop ? `🏆 ${t.nama} mendapat badge TOP` : `${t.nama} dihapus dari Top Talent`);
+    }
+  });
+}
+
+function resetPoinTalent(id){
+  const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+  if(!t) return;
+  const pr = TALENT_POIN_REPEAT[t.id] || {poin:50};
+  const currentPoin = pr.poin;
+
+  // Prompt sederhana via showConfirm dengan input
+  const newPoin = window.prompt(`Set poin baru untuk ${t.nama}\n\nPoin sekarang: ${currentPoin}/100\n\nMasukkan angka 0-100:`, currentPoin);
+  if(newPoin === null) return; // cancel
+
+  const poinInt = parseInt(newPoin);
+  if(isNaN(poinInt) || poinInt < 0 || poinInt > 100){
+    showToast('⚠️ Poin harus angka 0-100');
+    return;
+  }
+
+  // Update
+  if(!TALENT_POIN_REPEAT[t.id]) TALENT_POIN_REPEAT[t.id] = {poin:50, totalRepeat:0};
+  TALENT_POIN_REPEAT[t.id].poin = poinInt;
   renderTalent();
-  if(typeof renderPayroll === 'function') renderPayroll();
-  showToast(t.isTop ? `🏆 ${t.nama} mendapat badge TOP` : `${t.nama} dihapus dari Top Talent`);
+
+  const statusMsg = poinInt === 0
+    ? `🔴 ${t.nama} jadi non-aktif (poin habis)`
+    : poinInt < 20
+      ? `⚠️ Poin ${t.nama} di zona merah`
+      : `✅ Poin ${t.nama} diset ke ${poinInt}`;
+  showToast(statusMsg);
 }
 
 function lihatDetailTalent(id){
@@ -5498,22 +5950,40 @@ function lihatDetailTalent(id){
   showToast(`📋 Detail ${t.nama} (fitur akan tersedia)`);
 }
 
-function banTalent(id){
+function nonAktifkanTalent(id){
   const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
   if(!t) return;
   showConfirm({
-    title: 'Banned Talent?',
+    title: 'Non-Aktifkan Talent?',
     iconBg: '#FEF2F2',
     iconText: '🚫',
-    message: `Banned <b>${t.nama}</b> dari sistem?<br/><br/><span style="color:#993C1D;font-size:11px;">⚠️ Talent akan otomatis offline & tidak bisa terima order lagi. Saldo yang sudah ada tetap aman.</span>`,
-    okText: '🚫 Ya, Banned',
+    message: `Non-aktifkan <b>${t.nama}</b>?<br/><br/><span style="color:#993C1D;font-size:11px;">Talent gak bisa online & gak muncul di list client. Bisa diaktifkan lagi kapan saja (set poin > 0 atau hapus tanda non-aktif).</span>`,
+    okText: '🚫 Ya, Non-Aktifkan',
+    okStyle: 'btn-danger',
+    onConfirm: ()=>{
+      t.forcedOff = true;
+      renderTalent();
+      showToast(`🚫 ${t.nama} dinon-aktifkan`);
+    }
+  });
+}
+
+function hapusTalent(id){
+  const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+  if(!t) return;
+  showConfirm({
+    title: 'Hapus Talent Permanen?',
+    iconBg: '#FEF2F2',
+    iconText: '🗑️',
+    message: `Hapus <b>${t.nama}</b> dari sistem permanen?<br/><br/><span style="color:#993C1D;font-size:11px;">⚠️ Data talent dihapus total, gak bisa dikembalikan. Saldo yang sudah ada tetap aman.</span>`,
+    okText: '🗑️ Ya, Hapus',
     okStyle: 'btn-danger',
     onConfirm: ()=>{
       const idx = DEMO_TALENT_PAYROLL.findIndex(x=>x.id===id);
       if(idx !== -1) DEMO_TALENT_PAYROLL.splice(idx, 1);
       renderTalent();
       if(typeof renderPayroll === 'function') renderPayroll();
-      showToast(`✅ ${t.nama} dibanned dari sistem`);
+      showToast(`🗑️ ${t.nama} dihapus permanen`);
     }
   });
 }
@@ -5530,6 +6000,13 @@ function loadMorePayroll(){
   else if(payrollShown === 30) payrollShown = 50;
   else payrollShown = 9999;
   renderPayroll();
+}
+
+function formatOmsetShort(n){
+  if(n >= 1000000000) return 'Rp ' + (n/1000000000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+  if(n >= 1000000) return 'Rp ' + (n/1000000).toFixed(1).replace(/\.0$/, '') + 'jt';
+  if(n >= 1000) return 'Rp ' + Math.round(n/1000) + 'rb';
+  return 'Rp ' + n;
 }
 
 function formatRupiah(n){
