@@ -420,7 +420,14 @@ body{
 
     <!-- SEARCH BAR -->
     <div style="display:flex;gap:8px;margin-bottom:10px;">
-      <input class="field-input" id="pendaftarSearch" placeholder="🔍 Cari nama..." oninput="renderPendaftar()" style="padding:9px 12px;font-size:12.5px;"/>
+      <div style="flex:1;position:relative;">
+        <input class="field-input" id="pendaftarSearch" placeholder="🔍 Cari nama..." oninput="renderPendaftar()" style="padding:9px 12px;font-size:12.5px;"/>
+      </div>
+      <select class="period-select" id="pendaftarSort" onchange="renderPendaftar()" style="height:auto;">
+        <option value="newest">Terbaru</option>
+        <option value="oldest">Tertua</option>
+        <option value="name">Nama A-Z</option>
+      </select>
     </div>
 
     <!-- FILTER GENDER -->
@@ -431,20 +438,10 @@ body{
     </div>
 
     <!-- FILTER STATUS -->
-    <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;">
-      <button class="doc-tab active" data-filter="new" onclick="filterPendaftar('new')">🔴 Belum Direview</button>
+    <div style="display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;">
+      <button class="doc-tab active" data-filter="new" onclick="filterPendaftar('new')">🔴 Terbaru</button>
       <button class="doc-tab" data-filter="reviewed" onclick="filterPendaftar('reviewed')">👁️ Sudah Dilihat</button>
       <button class="doc-tab" data-filter="interview" onclick="filterPendaftar('interview')">📞 Lolos Tahap</button>
-    </div>
-
-    <!-- SORT URUTAN -->
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <span style="font-size:10.5px;color:#9B98C4;font-weight:600;letter-spacing:0.05em;">Urutkan:</span>
-      <div style="display:flex;gap:5px;flex:1;">
-        <button class="doc-tab active" data-sort="newest" onclick="changeSort('newest')">⬇ Terbaru</button>
-        <button class="doc-tab" data-sort="oldest" onclick="changeSort('oldest')">⬆ Terlama</button>
-        <button class="doc-tab" data-sort="name" onclick="changeSort('name')">A-Z</button>
-      </div>
     </div>
 
     <div id="pendaftarList"></div>
@@ -1133,7 +1130,6 @@ const DEMO_PENDAFTAR = [
 ];
 let pendaftarFilter = 'new';
 let pendaftarGender = 'all';
-let pendaftarSort = 'newest';
 
 function initPendaftar(){
   const newCount = DEMO_PENDAFTAR.filter(p => p.status==='new').length;
