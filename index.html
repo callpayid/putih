@@ -12,13 +12,13 @@
 html,body{height:100%;}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:linear-gradient(180deg,#DDD8EE 0%,#B8AEDD 100%);background-attachment:fixed;display:flex;justify-content:center;align-items:flex-start;
+  background:#DDD8EE;display:flex;justify-content:center;align-items:flex-start;
   color:#1E1B3A;font-size:13.5px;min-height:100vh;
 }
-.app{width:480px;max-width:100vw;min-height:100vh;background:#EFEBFB;position:relative;}
+.app{width:480px;max-width:100vw;min-height:100vh;background:#F5F3FF;position:relative;}
 
 /* ============ LOGIN PAGE ============ */
-.login-page{position:fixed;inset:0;background:linear-gradient(180deg,#DDD8EE 0%,#B8AEDD 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:30px;}
+.login-page{position:fixed;inset:0;background:#DDD8EE;z-index:9999;display:flex;align-items:center;justify-content:center;padding:30px;}
 .login-card{width:100%;max-width:380px;background:#fff;border:1px solid #D6CFEF;border-radius:24px;padding:36px 28px;box-shadow:0 8px 32px rgba(109,40,217,0.1);}
 .login-logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#A78BFA,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 18px;box-shadow:0 8px 24px rgba(109,40,217,0.25);}
 .login-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;color:#2E2875;text-align:center;margin-bottom:6px;}
@@ -32,7 +32,7 @@ body{
 .login-hint{text-align:center;font-size:11px;color:#B0ADCC;margin-top:18px;font-style:italic;}
 
 /* ============ TOP BAR ============ */
-.topbar{position:sticky;top:0;z-index:50;background:rgba(239,235,251,0.96);backdrop-filter:blur(20px);border-bottom:1px solid #D6CFEF;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(245,243,255,0.96);backdrop-filter:blur(20px);border-bottom:1px solid #D6CFEF;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;}
 .tb-left{display:flex;align-items:center;gap:8px;}
 .tb-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#A78BFA,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .tb-brand{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;color:#2E2875;}
@@ -42,7 +42,7 @@ body{
 .tb-logout{background:#FEF2F2;border:0.5px solid #FCA5A5;border-radius:10px;width:34px;height:34px;color:#DC2626;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:inherit;}
 
 /* ============ NAVIGATION TABS ============ */
-.navtabs{display:flex;gap:0;padding:0 16px;border-bottom:1px solid #D6CFEF;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:rgba(239,235,251,0.96);scroll-snap-type:x proximity;scroll-behavior:smooth;}
+.navtabs{display:flex;gap:0;padding:0 16px;border-bottom:1px solid #D6CFEF;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:rgba(245,243,255,0.96);scroll-snap-type:x proximity;scroll-behavior:smooth;}
 .navtabs::-webkit-scrollbar{display:none;}
 .nav-btn{flex-shrink:0;padding:11px 10px;font-size:10.5px;font-weight:700;color:#9B98C4;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-family:inherit;display:flex;align-items:center;gap:4px;white-space:nowrap;}
 .nav-btn.active{color:#534AB7;border-bottom-color:#534AB7;}
@@ -321,10 +321,12 @@ body{
   </div>
 
   <!-- NAVIGATION -->
-  <div style="position:sticky;top:58px;z-index:40;background:rgba(239,235,251,0.96);">
+  <div style="position:sticky;top:58px;z-index:40;background:rgba(245,243,255,0.96);">
     <div class="navtabs">
       <button class="nav-btn active" data-page="dashboard" onclick="switchPage('dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
       <button class="nav-btn" data-page="pendaftar" onclick="switchPage('pendaftar')"><span class="nav-icon">👥</span>Pendaftar <span id="pendaftarBadge" style="background:#DC2626;color:#fff;border-radius:9px;padding:1px 6px;font-size:9px;margin-left:3px;font-weight:800;"></span></button>
+      <button class="nav-btn" data-page="talent" onclick="switchPage('talent')"><span class="nav-icon">🎤</span>Talent</button>
+      <button class="nav-btn" data-page="client" onclick="switchPage('client')"><span class="nav-icon">👤</span>Client</button>
       <button class="nav-btn" data-page="pricelist" onclick="switchPage('pricelist')"><span class="nav-icon">💰</span>Pricelist</button>
       <button class="nav-btn" data-page="penggajian" onclick="switchPage('penggajian')"><span class="nav-icon">💸</span>Penggajian <span id="payrollBadge" style="background:#F59E0B;color:#fff;border-radius:9px;padding:1px 6px;font-size:9px;margin-left:3px;font-weight:800;"></span></button>
       <button class="nav-btn" data-page="keuangan" onclick="switchPage('keuangan')"><span class="nav-icon">💼</span>Keuangan</button>
@@ -482,6 +484,86 @@ body{
     </div>
 
     <div id="pendaftarList"></div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PAGE 2.5: TALENT                              -->
+  <!-- ============================================= -->
+  <div class="page" id="page-talent">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">Talent</div>
+        <div class="sec-sub" id="talentSub">Manajemen talent aktif</div>
+      </div>
+      <select class="period-select" id="talentBulan" onchange="changeTalentBulan(this.value)">
+        <option value="Mei 2026">Mei 2026</option>
+        <option value="Apr 2026">Apr 2026</option>
+        <option value="Mar 2026">Mar 2026</option>
+        <option value="Feb 2026">Feb 2026</option>
+        <option value="Jan 2026">Jan 2026</option>
+        <option value="Des 2025">Des 2025</option>
+      </select>
+    </div>
+
+    <!-- RANKING PERFORMA -->
+    <div class="card">
+      <div class="card-title" id="rankingTitle">🏅 Ranking Performa Mei 2026</div>
+      <div id="rankingList"></div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:8px 4px;">👥 Semua Talent</div>
+
+    <!-- TAB FILTER -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;">
+      <button class="doc-tab active" data-talent-filter="all" onclick="filterTalent('all')">Semua</button>
+      <button class="doc-tab" data-talent-filter="online" onclick="filterTalent('online')">🟢 Online</button>
+      <button class="doc-tab" data-talent-filter="offline" onclick="filterTalent('offline')">⚫ Offline</button>
+      <button class="doc-tab" data-talent-filter="cuti" onclick="filterTalent('cuti')">🌴 Cuti</button>
+      <button class="doc-tab" data-talent-filter="top" onclick="filterTalent('top')">🏆 Top Talent</button>
+    </div>
+
+    <!-- SEARCH -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input class="field-input" id="talentSearch" placeholder="🔍 Cari nama talent..." oninput="talentShown=10;renderTalent()" style="padding:9px 12px;font-size:12.5px;"/>
+    </div>
+
+    <!-- INFO COUNT -->
+    <div style="font-size:11px;color:#9B98C4;margin-bottom:10px;padding:0 4px;" id="talentCountInfo">Menampilkan 0 talent</div>
+
+    <!-- LIST -->
+    <div id="talentList"></div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PAGE 2.6: CLIENT                              -->
+  <!-- ============================================= -->
+  <div class="page" id="page-client">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">Client</div>
+        <div class="sec-sub" id="clientSub">Database client yang pernah order</div>
+      </div>
+    </div>
+
+    <!-- TAB FILTER -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;">
+      <button class="doc-tab active" data-client-filter="recent" onclick="filterClient('recent')">🕐 Terbaru</button>
+      <button class="doc-tab" data-client-filter="top" onclick="filterClient('top')">💰 Terbanyak</button>
+      <button class="doc-tab" data-client-filter="repeat" onclick="filterClient('repeat')">🔄 Repeat</button>
+      <button class="doc-tab" data-client-filter="baru" onclick="filterClient('baru')">🆕 Baru</button>
+    </div>
+
+    <!-- SEARCH -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input class="field-input" id="clientSearch" placeholder="🔍 Cari no. WA..." oninput="clientShown=10;renderClient()" style="padding:9px 12px;font-size:12.5px;"/>
+    </div>
+
+    <!-- INFO COUNT -->
+    <div style="font-size:11px;color:#9B98C4;margin-bottom:10px;padding:0 4px;" id="clientCountInfo">Menampilkan 0 client</div>
+
+    <!-- LIST -->
+    <div id="clientList"></div>
   </div>
 
   <!-- ============================================= -->
@@ -1173,6 +1255,8 @@ function doLogin(){
     document.getElementById('app').style.display = 'block';
     initDashboard();
     initPendaftar();
+    initTalent();
+    initClient();
     initPricelist();
     initPenggajian();
     initKeuangan();
@@ -1269,6 +1353,8 @@ function switchPage(page){
 
   // Re-init halaman tertentu untuk fresh data
   if(page === 'penggajian') renderPayroll();
+  if(page === 'talent') renderTalent();
+  if(page === 'client') renderClient();
   if(page === 'keuangan') renderKeuangan();
   if(page === 'dashboard') renderStatistik();
   if(page === 'pendaftar') initPendaftar();
@@ -3882,6 +3968,616 @@ function saveKonten(){
 // ============================================
 // PENGGAJIAN (PAYROLL)
 // ============================================
+const TALENT_ENRICH = {
+  1: {totalOrder:1004, joinDate:'15 Apr 2025', favLayanan:'Sleep Call', status:'online'},
+  2: {totalOrder:285, joinDate:'03 Apr 2026', favLayanan:'Sleep Call', status:'online'},
+  3: {totalOrder:429, joinDate:'28 Apr 2026', favLayanan:'Teman Call', status:'online'},
+  4: {totalOrder:793, joinDate:'28 Mar 2026', favLayanan:'Curhat Call', status:'online'},
+  5: {totalOrder:520, joinDate:'18 Feb 2026', favLayanan:'Teman Call', status:'offline'},
+  6: {totalOrder:661, joinDate:'05 Mei 2026', favLayanan:'Sleep Call', status:'online'},
+  7: {totalOrder:996, joinDate:'25 Jan 2026', favLayanan:'Curhat Call', status:'online'},
+  8: {totalOrder:558, joinDate:'18 Feb 2026', favLayanan:'Curhat Call', status:'online'},
+  9: {totalOrder:338, joinDate:'20 Feb 2025', favLayanan:'Teman Call', status:'offline'},
+  10: {totalOrder:1129, joinDate:'25 Feb 2025', favLayanan:'Sleep Call', status:'offline'},
+  11: {totalOrder:639, joinDate:'05 Feb 2026', favLayanan:'Teman Call', status:'online'},
+  12: {totalOrder:1058, joinDate:'15 Feb 2026', favLayanan:'Curhat Call', status:'online'},
+  13: {totalOrder:207, joinDate:'15 Apr 2026', favLayanan:'Sleep Call', status:'offline'},
+  14: {totalOrder:1180, joinDate:'01 Feb 2026', favLayanan:'Curhat Call', status:'offline'},
+  15: {totalOrder:1174, joinDate:'10 Apr 2026', favLayanan:'Sleep Call', status:'offline'},
+  16: {totalOrder:1117, joinDate:'22 Mei 2026', favLayanan:'Sleep Call', status:'online'},
+  17: {totalOrder:1047, joinDate:'03 Mei 2025', favLayanan:'Sleep Call', status:'online'},
+  18: {totalOrder:459, joinDate:'05 Apr 2026', favLayanan:'Sleep Call', status:'online'},
+  19: {totalOrder:527, joinDate:'05 Apr 2026', favLayanan:'Teman Call', status:'online'},
+  20: {totalOrder:600, joinDate:'03 Jan 2025', favLayanan:'Curhat Call', status:'online'},
+  21: {totalOrder:718, joinDate:'18 Feb 2025', favLayanan:'Teman Call', status:'online'},
+  22: {totalOrder:125, joinDate:'08 Jan 2026', favLayanan:'Curhat Call', status:'online'},
+  23: {totalOrder:165, joinDate:'18 Jan 2025', favLayanan:'Pacar Virtual', status:'cuti'},
+  24: {totalOrder:464, joinDate:'05 Mei 2026', favLayanan:'Sleep Call', status:'offline'},
+  25: {totalOrder:1050, joinDate:'28 Mei 2025', favLayanan:'Teman Call', status:'offline'},
+  26: {totalOrder:1056, joinDate:'22 Mar 2025', favLayanan:'Sleep Call', status:'online'},
+  27: {totalOrder:817, joinDate:'15 Jan 2026', favLayanan:'Curhat Call', status:'online'},
+  28: {totalOrder:1079, joinDate:'25 Mei 2026', favLayanan:'Pacar Virtual', status:'online'},
+  29: {totalOrder:139, joinDate:'15 Mei 2026', favLayanan:'Pacar Virtual', status:'offline'},
+  30: {totalOrder:1106, joinDate:'15 Jan 2026', favLayanan:'Sleep Call', status:'online'},
+  31: {totalOrder:1149, joinDate:'01 Feb 2025', favLayanan:'Sleep Call', status:'offline'},
+  32: {totalOrder:582, joinDate:'25 Mei 2025', favLayanan:'Teman Call', status:'online'},
+  33: {totalOrder:601, joinDate:'20 Mei 2025', favLayanan:'Sleep Call', status:'online'},
+  34: {totalOrder:1014, joinDate:'25 Feb 2026', favLayanan:'Pacar Virtual', status:'offline'},
+  35: {totalOrder:793, joinDate:'20 Apr 2025', favLayanan:'Teman Call', status:'online'},
+  36: {totalOrder:886, joinDate:'18 Feb 2025', favLayanan:'Pacar Virtual', status:'offline'},
+  37: {totalOrder:267, joinDate:'10 Jan 2026', favLayanan:'Teman Call', status:'online'},
+  38: {totalOrder:133, joinDate:'22 Mar 2026', favLayanan:'Curhat Call', status:'online'},
+  39: {totalOrder:963, joinDate:'18 Jan 2026', favLayanan:'Teman Call', status:'online'},
+  40: {totalOrder:737, joinDate:'01 Apr 2025', favLayanan:'Sleep Call', status:'offline'},
+  41: {totalOrder:747, joinDate:'05 Jan 2026', favLayanan:'Pacar Virtual', status:'online'},
+  42: {totalOrder:472, joinDate:'01 Jan 2025', favLayanan:'Sleep Call', status:'online'},
+  43: {totalOrder:1179, joinDate:'03 Mei 2026', favLayanan:'Sleep Call', status:'online'},
+  44: {totalOrder:697, joinDate:'15 Apr 2025', favLayanan:'Sleep Call', status:'offline'},
+  45: {totalOrder:1094, joinDate:'08 Mei 2025', favLayanan:'Pacar Virtual', status:'online'},
+  46: {totalOrder:429, joinDate:'18 Mar 2025', favLayanan:'Curhat Call', status:'online'},
+  47: {totalOrder:342, joinDate:'05 Apr 2026', favLayanan:'Curhat Call', status:'online'},
+  48: {totalOrder:725, joinDate:'28 Mei 2025', favLayanan:'Teman Call', status:'offline'},
+  49: {totalOrder:1083, joinDate:'18 Jan 2025', favLayanan:'Teman Call', status:'offline'},
+  50: {totalOrder:279, joinDate:'05 Mei 2025', favLayanan:'Curhat Call', status:'cuti'},
+  51: {totalOrder:393, joinDate:'05 Apr 2026', favLayanan:'Sleep Call', status:'online'},
+  52: {totalOrder:715, joinDate:'05 Mar 2026', favLayanan:'Sleep Call', status:'online'},
+  53: {totalOrder:504, joinDate:'01 Feb 2026', favLayanan:'Sleep Call', status:'offline'},
+  54: {totalOrder:441, joinDate:'15 Jan 2026', favLayanan:'Teman Call', status:'offline'},
+  55: {totalOrder:503, joinDate:'25 Jan 2025', favLayanan:'Curhat Call', status:'offline'},
+  56: {totalOrder:389, joinDate:'20 Feb 2025', favLayanan:'Curhat Call', status:'online'},
+  57: {totalOrder:225, joinDate:'28 Apr 2025', favLayanan:'Pacar Virtual', status:'offline'},
+  58: {totalOrder:408, joinDate:'08 Apr 2025', favLayanan:'Pacar Virtual', status:'online'},
+  59: {totalOrder:1104, joinDate:'12 Mei 2025', favLayanan:'Pacar Virtual', status:'online'},
+  60: {totalOrder:355, joinDate:'15 Jan 2026', favLayanan:'Pacar Virtual', status:'cuti'},
+};
+
+
+const TALENT_PERF = {
+  1: {
+    'Mei 2026': {call:27, customer:20, revenue:405567},
+    'Apr 2026': {call:23, customer:16, revenue:311489},
+    'Mar 2026': {call:48, customer:32, revenue:733152},
+    'Feb 2026': {call:28, customer:21, revenue:377804},
+    'Jan 2026': {call:37, customer:24, revenue:517038},
+    'Des 2025': {call:56, customer:36, revenue:870072}
+  },
+  2: {
+    'Mei 2026': {call:10, customer:7, revenue:127140},
+    'Apr 2026': {call:22, customer:16, revenue:273328},
+    'Mar 2026': {call:40, customer:30, revenue:577600},
+    'Feb 2026': {call:12, customer:9, revenue:182688},
+    'Jan 2026': {call:36, customer:29, revenue:422028},
+    'Des 2025': {call:16, customer:11, revenue:205696}
+  },
+  3: {
+    'Mei 2026': {call:7, customer:4, revenue:111769},
+    'Apr 2026': {call:12, customer:8, revenue:190332},
+    'Mar 2026': {call:28, customer:22, revenue:310688},
+    'Feb 2026': {call:27, customer:22, revenue:370710},
+    'Jan 2026': {call:11, customer:8, revenue:146938},
+    'Des 2025': {call:38, customer:31, revenue:449084}
+  },
+  4: {
+    'Mei 2026': {call:44, customer:35, revenue:676896},
+    'Apr 2026': {call:34, customer:22, revenue:408578},
+    'Mar 2026': {call:52, customer:42, revenue:637988},
+    'Feb 2026': {call:84, customer:64, revenue:1303596},
+    'Jan 2026': {call:24, customer:16, revenue:285000},
+    'Des 2025': {call:67, customer:56, revenue:846411}
+  },
+  5: {
+    'Mei 2026': {call:44, customer:28, revenue:499884},
+    'Apr 2026': {call:88, customer:64, revenue:1392688},
+    'Mar 2026': {call:60, customer:42, revenue:671880},
+    'Feb 2026': {call:85, customer:61, revenue:1234540},
+    'Jan 2026': {call:105, customer:63, revenue:1275330},
+    'Des 2025': {call:49, customer:31, revenue:702513}
+  },
+  6: {
+    'Mei 2026': {call:29, customer:23, revenue:340257},
+    'Apr 2026': {call:49, customer:36, revenue:626710},
+    'Mar 2026': {call:25, customer:20, revenue:303325},
+    'Feb 2026': {call:99, customer:62, revenue:1208295},
+    'Jan 2026': {call:40, customer:33, revenue:459600},
+    'Des 2025': {call:25, customer:18, revenue:299025}
+  },
+  7: {
+    'Mei 2026': {call:8, customer:6, revenue:119960},
+    'Apr 2026': {call:44, customer:34, revenue:524216},
+    'Mar 2026': {call:48, customer:35, revenue:549024},
+    'Feb 2026': {call:74, customer:61, revenue:1113848},
+    'Jan 2026': {call:51, customer:38, revenue:710379},
+    'Des 2025': {call:38, customer:31, revenue:544388}
+  },
+  8: {
+    'Mei 2026': {call:7, customer:4, revenue:93898},
+    'Apr 2026': {call:32, customer:23, revenue:438048},
+    'Mar 2026': {call:13, customer:10, revenue:197041},
+    'Feb 2026': {call:12, customer:7, revenue:162888},
+    'Jan 2026': {call:18, customer:12, revenue:238518},
+    'Des 2025': {call:13, customer:9, revenue:183404}
+  },
+  9: {
+    'Mei 2026': {call:3, customer:2, revenue:39084},
+    'Apr 2026': {call:10, customer:8, revenue:117310},
+    'Mar 2026': {call:14, customer:9, revenue:170156},
+    'Feb 2026': {call:6, customer:4, revenue:82458},
+    'Jan 2026': {call:6, customer:5, revenue:68604},
+    'Des 2025': {call:18, customer:14, revenue:233838}
+  },
+  10: {
+    'Mei 2026': {call:17, customer:12, revenue:251192},
+    'Apr 2026': {call:31, customer:24, revenue:392615},
+    'Mar 2026': {call:34, customer:23, revenue:505988},
+    'Feb 2026': {call:39, customer:32, revenue:514839},
+    'Jan 2026': {call:25, customer:17, revenue:367325},
+    'Des 2025': {call:27, customer:21, revenue:362475}
+  },
+  11: {
+    'Mei 2026': {call:17, customer:13, revenue:191335},
+    'Apr 2026': {call:40, customer:28, revenue:596640},
+    'Mar 2026': {call:38, customer:22, revenue:556890},
+    'Feb 2026': {call:52, customer:37, revenue:625872},
+    'Jan 2026': {call:25, customer:19, revenue:377550},
+    'Des 2025': {call:60, customer:45, revenue:813600}
+  },
+  12: {
+    'Mei 2026': {call:26, customer:19, revenue:398424},
+    'Apr 2026': {call:22, customer:16, revenue:311938},
+    'Mar 2026': {call:27, customer:19, revenue:418824},
+    'Feb 2026': {call:46, customer:27, revenue:708216},
+    'Jan 2026': {call:21, customer:17, revenue:256893},
+    'Des 2025': {call:67, customer:46, revenue:767284}
+  },
+  13: {
+    'Mei 2026': {call:16, customer:10, revenue:235280},
+    'Apr 2026': {call:39, customer:29, revenue:602940},
+    'Mar 2026': {call:76, customer:47, revenue:962312},
+    'Feb 2026': {call:46, customer:35, revenue:601910},
+    'Jan 2026': {call:50, customer:39, revenue:767950},
+    'Des 2025': {call:30, customer:23, revenue:445350}
+  },
+  14: {
+    'Mei 2026': {call:23, customer:15, revenue:314548},
+    'Apr 2026': {call:29, customer:17, revenue:327903},
+    'Mar 2026': {call:56, customer:47, revenue:826728},
+    'Feb 2026': {call:35, customer:25, revenue:559790},
+    'Jan 2026': {call:19, customer:14, revenue:251617},
+    'Des 2025': {call:15, customer:11, revenue:193830}
+  },
+  15: {
+    'Mei 2026': {call:28, customer:17, revenue:350280},
+    'Apr 2026': {call:76, customer:49, revenue:1105496},
+    'Mar 2026': {call:80, customer:51, revenue:1220960},
+    'Feb 2026': {call:80, customer:58, revenue:895680},
+    'Jan 2026': {call:19, customer:13, revenue:287280},
+    'Des 2025': {call:48, customer:30, revenue:694128}
+  },
+  16: {
+    'Mei 2026': {call:38, customer:28, revenue:442130},
+    'Apr 2026': {call:54, customer:41, revenue:801792},
+    'Mar 2026': {call:22, customer:17, revenue:343596},
+    'Feb 2026': {call:88, customer:63, revenue:1294040},
+    'Jan 2026': {call:58, customer:35, revenue:913964},
+    'Des 2025': {call:43, customer:30, revenue:678884}
+  },
+  17: {
+    'Mei 2026': {call:4, customer:3, revenue:52368},
+    'Apr 2026': {call:24, customer:18, revenue:268896},
+    'Mar 2026': {call:16, customer:12, revenue:191168},
+    'Feb 2026': {call:10, customer:8, revenue:150220},
+    'Jan 2026': {call:16, customer:13, revenue:234240},
+    'Des 2025': {call:17, customer:11, revenue:222836}
+  },
+  18: {
+    'Mei 2026': {call:4, customer:3, revenue:61180},
+    'Apr 2026': {call:31, customer:22, revenue:426839},
+    'Mar 2026': {call:9, customer:6, revenue:104454},
+    'Feb 2026': {call:40, customer:32, revenue:446400},
+    'Jan 2026': {call:28, customer:23, revenue:390460},
+    'Des 2025': {call:19, customer:14, revenue:262428}
+  },
+  19: {
+    'Mei 2026': {call:16, customer:11, revenue:249456},
+    'Apr 2026': {call:46, customer:28, revenue:596206},
+    'Mar 2026': {call:37, customer:29, revenue:591260},
+    'Feb 2026': {call:40, customer:27, revenue:581560},
+    'Jan 2026': {call:67, customer:45, revenue:992002},
+    'Des 2025': {call:41, customer:33, revenue:459159}
+  },
+  20: {
+    'Mei 2026': {call:26, customer:15, revenue:306072},
+    'Apr 2026': {call:72, customer:53, revenue:1097640},
+    'Mar 2026': {call:49, customer:36, revenue:712705},
+    'Feb 2026': {call:27, customer:22, revenue:378054},
+    'Jan 2026': {call:102, customer:68, revenue:1613436},
+    'Des 2025': {call:76, customer:58, revenue:1193732}
+  },
+  21: {
+    'Mei 2026': {call:37, customer:25, revenue:479668},
+    'Apr 2026': {call:64, customer:44, revenue:876928},
+    'Mar 2026': {call:31, customer:24, revenue:355167},
+    'Feb 2026': {call:40, customer:29, revenue:619120},
+    'Jan 2026': {call:51, customer:42, revenue:678453},
+    'Des 2025': {call:87, customer:60, revenue:1380603}
+  },
+  22: {
+    'Mei 2026': {call:33, customer:20, revenue:396363},
+    'Apr 2026': {call:43, customer:31, revenue:577232},
+    'Mar 2026': {call:97, customer:65, revenue:1422699},
+    'Feb 2026': {call:105, customer:67, revenue:1629810},
+    'Jan 2026': {call:31, customer:25, revenue:486886},
+    'Des 2025': {call:73, customer:57, revenue:1136318}
+  },
+  23: {
+    'Mei 2026': {call:24, customer:20, revenue:372624},
+    'Apr 2026': {call:37, customer:31, revenue:497576},
+    'Mar 2026': {call:18, customer:14, revenue:198468},
+    'Feb 2026': {call:54, customer:36, revenue:748332},
+    'Jan 2026': {call:51, customer:35, revenue:583797},
+    'Des 2025': {call:18, customer:13, revenue:277020}
+  },
+  24: {
+    'Mei 2026': {call:34, customer:22, revenue:462298},
+    'Apr 2026': {call:64, customer:44, revenue:753024},
+    'Mar 2026': {call:48, customer:38, revenue:563088},
+    'Feb 2026': {call:61, customer:48, revenue:810568},
+    'Jan 2026': {call:19, customer:13, revenue:250477},
+    'Des 2025': {call:55, customer:33, revenue:875765}
+  },
+  25: {
+    'Mei 2026': {call:20, customer:13, revenue:305000},
+    'Apr 2026': {call:59, customer:37, revenue:853199},
+    'Mar 2026': {call:60, customer:49, revenue:795360},
+    'Feb 2026': {call:68, customer:47, revenue:940508},
+    'Jan 2026': {call:35, customer:21, revenue:450975},
+    'Des 2025': {call:16, customer:12, revenue:216544}
+  },
+  26: {
+    'Mei 2026': {call:37, customer:26, revenue:585303},
+    'Apr 2026': {call:49, customer:32, revenue:583296},
+    'Mar 2026': {call:36, customer:27, revenue:426276},
+    'Feb 2026': {call:21, customer:14, revenue:272454},
+    'Jan 2026': {call:44, customer:31, revenue:644644},
+    'Des 2025': {call:52, customer:34, revenue:694824}
+  },
+  27: {
+    'Mei 2026': {call:15, customer:11, revenue:206385},
+    'Apr 2026': {call:16, customer:11, revenue:237152},
+    'Mar 2026': {call:30, customer:23, revenue:352050},
+    'Feb 2026': {call:19, customer:12, revenue:222319},
+    'Jan 2026': {call:41, customer:34, revenue:554771},
+    'Des 2025': {call:9, customer:7, revenue:110988}
+  },
+  28: {
+    'Mei 2026': {call:3, customer:2, revenue:39429},
+    'Apr 2026': {call:24, customer:15, revenue:275160},
+    'Mar 2026': {call:24, customer:17, revenue:294672},
+    'Feb 2026': {call:25, customer:16, revenue:383075},
+    'Jan 2026': {call:27, customer:16, revenue:417717},
+    'Des 2025': {call:24, customer:20, revenue:323088}
+  },
+  29: {
+    'Mei 2026': {call:19, customer:12, revenue:248235},
+    'Apr 2026': {call:32, customer:24, revenue:446272},
+    'Mar 2026': {call:58, customer:46, revenue:645018},
+    'Feb 2026': {call:27, customer:17, revenue:407484},
+    'Jan 2026': {call:70, customer:43, revenue:963130},
+    'Des 2025': {call:67, customer:40, revenue:912138}
+  },
+  30: {
+    'Mei 2026': {call:16, customer:11, revenue:228720},
+    'Apr 2026': {call:36, customer:23, revenue:419328},
+    'Mar 2026': {call:26, customer:17, revenue:355888},
+    'Feb 2026': {call:49, customer:36, revenue:583982},
+    'Jan 2026': {call:22, customer:18, revenue:302830},
+    'Des 2025': {call:52, customer:41, revenue:690456}
+  },
+  31: {
+    'Mei 2026': {call:26, customer:19, revenue:414102},
+    'Apr 2026': {call:40, customer:32, revenue:452040},
+    'Mar 2026': {call:46, customer:29, revenue:589766},
+    'Feb 2026': {call:19, customer:11, revenue:270560},
+    'Jan 2026': {call:20, customer:12, revenue:315220},
+    'Des 2025': {call:61, customer:36, revenue:741638}
+  },
+  32: {
+    'Mei 2026': {call:7, customer:5, revenue:88354},
+    'Apr 2026': {call:12, customer:9, revenue:157476},
+    'Mar 2026': {call:8, customer:5, revenue:99512},
+    'Feb 2026': {call:28, customer:21, revenue:411544},
+    'Jan 2026': {call:22, customer:15, revenue:292336},
+    'Des 2025': {call:24, customer:19, revenue:318168}
+  },
+  33: {
+    'Mei 2026': {call:18, customer:14, revenue:252234},
+    'Apr 2026': {call:29, customer:19, revenue:385294},
+    'Mar 2026': {call:18, customer:13, revenue:207936},
+    'Feb 2026': {call:15, customer:9, revenue:174465},
+    'Jan 2026': {call:13, customer:10, revenue:149344},
+    'Des 2025': {call:34, customer:21, revenue:467602}
+  },
+  34: {
+    'Mei 2026': {call:19, customer:15, revenue:280250},
+    'Apr 2026': {call:60, customer:49, revenue:812760},
+    'Mar 2026': {call:21, customer:14, revenue:296982},
+    'Feb 2026': {call:57, customer:44, revenue:741741},
+    'Jan 2026': {call:51, customer:42, revenue:715632},
+    'Des 2025': {call:49, customer:34, revenue:540715}
+  },
+  35: {
+    'Mei 2026': {call:14, customer:10, revenue:223664},
+    'Apr 2026': {call:76, customer:46, revenue:884412},
+    'Mar 2026': {call:55, customer:35, revenue:635965},
+    'Feb 2026': {call:91, customer:54, revenue:1192737},
+    'Jan 2026': {call:66, customer:46, revenue:841698},
+    'Des 2025': {call:61, customer:38, revenue:905606}
+  },
+  36: {
+    'Mei 2026': {call:33, customer:20, revenue:384681},
+    'Apr 2026': {call:22, customer:16, revenue:267630},
+    'Mar 2026': {call:79, customer:57, revenue:1142814},
+    'Feb 2026': {call:33, customer:24, revenue:502590},
+    'Jan 2026': {call:19, customer:15, revenue:273106},
+    'Des 2025': {call:28, customer:20, revenue:394940}
+  },
+  37: {
+    'Mei 2026': {call:3, customer:1, revenue:46602},
+    'Apr 2026': {call:10, customer:6, revenue:129460},
+    'Mar 2026': {call:12, customer:8, revenue:137172},
+    'Feb 2026': {call:14, customer:9, revenue:212520},
+    'Jan 2026': {call:12, customer:9, revenue:184044},
+    'Des 2025': {call:18, customer:14, revenue:265428}
+  },
+  38: {
+    'Mei 2026': {call:22, customer:18, revenue:298188},
+    'Apr 2026': {call:64, customer:54, revenue:862208},
+    'Mar 2026': {call:37, customer:25, revenue:501942},
+    'Feb 2026': {call:60, customer:50, revenue:910500},
+    'Jan 2026': {call:74, customer:47, revenue:1110222},
+    'Des 2025': {call:54, customer:35, revenue:834624}
+  },
+  39: {
+    'Mei 2026': {call:22, customer:14, revenue:288794},
+    'Apr 2026': {call:27, customer:19, revenue:431271},
+    'Mar 2026': {call:60, customer:44, revenue:769080},
+    'Feb 2026': {call:37, customer:25, revenue:502941},
+    'Jan 2026': {call:91, customer:76, revenue:1243697},
+    'Des 2025': {call:25, customer:15, revenue:277150}
+  },
+  40: {
+    'Mei 2026': {call:30, customer:24, revenue:413850},
+    'Apr 2026': {call:54, customer:34, revenue:706158},
+    'Mar 2026': {call:63, customer:45, revenue:750834},
+    'Feb 2026': {call:32, customer:20, revenue:420416},
+    'Jan 2026': {call:80, customer:56, revenue:1017520},
+    'Des 2025': {call:49, customer:38, revenue:742399}
+  },
+  41: {
+    'Mei 2026': {call:16, customer:10, revenue:214816},
+    'Apr 2026': {call:32, customer:26, revenue:403392},
+    'Mar 2026': {call:18, customer:15, revenue:217530},
+    'Feb 2026': {call:33, customer:25, revenue:488796},
+    'Jan 2026': {call:29, customer:19, revenue:422472},
+    'Des 2025': {call:36, customer:27, revenue:424440}
+  },
+  42: {
+    'Mei 2026': {call:10, customer:7, revenue:140240},
+    'Apr 2026': {call:68, customer:57, revenue:768264},
+    'Mar 2026': {call:48, customer:40, revenue:533904},
+    'Feb 2026': {call:22, customer:16, revenue:338492},
+    'Jan 2026': {call:22, customer:14, revenue:315568},
+    'Des 2025': {call:25, customer:16, revenue:357850}
+  },
+  43: {
+    'Mei 2026': {call:14, customer:9, revenue:181300},
+    'Apr 2026': {call:22, customer:13, revenue:275594},
+    'Mar 2026': {call:15, customer:12, revenue:204330},
+    'Feb 2026': {call:28, customer:23, revenue:348600},
+    'Jan 2026': {call:29, customer:18, revenue:399040},
+    'Des 2025': {call:10, customer:7, revenue:123020}
+  },
+  44: {
+    'Mei 2026': {call:18, customer:11, revenue:229680},
+    'Apr 2026': {call:32, customer:23, revenue:433152},
+    'Mar 2026': {call:18, customer:11, revenue:207270},
+    'Feb 2026': {call:13, customer:9, revenue:162019},
+    'Jan 2026': {call:35, customer:24, revenue:511490},
+    'Des 2025': {call:40, customer:25, revenue:478360}
+  },
+  45: {
+    'Mei 2026': {call:12, customer:9, revenue:152304},
+    'Apr 2026': {call:33, customer:27, revenue:394614},
+    'Mar 2026': {call:26, customer:18, revenue:397254},
+    'Feb 2026': {call:66, customer:54, revenue:743820},
+    'Jan 2026': {call:62, customer:50, revenue:924420},
+    'Des 2025': {call:45, customer:36, revenue:538155}
+  },
+  46: {
+    'Mei 2026': {call:12, customer:8, revenue:163416},
+    'Apr 2026': {call:28, customer:17, revenue:337848},
+    'Mar 2026': {call:18, customer:10, revenue:249588},
+    'Feb 2026': {call:39, customer:30, revenue:492219},
+    'Jan 2026': {call:45, customer:31, revenue:498195},
+    'Des 2025': {call:22, customer:15, revenue:281028}
+  },
+  47: {
+    'Mei 2026': {call:39, customer:32, revenue:561717},
+    'Apr 2026': {call:69, customer:51, revenue:847251},
+    'Mar 2026': {call:72, customer:56, revenue:820728},
+    'Feb 2026': {call:48, customer:29, revenue:529296},
+    'Jan 2026': {call:94, customer:64, revenue:1212600},
+    'Des 2025': {call:39, customer:27, revenue:433524}
+  },
+  48: {
+    'Mei 2026': {call:25, customer:19, revenue:311700},
+    'Apr 2026': {call:68, customer:51, revenue:926908},
+    'Mar 2026': {call:51, customer:41, revenue:634899},
+    'Feb 2026': {call:40, customer:26, revenue:578360},
+    'Jan 2026': {call:63, customer:50, revenue:926037},
+    'Des 2025': {call:17, customer:13, revenue:189448}
+  },
+  49: {
+    'Mei 2026': {call:15, customer:11, revenue:206730},
+    'Apr 2026': {call:20, customer:15, revenue:253160},
+    'Mar 2026': {call:15, customer:10, revenue:178005},
+    'Feb 2026': {call:56, customer:41, revenue:866656},
+    'Jan 2026': {call:50, customer:32, revenue:594300},
+    'Des 2025': {call:16, customer:13, revenue:225552}
+  },
+  50: {
+    'Mei 2026': {call:28, customer:20, revenue:384468},
+    'Apr 2026': {call:93, customer:64, revenue:1167987},
+    'Mar 2026': {call:103, customer:85, revenue:1502873},
+    'Feb 2026': {call:48, customer:31, revenue:668688},
+    'Jan 2026': {call:40, customer:27, revenue:579800},
+    'Des 2025': {call:103, customer:85, revenue:1521207}
+  },
+  51: {
+    'Mei 2026': {call:11, customer:9, revenue:167244},
+    'Apr 2026': {call:26, customer:21, revenue:338546},
+    'Mar 2026': {call:6, customer:4, revenue:92634},
+    'Feb 2026': {call:24, customer:14, revenue:278088},
+    'Jan 2026': {call:26, customer:16, revenue:330850},
+    'Des 2025': {call:15, customer:11, revenue:186975}
+  },
+  52: {
+    'Mei 2026': {call:22, customer:14, revenue:268950},
+    'Apr 2026': {call:16, customer:13, revenue:233888},
+    'Mar 2026': {call:47, customer:29, revenue:619037},
+    'Feb 2026': {call:22, customer:17, revenue:295482},
+    'Jan 2026': {call:70, customer:44, revenue:1082900},
+    'Des 2025': {call:64, customer:45, revenue:743680}
+  },
+  53: {
+    'Mei 2026': {call:12, customer:9, revenue:144696},
+    'Apr 2026': {call:14, customer:8, revenue:164276},
+    'Mar 2026': {call:36, customer:27, revenue:469656},
+    'Feb 2026': {call:22, customer:16, revenue:329186},
+    'Jan 2026': {call:12, customer:7, revenue:186924},
+    'Des 2025': {call:30, customer:20, revenue:455340}
+  },
+  54: {
+    'Mei 2026': {call:29, customer:20, revenue:424821},
+    'Apr 2026': {call:60, customer:45, revenue:723420},
+    'Mar 2026': {call:51, customer:33, revenue:573597},
+    'Feb 2026': {call:54, customer:40, revenue:837162},
+    'Jan 2026': {call:51, customer:31, revenue:705993},
+    'Des 2025': {call:48, customer:31, revenue:696192}
+  },
+  55: {
+    'Mei 2026': {call:15, customer:9, revenue:188205},
+    'Apr 2026': {call:41, customer:28, revenue:587161},
+    'Mar 2026': {call:50, customer:37, revenue:749000},
+    'Feb 2026': {call:52, customer:40, revenue:644124},
+    'Jan 2026': {call:32, customer:23, revenue:444832},
+    'Des 2025': {call:32, customer:21, revenue:501632}
+  },
+  56: {
+    'Mei 2026': {call:38, customer:29, revenue:522842},
+    'Apr 2026': {call:63, customer:52, revenue:894411},
+    'Mar 2026': {call:85, customer:65, revenue:1167645},
+    'Feb 2026': {call:25, customer:15, revenue:334275},
+    'Jan 2026': {call:73, customer:50, revenue:968272},
+    'Des 2025': {call:34, customer:21, revenue:493068}
+  },
+  57: {
+    'Mei 2026': {call:6, customer:4, revenue:85632},
+    'Apr 2026': {call:25, customer:17, revenue:305325},
+    'Mar 2026': {call:9, customer:6, revenue:143172},
+    'Feb 2026': {call:13, customer:7, revenue:196209},
+    'Jan 2026': {call:15, customer:10, revenue:178530},
+    'Des 2025': {call:7, customer:5, revenue:81676}
+  },
+  58: {
+    'Mei 2026': {call:14, customer:11, revenue:193704},
+    'Apr 2026': {call:49, customer:38, revenue:621222},
+    'Mar 2026': {call:40, customer:31, revenue:500640},
+    'Feb 2026': {call:37, customer:27, revenue:471269},
+    'Jan 2026': {call:58, customer:46, revenue:909904},
+    'Des 2025': {call:27, customer:21, revenue:366903}
+  },
+  59: {
+    'Mei 2026': {call:23, customer:15, revenue:306958},
+    'Apr 2026': {call:59, customer:48, revenue:801869},
+    'Mar 2026': {call:32, customer:22, revenue:352640},
+    'Feb 2026': {call:40, customer:33, revenue:622040},
+    'Jan 2026': {call:19, customer:11, revenue:289104},
+    'Des 2025': {call:49, customer:29, revenue:557816}
+  },
+  60: {
+    'Mei 2026': {call:18, customer:13, revenue:287100},
+    'Apr 2026': {call:40, customer:32, revenue:605920},
+    'Mar 2026': {call:10, customer:6, revenue:129440},
+    'Feb 2026': {call:25, customer:20, revenue:331050},
+    'Jan 2026': {call:31, customer:18, revenue:365924},
+    'Des 2025': {call:40, customer:25, revenue:530160}
+  },
+};
+
+const DEMO_CLIENT = [
+  {id:1, wa:'0818-6258-7539', totalVoucher:24, totalSpending:812256, lastOrder:'11 Mei 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'10 Mar 2026'},
+  {id:2, wa:'0897-4606-9731', totalVoucher:2, totalSpending:87034, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'12 Apr 2026'},
+  {id:3, wa:'0818-7538-6381', totalVoucher:9, totalSpending:317529, lastOrder:'01 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'10 Feb 2026'},
+  {id:4, wa:'0895-5741-2027', totalVoucher:16, totalSpending:662832, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'20 Jan 2026'},
+  {id:5, wa:'0852-0184-9787', totalVoucher:13, totalSpending:547885, lastOrder:'05 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:6, wa:'0852-7092-4741', totalVoucher:1, totalSpending:38721, lastOrder:'28 Apr 2026', favLayanan:'Curhat Call', status:'baru', tglJoin:'05 Mei 2026'},
+  {id:7, wa:'0812-9943-1485', totalVoucher:22, totalSpending:673860, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'25 Jan 2026'},
+  {id:8, wa:'0897-5574-0922', totalVoucher:25, totalSpending:591275, lastOrder:'08 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Feb 2026'},
+  {id:9, wa:'0821-6432-1424', totalVoucher:1, totalSpending:24939, lastOrder:'14 Mei 2026', favLayanan:'Teman Call', status:'baru', tglJoin:'05 Mei 2026'},
+  {id:10, wa:'0856-3349-3299', totalVoucher:14, totalSpending:412146, lastOrder:'14 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Jan 2026'},
+  {id:11, wa:'0818-8405-8292', totalVoucher:2, totalSpending:66518, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call', status:'baru', tglJoin:'14 Mei 2026'},
+  {id:12, wa:'0817-5852-3312', totalVoucher:23, totalSpending:488267, lastOrder:'08 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:13, wa:'0857-8725-3060', totalVoucher:8, totalSpending:362720, lastOrder:'03 Mei 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'10 Jan 2026'},
+  {id:14, wa:'0821-6196-8204', totalVoucher:18, totalSpending:877986, lastOrder:'25 Apr 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:15, wa:'0895-8950-4570', totalVoucher:1, totalSpending:34492, lastOrder:'01 Mei 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'05 Apr 2026'},
+  {id:16, wa:'0856-3711-0295', totalVoucher:14, totalSpending:481306, lastOrder:'11 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Mar 2026'},
+  {id:17, wa:'0813-9331-9412', totalVoucher:10, totalSpending:285790, lastOrder:'07 Mei 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:18, wa:'0896-5841-3049', totalVoucher:1, totalSpending:23217, lastOrder:'08 Mei 2026', favLayanan:'Sleep Call', status:'baru', tglJoin:'08 Mei 2026'},
+  {id:19, wa:'0896-8813-5291', totalVoucher:11, totalSpending:444730, lastOrder:'02 Mei 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'15 Jan 2026'},
+  {id:20, wa:'0895-2492-4923', totalVoucher:22, totalSpending:971454, lastOrder:'08 Mei 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'20 Mar 2026'},
+  {id:21, wa:'0856-8906-0309', totalVoucher:19, totalSpending:932045, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'20 Feb 2026'},
+  {id:22, wa:'0812-0878-9523', totalVoucher:9, totalSpending:278073, lastOrder:'10 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Jan 2026'},
+  {id:23, wa:'0823-0956-6230', totalVoucher:6, totalSpending:272052, lastOrder:'01 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Feb 2026'},
+  {id:24, wa:'0852-0611-9312', totalVoucher:21, totalSpending:816984, lastOrder:'12 Mei 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'15 Mar 2026'},
+  {id:25, wa:'0897-8532-0972', totalVoucher:2, totalSpending:93804, lastOrder:'12 Mei 2026', favLayanan:'Curhat Call', status:'baru', tglJoin:'08 Apr 2026'},
+  {id:26, wa:'0856-2776-5386', totalVoucher:12, totalSpending:572484, lastOrder:'14 Mei 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'15 Jan 2026'},
+  {id:27, wa:'0818-6595-2227', totalVoucher:12, totalSpending:293988, lastOrder:'28 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'15 Mar 2026'},
+  {id:28, wa:'0823-3067-3715', totalVoucher:6, totalSpending:177438, lastOrder:'11 Mei 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'20 Jan 2026'},
+  {id:29, wa:'0895-2589-5926', totalVoucher:4, totalSpending:184444, lastOrder:'02 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'10 Mar 2026'},
+  {id:30, wa:'0815-4325-6629', totalVoucher:20, totalSpending:500680, lastOrder:'07 Mei 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'20 Mar 2026'},
+  {id:31, wa:'0856-0356-3445', totalVoucher:21, totalSpending:543165, lastOrder:'14 Mei 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:32, wa:'0813-5683-9229', totalVoucher:13, totalSpending:544076, lastOrder:'14 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'10 Mar 2026'},
+  {id:33, wa:'0897-1589-7892', totalVoucher:20, totalSpending:638780, lastOrder:'10 Mei 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'15 Mar 2026'},
+  {id:34, wa:'0897-2671-5529', totalVoucher:2, totalSpending:81794, lastOrder:'12 Mei 2026', favLayanan:'Sleep Call', status:'baru', tglJoin:'01 Mei 2026'},
+  {id:35, wa:'0815-0828-5397', totalVoucher:11, totalSpending:333630, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'25 Mar 2026'},
+  {id:36, wa:'0856-9027-9334', totalVoucher:5, totalSpending:235460, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'10 Jan 2026'},
+  {id:37, wa:'0817-9522-4252', totalVoucher:24, totalSpending:891504, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'25 Mar 2026'},
+  {id:38, wa:'0821-7445-3049', totalVoucher:8, totalSpending:235272, lastOrder:'25 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'10 Mar 2026'},
+  {id:39, wa:'0821-6816-9562', totalVoucher:24, totalSpending:1172256, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'20 Jan 2026'},
+  {id:40, wa:'0897-0052-2569', totalVoucher:9, totalSpending:304578, lastOrder:'20 Apr 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:41, wa:'0818-6391-2821', totalVoucher:15, totalSpending:587970, lastOrder:'20 Apr 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'10 Mar 2026'},
+  {id:42, wa:'0818-4682-7158', totalVoucher:2, totalSpending:84346, lastOrder:'05 Apr 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'12 Apr 2026'},
+  {id:43, wa:'0823-6037-6966', totalVoucher:21, totalSpending:709170, lastOrder:'05 Apr 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'10 Mar 2026'},
+  {id:44, wa:'0857-4588-8290', totalVoucher:2, totalSpending:60852, lastOrder:'15 Apr 2026', favLayanan:'Curhat Call', status:'baru', tglJoin:'01 Apr 2026'},
+  {id:45, wa:'0815-8525-1455', totalVoucher:1, totalSpending:34600, lastOrder:'10 Apr 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'08 Apr 2026'},
+  {id:46, wa:'0852-8800-5595', totalVoucher:2, totalSpending:75544, lastOrder:'20 Apr 2026', favLayanan:'Sleep Call', status:'baru', tglJoin:'03 Apr 2026'},
+  {id:47, wa:'0822-5346-6246', totalVoucher:23, totalSpending:738990, lastOrder:'20 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'25 Feb 2026'},
+  {id:48, wa:'0812-0801-3851', totalVoucher:1, totalSpending:39413, lastOrder:'20 Apr 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'01 Mei 2026'},
+  {id:49, wa:'0823-5915-5216', totalVoucher:13, totalSpending:556166, lastOrder:'20 Apr 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'15 Jan 2026'},
+  {id:50, wa:'0856-3726-8206', totalVoucher:25, totalSpending:1172350, lastOrder:'20 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'20 Mar 2026'},
+  {id:51, wa:'0856-1650-6773', totalVoucher:24, totalSpending:810408, lastOrder:'05 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'25 Jan 2026'},
+  {id:52, wa:'0822-5657-2022', totalVoucher:4, totalSpending:117440, lastOrder:'15 Apr 2026', favLayanan:'Pacar Virtual', status:'repeat', tglJoin:'15 Feb 2026'},
+  {id:53, wa:'0817-6403-4555', totalVoucher:25, totalSpending:673075, lastOrder:'10 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'20 Mar 2026'},
+  {id:54, wa:'0812-0734-3469', totalVoucher:6, totalSpending:276912, lastOrder:'20 Apr 2026', favLayanan:'Curhat Call', status:'repeat', tglJoin:'10 Jan 2026'},
+  {id:55, wa:'0897-5206-5638', totalVoucher:1, totalSpending:21819, lastOrder:'25 Apr 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'10 Apr 2026'},
+  {id:56, wa:'0823-4551-5468', totalVoucher:14, totalSpending:341866, lastOrder:'20 Apr 2026', favLayanan:'Sleep Call', status:'repeat', tglJoin:'10 Jan 2026'},
+  {id:57, wa:'0856-9641-5076', totalVoucher:3, totalSpending:74337, lastOrder:'25 Apr 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'20 Feb 2026'},
+  {id:58, wa:'0895-6512-6094', totalVoucher:1, totalSpending:22764, lastOrder:'15 Apr 2026', favLayanan:'Pacar Virtual', status:'baru', tglJoin:'13 Apr 2026'},
+  {id:59, wa:'0856-7742-4829', totalVoucher:2, totalSpending:44614, lastOrder:'10 Apr 2026', favLayanan:'Sleep Call', status:'baru', tglJoin:'05 Apr 2026'},
+  {id:60, wa:'0822-6470-4782', totalVoucher:3, totalSpending:69357, lastOrder:'15 Apr 2026', favLayanan:'Teman Call', status:'repeat', tglJoin:'25 Mar 2026'}
+];
+
 const DEMO_TALENT_PAYROLL = [
   {id:1, nama:'Anisa Rahmi', wa:'6285679217151', bank:'Mandiri', noRek:'2251444628', saldo:237000, orderBulanIni:21, statusPayroll:'active', tglAjukan:null},
   {id:2, nama:'Yasmin Aprilia', wa:'6281203522675', bank:'BRI', noRek:'9219479686', saldo:179000, orderBulanIni:16, statusPayroll:'active', tglAjukan:null},
@@ -4019,6 +4715,345 @@ function changePenggajianPeriod(p){
   const labels = {month:'bulan ini', week:'minggu ini', all:'all time'};
   document.getElementById('penggajianSub').textContent = 'Monitoring saldo & pencairan ' + labels[p];
   showToast('🔄 Data periode ' + labels[p] + ' dimuat');
+}
+
+// ============================================
+// CLIENT MANAGEMENT
+// ============================================
+let clientFilter = 'recent';
+let clientShown = 10;
+
+function initClient(){
+  renderClient();
+}
+
+function filterClient(f){
+  clientFilter = f;
+  clientShown = 10;
+  document.querySelectorAll('.doc-tab[data-client-filter]').forEach(b=>b.classList.toggle('active', b.dataset.clientFilter===f));
+  renderClient();
+}
+
+function loadMoreClient(){
+  if(clientShown === 10) clientShown = 30;
+  else if(clientShown === 30) clientShown = 50;
+  else clientShown = 9999;
+  renderClient();
+}
+
+// Helper: parse tanggal client "14 Mei 2026" → Date
+function parseClientDate(tglStr){
+  const months = {'Jan':0,'Feb':1,'Mar':2,'Apr':3,'Mei':4,'Jun':5,'Jul':6,'Agu':7,'Sep':8,'Okt':9,'Nov':10,'Des':11};
+  const m = tglStr.match(/(\d+)\s+(\w+)\s+(\d+)/);
+  if(!m) return new Date(0);
+  return new Date(parseInt(m[3]), months[m[2]]||0, parseInt(m[1]));
+}
+
+function renderClient(){
+  const search = (document.getElementById('clientSearch')?.value || '').toLowerCase().trim();
+
+  let list = [...DEMO_CLIENT];
+
+  // Filter
+  if(clientFilter === 'repeat') list = list.filter(c => c.status === 'repeat');
+  else if(clientFilter === 'baru') list = list.filter(c => c.status === 'baru');
+
+  // Search
+  if(search) list = list.filter(c => c.wa.toLowerCase().includes(search));
+
+  // Sort
+  if(clientFilter === 'recent'){
+    list.sort((a,b) => parseClientDate(b.lastOrder) - parseClientDate(a.lastOrder));
+  } else if(clientFilter === 'top'){
+    list.sort((a,b) => b.totalSpending - a.totalSpending);
+  } else {
+    // baru / repeat → sort by lastOrder desc
+    list.sort((a,b) => parseClientDate(b.lastOrder) - parseClientDate(a.lastOrder));
+  }
+
+  const total = list.length;
+  document.getElementById('clientCountInfo').textContent = `Menampilkan ${Math.min(clientShown, total)} dari ${total} client`;
+
+  if(total === 0){
+    document.getElementById('clientList').innerHTML = `<div style="text-align:center;padding:40px 20px;color:#B0ADCC;font-size:13px;">📭 Tidak ada client di filter ini</div>`;
+    return;
+  }
+
+  const sliced = list.slice(0, clientShown);
+
+  // Untuk top filter: kasih rank trophy untuk top 3
+  const isTopFilter = clientFilter === 'top';
+
+  const cards = sliced.map((c, idx) => {
+    const isRepeat = c.status === 'repeat';
+    const statusBadge = isRepeat
+      ? `<span style="background:#EEF2FF;color:#3730A3;border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;">🔄 Repeat</span>`
+      : `<span style="background:#EAF3DE;color:#3B6D11;border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;">🆕 Baru</span>`;
+
+    // Avatar: untuk top 3 di top filter, kasih medal. Untuk yang lain, kasih nomor
+    const realIdx = list.indexOf(c) + 1;
+    let avatar;
+    if(isTopFilter && idx < 3){
+      const medals = ['🥇','🥈','🥉'];
+      avatar = `<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${medals[idx]}</div>`;
+    } else {
+      avatar = `<div style="width:36px;height:36px;border-radius:50%;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;">${realIdx}</div>`;
+    }
+
+    // Format spending singkat
+    const spendingStr = c.totalSpending >= 1000000
+      ? 'Rp ' + (c.totalSpending/1000000).toFixed(2) + 'jt'
+      : 'Rp ' + Math.round(c.totalSpending/1000) + 'rb';
+
+    return `<div style="background:#fff;border:1px solid #D6CFEF;border-radius:12px;padding:11px 13px;margin-bottom:7px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        ${avatar}
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:800;color:#1E1B3A;font-family:'Inter',sans-serif;letter-spacing:0.02em;">${c.wa}</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap;font-size:10px;color:#888780;">
+            ${statusBadge}
+            <span>Fav: ${c.favLayanan}</span>
+            <span>·</span>
+            <span>Terakhir: ${c.lastOrder}</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:14px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;">${spendingStr}</div>
+          <div style="font-size:9.5px;color:#888780;margin-top:1px;">${c.totalVoucher} order</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const hasMore = total > clientShown;
+  const loadMore = hasMore
+    ? `<div style="padding:14px 4px 4px;"><button onclick="loadMoreClient()" style="width:100%;padding:11px;border:0.5px dashed #C5C0F5;background:transparent;border-radius:12px;color:#534AB7;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Tampilkan lebih banyak <span style="color:#9B98C4;font-weight:500;">(${total - clientShown} lagi)</span></button></div>`
+    : (total > 10 ? `<div style="text-align:center;padding:14px 4px;color:#B0ADCC;font-size:11px;font-style:italic;">— Semua ${total} client ditampilkan —</div>` : '');
+
+  document.getElementById('clientList').innerHTML = cards + loadMore;
+}
+
+// ============================================
+// TALENT MANAGEMENT
+// ============================================
+let talentFilter = 'all';
+let talentShown = 10;
+let talentBulan = 'Mei 2026';
+
+function initTalent(){
+  // Demo: tandai beberapa talent dengan order banyak sebagai TOP
+  [1, 4, 5, 15, 22, 31].forEach(id => {
+    const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+    if(t) t.isTop = true;
+  });
+  renderTalent();
+}
+
+function changeTalentBulan(bulan){
+  talentBulan = bulan;
+  renderTalent();
+}
+
+function filterTalent(f){
+  talentFilter = f;
+  talentShown = 10;
+  document.querySelectorAll('.doc-tab[data-talent-filter]').forEach(b=>b.classList.toggle('active', b.dataset.talentFilter===f));
+  renderTalent();
+}
+
+function loadMoreTalent(){
+  if(talentShown === 10) talentShown = 30;
+  else if(talentShown === 30) talentShown = 50;
+  else talentShown = 9999;
+  renderTalent();
+}
+
+function renderTalent(){
+  // === RANKING SECTION ===
+  renderRanking();
+
+  // === LIST SECTION ===
+  const search = (document.getElementById('talentSearch')?.value || '').toLowerCase().trim();
+
+  let list = DEMO_TALENT_PAYROLL.map(t => {
+    const enrich = TALENT_ENRICH[t.id] || {};
+    const perf = (TALENT_PERF[t.id] || {})[talentBulan] || {call:0,customer:0,revenue:0};
+    return {...t, ...enrich, perf};
+  });
+
+  if(talentFilter === 'online') list = list.filter(t => t.status === 'online');
+  else if(talentFilter === 'offline') list = list.filter(t => t.status === 'offline');
+  else if(talentFilter === 'cuti') list = list.filter(t => t.status === 'cuti');
+  else if(talentFilter === 'top') list = list.filter(t => t.isTop);
+
+  if(search) list = list.filter(t => t.nama.toLowerCase().includes(search));
+
+  // Sort: online dulu, lalu call terbanyak periode ini
+  list.sort((a,b) => {
+    const aOnline = a.status === 'online' ? 0 : a.status === 'offline' ? 1 : 2;
+    const bOnline = b.status === 'online' ? 0 : b.status === 'offline' ? 1 : 2;
+    if(aOnline !== bOnline) return aOnline - bOnline;
+    return b.perf.call - a.perf.call;
+  });
+
+  const total = list.length;
+  document.getElementById('talentCountInfo').textContent = `Menampilkan ${Math.min(talentShown, total)} dari ${total} talent`;
+
+  if(total === 0){
+    document.getElementById('talentList').innerHTML = `<div style="text-align:center;padding:40px 20px;color:#B0ADCC;font-size:13px;">📭 Tidak ada talent di filter ini</div>`;
+    return;
+  }
+
+  const sliced = list.slice(0, talentShown);
+
+  const cards = sliced.map(t => {
+    const isTop = !!t.isTop;
+    const initial = t.nama[0];
+    const statusColor = t.status === 'online' ? '#3B6D11' : t.status === 'offline' ? '#888780' : '#F59E0B';
+    const statusDot = t.status === 'online' ? '🟢' : t.status === 'offline' ? '⚫' : '🌴';
+    const statusLabel = t.status === 'online' ? 'Online' : t.status === 'offline' ? 'Offline' : 'Cuti';
+
+    const bgGradient = isTop
+      ? 'linear-gradient(135deg,#FCD34D,#D97706)'
+      : 'linear-gradient(135deg,#A78BFA,#6D28D9)';
+
+    return `<div style="background:#fff;border:1px solid ${isTop?'#FCD34D':'#D6CFEF'};border-radius:14px;padding:12px 14px;margin-bottom:8px;${isTop?'box-shadow:inset 0 0 0 1px #FEF3C7;':''}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:${bgGradient};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;flex-shrink:0;position:relative;">${initial}${isTop ? '<div style="position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#FCD34D;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px;">🏆</div>' : ''}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <div style="font-size:13px;font-weight:800;color:#1E1B3A;">${t.nama}</div>
+            ${isTop ? `<span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:8px;padding:1px 6px;font-size:8.5px;font-weight:800;letter-spacing:0.5px;">🏆 TOP</span>` : ''}
+          </div>
+          <div style="display:flex;gap:8px;font-size:10px;color:#888780;margin-top:2px;flex-wrap:wrap;">
+            <span style="color:${statusColor};font-weight:700;">${statusDot} ${statusLabel}</span>
+            <span>·</span>
+            <span><b style="color:#534AB7;">${t.perf.call}</b> call</span>
+            <span>·</span>
+            <span><b style="color:#3B6D11;">${t.perf.customer}</b> customer</span>
+          </div>
+          <div style="font-size:9.5px;color:#9B98C4;margin-top:2px;">Join ${t.joinDate} · Fav: ${t.favLayanan}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:13px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;">Rp ${(t.perf.revenue/1000).toFixed(0)}rb</div>
+          <div style="font-size:9px;color:#888780;margin-top:1px;">${talentBulan}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-secondary btn-sm" onclick="window.open('https://wa.me/${t.wa}','_blank')" title="WhatsApp" style="flex:0 0 auto;">💬 WA</button>
+        <button onclick="toggleBadgeTop(${t.id})" title="${isTop?'Hapus badge TOP':'Beri badge TOP'}" style="flex:0 0 auto;padding:0 10px;border:0.5px solid ${isTop?'#FCD34D':'#D6CFEF'};background:${isTop?'#FEF3C7':'#fff'};border-radius:10px;cursor:pointer;font-size:13px;font-family:inherit;">🏆</button>
+        <button class="btn btn-secondary btn-sm" onclick="lihatDetailTalent(${t.id})" style="flex:1;">📋 Detail</button>
+        <button class="btn btn-danger btn-sm" onclick="banTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Banned/non-aktifkan">🚫</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  const hasMore = total > talentShown;
+  const loadMore = hasMore
+    ? `<div style="padding:14px 4px 4px;"><button onclick="loadMoreTalent()" style="width:100%;padding:11px;border:0.5px dashed #C5C0F5;background:transparent;border-radius:12px;color:#534AB7;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Tampilkan lebih banyak <span style="color:#9B98C4;font-weight:500;">(${total - talentShown} lagi)</span></button></div>`
+    : (total > 10 ? `<div style="text-align:center;padding:14px 4px;color:#B0ADCC;font-size:11px;font-style:italic;">— Semua ${total} talent ditampilkan —</div>` : '');
+
+  document.getElementById('talentList').innerHTML = cards + loadMore;
+}
+
+function renderRanking(){
+  // Ambil top 5 by call di bulan terpilih
+  const allTalent = DEMO_TALENT_PAYROLL.map(t => {
+    const enrich = TALENT_ENRICH[t.id] || {};
+    const perf = (TALENT_PERF[t.id] || {})[talentBulan] || {call:0,customer:0,revenue:0};
+    return {...t, ...enrich, perf};
+  });
+
+  const ranked = [...allTalent].sort((a,b) => b.perf.revenue - a.perf.revenue).slice(0, 5);
+  const maxRevenue = Math.max(...ranked.map(t => t.perf.revenue), 1);
+
+  // Title with bulan
+  document.getElementById('rankingTitle').textContent = `🏅 Ranking Performa ${talentBulan}`;
+
+  // Compare ke bulan sebelumnya
+  const bulanList = ['Mei 2026','Apr 2026','Mar 2026','Feb 2026','Jan 2026','Des 2025'];
+  const curIdx = bulanList.indexOf(talentBulan);
+  const prevBulan = curIdx >= 0 && curIdx < bulanList.length - 1 ? bulanList[curIdx + 1] : null;
+
+  document.getElementById('rankingList').innerHTML = ranked.map((t, idx) => {
+    const isTop = !!t.isTop;
+    const initial = t.nama[0];
+    const rankColors = ['#D97706','#94A3B8','#92400E','#534AB7','#534AB7'];
+    const rankBg = ['#FEF3C7','#F1F5F9','#FDE9D7','#EEEDFE','#EEEDFE'];
+
+    // Bar progress
+    const barPct = (t.perf.revenue / maxRevenue * 100).toFixed(0);
+
+    // Delta dari bulan sebelumnya
+    let deltaHtml = '';
+    if(prevBulan){
+      const prevPerf = (TALENT_PERF[t.id] || {})[prevBulan] || {revenue:0};
+      if(prevPerf.revenue > 0){
+        const delta = ((t.perf.revenue - prevPerf.revenue) / prevPerf.revenue * 100).toFixed(0);
+        if(delta > 0){
+          deltaHtml = `<span style="background:#EAF3DE;color:#3B6D11;border-radius:6px;padding:1px 6px;font-size:8.5px;font-weight:700;">↑ Naik ${delta}%</span>`;
+        } else if(delta < 0){
+          deltaHtml = `<span style="background:#FEF2F2;color:#DC2626;border-radius:6px;padding:1px 6px;font-size:8.5px;font-weight:700;">↓ Turun ${Math.abs(delta)}%</span>`;
+        }
+      }
+    }
+
+    return `<div style="background:#fff;border:1px solid #D6CFEF;border-radius:12px;padding:10px 12px;margin-bottom:6px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:${rankBg[idx]};color:${rankColors[idx]};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;font-family:'Inter',sans-serif;">${idx+1}</div>
+        <div style="width:34px;height:34px;border-radius:50%;background:${isTop?'linear-gradient(135deg,#FCD34D,#D97706)':'linear-gradient(135deg,#A78BFA,#6D28D9)'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;flex-shrink:0;">${initial}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <div style="font-size:13px;font-weight:800;color:#1E1B3A;">${t.nama}</div>
+            ${isTop ? `<span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:6px;padding:1px 6px;font-size:8.5px;font-weight:800;">🏆 TOP</span>` : ''}
+          </div>
+          <div style="font-size:10px;color:#888780;margin-top:1px;"><b style="color:#534AB7;">${t.perf.call}</b> call · <b style="color:#3B6D11;">${t.perf.customer}</b> customer</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:13px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;">Rp ${(t.perf.revenue/1000).toFixed(0)}rb</div>
+          ${deltaHtml ? `<div style="margin-top:2px;">${deltaHtml}</div>` : ''}
+        </div>
+      </div>
+      <div style="height:4px;background:#F1EFFB;border-radius:99px;overflow:hidden;">
+        <div style="height:100%;background:linear-gradient(90deg,#A78BFA,#6D28D9);width:${barPct}%;"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleBadgeTop(id){
+  const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+  if(!t) return;
+  t.isTop = !t.isTop;
+  renderTalent();
+  if(typeof renderPayroll === 'function') renderPayroll();
+  showToast(t.isTop ? `🏆 ${t.nama} mendapat badge TOP` : `${t.nama} dihapus dari Top Talent`);
+}
+
+function lihatDetailTalent(id){
+  const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+  if(!t) return;
+  showToast(`📋 Detail ${t.nama} (fitur akan tersedia)`);
+}
+
+function banTalent(id){
+  const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+  if(!t) return;
+  showConfirm({
+    title: 'Banned Talent?',
+    iconBg: '#FEF2F2',
+    iconText: '🚫',
+    message: `Banned <b>${t.nama}</b> dari sistem?<br/><br/><span style="color:#993C1D;font-size:11px;">⚠️ Talent akan otomatis offline & tidak bisa terima order lagi. Saldo yang sudah ada tetap aman.</span>`,
+    okText: '🚫 Ya, Banned',
+    okStyle: 'btn-danger',
+    onConfirm: ()=>{
+      const idx = DEMO_TALENT_PAYROLL.findIndex(x=>x.id===id);
+      if(idx !== -1) DEMO_TALENT_PAYROLL.splice(idx, 1);
+      renderTalent();
+      if(typeof renderPayroll === 'function') renderPayroll();
+      showToast(`✅ ${t.nama} dibanned dari sistem`);
+    }
+  });
 }
 
 function filterPayroll(f){
