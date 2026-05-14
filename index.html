@@ -58,10 +58,10 @@ body{
 /* ALERT */
 .alert-card{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:10px;cursor:pointer;transition:all 0.15s;}
 .alert-card:active{transform:scale(0.99);}
-.alert-card.red{background:#FEF2F2;border:0.5px solid #FCA5A5;}
-.alert-card.yellow{background:#FAEEDA;border:0.5px solid #FAC775;}
-.alert-card.blue{background:#EEF2FF;border:0.5px solid #C7D2FE;}
-.alert-card.green{background:#EAF3DE;border:0.5px solid #C0DD97;}
+.alert-card.red{background:#FEF2F2;border:1.5px solid #FCA5A5;}
+.alert-card.yellow{background:#FAEEDA;border:1.5px solid #FAC775;}
+.alert-card.blue{background:#EEF2FF;border:1.5px solid #C7D2FE;}
+.alert-card.green{background:#EAF3DE;border:1.5px solid #C0DD97;}
 .alert-icon{font-size:18px;flex-shrink:0;line-height:1.2;}
 .alert-text{flex:1;font-size:12px;line-height:1.4;}
 .alert-text b{font-weight:800;}
@@ -72,13 +72,13 @@ body{
 .alert-arrow{font-size:14px;opacity:0.6;flex-shrink:0;align-self:center;}
 
 /* CARDS */
-.card{background:#fff;border:1px solid #D6CFEF;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 1px 0 rgba(83,74,183,0.04);}
+.card{background:#fff;border:1px solid #D6CFEF;border-radius:16px;padding:14px;margin-bottom:12px;}
 .card-title{font-size:9px;font-weight:800;color:#B0ADCC;letter-spacing:0.14em;margin-bottom:10px;text-transform:uppercase;}
 .card-divider{height:0.5px;background:#F0EEF8;margin:10px 0;}
 
 /* STAT GRID */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.stat-box{background:#fff;border:1px solid #D6CFEF;border-radius:14px;padding:14px;box-shadow:0 1px 0 rgba(83,74,183,0.04);}
+.stat-box{background:#fff;border:1px solid #D6CFEF;border-radius:14px;padding:14px;}
 .stat-label{font-size:9px;font-weight:800;color:#B0ADCC;letter-spacing:0.1em;margin-bottom:6px;text-transform:uppercase;}
 .stat-value{font-family:'Instrument Serif',serif;font-style:italic;font-size:26px;color:#1E1B3A;line-height:1.1;}
 .stat-delta{font-size:11px;font-weight:600;margin-top:4px;}
@@ -325,7 +325,6 @@ body{
       <button class="nav-btn" data-page="pricelist" onclick="switchPage('pricelist')"><span class="nav-icon">💰</span>Pricelist</button>
       <button class="nav-btn" data-page="penggajian" onclick="switchPage('penggajian')"><span class="nav-icon">💸</span>Penggajian <span id="payrollBadge" style="background:#F59E0B;color:#fff;border-radius:9px;padding:1px 6px;font-size:9px;margin-left:3px;font-weight:800;"></span></button>
       <button class="nav-btn" data-page="keuangan" onclick="switchPage('keuangan')"><span class="nav-icon">💼</span>Keuangan</button>
-      <button class="nav-btn" data-page="statistik" onclick="switchPage('statistik')"><span class="nav-icon">📈</span>Statistik</button>
       <button class="nav-btn" data-page="konten" onclick="switchPage('konten')"><span class="nav-icon">📝</span>Konten</button>
       <button class="nav-btn" data-page="admin" onclick="switchPage('admin')"><span class="nav-icon">👤</span>Admin</button>
       <button class="nav-btn" data-page="setting" onclick="switchPage('setting')"><span class="nav-icon">⚙️</span>Setting</button>
@@ -333,83 +332,111 @@ body{
   </div>
 
   <!-- ============================================= -->
-  <!-- PAGE 1: DASHBOARD                            -->
+  <!-- PAGE 1: DASHBOARD (statistik penjualan)       -->
   <!-- ============================================= -->
   <div class="page active" id="page-dashboard">
     <div class="sec-head">
       <div>
         <div class="sec-title">Dashboard</div>
-        <div class="sec-sub" id="dashSub">Overview bisnis bulan ini</div>
+        <div class="sec-sub">Performa voucher & client</div>
       </div>
-      <select class="period-select" id="dashPeriod" onchange="changePeriod(this.value)">
-        <option value="month">Bulan Ini</option>
-        <option value="week">Minggu Ini</option>
-        <option value="today">Hari Ini</option>
-        <option value="all">All Time</option>
-      </select>
+      <button class="btn btn-secondary btn-sm" onclick="switchPage('keuangan')">💼 Keuangan</button>
     </div>
 
-    <!-- ALERT BANNER -->
-    <div id="alertSection"></div>
+    <!-- HARI INI -->
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:4px 4px 8px;">📅 Hari Ini · <span id="statTglHariIni">14 Mei 2026</span></div>
 
-    <!-- KPI CARDS -->
     <div class="stat-grid">
       <div class="stat-box">
-        <div class="stat-label">💰 Revenue</div>
-        <div class="stat-value" style="color:#534AB7;" id="kpiRevenue">Rp 24,8jt</div>
-        <div class="stat-delta up" id="kpiRevenueDelta">▲ 12.5% dari bulan lalu</div>
+        <div class="stat-label">💰 Uang Masuk</div>
+        <div class="stat-value" style="color:#3B6D11;" id="statUangMasukHari">Rp 0</div>
+        <div class="stat-delta up" id="statUangMasukDelta">▲ dari kemarin</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">🎟️ Voucher Terjual</div>
-        <div class="stat-value" id="kpiVoucher">847</div>
-        <div class="stat-delta up" id="kpiVoucherDelta">▲ 8.2%</div>
+        <div class="stat-value" style="color:#534AB7;" id="statVoucherHari">0</div>
+        <div class="stat-delta up" id="statVoucherDelta">▲ dari kemarin</div>
       </div>
       <div class="stat-box">
-        <div class="stat-label">👥 Talent Aktif</div>
-        <div class="stat-value" id="kpiTalent">52</div>
-        <div class="stat-delta up" id="kpiTalentDelta">▲ 5</div>
+        <div class="stat-label">🆕 Client Baru</div>
+        <div class="stat-value" style="color:#F59E0B;" id="statClientBaru">0</div>
+        <div class="stat-delta" style="color:#888780;">First time order</div>
       </div>
       <div class="stat-box">
-        <div class="stat-label">📞 Client Aktif</div>
-        <div class="stat-value" id="kpiClient">312</div>
-        <div class="stat-delta up" id="kpiClientDelta">▲ 18.4%</div>
+        <div class="stat-label">🔄 Client Repeat</div>
+        <div class="stat-value" style="color:#6D28D9;" id="statClientRepeat">0</div>
+        <div class="stat-delta" style="color:#888780;">Sudah pernah order</div>
       </div>
     </div>
 
-    <!-- REVENUE CHART -->
+    <!-- BREAKDOWN PER LAYANAN HARI INI -->
     <div class="card">
-      <div class="card-title">📈 Revenue 7 Hari Terakhir</div>
-      <div class="chart-wrap" id="chartWrap">
-        <svg class="chart-svg" id="chartSvg" viewBox="0 0 360 200" preserveAspectRatio="none"></svg>
-        <div class="chart-tooltip" id="chartTooltip"></div>
+      <div class="card-title">📞 Voucher Hari Ini per Layanan</div>
+      <div id="statLayananBreakdown"></div>
+    </div>
+
+    <!-- RIWAYAT -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap;">
+        <div class="card-title" style="margin:0;">📋 Riwayat</div>
+        <div style="display:flex;gap:4px;background:#F5F3FF;border-radius:10px;padding:3px;">
+          <button id="btnRiwayatHarian" onclick="switchRiwayatMode('harian')" style="padding:6px 12px;border:none;background:#fff;color:#534AB7;font-size:11px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit;box-shadow:0 1px 2px rgba(83,74,183,0.1);">📅 Harian</button>
+          <button id="btnRiwayatBulanan" onclick="switchRiwayatMode('bulanan')" style="padding:6px 12px;border:none;background:transparent;color:#9B98C4;font-size:11px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit;">📆 Bulanan</button>
+        </div>
+      </div>
+      <div style="font-size:10.5px;color:#9B98C4;margin-bottom:10px;" id="statHistorySubtitle">Rekap penjualan 60 hari terakhir</div>
+
+      <div id="statHistoryList"></div>
+      <div id="statHistoryLoadMore"></div>
+    </div>
+
+    <!-- REVENUE BULANAN (BAR CHART) -->
+    <div class="card">
+      <div class="card-title">📊 Revenue 6 Bulan Terakhir</div>
+      <div id="statRevenueBulanan" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;height:160px;padding:14px 4px 4px;"></div>
+      <div id="statBulanLabels" style="display:flex;justify-content:space-between;gap:8px;margin-top:6px;"></div>
+    </div>
+
+    <!-- BULAN INI VS BULAN LALU -->
+    <div class="card">
+      <div class="card-title">📅 Bulan Ini vs Bulan Lalu</div>
+
+      <div style="background:#F5F3FF;border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:11.5px;color:#1E1B3A;font-weight:700;">💰 Total Revenue</div>
+        <div style="text-align:right;">
+          <div style="font-size:14px;font-weight:900;color:#1E1B3A;" id="statRevBulanIni">Rp 0</div>
+          <div style="font-size:9.5px;margin-top:1px;" id="statRevDelta">vs bulan lalu</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:11px;color:#1E1B3A;">🎟️ Total Voucher</div>
+        <div style="text-align:right;">
+          <div style="font-size:12.5px;font-weight:800;color:#534AB7;" id="statVoucherBulanIni">0</div>
+          <div style="font-size:9px;color:#888780;" id="statVoucherDeltaBulan">vs bulan lalu</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:11px;color:#1E1B3A;">🆕 Total Client Baru</div>
+        <div style="text-align:right;">
+          <div style="font-size:12.5px;font-weight:800;color:#F59E0B;" id="statClientBaruBulan">0</div>
+          <div style="font-size:9px;color:#888780;" id="statClientBaruDelta">vs bulan lalu</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:11px;color:#1E1B3A;">🔄 Total Client Repeat</div>
+        <div style="text-align:right;">
+          <div style="font-size:12.5px;font-weight:800;color:#6D28D9;" id="statClientRepeatBulan">0</div>
+          <div style="font-size:9px;color:#888780;" id="statClientRepeatDelta">vs bulan lalu</div>
+        </div>
       </div>
     </div>
 
-    <!-- LAYANAN BREAKDOWN -->
-    <div class="card">
-      <div class="card-title">🎯 Layanan Terpopuler</div>
-      <div class="donut-wrap">
-        <svg class="donut-svg" viewBox="0 0 100 100" id="donutSvg"></svg>
-        <div class="donut-legend" id="donutLegend"></div>
-      </div>
-    </div>
-
-    <!-- TOP TALENT -->
-    <div class="card">
-      <div class="card-title">⭐ Top 5 Talent Bulan Ini</div>
-      <div id="topTalentList"></div>
-    </div>
-
-    <!-- QUICK ACTIONS -->
-    <div class="card">
-      <div class="card-title">⚡ Quick Action</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('pendaftar')">👥 Review Pendaftar</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('penggajian')">💸 Penggajian Talent</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('pricelist')">💰 Edit Pricelist</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('konten')">📝 Edit Konten</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('admin')">👤 Manage Admin</button>
-      </div>
+    <!-- INFO -->
+    <div class="field-hint" style="text-align:center;margin-top:14px;color:#3730A3;background:#EEF2FF;border:0.5px solid #C7D2FE;border-radius:10px;padding:10px;line-height:1.5;">
+      💡 Data otomatis dari transaksi voucher. Update real-time setiap voucher terjual.
     </div>
   </div>
 
@@ -625,10 +652,9 @@ body{
       <button class="doc-tab active" data-finance="all" onclick="filterFinance('all')">Semua</button>
       <button class="doc-tab" data-finance="in" onclick="filterFinance('in')">📥 Masuk</button>
       <button class="doc-tab" data-finance="out" onclick="filterFinance('out')">📤 Keluar</button>
-      <button class="doc-tab" data-finance="gaji_admin" onclick="filterFinance('gaji_admin')">👤 Gaji Admin</button>
-      <button class="doc-tab" data-finance="promosi" onclick="filterFinance('promosi')">📣 Promosi</button>
-      <button class="doc-tab" data-finance="ops" onclick="filterFinance('ops')">🛠 Operasional</button>
-      <button class="doc-tab" data-finance="tarik_owner" onclick="filterFinance('tarik_owner')">👑 Tarikan Owner</button>
+      <button class="doc-tab" data-finance="kas_agency" onclick="filterFinance('kas_agency')">🟢 Kas Agency</button>
+      <button class="doc-tab" data-finance="gaji_owner" onclick="filterFinance('gaji_owner')">💵 Gaji Owner</button>
+      <button class="doc-tab" data-finance="profit_owner" onclick="filterFinance('profit_owner')">💎 Profit Owner</button>
     </div>
 
     <!-- LIST TRANSAKSI -->
@@ -637,108 +663,6 @@ body{
     <!-- INFO BANNER -->
     <div class="field-hint" style="text-align:center;margin-top:14px;color:#3730A3;background:#EEF2FF;border:0.5px solid #C7D2FE;border-radius:10px;padding:10px;line-height:1.5;">
       💡 Saldo auto-update dari voucher cair. Klik <b>+ Tambah</b> untuk catat pengeluaran atau tarikan. Lihat <b>statistik penjualan</b> di tab 📈.
-    </div>
-  </div>
-
-  <!-- ============================================= -->
-  <!-- PAGE 3.8: STATISTIK                           -->
-  <!-- ============================================= -->
-  <div class="page" id="page-statistik">
-    <div class="sec-head">
-      <div>
-        <div class="sec-title">Statistik Penjualan</div>
-        <div class="sec-sub">Performa voucher & client</div>
-      </div>
-    </div>
-
-    <!-- HARI INI -->
-    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:4px 4px 8px;">📅 Hari Ini · <span id="statTglHariIni">14 Mei 2026</span></div>
-
-    <div class="stat-grid">
-      <div class="stat-box">
-        <div class="stat-label">💰 Uang Masuk</div>
-        <div class="stat-value" style="color:#3B6D11;" id="statUangMasukHari">Rp 0</div>
-        <div class="stat-delta up" id="statUangMasukDelta">▲ dari kemarin</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">🎟️ Voucher Terjual</div>
-        <div class="stat-value" style="color:#534AB7;" id="statVoucherHari">0</div>
-        <div class="stat-delta up" id="statVoucherDelta">▲ dari kemarin</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">🆕 Client Baru</div>
-        <div class="stat-value" style="color:#F59E0B;" id="statClientBaru">0</div>
-        <div class="stat-delta" style="color:#888780;">First time order</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">🔄 Client Repeat</div>
-        <div class="stat-value" style="color:#6D28D9;" id="statClientRepeat">0</div>
-        <div class="stat-delta" style="color:#888780;">Sudah pernah order</div>
-      </div>
-    </div>
-
-    <!-- BREAKDOWN PER LAYANAN HARI INI -->
-    <div class="card">
-      <div class="card-title">📞 Voucher Hari Ini per Layanan</div>
-      <div id="statLayananBreakdown"></div>
-    </div>
-
-    <!-- RIWAYAT HARIAN -->
-    <div class="card">
-      <div class="card-title">📋 Riwayat Harian</div>
-      <div style="font-size:10.5px;color:#9B98C4;margin-bottom:10px;">Rekap penjualan 60 hari terakhir</div>
-
-      <div id="statHistoryList"></div>
-      <div id="statHistoryLoadMore"></div>
-    </div>
-
-    <!-- REVENUE BULANAN (BAR CHART) -->
-    <div class="card">
-      <div class="card-title">📊 Revenue 6 Bulan Terakhir</div>
-      <div id="statRevenueBulanan" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;height:160px;padding:14px 4px 4px;"></div>
-      <div id="statBulanLabels" style="display:flex;justify-content:space-between;gap:8px;margin-top:6px;"></div>
-    </div>
-
-    <!-- BULAN INI VS BULAN LALU -->
-    <div class="card">
-      <div class="card-title">📅 Bulan Ini vs Bulan Lalu</div>
-
-      <div style="background:#F5F3FF;border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11.5px;color:#1E1B3A;font-weight:700;">💰 Total Revenue</div>
-        <div style="text-align:right;">
-          <div style="font-size:14px;font-weight:900;color:#1E1B3A;" id="statRevBulanIni">Rp 0</div>
-          <div style="font-size:9.5px;margin-top:1px;" id="statRevDelta">vs bulan lalu</div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:#1E1B3A;">🎟️ Total Voucher</div>
-        <div style="text-align:right;">
-          <div style="font-size:12.5px;font-weight:800;color:#534AB7;" id="statVoucherBulanIni">0</div>
-          <div style="font-size:9px;color:#888780;" id="statVoucherDeltaBulan">vs bulan lalu</div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:#1E1B3A;">🆕 Total Client Baru</div>
-        <div style="text-align:right;">
-          <div style="font-size:12.5px;font-weight:800;color:#F59E0B;" id="statClientBaruBulan">0</div>
-          <div style="font-size:9px;color:#888780;" id="statClientBaruDelta">vs bulan lalu</div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border:1px solid #D6CFEF;border-radius:10px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:#1E1B3A;">🔄 Total Client Repeat</div>
-        <div style="text-align:right;">
-          <div style="font-size:12.5px;font-weight:800;color:#6D28D9;" id="statClientRepeatBulan">0</div>
-          <div style="font-size:9px;color:#888780;" id="statClientRepeatDelta">vs bulan lalu</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- INFO -->
-    <div class="field-hint" style="text-align:center;margin-top:14px;color:#3730A3;background:#EEF2FF;border:0.5px solid #C7D2FE;border-radius:10px;padding:10px;line-height:1.5;">
-      💡 Data otomatis dari transaksi voucher. Update real-time setiap voucher terjual.
     </div>
   </div>
 
@@ -1099,15 +1023,11 @@ body{
     </div>
 
     <div class="field">
-      <div class="field-label">JENIS TRANSAKSI</div>
+      <div class="field-label">SUMBER DANA</div>
       <select class="field-input" id="trxJenis" onchange="updateTrxForm()">
-        <option value="gaji_admin">👤 Gaji Admin (dari Kas Agency)</option>
-        <option value="promosi">📣 Promosi (dari Kas Agency)</option>
-        <option value="ops">🛠 Operasional (dari Kas Agency)</option>
-        <option value="tarik_kas">🏢 Tarik Kas Agency (Owner)</option>
-        <option value="tarik_profit">💎 Tarik Profit Owner</option>
-        <option value="tarik_gaji">💵 Tarik Gaji Owner</option>
-        <option value="setor_modal">📥 Setor Modal ke Kas Agency</option>
+        <option value="kas_agency">🟢 Kas Agency</option>
+        <option value="gaji_owner">💵 Gaji Owner</option>
+        <option value="profit_owner">💎 Profit Owner</option>
       </select>
     </div>
 
@@ -1201,7 +1121,6 @@ function doLogin(){
     initPricelist();
     initPenggajian();
     initKeuangan();
-    initStatistik();
     initKonten();
     initAdmin();
     initNavScroll();
@@ -1296,7 +1215,7 @@ function switchPage(page){
   // Re-init halaman tertentu untuk fresh data
   if(page === 'penggajian') renderPayroll();
   if(page === 'keuangan') renderKeuangan();
-  if(page === 'statistik') renderStatistik();
+  if(page === 'dashboard') renderStatistik();
   if(page === 'pendaftar') initPendaftar();
   if(page === 'dashboard') renderAlerts();
 }
@@ -1316,73 +1235,16 @@ function showToast(msg){
 // DASHBOARD
 // ============================================
 function initDashboard(){
-  renderAlerts();
-  renderChart();
-  renderDonut();
-  renderTopTalent();
+  renderStatistik();
 }
 
 function renderAlerts(){
-  const newPendaftar = DEMO_PENDAFTAR.filter(p=>p.status==='new').length;
-  const qualifiedPendaftar = DEMO_PENDAFTAR.filter(p=>p.status==='qualified').length;
-  const interviewPendaftar = DEMO_PENDAFTAR.filter(p=>p.status==='interview').length;
-  const pendingPayroll = (typeof DEMO_TALENT_PAYROLL !== 'undefined') ? DEMO_TALENT_PAYROLL.filter(t=>t.statusPayroll==='pending').length : 0;
-  const totalPendingAmount = (typeof DEMO_TALENT_PAYROLL !== 'undefined') ? DEMO_TALENT_PAYROLL.filter(t=>t.statusPayroll==='pending').reduce((s,t)=>s+t.saldo, 0) : 0;
-  let alerts = [];
-
-  if(newPendaftar > 0){
-    alerts.push({
-      type:'red',
-      icon:'🔔',
-      text:`<b>${newPendaftar} pendaftar baru</b> belum di-review`,
-      action:()=>{switchPage('pendaftar');filterPendaftar('new');}
-    });
-  }
-  if(pendingPayroll > 0){
-    alerts.push({
-      type:'yellow',
-      icon:'💸',
-      text:`<b>${pendingPayroll} talent ajukan pencairan</b> · total Rp ${(totalPendingAmount/1000000).toFixed(1)}jt`,
-      action:()=>{switchPage('penggajian');filterPayroll('pending');}
-    });
-  }
-  if(qualifiedPendaftar > 0){
-    alerts.push({
-      type:'yellow',
-      icon:'📞',
-      text:`<b>${qualifiedPendaftar} pendaftar</b> lolos tahap, perlu dijadwalkan interview`,
-      action:()=>{switchPage('pendaftar');filterPendaftar('qualified');}
-    });
-  }
-  if(interviewPendaftar > 0){
-    alerts.push({
-      type:'blue',
-      icon:'📆',
-      text:`<b>${interviewPendaftar} pendaftar</b> menunggu hasil interview`,
-      action:()=>{switchPage('pendaftar');filterPendaftar('interview');}
-    });
-  }
-  alerts.push({
-    type:'green',
-    icon:'📊',
-    text:`Revenue minggu ini <b>naik 12.5%</b> dari minggu lalu`,
-    action:null
-  });
-
-  document.getElementById('alertSection').innerHTML = alerts.map((a,i)=>{
-    return `<div class="alert-card ${a.type}" onclick="${a.action ? `(${a.action})()` : 'void(0)'}">
-      <div class="alert-icon">${a.icon}</div>
-      <div class="alert-text">${a.text}</div>
-      ${a.action ? '<div class="alert-arrow">›</div>' : ''}
-    </div>`;
-  }).join('');
+  // Alert section dihapus dari UI, function ini sengaja kosong supaya
+  // calls dari berbagai handler (approve/tolak/dll) tetap aman.
 }
 
 function changePeriod(period){
-  const labels = {month:'bulan ini', week:'minggu ini', today:'hari ini', all:'all time'};
-  document.getElementById('dashSub').textContent = 'Overview bisnis ' + labels[period];
-  // demo: data tetap sama, di production fetch dari backend per periode
-  showToast('🔄 Data periode '+labels[period]+' dimuat');
+  // Period selector dihapus, function ini sengaja kosong
 }
 
 function renderChart(){
@@ -4388,23 +4250,21 @@ let DEMO_FINANCE_TRX = [
   // Pemasukan otomatis dari voucher
   {id:1, jenis:'in', kategori:'revenue', label:'💰 Revenue voucher (1.083 order)', nominal:65000000, tgl:'01-14 Mei 2026', kas:'auto-split'},
 
-  // Pengeluaran gaji admin
-  {id:2, jenis:'out', kategori:'gaji_admin', label:'👤 Gaji Bu Yuni (Admin Full)', nominal:2500000, tgl:'01 Mei 2026', kas:'kas_agency'},
-  {id:3, jenis:'out', kategori:'gaji_admin', label:'👤 Gaji Pak Reza (CS)', nominal:1800000, tgl:'01 Mei 2026', kas:'kas_agency'},
-  {id:4, jenis:'out', kategori:'gaji_admin', label:'👤 Gaji Mbak Dewi (Finance)', nominal:1500000, tgl:'01 Mei 2026', kas:'kas_agency'},
+  // Pengeluaran dari Kas Agency
+  {id:2, jenis:'out', kategori:'kas_agency', label:'🟢 Gaji Bu Yuni (Admin Full) Mei 2026', nominal:2500000, tgl:'01 Mei 2026', kas:'kas_agency'},
+  {id:3, jenis:'out', kategori:'kas_agency', label:'🟢 Gaji Pak Reza (CS) Mei 2026', nominal:1800000, tgl:'01 Mei 2026', kas:'kas_agency'},
+  {id:4, jenis:'out', kategori:'kas_agency', label:'🟢 Gaji Mbak Dewi (Finance) Mei 2026', nominal:1500000, tgl:'01 Mei 2026', kas:'kas_agency'},
+  {id:5, jenis:'out', kategori:'kas_agency', label:'🟢 Boost IG ads Sleep Call', nominal:850000, tgl:'05 Mei 2026', kas:'kas_agency'},
+  {id:6, jenis:'out', kategori:'kas_agency', label:'🟢 Canva Pro subscription', nominal:150000, tgl:'02 Mei 2026', kas:'kas_agency'},
+  {id:7, jenis:'out', kategori:'kas_agency', label:'🟢 Endorse micro influencer', nominal:500000, tgl:'10 Mei 2026', kas:'kas_agency'},
+  {id:8, jenis:'out', kategori:'kas_agency', label:'🟢 Internet bulanan', nominal:300000, tgl:'03 Mei 2026', kas:'kas_agency'},
+  {id:9, jenis:'out', kategori:'kas_agency', label:'🟢 Biaya admin transfer', nominal:120000, tgl:'13 Mei 2026', kas:'kas_agency'},
 
-  // Promosi
-  {id:5, jenis:'out', kategori:'promosi', label:'📣 Boost IG ads Sleep Call', nominal:850000, tgl:'05 Mei 2026', kas:'kas_agency'},
-  {id:6, jenis:'out', kategori:'promosi', label:'📣 Canva Pro subscription', nominal:150000, tgl:'02 Mei 2026', kas:'kas_agency'},
-  {id:7, jenis:'out', kategori:'promosi', label:'📣 Endorse micro influencer', nominal:500000, tgl:'10 Mei 2026', kas:'kas_agency'},
+  // Tarikan dari Gaji Owner
+  {id:10, jenis:'out', kategori:'gaji_owner', label:'💵 Tarik Gaji April 2026', nominal:5000000, tgl:'30 Apr 2026', kas:'gaji_owner'},
 
-  // Operasional
-  {id:8, jenis:'out', kategori:'ops', label:'🛠 Internet bulanan', nominal:300000, tgl:'03 Mei 2026', kas:'kas_agency'},
-  {id:9, jenis:'out', kategori:'ops', label:'🛠 Biaya admin transfer bulanan', nominal:120000, tgl:'13 Mei 2026', kas:'kas_agency'},
-
-  // Tarikan owner
-  {id:10, jenis:'out', kategori:'tarik_owner', label:'💵 Tarik Gaji Owner April 2026', nominal:5000000, tgl:'30 Apr 2026', kas:'gaji_owner'},
-  {id:11, jenis:'out', kategori:'tarik_owner', label:'💎 Tarik Profit Owner April 2026', nominal:8000000, tgl:'30 Apr 2026', kas:'profit_owner'},
+  // Tarikan dari Profit Owner
+  {id:11, jenis:'out', kategori:'profit_owner', label:'💎 Tarik Profit April 2026', nominal:8000000, tgl:'30 Apr 2026', kas:'profit_owner'},
 ];
 
 let financeFilter = 'all';
@@ -4443,8 +4303,8 @@ function renderKeuangan(){
   let list = [...DEMO_FINANCE_TRX];
   if(financeFilter === 'in') list = list.filter(t=>t.jenis==='in');
   else if(financeFilter === 'out') list = list.filter(t=>t.jenis==='out');
-  else if(['gaji_admin','promosi','ops','tarik_owner'].includes(financeFilter)){
-    list = list.filter(t=>t.kategori===financeFilter);
+  else if(['kas_agency','gaji_owner','profit_owner'].includes(financeFilter)){
+    list = list.filter(t=>t.kas===financeFilter);
   }
 
   if(list.length === 0){
@@ -4473,7 +4333,7 @@ function filterFinance(f){
 }
 
 function openModalTambahTransaksi(){
-  document.getElementById('trxJenis').value = 'gaji_admin';
+  document.getElementById('trxJenis').value = 'kas_agency';
   document.getElementById('trxNominal').value = '';
   document.getElementById('trxKet').value = '';
   updateTrxForm();
@@ -4483,14 +4343,12 @@ function openModalTambahTransaksi(){
 function updateTrxForm(){
   const jenis = document.getElementById('trxJenis').value;
   let saldoInfo = '';
-  if(['gaji_admin','promosi','ops','tarik_kas'].includes(jenis)){
-    saldoInfo = `Saldo Kas Agency: <b style="color:#534AB7;">${formatRupiah(SALDO_KAS_AGENCY)}</b>`;
-  } else if(jenis === 'tarik_profit'){
-    saldoInfo = `Saldo Profit Owner: <b style="color:#F59E0B;">${formatRupiah(SALDO_TABUNGAN_OWNER)}</b>`;
-  } else if(jenis === 'tarik_gaji'){
+  if(jenis === 'kas_agency'){
+    saldoInfo = `Saldo Kas Agency: <b style="color:#3B6D11;">${formatRupiah(SALDO_KAS_AGENCY)}</b>`;
+  } else if(jenis === 'gaji_owner'){
     saldoInfo = `Saldo Gaji Owner: <b style="color:#3B6D11;">${formatRupiah(SALDO_GAJI_OWNER)}</b>`;
-  } else if(jenis === 'setor_modal'){
-    saldoInfo = `Akan ditambah ke Kas Agency (saat ini: <b style="color:#534AB7;">${formatRupiah(SALDO_KAS_AGENCY)}</b>)`;
+  } else if(jenis === 'profit_owner'){
+    saldoInfo = `Saldo Profit Owner: <b style="color:#F59E0B;">${formatRupiah(SALDO_TABUNGAN_OWNER)}</b>`;
   }
   document.getElementById('trxSaldoInfo').innerHTML = saldoInfo;
 }
@@ -4506,66 +4364,72 @@ function simpanTransaksi(){
   }
 
   // Validasi saldo cukup
-  if(['gaji_admin','promosi','ops','tarik_kas'].includes(jenis)){
-    if(nominal > SALDO_KAS_AGENCY){
-      showToast(`❌ Saldo Kas Agency tidak cukup (${formatRupiah(SALDO_KAS_AGENCY)})`);
-      return;
-    }
-  } else if(jenis === 'tarik_profit'){
-    if(nominal > SALDO_TABUNGAN_OWNER){
-      showToast(`❌ Saldo Profit Owner tidak cukup (${formatRupiah(SALDO_TABUNGAN_OWNER)})`);
-      return;
-    }
-  } else if(jenis === 'tarik_gaji'){
-    if(nominal > SALDO_GAJI_OWNER){
-      showToast(`❌ Saldo Gaji Owner tidak cukup (${formatRupiah(SALDO_GAJI_OWNER)})`);
-      return;
-    }
+  let saldoSekarang = 0;
+  let labelSumber = '';
+  let iconSumber = '';
+  if(jenis === 'kas_agency'){
+    saldoSekarang = SALDO_KAS_AGENCY;
+    labelSumber = 'Kas Agency';
+    iconSumber = '🟢';
+  } else if(jenis === 'gaji_owner'){
+    saldoSekarang = SALDO_GAJI_OWNER;
+    labelSumber = 'Gaji Owner';
+    iconSumber = '💵';
+  } else if(jenis === 'profit_owner'){
+    saldoSekarang = SALDO_TABUNGAN_OWNER;
+    labelSumber = 'Profit Owner';
+    iconSumber = '💎';
   }
 
-  // Mapping label & kategori
-  const labelMap = {
-    gaji_admin: {icon:'👤', cat:'gaji_admin', kas:'kas_agency'},
-    promosi: {icon:'📣', cat:'promosi', kas:'kas_agency'},
-    ops: {icon:'🛠', cat:'ops', kas:'kas_agency'},
-    tarik_kas: {icon:'🏢', cat:'tarik_owner', kas:'kas_agency'},
-    tarik_profit: {icon:'💎', cat:'tarik_owner', kas:'profit_owner'},
-    tarik_gaji: {icon:'💵', cat:'tarik_owner', kas:'gaji_owner'},
-    setor_modal: {icon:'📥', cat:'revenue', kas:'kas_agency'},
-  };
-  const cfg = labelMap[jenis];
+  if(nominal > saldoSekarang){
+    showToast(`❌ Saldo ${labelSumber} tidak cukup (${formatRupiah(saldoSekarang)})`);
+    return;
+  }
 
   // Update saldo
-  if(jenis === 'setor_modal'){
-    SALDO_KAS_AGENCY += nominal;
-  } else if(['gaji_admin','promosi','ops','tarik_kas'].includes(jenis)){
+  if(jenis === 'kas_agency'){
     SALDO_KAS_AGENCY -= nominal;
-  } else if(jenis === 'tarik_profit'){
-    SALDO_TABUNGAN_OWNER -= nominal;
-  } else if(jenis === 'tarik_gaji'){
+  } else if(jenis === 'gaji_owner'){
     SALDO_GAJI_OWNER -= nominal;
+  } else if(jenis === 'profit_owner'){
+    SALDO_TABUNGAN_OWNER -= nominal;
   }
 
   // Tambah ke list
   const today = new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
   DEMO_FINANCE_TRX.unshift({
     id: 1000 + Math.floor(Math.random()*9999),
-    jenis: jenis === 'setor_modal' ? 'in' : 'out',
-    kategori: cfg.cat,
-    label: `${cfg.icon} ${ket}`,
+    jenis: 'out',
+    kategori: jenis,
+    label: `${iconSumber} ${ket}`,
     nominal: nominal,
     tgl: today,
-    kas: cfg.kas
+    kas: jenis
   });
 
   closeModal('modalTambahTransaksi');
   renderKeuangan();
-  showToast(`✅ Transaksi ${formatRupiah(nominal)} dicatat`);
+  showToast(`✅ Transaksi ${formatRupiah(nominal)} dari ${labelSumber} dicatat`);
 }
 
 // ============================================
 // STATISTIK PENJUALAN
 // ============================================
+
+const STAT_HISTORY_BULANAN = [
+  {tgl:'Apr 2026', uangMasuk:62000000, voucher:1045, baru:285, repeat:760},
+  {tgl:'Mar 2026', uangMasuk:67000000, voucher:1180, baru:320, repeat:860},
+  {tgl:'Feb 2026', uangMasuk:58000000, voucher:1020, baru:268, repeat:752},
+  {tgl:'Jan 2026', uangMasuk:52000000, voucher:935, baru:245, repeat:690},
+  {tgl:'Des 2025', uangMasuk:45000000, voucher:825, baru:210, repeat:615},
+  {tgl:'Nov 2025', uangMasuk:48000000, voucher:870, baru:218, repeat:652},
+  {tgl:'Okt 2025', uangMasuk:42000000, voucher:780, baru:195, repeat:585},
+  {tgl:'Sep 2025', uangMasuk:38000000, voucher:720, baru:178, repeat:542},
+  {tgl:'Agu 2025', uangMasuk:35000000, voucher:670, baru:168, repeat:502},
+  {tgl:'Jul 2025', uangMasuk:32000000, voucher:615, baru:152, repeat:463},
+  {tgl:'Jun 2025', uangMasuk:28000000, voucher:550, baru:138, repeat:412},
+  {tgl:'Mei 2025', uangMasuk:22000000, voucher:432, baru:110, repeat:322}
+];
 
 const STAT_HISTORY_HARIAN = [
   {tgl:'13 Mei 2026', dayName:'Rabu', uangMasuk:555067, voucher:17, baru:10, repeat:7},
@@ -4762,10 +4626,41 @@ function renderStatistik(){
 }
 
 let statHistoryShown = 10;
+let statHistoryMode = 'harian'; // 'harian' atau 'bulanan'
+
+function switchRiwayatMode(mode){
+  statHistoryMode = mode;
+  statHistoryShown = 10;
+
+  // Update button style
+  const btnH = document.getElementById('btnRiwayatHarian');
+  const btnB = document.getElementById('btnRiwayatBulanan');
+  if(mode === 'harian'){
+    btnH.style.background = '#fff';
+    btnH.style.color = '#534AB7';
+    btnH.style.boxShadow = '0 1px 2px rgba(83,74,183,0.1)';
+    btnB.style.background = 'transparent';
+    btnB.style.color = '#9B98C4';
+    btnB.style.boxShadow = 'none';
+    document.getElementById('statHistorySubtitle').textContent = 'Rekap penjualan 60 hari terakhir';
+  } else {
+    btnB.style.background = '#fff';
+    btnB.style.color = '#534AB7';
+    btnB.style.boxShadow = '0 1px 2px rgba(83,74,183,0.1)';
+    btnH.style.background = 'transparent';
+    btnH.style.color = '#9B98C4';
+    btnH.style.boxShadow = 'none';
+    document.getElementById('statHistorySubtitle').textContent = 'Rekap penjualan 12 bulan terakhir';
+  }
+
+  renderStatHistory();
+}
 
 function renderStatHistory(){
-  const total = STAT_HISTORY_HARIAN.length;
-  const sliced = STAT_HISTORY_HARIAN.slice(0, statHistoryShown);
+  const source = statHistoryMode === 'harian' ? STAT_HISTORY_HARIAN : STAT_HISTORY_BULANAN;
+  const total = source.length;
+  const sliced = source.slice(0, statHistoryShown);
+  const isBulanan = statHistoryMode === 'bulanan';
 
   document.getElementById('statHistoryList').innerHTML = sliced.map(d => {
     // Format uang
@@ -4773,11 +4668,16 @@ function renderStatHistory(){
       ? 'Rp ' + (d.uangMasuk/1000000).toFixed(2) + 'jt'
       : 'Rp ' + Math.round(d.uangMasuk/1000) + 'rb';
 
+    // Subtitle: dayName untuk harian, total order untuk bulanan
+    const subtitle = isBulanan
+      ? `${d.voucher.toLocaleString('id-ID')} voucher total`
+      : d.dayName;
+
     return `<div style="background:#fff;border:1px solid #D6CFEF;border-radius:12px;padding:11px 13px;margin-bottom:7px;">
       <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:8px;">
         <div style="flex:1;min-width:0;">
           <div style="font-size:12.5px;font-weight:800;color:#1E1B3A;">${d.tgl}</div>
-          <div style="font-size:10px;color:#9B98C4;margin-top:1px;">${d.dayName}</div>
+          <div style="font-size:10px;color:#9B98C4;margin-top:1px;">${subtitle}</div>
         </div>
         <div style="text-align:right;flex-shrink:0;">
           <div style="font-size:14px;font-weight:900;color:#3B6D11;">${uangStr}</div>
@@ -4786,15 +4686,15 @@ function renderStatHistory(){
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding-top:8px;border-top:1px solid #E8E4F5;">
         <div style="text-align:center;">
-          <div style="font-size:13px;font-weight:800;color:#534AB7;">${d.voucher}</div>
+          <div style="font-size:13px;font-weight:800;color:#534AB7;">${d.voucher.toLocaleString('id-ID')}</div>
           <div style="font-size:9px;color:#9B98C4;font-weight:600;margin-top:1px;">🎟️ Voucher</div>
         </div>
         <div style="text-align:center;border-left:1px solid #E8E4F5;border-right:1px solid #E8E4F5;">
-          <div style="font-size:13px;font-weight:800;color:#F59E0B;">${d.baru}</div>
+          <div style="font-size:13px;font-weight:800;color:#F59E0B;">${d.baru.toLocaleString('id-ID')}</div>
           <div style="font-size:9px;color:#9B98C4;font-weight:600;margin-top:1px;">🆕 Baru</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:13px;font-weight:800;color:#6D28D9;">${d.repeat}</div>
+          <div style="font-size:13px;font-weight:800;color:#6D28D9;">${d.repeat.toLocaleString('id-ID')}</div>
           <div style="font-size:9px;color:#9B98C4;font-weight:600;margin-top:1px;">🔄 Repeat</div>
         </div>
       </div>
@@ -4804,10 +4704,11 @@ function renderStatHistory(){
   // Load more
   const hasMore = total > statHistoryShown;
   const loadMore = document.getElementById('statHistoryLoadMore');
+  const unitLabel = isBulanan ? 'bulan' : 'hari';
   if(hasMore){
     loadMore.innerHTML = `<div style="padding:10px 4px 4px;"><button onclick="loadMoreStatHistory()" style="width:100%;padding:11px;border:0.5px dashed #C5C0F5;background:transparent;border-radius:12px;color:#534AB7;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Tampilkan lebih banyak <span style="color:#9B98C4;font-weight:500;">(${total - statHistoryShown} lagi)</span></button></div>`;
   } else if(total > 10){
-    loadMore.innerHTML = `<div style="text-align:center;padding:10px 4px;color:#B0ADCC;font-size:11px;font-style:italic;">— Semua ${total} hari ditampilkan —</div>`;
+    loadMore.innerHTML = `<div style="text-align:center;padding:10px 4px;color:#B0ADCC;font-size:11px;font-style:italic;">— Semua ${total} ${unitLabel} ditampilkan —</div>`;
   } else {
     loadMore.innerHTML = '';
   }
