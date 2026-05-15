@@ -609,11 +609,6 @@ body{
         <div class="sec-title">Penggajian Talent</div>
         <div class="sec-sub" id="penggajianSub">Monitoring saldo & pencairan ke talent</div>
       </div>
-      <select class="period-select" id="penggajianPeriod" onchange="changePenggajianPeriod(this.value)">
-        <option value="month">Bulan Ini</option>
-        <option value="week">Minggu Ini</option>
-        <option value="all">All Time</option>
-      </select>
     </div>
 
     <!-- KPI CARDS -->
@@ -1087,6 +1082,43 @@ body{
   </div>
 </div>
 
+<!-- MODAL DETAIL TALENT (Top Client Repeat) -->
+<div class="modal" id="modalDetailTalent">
+  <div class="modal-card" style="max-width:420px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <div id="dtAvatar" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#A78BFA,#6D28D9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;font-family:'Instrument Serif',serif;font-style:italic;">A</div>
+      <div style="flex:1;min-width:0;">
+        <div class="modal-title" style="margin:0;" id="dtNama">-</div>
+        <div class="modal-sub" style="margin:2px 0 0;" id="dtInfo">-</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;">
+      <div style="background:#F5F3FF;border-radius:10px;padding:8px;text-align:center;">
+        <div style="font-size:14px;font-weight:900;color:#534AB7;font-family:'Inter',sans-serif;" id="dtTotalClient">0</div>
+        <div style="font-size:9px;color:#9B98C4;margin-top:1px;font-weight:600;">Total Client</div>
+      </div>
+      <div style="background:#FAEEDA;border-radius:10px;padding:8px;text-align:center;">
+        <div style="font-size:14px;font-weight:900;color:#854F0B;font-family:'Inter',sans-serif;" id="dtTotalRepeat">0</div>
+        <div style="font-size:9px;color:#9B98C4;margin-top:1px;font-weight:600;">Repeat Client</div>
+      </div>
+      <div style="background:#EAF3DE;border-radius:10px;padding:8px;text-align:center;">
+        <div style="font-size:14px;font-weight:900;color:#3B6D11;font-family:'Inter',sans-serif;" id="dtTotalCall">0</div>
+        <div style="font-size:9px;color:#9B98C4;margin-top:1px;font-weight:600;">Total Call</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;font-weight:800;color:#9B98C4;letter-spacing:0.14em;text-transform:uppercase;padding:0 4px 6px;">🔄 Top Client Repeat</div>
+
+    <div id="dtClientList" style="max-height:380px;overflow-y:auto;margin-bottom:10px;"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalDetailTalent')">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL DETAIL CLIENT (Top 10 Talent yang Di-Order) -->
 <div class="modal" id="modalDetailClient">
   <div class="modal-card" style="max-width:420px;">
@@ -1120,7 +1152,6 @@ body{
 
     <div class="modal-actions">
       <button class="btn btn-secondary" style="flex:1;" onclick="closeModal('modalDetailClient')">Tutup</button>
-      <button class="btn btn-primary" style="flex:1.3;" id="dcWaBtn" onclick="">💬 Hubungi via WA</button>
     </div>
   </div>
 </div>
@@ -3523,7 +3554,6 @@ function openDetail(id){
     <div style="display:flex;gap:6px;margin-top:16px;position:sticky;bottom:0;background:#fff;padding:12px 0 0;border-top:1px solid #D6CFEF;">
       <button class="btn btn-secondary" style="flex:0 0 auto;padding:9px 12px;" onclick="closeDetail()" title="Kembali">←</button>
       <button class="btn btn-danger" style="flex:1;" onclick="rejectPendaftar(${p.id});closeDetail()">✕ Tolak</button>
-      <button class="btn btn-secondary" style="flex:0 0 auto;padding:9px 12px;" onclick="window.open('https://wa.me/${p.wa}','_blank')" title="WhatsApp">💬</button>
       ${p.status === 'interview'
         ? `<button class="${p.ragu?'btn btn-warning':'btn btn-secondary'}" style="flex:0 0 auto;padding:9px 12px;" onclick="toggleRaguPendaftar(${p.id});closeDetail()" title="${p.ragu?'Hapus tanda ragu':'Tandai ragu'}">${p.ragu?'⚠️ Ragu':'⚠️'}</button>
            <button class="btn btn-success" style="flex:1;" onclick="approvePendaftar(${p.id});closeDetail()">✓ Terima</button>`
@@ -5625,8 +5655,6 @@ function lihatDetailClient(clientId){
   }
 
   // WA button handler
-  document.getElementById('dcWaBtn').onclick = () => window.open(`https://wa.me/${waFull}`, '_blank');
-
   document.getElementById('modalDetailClient').classList.add('show');
 }
 
@@ -5860,7 +5888,7 @@ function renderTalent(){
           <div style="display:flex;gap:8px;font-size:10px;color:#888780;margin-top:2px;flex-wrap:wrap;align-items:center;">
             <span style="color:${statusColor};font-weight:700;">${statusDot} ${statusLabel}</span>
             <span>·</span>
-            <span style="color:#DC2626;font-weight:700;">🔥 ${t.perf.call}</span>
+            <span style="color:#534AB7;font-weight:700;">📞 ${t.perf.call}</span>
             <span style="color:#534AB7;font-weight:700;">🔄 ${t.totalRepeat}x</span>
             <span style="background:${poinBg};color:${poinColor};border-radius:5px;padding:1px 6px;font-size:9.5px;font-weight:800;">⭐ ${t.poin}/100</span>
           </div>
@@ -5873,9 +5901,11 @@ function renderTalent(){
       </div>
       <div style="display:flex;gap:6px;">
         <button onclick="toggleBadgeTop(${t.id})" title="${isTop?'Hapus badge TOP':'Beri badge TOP'}" style="flex:0 0 auto;padding:0 10px;border:0.5px solid ${isTop?'#FCD34D':'#D6CFEF'};background:${isTop?'#FEF3C7':'#fff'};border-radius:10px;cursor:pointer;font-size:13px;font-family:inherit;">🏆</button>
-        <button class="btn btn-secondary btn-sm" onclick="resetPoinTalent(${t.id})" style="flex:1;">⭐ Set Poin</button>
+        <button class="btn btn-secondary btn-sm" onclick="resetPoinTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;">⭐ Poin</button>
+        <button class="btn btn-primary btn-sm" onclick="lihatDetailTalent(${t.id})" style="flex:1;">📋 Detail</button>
         ${isNonAktif
-          ? `<button class="btn btn-danger btn-sm" onclick="hapusTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Hapus permanen">🗑️</button>`
+          ? `<button class="btn btn-success btn-sm" onclick="aktifkanTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Aktifkan kembali">✓</button>
+             <button class="btn btn-danger btn-sm" onclick="hapusTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Hapus permanen">🗑️</button>`
           : `<button class="btn btn-danger btn-sm" onclick="nonAktifkanTalent(${t.id})" style="flex:0 0 auto;padding:0 10px;" title="Non-aktifkan">🚫</button>`
         }
       </div>
@@ -5947,7 +5977,95 @@ function resetPoinTalent(id){
 function lihatDetailTalent(id){
   const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
   if(!t) return;
-  showToast(`📋 Detail ${t.nama} (fitur akan tersedia)`);
+  const enrich = TALENT_ENRICH[t.id] || {};
+  const pr = TALENT_POIN_REPEAT[t.id] || {poin:50, totalRepeat:0};
+  const isTop = !!t.isTop;
+
+  // Aggregate semua call all-time dari TALENT_PERF
+  const allBulan = TALENT_PERF[t.id] || {};
+  const totalCall = Object.values(allBulan).reduce((sum, p) => sum + (p.call || 0), 0);
+
+  // Cari semua client yang pernah order ke talent ini
+  const clientOrders = []; // {clientId, orderCount, lastOrder, spending, favLayanan}
+  Object.entries(CLIENT_TALENT_ORDERS).forEach(([clientId, orders]) => {
+    const myOrder = orders.find(o => o.talentId === t.id);
+    if(myOrder){
+      clientOrders.push({
+        clientId: parseInt(clientId),
+        orderCount: myOrder.orderCount,
+        spending: myOrder.spending,
+        lastOrder: myOrder.lastOrder,
+        favLayanan: myOrder.favLayanan
+      });
+    }
+  });
+
+  // Sort by orderCount desc (paling repeat duluan)
+  clientOrders.sort((a,b) => b.orderCount - a.orderCount);
+
+  // Update header
+  document.getElementById('dtAvatar').textContent = t.nama[0];
+  document.getElementById('dtAvatar').style.background = isTop
+    ? 'linear-gradient(135deg,#FCD34D,#D97706)'
+    : 'linear-gradient(135deg,#A78BFA,#6D28D9)';
+  document.getElementById('dtNama').innerHTML = t.nama + (isTop ? ' <span style="background:linear-gradient(135deg,#FCD34D,#D97706);color:#fff;border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;vertical-align:middle;">🏆 TOP</span>' : '');
+  document.getElementById('dtInfo').textContent = `Join ${enrich.joinDate || '-'} · Fav: ${enrich.favLayanan || '-'} · ⭐ ${pr.poin}/100`;
+
+  // Stats
+  document.getElementById('dtTotalClient').textContent = clientOrders.length;
+  document.getElementById('dtTotalRepeat').textContent = pr.totalRepeat;
+  document.getElementById('dtTotalCall').textContent = totalCall;
+
+  // List
+  if(clientOrders.length === 0){
+    document.getElementById('dtClientList').innerHTML = '<div style="text-align:center;padding:20px;color:#B0ADCC;font-size:12px;">Belum ada client yang order</div>';
+  } else {
+    const top10 = clientOrders.slice(0, 10);
+    const maxOrder = Math.max(...top10.map(o => o.orderCount), 1);
+
+    document.getElementById('dtClientList').innerHTML = top10.map((o, idx) => {
+      const client = DEMO_CLIENT.find(c => c.id === o.clientId);
+      if(!client) return '';
+      const isRepeat = o.orderCount > 1;
+      const barPct = (o.orderCount / maxOrder * 100).toFixed(0);
+      const spendingStr = o.spending >= 1000000
+        ? 'Rp ' + (o.spending/1000000).toFixed(2) + 'jt'
+        : 'Rp ' + Math.round(o.spending/1000) + 'rb';
+
+      // Medal untuk top 3
+      let rankBadge;
+      if(idx === 0) rankBadge = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FCD34D,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥇</div>';
+      else if(idx === 1) rankBadge = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#E5E7EB,#94A3B8);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥈</div>';
+      else if(idx === 2) rankBadge = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FDE9D7,#92400E);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥉</div>';
+      else rankBadge = `<div style="width:24px;height:24px;border-radius:8px;background:#EEEDFE;color:#534AB7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'Inter',sans-serif;">${idx+1}</div>`;
+
+      const repeatBadge = isRepeat
+        ? `<span style="background:#EEF2FF;color:#3730A3;border-radius:5px;padding:1px 5px;font-size:8.5px;font-weight:800;">🔄 Repeat</span>`
+        : `<span style="background:#EAF3DE;color:#3B6D11;border-radius:5px;padding:1px 5px;font-size:8.5px;font-weight:800;">🆕 Baru</span>`;
+
+      return `<div style="background:#fff;border:0.5px solid #E0DCF5;border-radius:10px;padding:9px 10px;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          ${rankBadge}
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+              <div style="font-size:12px;font-weight:800;color:#1E1B3A;font-family:'Inter',sans-serif;">${client.wa}</div>
+              ${repeatBadge}
+            </div>
+            <div style="font-size:9.5px;color:#888780;margin-top:1px;">Fav: ${o.favLayanan} · Terakhir: ${o.lastOrder}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-size:12px;font-weight:900;color:#534AB7;font-family:'Inter',sans-serif;">${o.orderCount}x</div>
+            <div style="font-size:9.5px;color:#3B6D11;font-weight:700;">${spendingStr}</div>
+          </div>
+        </div>
+        <div style="height:3px;background:#F1EFFB;border-radius:99px;overflow:hidden;">
+          <div style="height:100%;background:linear-gradient(90deg,#A78BFA,#6D28D9);width:${barPct}%;"></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('modalDetailTalent').classList.add('show');
 }
 
 function nonAktifkanTalent(id){
@@ -5964,6 +6082,32 @@ function nonAktifkanTalent(id){
       t.forcedOff = true;
       renderTalent();
       showToast(`🚫 ${t.nama} dinon-aktifkan`);
+    }
+  });
+}
+
+function aktifkanTalent(id){
+  const t = DEMO_TALENT_PAYROLL.find(x=>x.id===id);
+  if(!t) return;
+  const pr = TALENT_POIN_REPEAT[t.id] || {poin:50, totalRepeat:0};
+  const poinHabis = pr.poin === 0;
+
+  showConfirm({
+    title: 'Aktifkan Talent?',
+    iconBg: '#EAF3DE',
+    iconText: '✓',
+    message: `Aktifkan <b>${t.nama}</b> kembali?<br/><br/>${poinHabis ? '<span style="color:#854F0B;font-size:11px;">⚠️ Poin talent saat ini 0. Setelah aktifkan, kamu bisa set poin baru lewat tombol ⭐ Poin.</span>' : '<span style="color:#3B6D11;font-size:11px;">Talent bisa online & terima order lagi.</span>'}`,
+    okText: '✓ Ya, Aktifkan',
+    okStyle: 'btn-success',
+    onConfirm: ()=>{
+      t.forcedOff = false;
+      // Kalau poin 0, kasih nilai default 50 supaya talent bisa aktif
+      if(pr.poin === 0){
+        if(!TALENT_POIN_REPEAT[t.id]) TALENT_POIN_REPEAT[t.id] = {poin:50, totalRepeat:0};
+        TALENT_POIN_REPEAT[t.id].poin = 50;
+      }
+      renderTalent();
+      showToast(`✓ ${t.nama} diaktifkan kembali`);
     }
   });
 }
